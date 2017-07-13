@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AtlasInterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" edit-mode="Wireframe" name="IA6 General" schema-version="1.6" template="timeseries_advanced_sm::flash::html" template-version="6.7.1" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd">
+  <Component classes="ia-panel ia-panel-header ia-map-toolbar ia-map-labels ia-map-copyright ia-map-selection-opacity ia-map-highlight-opacity" editable="true" height="599" icon="$IAICON/48x48/document_earth.png" id="map" moveable="true" name="Map" removeable="true" resizeable="true" visible="true" width="799" x="0" y="0">
+    <Description>The map component of the report. For more information see &lt;a data-link-type=&quot;help&quot; href=&quot;#help:&quot; target=&quot;iaoHelpWindow&quot;&gt;here &lt;i class=&quot;fa fa-fw fa-question-circle&quot;&gt;&lt;/i&gt;&lt;/a&gt;.</Description>
+    <Property description="The title" id="title" name="Title" type="string" value="" />
+    <Property description="Is it visible at start up? Use &apos;javascript:iaToggle(map)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
+    <Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="2" />
+    <Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false" />
+    <Property description="Can it be exported to an image?" id="isExportable" name="Exportable?" type="boolean" value="true" />
+    <Property description="popover:Any map copyright text" id="copyrightText" name="Map Copyright" type="string" value="© Copyright" />
+    <Property description="The path to any background images" id="backgroundMappingPath" name="Background Folder" type="string" value="./" />
+    <Property description="The maximum map zoom in map units (eg. Max Zoom Allowed:500000, Min Zoom Allowed:10000000). When using google maps use zoom levels 0 - 21 (eg. Max Zoom Allowed:15, Min Zoom Allowed:5)" id="maxZoomAllowed" name="Max Zoom Allowed" type="integer" value="-1" />
+    <Property description="The minimum map zoom in map units (eg. Max Zoom Allowed:500000, Min Zoom Allowed:10000000). When using google maps use zoom levels 0 - 21 (eg. Max Zoom Allowed:15, Min Zoom Allowed:5)" id="minZoomAllowed" name="Min Zoom Allowed" type="integer" value="-1" />
+    <Property description="The data tip" id="tip" name="Tip" type="string" value="${featureName} - click for details..." />
+    <Property description="The clear button text - leave empty to remove button" id="clearButtonText" name="Clear Button Text" type="string" value="" />
+    <Property description="The filter button text - leave empty to remove button" id="filterButtonText" name="Filter Button Text" type="string" value="" />
+    <Property description="Google maps toolbar &apos;Greyscale&apos; text" id="googleGreyscaleText" name="Google Greyscale Text" type="string" value="Greyscale" />
+    <Property description="Google maps toolbar &apos;Off&apos; text" id="googleOffText" name="Google Off Text" type="string" value="x" />
+    <Property description="Include the search tool" id="includeSearchTool" name="Include Search Tool?" type="boolean" value="false" /><Property description="Execute an action when a user clicks on a feature in the map" id="onMapFeatureClick" name="Map Click Action" type="string" value="" /><Property description="Execute an action when a user double clicks on a feature in the map" id="onMapFeatureDblClick" name="Map Double Click Action" type="string" value="" /><Property description="Execute an action when a user clicks on a feature in the map" id="onMapFeatureClick" name="Map Click Action" type="string" value="" /><Property description="Execute an action when a user double clicks on a feature in the map" id="onMapFeatureDblClick" name="Map Double Click Action" type="string" value="" />
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="300" icon="$IAICON/48x48/form_blue.png" id="featureLegend" moveable="true" name="Selected Features - Legend" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>The feature legend component of the report.</Description>
+    <Property description="The title" id="title" name="Title" type="string" value="Selected Features" />
+    <Property description="Is it visible at start up? Use &apos;javascript:iaToggle(featureLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
+    <Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="13" />
+    <Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false" />
+    <Property description="Can it be exported?" id="isExportable" name="Exportable?" type="boolean" value="true"/>
+    <Property description="The id of the colour scheme to use" id="colorSchemeId" name="Colour Scheme" type="string" value="chartScheme1" />
+    <Property choices="horizontal;vertical" description="The layout of the legend" id="layout" name="Layout" type="string" value="vertical" />
+  </Component>
+  <PropertyGroup id="dataFormatting" name="Data Formatting">
+    <Property description="The locale used for formatting numbers, e.g. &apos;en&apos; for English, &apos;es&apos; for Spanish, &apos;fr&apos; for French" id="locale" name="Language" type="string" value="en" choices="none;en;de;es;fr;it;nl;be;ca;cs;da;el;et;fi;hr;hu;is;lt;lv;mk;no;pl;pt;ro;ru;sk;sl;sq;sr;sv;tr;uk"  />
+    <Property description="The default number of decimal places to be shown for data values." id="ndecimal" name="Decimal Places" type="integer" value="-1" />
+  </PropertyGroup>
+
+  <PropertyGroup id="selection" name="Selection">
+    <Property choices="single;multiple" description="The selection mode" id="selectionMode" name="Selection Mode" type="string" value="single"/>
+  </PropertyGroup>
+
+  <PropertyGroup id="thematics" name="Map - Legend Data">
+
+    <!-- Classification type -->
+    <Property description="The data for the legend" id="data" name="Data Source" type="string" value="value" />
+    <Property description="The legend classification type" id="legendClassifier" name="Classification" type="string" value="quantile" choices="equalInterval;quantile;natural;continuous;standardDeviation"/>
+    <Property description="The default number of decimal places to be shown for legend values." id="legendPrecision" name="Decimal Places" type="integer" value="-1" />
+    <Property description="The text displayed for features that have &apos;No Data&apos; or null values" id="noDataValue" name="'No Data' Value" type="string" value=" " />
+    <Property description="No data colour used in legend" id="noDataColor" name="'No Data' Colour" type="colour" value="#6799cc" />
+
+    <!-- Fixed legend breaks -->
+    <Property description="The legend breaks - a semi-colon delimited list of values of the form &apos;0;10;20;30&apos;" id="legendBreaks" name="Map - Legend Breaks" value="" />
+    <Property description="The legend labels - a semi-colon delimited list of labels of the form &apos;low;medium;high&apos;. Relies on &apos;Legend Breaks&apos; being set" id="legendLabels" name="Map - Legend Labels" value="" />
+
+    <!-- Custom properties -->
+    <Property description="The custom classifier property value contains one of &apos;equalInterval&apos;, &apos;quantile&apos;, &apos;natural&apos;, &apos;continuous&apos; or &apos;standardDeviation&apos;" id="customClassifierKey" name="Custom Classifier Property Id" value="customClassifier" />
+    <Property description="The custom colours property value contains a semi-colon delimited list of colours of the form &apos;#ffff00;rgb(155,234,100);#0000ff&apos;" id="customColoursKey" name="Custom Colours Property Id" value="customColours" />
+    <Property description="The custom breaks property value contains a semi-colon delimited list of values of the form &apos;0;10;20;80&apos;" id="customBreaksKey" name="Custom Breaks Property Id" value="customBreaks" />
+    <Property description="The custom labels property value contains a  semi-colon delimited list of labels of the form &apos;high;medium;low&apos;" id="customLabelsKey" name="Custom Labels Property Id" value="customLabels" />
+    <Property description="The custom palette property value contains a reference to a palettes name." id="customPaletteKey" name="Custom Palette Property Id" value="customPalette" />
+
+    <!-- Text -->
+    <Property description="The 'Equal Interval' text" id="equalInterval" name="Equal Interval Text" type="string" value="Equal Interval"/>
+    <Property description="The 'Quantile' text" id="quantile" name="Quantile Text" type="string" value="Quantile"/>
+    <Property description="The 'Natural Break' text" id="natural" name="Natural Break Text" type="string" value="Natural Breaks"/>
+    <Property description="The 'Continuous' text" id="continuous" name="Continuous Text" type="string" value="Continuous"/>
+    <Property description="The 'Standard Deviation' text" id="standardDeviation" name="Standard Deviation Text" type="string" value="Standard Deviation"/>
+    <Property description="The size of the interval to use for standard deviation" id="sdSize" name="Standard Deviation Interval" type="integer" value="1"/>
+    <Property description="The text for band 1 of the standard deviation classification" id="sd1" name="Band 1 Text" type="string" value="> 2 SD below mean"/>
+    <Property description="The text for band 2 of the standard deviation classification" id="sd2" name="Band 2 Text" type="string" value="1 - 2 SD below mean"/>
+    <Property description="The text for band 3 of the standard deviation classification" id="sd3" name="Band 3 Text" type="string" value="0 - 1 SD below mean"/>
+    <Property description="The text for band 4 of the standard deviation classification" id="sd4" name="Band 4 Text" type="string" value="0 - 1 SD above mean"/>
+    <Property description="The text for band 5 of the standard deviation classification" id="sd5" name="Band 5 Text" type="string" value="1 - 2 SD above mean"/>
+    <Property description="The text for band 6 of the standard deviation classification" id="sd6" name="Band 6 Text" type="string" value="> 2 SD above mean"/>
+  </PropertyGroup>
+
+  <PropertyGroup id="shareText" name="Share Text">
+    <Property description="The text displayed for emailing the report" id="emailReportText" name="Email Report Text" type="string" value="Email report - copy and paste link into email" />
+    <Property description="The text displayed for embedding the report" id="embedReportText" name="Embed Report Text" type="string" value="Embed report - copy and paste html into web page" />
+  </PropertyGroup>
+
+  <PropertyGroup id="pointSymbols" name="Point Symbols">
+    <Property description="The symbol to use for point data" id="symbolShape" name="Shape" type="string" value="circle" choices="circle;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left;plus;x"/>
+    <Property description="The smallest size that will be used when displaying proportional symbols" id="minSymbolSize" name="Min Size" type="integer" value="15" />
+    <Property description="The largest size that will be used when displaying proportional symbols" id="maxSymbolSize" name="Max Size" type="integer" value="50" />
+  </PropertyGroup>
+
+  <PropertyGroup id="lineSymbols" name="Line Symbols">
+    <Property description="The smallest size that will be used when displaying lines" id="minLineSize" name="Min Width" type="integer" value="2" />
+    <Property description="The largest size that will be used when displaying lines" id="maxLineSize" name="Max Width" type="integer" value="6" />
+  </PropertyGroup>
+
+  <PropertyGroup id="exportText" name="Export Text">
+    <Property description="The text displayed for saving exported images" id="saveImageText" name="Save Image Text" type="string" value="Right click thumbnail for options..." />
+  </PropertyGroup>
+
+  <PropertyGroup id="legendEditor" name="Map - Legend Editor">
+    <Property description="Should the legend type panel be displayed?" id="showLegendTypePanel" name="Show Legend Type Panel?" type="boolean" value="true"/>
+    <Property description="Should the legend tools be displayed?" id="showLegendTools" name="Show Legend Tools?" type="boolean" value="true"/>
+    <Property description="Should the palette panel be displayed?" id="showPalettePanel" name="Show Palette Panel?" type="boolean" value="true"/>
+    <Property description="Should the size panel be displayed?" id="showSizePanel" name="Show Size Panel?" type="boolean" value="true"/>
+  </PropertyGroup>
+	<PropertyGroup id="responsiveDesign" name="Responsive Design">	
+  	  	<Property description="Use a scrollable layout for smaller screen sizes?" id="isResponsive" name="Activate Responsive Design?" type="boolean" value="false"/>
+  	  	<Property description="Include images in scrollable layout?" id="flowLayoutIncludeImages" name="Include Images?" type="boolean" value="true"/>
+		<Property description="The screen width at which the scrollable layout is activated." id="flowLayoutMaxWidth" name="Change Width" type="integer" value="600"/>
+	</PropertyGroup>
+  <MapPalettes classes="5" default="Sequential Cyan" maxclasses="10">
+    <ColourRange id="Sequential Red">
+      <Colour>#fee5d9</Colour>
+      <Colour>#fcae91</Colour>
+      <Colour>#fb6a4a</Colour>
+      <Colour>#de2d26</Colour>
+      <Colour>#a50f15</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Purple">
+      <Colour>#feebe2</Colour>
+      <Colour>#fbb4b9</Colour>
+      <Colour>#f768a1</Colour>
+      <Colour>#c51b8a</Colour>
+      <Colour>#7a0177</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue">
+      <Colour>#eff3ff</Colour>
+      <Colour>#bdd7e7</Colour>
+      <Colour>#6baed6</Colour>
+      <Colour>#3182bd</Colour>
+      <Colour>#08519c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Cyan">
+      <Colour>#e4f4f8</Colour>
+      <Colour>#c0e7f0</Colour>
+      <Colour>#6bc1d7</Colour>
+      <Colour>#2198b5</Colour>
+      <Colour>#07576b</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green">
+      <Colour>#edf8e9</Colour>
+      <Colour>#bae4b3</Colour>
+      <Colour>#74c476</Colour>
+      <Colour>#31a354</Colour>
+      <Colour>#006d2c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Grey">
+      <Colour>#f0f0f0</Colour>
+      <Colour>#bdbdbd</Colour>
+      <Colour>#111111</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Red Yellow">
+      <Colour>#ffffcc</Colour>
+      <Colour>#feb24c</Colour>
+      <Colour>#b10026</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue Yellow">
+      <Colour>#ffffd9</Colour>
+      <Colour>#7fcddb</Colour>
+      <Colour>#0c2c83</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green Yellow">
+      <Colour>#ffffe5</Colour>
+      <Colour>#addd8e</Colour>
+      <Colour>#005a32</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Blue">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#eef1f2</Colour>
+      <Colour>#92c5de</Colour>
+      <Colour>#0571b0</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Purple to Green">
+      <Colour>#762a83</Colour>
+      <Colour>#e7d4e8</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#d9f0d3</Colour>
+      <Colour>#1b7837</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Orange to Purple">
+      <Colour>#e66101</Colour>
+      <Colour>#fdb863</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#b2abd2</Colour>
+      <Colour>#5e3c99</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Grey">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#bababa</Colour>
+      <Colour>#404040</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Blue">
+      <Colour>#ca373b</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#abd9e9</Colour>
+      <Colour>#2c7bb6</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Green">
+      <Colour>#d7191c</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#a6d96a</Colour>
+      <Colour>#1a9641</Colour>
+    </ColourRange>
+    <ColourScheme id="categoricScheme1">
+      <ColourMatch for="__next">#8dd3c7</ColourMatch>
+      <!--<ColourMatch for="__next">#ffffbc</ColourMatch>
+      <ColourMatch for="__next">#bebada</ColourMatch>
+      <ColourMatch for="__next">#fb8072</ColourMatch>
+      <ColourMatch for="__next">#80b1d3</ColourMatch>
+      <ColourMatch for="__next">#fdb462</ColourMatch>
+      <ColourMatch for="__next">#b3de69</ColourMatch>
+      <ColourMatch for="__next">#fccdef</ColourMatch>-->
+    </ColourScheme>
+  </MapPalettes>
+  <SubstitutionVariables>
+    <Variable description="The name of the current geography" id="geogName" />
+    <Variable description="The name of the current theme" id="themeName" />
+    <Variable description="The name of the current indicator" id="indicatorName" />
+    <Variable description="The name of the current indicator&apos;s date (if it has one)" id="date" />
+    <Variable description="The name of the filter" id="filterName" />
+    <Variable description="The value of the filter" id="filterValue" />
+    <Variable description="The selected feature name" id="selectedFeature" />
+    <Variable description="The highlighted feature name" id="featureName" />
+    <Variable description="The highlighted feature indicator value" id="indicatorValue" />
+    <Variable description="The lower limit of the current indicator" id="lowerLimit" />
+    <Variable description="The upper limit of the current indicator" id="upperLimit" />
+  </SubstitutionVariables>
+</AtlasInterface>

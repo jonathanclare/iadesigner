@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtlasInterface edit-mode="Wireframe" template-version="6.7.8" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" name="IA6 Graphique en bâtons horizontaux" schema-version="1.6" template="areaprofiler::flash::html::arcgisonline" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas">
+  <Component id="dataExplorer" name="Menu données" editable="true" x="20" y="48" width="300" height="400" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+    <Description>The data explorer component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(dataExplorer)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="false"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="101"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="true"/>
+    <Property description="Cacher l’explorateur pour une sélection?" id="hideOnSelection" name="Cacher pour une sélection?" type="boolean" value="true"/>
+    <Property description="Fermer les autres niveaux du menu au moment d’ouvrir un nouveau niveau?" id="closeBranchesOnSelection" name="Fermer les niveaux du menu?" type="boolean" value="true"/>
+    <Property description="Afficher dates ?" id="showDates" name="Montrer autres dates?" type="boolean" value="true"/>
+    <Property description="Inverser les dates ?" id="reverseDates" name="Inverser les dates ?" type="boolean" value="true"/>
+    <Property description="Quand les dates ne sont pas affichées,  monter la date la plus récente pour une sélection?" id="loadMostRecentDate" name="Monter la date la plus récente pour une sélection?" type="boolean" value="false"/>
+  </Component>
+  <Component id="filterExplorer" name="Menu filtres" editable="true" x="95" y="48" width="300" height="400" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+    <Description>The filter explorer component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(filterExplorer)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="false"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="102"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="true"/>
+    <Property description="Cacher l’explorateur pour une sélection?" id="hideOnSelection" name="Cacher pour une sélection?" type="boolean" value="true"/>
+    <Property description="Fermer les autres niveaux du menu au moment d’ouvrir un nouveau niveau?" id="closeBranchesOnSelection" name="Fermer les niveaux du menu?" type="boolean" value="true"/>
+    <Property description="Le type de filtre" id="filterType" name="Type de filtre" type="string" value="single" choices="single;combined"/>
+  </Component>
+  <Component id="geogExplorer" name="Menu cartographies" editable="true" x="190" y="118" width="240" height="240" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+    <Description>The data explorer component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value="Sélectionner une géographie pour afficher"/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(geogExplorer)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="false"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="101"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="true"/>
+    <Property description="Cacher l’explorateur pour une sélection?" id="hideOnSelection" name="Cacher pour une sélection?" type="boolean" value="true"/>
+  </Component>
+  <Component id="timeControl" name="Temps d'animation" editable="true" x="335" y="20" width="415" height="25" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header ia-time-control-date-btn ia-time-control-date-btn-active">
+    <Description>The data explorer component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(timeControl)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="10"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Le délai en secondes quand il s’agit de changer les dates" id="delay" name="Temporisation, en secondes" type="float" value="1"/>
+    <Property description="Le texte affiché quand aucune donnée de série chronologique n’est disponible" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+  </Component>
+  <Component id="map" name="Carte" x="20" y="60" width="250" height="345" visible="true" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/document_earth.png" classes="ia-panel ia-panel-header ia-map-toolbar ia-google-map-toolbar ia-map-labels ia-map-copyright ia-map-selection-opacity ia-map-highlight-opacity">
+    <Description>The map component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value="${themeName(' &gt;&gt; ')} ${notEmpty(themeName, '&gt;&gt; ')} ${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')} ${notEmpty(filterName, '&gt;&gt; ')} ${filterValue} ${notEmpty(filterValues, '&gt;&gt; ')} ${filterValues}"/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(map)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="2"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Droit d'auteur pour la carte" id="copyrightText" name="Droit d'auteur" type="string" value="© Copyright"/>
+    <Property description="Le chemin a un dossier avec la cartographie de fond" id="backgroundMappingPath" name="Dossier cartographie de fond" type="string" value="./"/>
+    <Property description="Le zoom maximum en unités de la carte (eg. Max Zoom Allowed:500000, Min Zoom Allowed:10000000). Pour Google Maps utiliser les niveaux zoom 0 - 21 (eg. Max Zoom Allowed:15, Min Zoom Allowed:5)" id="maxZoomAllowed" name="Zoom maximum" type="integer" value="-1"/>
+    <Property description="Zoom minimum en unités de la carte (eg. Max Zoom Allowed:500000, Min Zoom Allowed:10000000). Pour Google Maps utiliser les niveaux zoom 0 - 21 (eg. Max Zoom Allowed:15, Min Zoom Allowed:5)" id="minZoomAllowed" name="Zoom minimum" type="integer" value="-1"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${featureName}: ${indicatorValue}"/>
+    <Property description="Texte pour le bouton Annuler - laisser vide pour cacher le bouton" id="clearButtonText" name="Texte Annuler" type="string" value="Annuler"/>
+    <Property description="Texte bouton filtre - laisser vide pour cacher le bouton" id="filterButtonText" name="Texte filtre" type="string" value="Filtre"/>
+    <Property description="Barre d’outils Google – texte 'Gris'" id="googleGreyscaleText" name="Texte Google gris" type="string" value="Gris"/>
+    <Property description="Barre d’outils Google – texte 'Cacher'" id="googleOffText" name="Texte cacher Google" type="string" value="X"/>
+    <Property description="Afficher l’outil de recherche?" id="includeSearchTool" name="Afficher outil de recherche?" type="boolean" value="false"/>
+  </Component>
+  <Component id="boxAndWhisker" name="Graphique boursier" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-items">
+    <Description>The box chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(boxAndWhisker)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="10"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${featureName} ${notEmpty(largestObservation, '&lt;br/&gt;Maximum: ')}${largestObservation} ${notEmpty(upperQuartile, '&lt;br/&gt;Quartile supérieur: ')}${upperQuartile} ${notEmpty(median, '&lt;br/&gt;Mediane: ')}${median} ${notEmpty(lowerQuartile, '&lt;br/&gt;Quartile inférieur: ')}${lowerQuartile} ${notEmpty(smallestObservation, '&lt;br/&gt;Minimum: ')}${smallestObservation}"/>
+    <Property description="Données avec la maximum" id="largestObservationField" name="Données valueur maximum" type="string" value="largestObservation"/>
+    <Property description="Données avec le quertile supérieur" id="upperQuartileField" name="Données quartile supérieur" type="string" value="upperQuartile"/>
+    <Property description="Données avec la médiane" id="medianField" name="Données médiane" type="string" value="median"/>
+    <Property description="Données avec le quartile inférieur" id="lowerQuartileField" name="Données quartile inférieur" type="string" value="lowerQuartile"/>
+    <Property description="Les données avec la valeur minimum" id="smallestObservationField" name="Données valeur minimum" type="string" value="smallestObservation"/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="La direction pour trier les données" id="sortDirection" name="Direction pour trier" type="string" value="ascending" choices="ascending;descending"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="radarChart" name="Graphique radar" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
+    <Description>
+  			Displays multivariate data in the form of a two-dimensional chart of three or more indicators represented on axes starting from the same point.
+  			Use in conjunction with the 'Selected Features Legend'.
+  		</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value="${themeName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}"/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(radarChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="5"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Type de graphique" id="chartType" name="Type de graphique" type="string" value="radar" choices="radar;rose"/>
+    <Property description="Les données du graphique" id="data" name="Données" type="string" value="value"/>
+    <Property description="Quelles données doivent êtres affichées?" id="displayMode" name="Mode d’affichage" type="string" value="All themes" choices="All themes;Selected theme only"/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${themeName} &gt;&gt; ${indicatorName} &lt;br/&gt; ${featureName}: ${value}"/>
+    <Property description="Texte pour les étiquettes du graphique" id="chartLabels" name="Etiquettes graphique" type="string" value="${indicatorName}"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="Taille des marques" id="markerSize" name="Taille de la marque" type="integer" value="0"/>
+    <Property description="L'éspace vide autour du radar réservé pour les étiquettes" id="radarPadding" name="Padding" type="integer" value="60"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="Adapter l’axe du graphique aux données pour les objets sélectionnés?" id="matchAxisToSelectedData" name="Adapter l’axe aux données sélectionnées?" type="boolean" value="false"/>
+    <Property description="Fixer l'origine de l'axe du graphique a zéro?" id="startAxisFromZero" name="Origine zéro pour l'axe?" type="boolean" value="false"/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="barChart" name="Histogramme" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-items">
+    <Description>The bar chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(barChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="3"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Données pour le graphique" id="data" name="Données" type="string" value="value"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${featureName}: ${indicatorValue}${notEmpty(lowerLimit, '&lt;br/&gt;LI: ')}${lowerLimit}${notEmpty(upperLimit, '&lt;br/&gt;LS: ')}${upperLimit}"/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="La direction pour trier les données" id="sortDirection" name="Direction pour trier" type="string" value="ascending" choices="ascending;descending"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="Commencer les barres du graphique depuis zero?" id="drawBarsFromZero" name="Créer les barres depuis zero?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="timeSeries" name="Série chronolgique - graphique en courbes" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/line-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-items">
+    <Description>The time series component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(timeSeries)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="3"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Les données du graphique" id="data" name="Données" type="string" value="value"/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${lineLabel} ${name} (${date}): ${value}"/>
+    <Property description="Interpoler quand les dates n’existe pas ?" id="drawLinesThroughMissingValues" name="Interpoler pour les dates absentes?" type="boolean" value="true"/>
+    <Property description="Afficher l'associé si disponible?" id="showAssociate" name="Afficher les données de l'associé?" type="boolean" value="false"/>
+    <Property description="Une liste de codes des associés à ignorer" id="ignoreAssociateIds" name="Liste des associés à ignorer" type="string-array" value=""/>
+    <Property description="Une liste optionnelle d’étiquettes ligne" id="associateLabels" name="Liste optionnelle d’étiquettes ligne" type="string-array" value=""/>
+    <Property description="Identifiant de la palette de couleurs utilisée pour des données multi-lignes" id="colorSchemeId" name="Nom combination de couleurs" type="string" value="categoricScheme3"/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="Mettre en valeur la date sélectionnée dans le graphique ?" id="highlightSelectedDate" name="Mettre en valeur la date sélectionnée ?" type="boolean" value="true"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="Adapter l’axe du graphique aux données pour les objets sélectionnés?" id="matchAxisToSelectedData" name="Adapter l’axe aux données sélectionnées?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="timeSeriesLineLegend" name="Série chronolgique - lègende courbes" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+    <Description>The time series line legend component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser  'javascript:iaToggle(timeSeriesLineLegend)' pour contrôler la visibilité." id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="13"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Design de la légende" id="layout" name="Mise en page" type="string" value="vertical" choices="horizontal;vertical"/>
+  </Component>
+  <Component id="discreteTimeSeries" name="Série chronolgique - graphique en barres" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-items">
+    <Description>The time bar chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(discreteTimeSeries)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="2"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Les données du graphique" id="data" name="Données" type="string" value="value"/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="Le ID de la palette de couleurs a utiliser. Dépassé par la légende objets sélectionnes si celle-ci figure dans le rapport." id="colorSchemeId" name="Nom combination de couleurs" type="string" value="chartScheme1"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${name} (${date}): ${value}"/>
+    <Property description="Mettre en valeur la date sélectionnée dans le graphique ?" id="highlightSelectedDate" name="Mettre en valeur la date sélectionnée ?" type="boolean" value="true"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="Commencer les barres du graphique depuis zero?" id="drawBarsFromZero" name="Créer les barres depuis zero?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="stackedTimeSeries" name="Associés pour empiler - série chronologique" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+    <Description>The stacked time series component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(stackedTimeSeries)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="12"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Une liste de codes des associés à ignorer" id="ignoreAssociateIds" name="Liste des associés à ignorer" type="string-array" value=""/>
+    <Property description="En option une liste d'etiquettes associées?" id="associateLabels" name="Liste d’étiquettes d’associées" type="string-array" value=""/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="L’identifiant de la palette à utiliser" id="colorSchemeId" name="Nom combination de couleurs" type="string" value="chartScheme1"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${feature-name} (${date}) &lt;br/&gt; ${associate-name}: ${value}"/>
+    <Property description="Mettre en valeur la date sélectionnée dans le graphique ?" id="highlightSelectedDate" name="Mettre en valeur la date sélectionnée ?" type="boolean" value="true"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="stackedLegend" name="Lègende - associés pour empiler" x="200" y="449" width="400" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+    <Description>The stacked time series legend component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(stackedLegend)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="13"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Design de la légende" id="layout" name="Mise en page" type="string" value="horizontal" choices="horizontal;vertical"/>
+  </Component>
+  <Component id="pieChart" name="Graphique en secteurs" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
+    <Description>The pie chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(pieChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="5"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${name}: ${percentage}% (${value})"/>
+  </Component>
+  <Component id="areaBreakdownPieChart" name="Graphique circulaire (décomposition par zone)" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
+    <Description>The area breakdown pie chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(areaBreakdownPieChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="12"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property choices="associate;indicator" description="Créer avec tous les indicateurs (ou tous les indicateurs avec la meme date) dans le thème ou avec des valeurs associées a l'indicateur actif" id="datasource" name="Source des données" type="string" value="indicator"/>
+    <Property description="Une liste de codes des associés à ignorer" id="ignoreAssociateIds" name="Liste des associés à ignorer" type="string-array" value=""/>
+    <Property description="En option une liste d'etiquettes associées?" id="associateLabels" name="Liste d’étiquettes d’associées" type="string-array" value=""/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${name}: ${percentage}% (${value})"/>
+    <Property choices="horizontal;vertical;single chart" description="Mise en page" id="layout" name="Mise en page" type="string" value="horizontal"/>
+    <Property description="Le texte pour le graphique 1 en l’absence de données" id="title1" name="Texte graphique 1" type="string" value="Zone sélectionée"/>
+    <Property description="Le texte pour le graphique 2 en l’absence de données" id="title2" name="Texte graphique 2" type="string" value="Zone de comparaison"/>
+    <Property description="L’identifiant de la palette à utiliser" id="colorSchemeId" name="Nom combination de couleurs" type="string" value="chartScheme1"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+  </Component>
+  <Component id="areaBreakdownPieLegend" name="Légende du graphique circulaire (décomposition par zone)" x="200" y="449" width="400" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+    <Description>The area breakdown pie legend component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(areaBreakdownPieLegend)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="13"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Design de la légende" id="layout" name="Mise en page" type="string" value="horizontal" choices="horizontal;vertical"/>
+  </Component>
+  <Component id="areaBreakdownBarChart" name="Nom du territoire" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
+    <Description>The Area Breakdown Chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(areaBreakdownBarChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="12"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter comme image?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property choices="associate;indicator" description="Créer avec tous les indicateurs (ou tous les indicateurs avec la meme date) dans le thème ou avec des valeurs associées a l'indicateur actif" id="datasource" name="Source des données" type="string" value="indicator"/>
+    <Property description="Une liste de codes des associés à ignorer" id="ignoreAssociateIds" name="Liste des associés à ignorer" type="string-array" value=""/>
+    <Property description="En option une liste d'etiquettes associées?" id="associateLabels" name="Liste d’étiquettes d’associées" type="string-array" value=""/>
+    <Property description="Afficher les données de comparaison?" id="showComparison" name="Afficher données comparaison" type="boolean" value="false"/>
+    <Property description="L’orientation du graphique" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="Le ID de la palette de couleurs a utiliser. Dépassé par la légende objets sélectionnes si celle-ci figure dans le rapport." id="colorSchemeId" name="Nom combination de couleurs" type="string" value="chartScheme1"/>
+    <Property description="Texte quand les données pour ce graphique ne sont pas disponibles" id="notAvailableText" name="Texte 'Pas disponible'" type="string" value="Pas disponible"/>
+    <Property description="L’infobulle données" id="tip" name="Infobulle" type="string" value="${name}: ${value}"/>
+    <Property description="Utilser les données pour créer l'axe du graphique?" id="useTightLabels" name="Utiliser les données pour l'axe?" type="boolean" value="false"/>
+    <Property description="Commencer les barres du graphique depuis zero?" id="drawBarsFromZero" name="Créer les barres depuis zero?" type="boolean" value="false"/>
+    <Property description="L'étiquette pour l'axe X du graphique" id="xAxisTitle" name="L’étiquette de l’axe X" type="string" value=""/>
+    <Property description="L'étiquette pour l'axe Y du graphique" id="yAxisTitle" name="L’étiquette de l’axe Y" type="string" value=""/>
+    <Property description="Utiliser des valeurs fixes pour l'axe données du graphique?" id="useFixedValues" name="Utiliser des valueurs fixes?" type="boolean" value="false"/>
+    <Property description="Une valueur minimum fixe pour l'axe données du graphique" id="fixedMinValue" name="Valeur minimum fixe" type="float" value="0"/>
+    <Property description="Une valueur maximum fixe pour l'axe données du graphique" id="fixedMaxValue" name="Valeur maximum fixe" type="float" value="0"/>
+    <Property description="Un paramètre personalisé avec une valueur minimum fixe pour l'axe données du graphique" id="minChartValue" name="Paramètre valeur minimum de l'axe" type="string" value="minChartValue"/>
+    <Property description="Un paramètre personnalisé avec la valeur maximum fixe pour l'axe données du graphique" id="maxChartValue" name="Paramètre valeur maximum de l'axe" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="legend" name="Légende" editable="true" x="20" y="420" width="250" height="120" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header ia-layer-list-item ia-legend-item">
+    <Description>The list of layers.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(legend)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="12"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Afficher le bouton éditer légende?" id="showLegendEditorButton" name="Montrer option editer légende?" type="boolean" value="true"/>
+  </Component>
+  <Component id="featureLegend" name="Légende objets sélectionés" x="290" y="555" width="490" height="25" visible="true" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+    <Description>The feature legend component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(featureLegend)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="6"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="L’identifiant de la palette à utiliser" id="colorSchemeId" name="Nom combination de couleurs" type="string" value="chartScheme1"/>
+    <Property description="Design de la légende" id="layout" name="Mise en page" type="string" value="horizontal" choices="horizontal;vertical"/>
+  </Component>
+  <Component id="profileLegend" name="Légende du profil" editable="true" x="200" y="155" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header ia-layer-list-item ia-legend-item">
+    <Description>The key to the profile.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(profileLegend)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="12"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Design de la légende" id="layout" name="Mise en page" type="string" value="vertical" choices="horizontal;vertical"/>
+  </Component>
+  <Component id="metadata" name="Métadonnées" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
+    <Description>
+			Metadata box.
+		</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(metadata)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="6"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Le Paramètre pour définir les Métadonnées" id="metadataKey" name="Paramètre métadonnées personnalisées" value="metatext"/>
+  </Component>
+  <Component id="statsbox" name="Boite statistiques " editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
+    <Description>
+			Statistics box.
+		</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(statsbox)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="6"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Texte" id="text" name="Texte" type="string" value="Somme: ${sum} &lt;br/&gt;Moyenne: ${mean} &lt;br/&gt;Median: ${median} &lt;br/&gt;&lt;br/&gt;Min: ${minValue} &lt;br/&gt;Max: ${maxValue} &lt;br/&gt;Intervalle: ${range} &lt;br/&gt;&lt;br/&gt;Quartile Inf.: ${lowerQuartile} &lt;br/&gt;Quartile Sup.: ${upperQuartile} &lt;br/&gt;Écart interquartile: ${interquartileRange} &lt;br/&gt;&lt;br/&gt;Variance: ${variance} &lt;br/&gt;Écart type: ${standardDeviation}"/>
+    <Property description="Nombre de décimales par défaut pour les données" id="ndecimal" name="Nombre de décimales pour les données" type="integer" value="-1"/>
+  </Component>
+  <Component id="menuBar" name="Barre menu" editable="true" x="20" y="555" width="250" height="25" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-menubar-btn">
+    <Description>
+  			Menu Bar.
+  		</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(menuBar)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="10"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem1" name="Menu - option 1" type="string" value="Aide"/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc1" name="Menu - fonction 1" type="string" value="javascript:iaTogglePopup(./help.htm)"/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem2" name="Menu - option 2" type="string" value="Imprimer"/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc2" name="Menu - fonction 2" type="string" value="javascript:iaOpenPrintPreview()"/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem3" name="Menu - option 3" type="string" value="Partager"/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc3" name="Menu - fonction 3" type="string" value="javascript:iaToggleShare()"/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem4" name="Menu - option 4" type="string" value=""/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc4" name="Menu - fonction 4" type="string" value=""/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem5" name="Menu - option 5" type="string" value=""/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc5" name="Menu - fonction 5" type="string" value=""/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem6" name="Menu - option 6" type="string" value=""/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc6" name="Menu - fonction 6" type="string" value=""/>
+    <Property description="Texte pour une option menu - laisser vide pour cacher l'option" id="menuItem7" name="Menu - option 7" type="string" value=""/>
+    <Property description="La fonction pour le menu ci-dessus" id="menuFunc7" name="Menu - fonction 7" type="string" value=""/>
+  </Component>
+  <Table id="table" name="Tableau" editable="true" x="20" y="60" width="250" height="480" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd">
+    <Description>The table component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(table)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="false"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="1"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Le nom de la colonne qui va trier le tableau" id="sortColumnName" name="Colonne pour trier" type="string" value="name"/>
+    <Property description="Permettre a l’utilisateur de trier les colonnes ?" id="allowUserSorting" name="Trier les colonnes ?" type="boolean" value="true"/>
+    <Property description="Trier les données dans le tableau (ascendant/descendant)" id="sortDirection" name="Direction pour trier" type="string" value="Ascending" choices="Ascending;Descending"/>
+    <Property description="Zoomer sur un objet dans la carte au moment d'une sélection?" id="zoomOnSelection" name="Zoomer pour une sélection" type="boolean" value="true"/>
+    <Property description="Texte pour le bouton Annuler - laisser vide pour cacher le bouton" id="clearButtonText" name="Texte Annuler" type="string" value="Annuler"/>
+    <Property description="Texte bouton filtre - laisser vide pour cacher le bouton" id="filterButtonText" name="Texte filtre" type="string" value="Filtre"/>
+    <Property description="Afficher couleur légende?" id="showLegendColor" name="Afficher couleur légende" type="boolean" value="true"/>
+    <Column alias="Nom" name="name" width="0.5"/>
+    <Column alias="${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}" name="value" width="0.5"/>
+  </Table>
+  <Table id="comparisonTable" name="Tableau de comparaison" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd">
+    <Description>The comparison that shows the user information about comparison data.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(comparisonTable)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="6"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Exporter?" id="isExportable" name="Exporter?" type="boolean" value="true"/>
+    <Property description="Le nom de la colonne qui va trier le tableau" id="sortColumnName" name="Colonne pour trier" type="string" value="name"/>
+    <Property description="Permettre a l’utilisateur de trier les colonnes ?" id="allowUserSorting" name="Trier les colonnes ?" type="boolean" value="true"/>
+    <Property description="Trier les données dans le tableau (ascendant/descendant)" id="sortDirection" name="Direction pour trier" type="string" value="Ascending" choices="Ascending;Descending"/>
+    <Property description="L’identifiant de la palette à utiliser" id="colorSchemeId" name="Nom combination de couleurs" type="string" value="categoricScheme6"/>
+    <Property description="Afficher couleur légende?" id="showLegendColor" name="Afficher couleur légende" type="boolean" value="true"/>
+    <Column alias="Nom" name="name" width="0.5"/>
+    <Column alias="${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}" name="value" width="0.5"/>
+  </Table>
+  <Table id="spineChart" name="Graphique bâtons horizontaux" editable="true" x="290" y="60" width="490" height="480" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-profile-theme-name-cell ia-profile-indicator-name-cell ia-profile-row:hover ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd">
+    <Description>The spine chart component of the report.</Description>
+    <Property description="Titre du graphique" id="title" name="Titre" type="string" value=""/>
+    <Property description="Visible au démarrage? Utiliser 'javascript:iaToggle(spineChart)' pour modifier la visibilité" id="visible" name="Visible au démarrage?" type="boolean" value="true"/>
+    <Property description="L’index z" id="zIndex" name="Index z" type="integer" value="1"/>
+    <Property description="Caché quand la souris est cliquée en dehors" id="isPopUp" name="Fenêtre popup?" type="boolean" value="false"/>
+    <Property description="Charger un indicateur avec un clic?" id="useMouseClick" name="Clic pour charger indicateur?" type="boolean" value="true"/>
+    <Property description="La forme pour le symbole 1" id="symbol_shape_1" name="Forme symbole 1" type="string" value="arrow down" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 1" id="symbol_color_1" name="Couleur symbole 1" type="colour" value="#EC6768"/>
+    <Property description="La taille du symbole 1" id="symbol_size_1" name="Taille symbole 1" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 1" id="symbol_label_1" name="Étiquette symbole 1" type="string" value=""/>
+    <Property description="La valeur pour le symbole 1" id="symbol_value_1" name="Valeur symbole 1" type="string" value=""/>
+    <Property description="La forme pour le symbole 2" id="symbol_shape_2" name="Forme symbole 2" type="string" value="arrow down" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 2" id="symbol_color_2" name="Couleur symbole 2" type="colour" value="#EC6768"/>
+    <Property description="La taille du symbole 2" id="symbol_size_2" name="Taille symbole 2" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 2" id="symbol_label_2" name="Étiquette symbole 2" type="string" value=""/>
+    <Property description="La valeur pour le symbole 2" id="symbol_value_2" name="Valeur symbole 2" type="string" value=""/>
+    <Property description="La forme pour le symbole 3" id="symbol_shape_3" name="Forme symbole 3" type="string" value="minus" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 3" id="symbol_color_3" name="Couleur symbole 3" type="colour" value="#f8b77b"/>
+    <Property description="La taille du symbole 3" id="symbol_size_3" name="Taille symbole 3" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 3" id="symbol_label_3" name="Étiquette symbole 3" type="string" value=""/>
+    <Property description="La valeur pour le symbole 3" id="symbol_value_3" name="Valeur symbole 3" type="string" value=""/>
+    <Property description="La forme pour le symbole 4" id="symbol_shape_4" name="Forme symbole 4" type="string" value="arrow up" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 4" id="symbol_color_4" name="Couleur symbole 4" type="colour" value="#78C16E"/>
+    <Property description="La taille du symbole 4" id="symbol_size_4" name="Taille symbole 4" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 4" id="symbol_label_4" name="Étiquette symbole 4" type="string" value=""/>
+    <Property description="La valeur pour le symbole 4" id="symbol_value_4" name="Valeur symbole 4" type="string" value=""/>
+    <Property description="La forme pour le symbole 5" id="symbol_shape_5" name="Forme symbole 5" type="string" value="arrow up" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 5" id="symbol_color_5" name="Couleur symbole 5" type="colour" value="#78C16E"/>
+    <Property description="La taille du symbole 5" id="symbol_size_5" name="Taille symbole 5" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 5" id="symbol_label_5" name="Étiquette symbole 5" type="string" value=""/>
+    <Property description="La valeur pour le symbole 5" id="symbol_value_5" name="Valeur symbole 5" type="string" value=""/>
+    <Property description="La forme pour le symbole 6" id="symbol_shape_6" name="Forme symbole 6" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 6" id="symbol_color_6" name="Couleur symbole 6" type="colour" value="#55CE6F"/>
+    <Property description="La taille du symbole 6" id="symbol_size_6" name="Taille symbole 6" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 6" id="symbol_label_6" name="Étiquette symbole 6" type="string" value=""/>
+    <Property description="La valeur pour le symbole 6" id="symbol_value_6" name="Valeur symbole 6" type="string" value=""/>
+    <Property description="La forme pour le symbole 7" id="symbol_shape_7" name="Forme symbole 7" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 7" id="symbol_color_7" name="Couleur symbole 7" type="colour" value="#E9BB4C"/>
+    <Property description="La taille du symbole 7" id="symbol_size_7" name="Taille symbole 7" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 7" id="symbol_label_7" name="Étiquette symbole 7" type="string" value=""/>
+    <Property description="La valeur pour le symbole 7" id="symbol_value_7" name="Valeur symbole 7" type="string" value=""/>
+    <Property description="La forme pour le symbole 8" id="symbol_shape_8" name="Forme symbole 8" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 8" id="symbol_color_8" name="Couleur symbole 8" type="colour" value="#E95858"/>
+    <Property description="La taille du symbole 8" id="symbol_size_8" name="Taille symbole 8" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 8" id="symbol_label_8" name="Étiquette symbole 8" type="string" value=""/>
+    <Property description="La valeur pour le symbole 8" id="symbol_value_8" name="Valeur symbole 8" type="string" value=""/>
+    <Property description="La forme pour le symbole 9" id="symbol_shape_9" name="Forme symbole 9" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 9" id="symbol_color_9" name="Couleur symbole 9" type="colour" value="#F8D0AB"/>
+    <Property description="La taille du symbole 9" id="symbol_size_9" name="Taille symbole 9" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 9" id="symbol_label_9" name="Étiquette symbole 9" type="string" value=""/>
+    <Property description="La valeur pour le symbole 9" id="symbol_value_9" name="Valeur symbole 9" type="string" value=""/>
+    <Property description="La forme pour le symbole 10" id="symbol_shape_10" name="Forme symbole 10" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 10" id="symbol_color_10" name="Couleur symbole 10" type="colour" value="#F8D0AB"/>
+    <Property description="La taille du symbole 10" id="symbol_size_10" name="Taille symbole 10" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 10" id="symbol_label_10" name="Étiquette symbole 10" type="string" value=""/>
+    <Property description="La valeur pour le symbole 10" id="symbol_value_10" name="Valeur symbole 10" type="string" value=""/>
+    <Property description="La forme pour le symbole 11" id="symbol_shape_11" name="Forme symbole 11" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 11" id="symbol_color_11" name="Couleur symbole 11" type="colour" value="#F8D0AB"/>
+    <Property description="La taille du symbole 11" id="symbol_size_11" name="Taille symbole 11" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 11" id="symbol_label_11" name="Étiquette symbole 11" type="string" value=""/>
+    <Property description="La valeur pour le symbole 11" id="symbol_value_11" name="Valeur symbole 11" type="string" value=""/>
+    <Property description="La forme pour le symbole 12" id="symbol_shape_12" name="Forme symbole 12" type="string" value="circle" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur utilisé pour le symbole 12" id="symbol_color_12" name="Couleur symbole 12" type="colour" value="#F8D0AB"/>
+    <Property description="La taille du symbole 12" id="symbol_size_12" name="Taille symbole 12" type="integer" value="16"/>
+    <Property description="L'étiquette pour le symbole 12" id="symbol_label_12" name="Étiquette symbole 12" type="string" value=""/>
+    <Property description="La valeur pour le symbole 12" id="symbol_value_12" name="Valeur symbole 12" type="string" value=""/>
+    <Property description="La forme pour la cible 1" id="target_shape_1" name="Forme cible 1" type="string" value="vertical line" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur pour la cible 1" id="target_color_1" name="Couleur cible 1" type="colour" value="#e31a1c"/>
+    <Property description="La taille de la cible 1" id="target_size_1" name="Taille cible 1" type="integer" value="10"/>
+    <Property description="L'étiquette pour la cible 1" id="target_label_1" name="Étiquette cible 1" type="string" value="Cible"/>
+    <Property description="Les données pour la cible 1" id="target_data_1" name="Données cible 1" type="string" value="target"/>
+    <Property description="La forme pour la cible 2" id="target_shape_2" name="Forme cible 2" type="string" value="vertical line" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur pour la cible 2" id="target_color_2" name="Couleur cible 2" type="colour" value="#e31a1c"/>
+    <Property description="La taille de la cible 2" id="target_size_2" name="Taille cible 2" type="integer" value="10"/>
+    <Property description="L'étiquette pour la cible 2" id="target_label_2" name="Étiquette cible 2" type="string" value=""/>
+    <Property description="Les données pour la cible 2" id="target_data_2" name="Données cible 2" type="string" value=""/>
+    <Property description="La forme pour la cible 3" id="target_shape_3" name="Forme cible 3" type="string" value="vertical line" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur pour la cible 3" id="target_color_3" name="Couleur cible 3" type="colour" value="#e31a1c"/>
+    <Property description="La taille de la cible 3" id="target_size_3" name="Taille cible 3" type="integer" value="10"/>
+    <Property description="L'étiquette pour la cible 3" id="target_label_3" name="Étiquette cible 3" type="string" value=""/>
+    <Property description="Les données pour la cible 3" id="target_data_3" name="Données cible 3" type="string" value=""/>
+    <Property description="La forme pour la cible 4" id="target_shape_4" name="Forme cible 4" type="string" value="vertical line" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left"/>
+    <Property description="La couleur pour la cible 4" id="target_color_4" name="Couleur cible 4" type="colour" value="#e31a1c"/>
+    <Property description="La taille de la cible 4" id="target_size_4" name="Taille cible 4" type="integer" value="10"/>
+    <Property description="L'étiquette pour la cible 4" id="target_label_4" name="Étiquette cible 4" type="string" value=""/>
+    <Property description="Les données pour la cible 4" id="target_data_4" name="Données cible 4" type="string" value=""/>
+    <Property description="Les données pour chaque barre" id="barData" name="Données (barres)" type="string" value="diff"/>
+    <Property description="La hauteur des bâtons horizontaux" id="barHeight" name="Hauteur bâtons horizontaux" type="integer" value="10"/>
+    <Property description="La couleur de chaque barre" id="barColor" name="Couleur barres" type="colour" value="#CCCCCC"/>
+    <Property description="Valeur minimum de la colonne profil" id="minValue" name="Valeur profile minimum" type="float" value="-100"/>
+    <Property description="Valeur maximum de la colonne profil" id="maxValue" name="Valeur profile maximum" type="float" value="100"/>
+    <Property description="N’afficher que les indicateurs avec les données sélectionnées" id="displaySelectedDateOnly" name="Affichage de la date sélectionnée uniquement?" type="boolean" value="false"/>
+    <Property description="Ouvrir en affichant que certain thèmes  - utiliser les identifiants de thèmes par exemple 't1'" id="expandedThemeIds" name="Liste agrandi de thèmes" type="string-array" value=""/>
+    <Column alias="Nom d’indicateur" name="indicatorName" width="0.2"/>
+    <Column alias="Nom du territoire" name="name" width="0.2"/>
+    <Column alias="Valeur" name="value" width="0.1"/>
+    <Column alias="% Diff" name="diff" width="0.1"/>
+    <Column alias="% Diff" name="profile" width="0.4"/>
+  </Table>
+  <PropertyGroup id="selection" name="Sélection">
+    <Property choices="single;multiple" description="Mode de sélection" id="selectionMode" name="Le mode de sélection" type="string" value="multiple"/>
+  </PropertyGroup>
+  <PropertyGroup id="exportText" name="Texte exporter">
+    <Property description="Texte affiché pour exporter des images" id="saveImageText" name="Texte sauvegarder image" type="string" value="Clic bouton droit pour sauvegarder l'image..."/>
+  </PropertyGroup>
+  <PropertyGroup id="shareText" name="Texte partager">
+    <Property description="Texte afficher pour envoyer le rapport par email" id="emailReportText" name="Texte envoyer  par email" type="string" value="Envoyer rapport - copier/coller le lien dans un email"/>
+    <Property description="Texte afficher pour incorporer le rapport" id="embedReportText" name="Texte incorporer rapport" type="string" value="Incorporer rapport - copier/coller HTML dans une page web"/>
+  </PropertyGroup>
+  <PropertyGroup id="dataFormatting" name="Format de données">
+    <Property description="Le format pour les numéros, par exemple 'en' pour l'anglais ou 'fr' pour le français" id="locale" name="Format régionale" type="string" value="fr" choices="none;en;de;es;fr;it;nl;be;ca;cs;da;el;et;fi;hr;hu;is;lt;lv;mk;no;pl;pt;ro;ru;sk;sl;sq;sr;sv;tr;uk"/>
+    <Property description="Le texte quand aucune valeur n'est disponible" id="noDataValue" name="Pas de données" type="string" value="Pas de données"/>
+    <Property description="Le nombre de décimales pour le tableau. Choisissez -1 pour désactiver" id="ndecimal" name="Nombre de décimales pour les données" type="integer" value="-1"/>
+  </PropertyGroup>
+  <PropertyGroup id="thematics" name="Paramètres de la légende personnalisée ">
+    <Property description="Couleur pour la classe 'Pas de données' de la légende" id="noDataColor" name="Couleur pas de données" type="colour" value="#ffffff"/>
+    <Property description="Données pour la légende" id="data" name="Données" type="string" value="value"/>
+    <Property description="Le nombre de décimales pour la légende. Taper -1 pour avoir des décimales dynamiques." id="legendPrecision" name="Décimales pour la légende" type="integer" value="-1"/>
+    <Property description="Le symbole a utliser pour les données points" id="symbolShape" name="Forme symbole points" type="string" value="circle" choices="circle;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left;circle;plus;x"/>
+    <Property description="La taille minimum de points dans la carte" id="minSymbolSize" name="Taille min points" type="integer" value="15"/>
+    <Property description="La taille maximum utilisée pour afficher des symboles proportionnels" id="maxSymbolSize" name="Taille max points" type="integer" value="50"/>
+    <Property description="La taille la plus petite pour afficher des lignes" id="minLineSize" name="Largeur minimum de la ligne" type="integer" value="2"/>
+    <Property description="La largeur maximum utilisée pour afficher des lignes" id="maxLineSize" name="Largeur maximum ligne" type="integer" value="6"/>
+    <Property description="Type de classification de la légende" id="legendClassifier" name="Classification par défaut" type="string" value="quantile" choices="equalInterval;quantile;natural;continuous;standardDeviation"/>
+    <Property description="Les intervalles de la légende – une liste de valeurs délimitées par ; du format '0;10;20;30'" id="legendBreaks" name="Intervalles de la légende" value=""/>
+    <Property description="Les etiquettes de la legende  – une liste de valeurs délimitées par ; du format 'bas;moyen;haut'. Nécessite l’implémentation de ' Intervalles de la légende '." id="legendLabels" name="Les étiquettes de légende" value=""/>
+    <Property description="Le Paramètre pour définir la classification par défaut ('equalInterval', 'quantile', 'natural', 'continuous' ou 'standardDéviation')" id="customClassifierKey" name="Paramètre classification par défaut" value="customClassifier"/>
+    <Property description="Le Paramètre pour définir des couleurs personnalisées pour une classification. La valeur doit être une liste de codes couleurs sépares par ;" id="customColoursKey" name="Paramètre couleurs personnalisées" value="customColours"/>
+    <Property description="Le Paramètre pour définir des limites personnalisées pour une classification. La valeur doit être une liste de numéros sépares par ;" id="customBreaksKey" name="Paramètre limites personnalisées" value="customBreaks"/>
+    <Property description="Le Paramètre pour définir des étiquettes personnalisées pour une classification. La valeur doit être une liste d'étiquettes sépares par ;" id="customLabelsKey" name="Paramètre étiquettes personnalisées" value="customLabels"/>
+    <Property description="Le Paramètre pour définir la palette par défaut" id="customPaletteKey" name="Paramètre palette par défaut" value="customPalette"/>
+    <Property description="Texte pour l'option Intervalles égaux de la légende" id="equalInterval" name="Texte Intervalles égaux" type="string" value="Intervalles égaux"/>
+    <Property description="Texte pour l'option Quantiles de la légende" id="quantile" name="Texte Quantiles" type="string" value="Quantiles"/>
+    <Property description="Texte pour l'option Intervalles naturels de la légende" id="natural" name="Texte Intervalles naturels" type="string" value="Intervalles naturels"/>
+    <Property description="Texte pour l'option Gradient de la légende" id="continuous" name="Texte gradient" type="string" value="Gradient"/>
+    <Property description="Texte pour l'option Écart-type de la légende" id="standardDeviation" name="Texte Écart-type" type="string" value="Écart-Type"/>
+    <Property description="La taille de l'intervalle à utiliser pour l'écart-type" id="sdSize" name="Intervalle écart-type" type="integer" value="1"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 1" id="sd1" name="Texte catégorie 1" type="string" value="&gt; 2 ET inf. moyenne"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 2" id="sd2" name="Texte catégorie 2" type="string" value="1 - 2 ET inf. moyenne"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 3" id="sd3" name="Texte catégorie 3" type="string" value="0 - 1 ET inf. moyenne"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 4" id="sd4" name="Texte catégorie 4" type="string" value="0 - 1 ET sup. moyenne"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 5" id="sd5" name="Texte catégorie 5" type="string" value="1 - 2 ET sup. moyenne"/>
+    <Property description="Texte pour l'option légende Écart-type, catégorie 6" id="sd6" name="Texte catégorie 6" type="string" value="&gt; 2 ET sup. moyenne"/>
+  </PropertyGroup>
+  <PropertyGroup id="legendEditor" name="Editeur légende">
+    <Property description="Afficher l’objet type légende ?" id="showLegendTypePanel" name="Afficher l’objet type légende ?" type="boolean" value="true"/>
+    <Property description="Afficher les options légende ?" id="showLegendTools" name="Afficher les options légende ?" type="boolean" value="true"/>
+    <Property description="Afficher l’objet palettes ?" id="showPalettePanel" name="Afficher l'objet palette ?" type="boolean" value="true"/>
+    <Property description="Afficher l’objet taille ?" id="showSizePanel" name="Afficher l'objet taille?" type="boolean" value="true"/>
+  </PropertyGroup>
+  <Button id="dataButton" text="Données" href="javascript:iaToggle(dataExplorer)" tooltip="" x="20" y="20" width="70" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Button id="filterButton" text="Filtre" href="javascript:iaToggle(filterExplorer)" tooltip="" x="95" y="20" width="70" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Button id="geographyButton" text="Géographie" href="javascript:iaToggle(geogExplorer)" tooltip="" x="190" y="90" width="75" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Button id="mapTableButton" text="Carte | Table" href="javascript:iaToggle(map);iaToggle(legend);iaToggle(table)" tooltip="" x="170" y="20" width="100" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Button id="profileCollapseButton" text="- / +" href="javascript:iaToggleProfileTree()" tooltip="" x="290" y="20" width="35" height="25" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Image id="iaLogo" rescale="true" anchor="right" src="./logo.png" href="http://www.instantatlas.com" target="_blank" x="780" y="20" width="20" height="25" moveable="true" editable="true" removeable="true" resizeable="true"/>
+  <MapPalettes classes="5" default="Sequential Cyan" maxclasses="10">
+    <ColourRange id="Sequential Red">
+      <Colour>#fee5d9</Colour>
+      <Colour>#fcae91</Colour>
+      <Colour>#fb6a4a</Colour>
+      <Colour>#de2d26</Colour>
+      <Colour>#a50f15</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Purple">
+      <Colour>#feebe2</Colour>
+      <Colour>#fbb4b9</Colour>
+      <Colour>#f768a1</Colour>
+      <Colour>#c51b8a</Colour>
+      <Colour>#7a0177</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue">
+      <Colour>#eff3ff</Colour>
+      <Colour>#bdd7e7</Colour>
+      <Colour>#6baed6</Colour>
+      <Colour>#3182bd</Colour>
+      <Colour>#08519c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Cyan">
+      <Colour>#e4f4f8</Colour>
+      <Colour>#c0e7f0</Colour>
+      <Colour>#6bc1d7</Colour>
+      <Colour>#2198b5</Colour>
+      <Colour>#07576b</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green">
+      <Colour>#edf8e9</Colour>
+      <Colour>#bae4b3</Colour>
+      <Colour>#74c476</Colour>
+      <Colour>#31a354</Colour>
+      <Colour>#006d2c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Grey">
+      <Colour>#f0f0f0</Colour>
+      <Colour>#bdbdbd</Colour>
+      <Colour>#111111</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Red Yellow">
+      <Colour>#ffffcc</Colour>
+      <Colour>#feb24c</Colour>
+      <Colour>#b10026</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue Yellow">
+      <Colour>#ffffd9</Colour>
+      <Colour>#7fcddb</Colour>
+      <Colour>#0c2c83</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green Yellow">
+      <Colour>#ffffe5</Colour>
+      <Colour>#addd8e</Colour>
+      <Colour>#005a32</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Blue">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#eef1f2</Colour>
+      <Colour>#92c5de</Colour>
+      <Colour>#0571b0</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Purple to Green">
+      <Colour>#762a83</Colour>
+      <Colour>#e7d4e8</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#d9f0d3</Colour>
+      <Colour>#1b7837</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Orange to Purple">
+      <Colour>#e66101</Colour>
+      <Colour>#fdb863</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#b2abd2</Colour>
+      <Colour>#5e3c99</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Grey">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#bababa</Colour>
+      <Colour>#404040</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Blue">
+      <Colour>#ca373b</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#abd9e9</Colour>
+      <Colour>#2c7bb6</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Green">
+      <Colour>#d7191c</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#a6d96a</Colour>
+      <Colour>#1a9641</Colour>
+    </ColourRange>
+    <ColourRange id="Heatmap">
+      <Colour>#ffffff</Colour>
+      <Colour>#ffc6fc</Colour>
+      <Colour>#9cace6</Colour>
+      <Colour>#4db360</Colour>
+      <Colour>#fde361</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#d7191c</Colour>
+    </ColourRange>
+    <ColourScheme id="categoricScheme1">
+      <ColourMatch for="__next">#8dd3c7</ColourMatch>
+      <ColourMatch for="__next">#ffffbc</ColourMatch>
+      <ColourMatch for="__next">#bebada</ColourMatch>
+      <ColourMatch for="__next">#fb8072</ColourMatch>
+      <ColourMatch for="__next">#80b1d3</ColourMatch>
+      <ColourMatch for="__next">#fdb462</ColourMatch>
+      <ColourMatch for="__next">#b3de69</ColourMatch>
+      <ColourMatch for="__next">#fccdef</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme2">
+      <ColourMatch for="__next">#fbb3ad</ColourMatch>
+      <ColourMatch for="__next">#b2cce2</ColourMatch>
+      <ColourMatch for="__next">#ccebc5</ColourMatch>
+      <ColourMatch for="__next">#decbe4</ColourMatch>
+      <ColourMatch for="__next">#fed9a5</ColourMatch>
+      <ColourMatch for="__next">#ffffcc</ColourMatch>
+      <ColourMatch for="__next">#e4d7bc</ColourMatch>
+      <ColourMatch for="__next">#fddaec</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme3">
+      <ColourMatch for="__next">#e31a1c</ColourMatch>
+      <ColourMatch for="__next">#377db8</ColourMatch>
+      <ColourMatch for="__next">#4daf4a</ColourMatch>
+      <ColourMatch for="__next">#984ea3</ColourMatch>
+      <ColourMatch for="__next">#ff7f00</ColourMatch>
+      <ColourMatch for="__next">#ffff33</ColourMatch>
+      <ColourMatch for="__next">#a65628</ColourMatch>
+      <ColourMatch for="__next">#f781bf</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme4">
+      <ColourMatch for="__next">#b3e2cd</ColourMatch>
+      <ColourMatch for="__next">#fdcdac</ColourMatch>
+      <ColourMatch for="__next">#cbd5a8</ColourMatch>
+      <ColourMatch for="__next">#f4cae4</ColourMatch>
+      <ColourMatch for="__next">#e6f5c9</ColourMatch>
+      <ColourMatch for="__next">#fff2ae</ColourMatch>
+      <ColourMatch for="__next">#f1e2cc</ColourMatch>
+      <ColourMatch for="__next">#cccccc</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme5">
+      <ColourMatch for="__next">#66c2a5</ColourMatch>
+      <ColourMatch for="__next">#fc8d62</ColourMatch>
+      <ColourMatch for="__next">#8da0cb</ColourMatch>
+      <ColourMatch for="__next">#e78ac3</ColourMatch>
+      <ColourMatch for="__next">#a6d854</ColourMatch>
+      <ColourMatch for="__next">#ffd92f</ColourMatch>
+      <ColourMatch for="__next">#e5c494</ColourMatch>
+      <ColourMatch for="__next">#b3b3b3</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme6">
+      <ColourMatch for="__next">#1b9e77</ColourMatch>
+      <ColourMatch for="__next">#d95f02</ColourMatch>
+      <ColourMatch for="__next">#7570b3</ColourMatch>
+      <ColourMatch for="__next">#e7298a</ColourMatch>
+      <ColourMatch for="__next">#66a61e</ColourMatch>
+      <ColourMatch for="__next">#e6ab02</ColourMatch>
+      <ColourMatch for="__next">#a6761d</ColourMatch>
+      <ColourMatch for="__next">#666666</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme7">
+      <ColourMatch for="__next">#a6cee3</ColourMatch>
+      <ColourMatch for="__next">#1f77b4</ColourMatch>
+      <ColourMatch for="__next">#b2df8a</ColourMatch>
+      <ColourMatch for="__next">#33a02c</ColourMatch>
+      <ColourMatch for="__next">#fb9a99</ColourMatch>
+      <ColourMatch for="__next">#e31a1c</ColourMatch>
+      <ColourMatch for="__next">#fdbf6f</ColourMatch>
+      <ColourMatch for="__next">#ff7f00</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme8">
+      <ColourMatch for="__next">#7fc97f</ColourMatch>
+      <ColourMatch for="__next">#beaed4</ColourMatch>
+      <ColourMatch for="__next">#fdc086</ColourMatch>
+      <ColourMatch for="__next">#ffff99</ColourMatch>
+      <ColourMatch for="__next">#386cb0</ColourMatch>
+      <ColourMatch for="__next">#f0027f</ColourMatch>
+      <ColourMatch for="__next">#bf5b17</ColourMatch>
+      <ColourMatch for="__next">#666666</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="chartScheme1">
+      <ColourMatch for="__next">#3AAACF</ColourMatch>
+      <ColourMatch for="__next">#FFBB73</ColourMatch>
+      <ColourMatch for="__next">#5FD2B5</ColourMatch>
+      <ColourMatch for="__next">#FE7276</ColourMatch>
+      <ColourMatch for="__next">#7373DF</ColourMatch>
+      <ColourMatch for="__next">#FF7140</ColourMatch>
+      <ColourMatch for="__next">#1c71a9</ColourMatch>
+      <ColourMatch for="__next">#BF8430</ColourMatch>
+    </ColourScheme>
+  </MapPalettes>
+  <SubstitutionVariables>
+    <Variable description="Le nom de la cartographie de base pour la carte" id="geogName"/>
+    <Variable description="Nom du premier thème actuel" id="themeName"/>
+    <Variable description="Le nom du premier indicateur" id="indicatorName"/>
+    <Variable description="Le nom de la date du premier indicateur actuel (si possible)" id="date"/>
+    <Variable description="Le nom du filtre" id="filterName"/>
+    <Variable description="La valeur du filtre" id="filterValue"/>
+    <Variable description="Nom de l’objet sélectionné" id="selectedFeature"/>
+    <Variable description="Nom du territoire surligné" id="featureName"/>
+    <Variable description="La valeur de l’indicateur de la carte pour l’objet surligné" id="indicatorValue"/>
+    <Variable description="Limite inférieur de l’indicateur de la carte" id="lowerLimit"/>
+    <Variable description="Limite supérieur de l’indicateur de la carte" id="upperLimit"/>
+  </SubstitutionVariables>
+</AtlasInterface>

@@ -1,0 +1,44 @@
+
+{{#header}} 
+	{{#if include}}
+		<div class="iad-gallery-description" style="padding:15px 15px 15px 15px;border-bottom: 1px solid #ddd;">
+			{{description}}
+			<br/><br/>
+			<div class="btn-group" data-toggle="buttons"> 
+			    <label class="btn btn-default navbar-btn {{buttons/datasource1/active}}">
+			        <input type="radio" name="iad-radio-widget-gallery-datasource" value="0" />{{buttons/datasource1/text}}
+			    </label> 
+			    <label class="btn btn-default navbar-btn {{buttons/datasource2/active}}">
+			        <input type="radio" name="iad-radio-widget-gallery-datasource" value="1" />{{buttons/datasource2/text}}
+			    </label> 
+			</div>
+		</div>
+	{{/if}}
+{{/header}} 
+
+{{#galleries}} 
+	{{#if include}}
+		<div class="iad-gallery" {{#if @first}}style="border-width:0px"{{/if}}>
+			<div class="iad-gallery-header">{{header}}</div>
+			<div class="iad-gallery-description">{{description}}</div>
+
+			<div class="row">
+
+				{{#widgets}} 
+					{{#if include}}
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+							<div class="iad-thumbnail-header">{{name}}</div>
+							<div data-widget-id="{{id}}" class="thumbnail iad-thumbnail iad-widget-thumbnail">
+								<img src="./config/component-icons/{{thumbnail}}" alt="./config/component-icons/{{thumbnail}}"></img>
+								<div class="iad-thumbnail-hover-clickable">
+									{{description}}
+								</div>
+							</div>
+						</div>	
+					{{/if}}
+				{{/widgets}} 
+
+			</div>
+		</div>
+	{{/if}}
+{{/galleries}}  

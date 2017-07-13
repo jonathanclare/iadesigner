@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- build:template
+        <title><%= title %></title>
+        /build -->
+
+        <!-- build:template 
+        <%= banner %> 
+        /build -->
+        
+        <!-- build:template
+        <meta name="description" content="<%= title %>">
+        /build -->
+
+        <!-- build:template
+        <meta name="keywords" content="<%= keywords %>">
+        /build -->
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Font --> 
+        <!--link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet"-->
+
+        <!-- Farbtastic color picker -->
+        <link href="./lib/farbtastic/farbtastic.css" rel="stylesheet"/>
+
+        <!-- build:css ./lib/font-awesome-4.5.0/css/font-awesome.min.css -->
+        <link rel="stylesheet" type="text/css" href="./lib/font-awesome-4.5.0/css/font-awesome.css"  />
+        <!-- /build -->
+
+        <!-- build:css ./lib/bootstrap-3.3.6-dist/css/bootstrap.min.css -->
+        <link rel="stylesheet" type="text/css" href="./lib/bootstrap-3.3.6-dist/css/bootstrap.css"  />
+        <!-- /build -->
+
+        <!-- build:remove --> 
+        <link rel="stylesheet/less" type="text/css" href="./css/default.less" />
+        <!-- /build -->
+        <!-- build:template 
+        <link rel="stylesheet" type="text/css" href="./css/<%= name %>.min.css" />
+        /build -->
+
+        <!-- IA report default styling -->
+        <link rel="stylesheet" href="./report/advanced.css" />
+        <!--link rel="stylesheet" href="./report/default.css" /-->
+
+        <!-- IA report configurable styling -->
+        <link rel="stylesheet/less" type="text/css" href="./lib/ia/default.less" />
+
+        <!-- build:remove --> 
+        <script src="//localhost:35729/livereload.js"></script>
+        <!-- /build -->
+    </head>
+
+    <body>
+        <!-- top nav -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open Report</a></li>
+                        <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save Changes</a></li>
+                        <li><a id="iad-menuitem-config-gallery" href="#"><i class="fa fa-th-large"></i>&nbsp;Choose Template</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-paint-brush"></span>&nbsp;Style<span class="caret"></span></a>
+                            <ul id="iad-dropdown-styles" class="dropdown-menu">
+                                <li><a id="iad-menuitem-open-slide-panel-color-scheme-properties" href="#">Colour Scheme</a></li>
+                                <li><a id="iad-menuitem-open-slide-panel-css-properties" href="#">Style Editor</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a id="iad-menuitem-map-palettes" href="#">Map Palettes</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div class="btn-group" data-toggle="buttons"> 
+                                <label class="btn btn-default navbar-btn active">
+                                    <input type="radio" name="iad-radio-report-mode" value="design" />Design View
+                                </label> 
+                                <label class="btn btn-default navbar-btn">
+                                    <input type="radio" name="iad-radio-report-mode" value="published" />Published View
+                                </label> 
+                            </div>
+                        </li>
+                    </ul>
+                </div> 
+            </div>
+        </nav>
+        <!-- end top nav -->
+
+        <!-- bottom nav -->
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;Widget Properties <span class="caret"></span></a>
+                            <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
+                            <!-- populated by designner.main.js updateWidgetPropertiesDropdown() -->
+                            </ul>
+                        </li>
+                        <li><a id="iad-menuitem-widget-gallery" href="#"><i class="fa fa-plus"></i>&nbsp;Add Widget</a></li>
+                    </ul>
+                    <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
+                        <div class="btn-group"> 
+                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i>&nbsp;Edit</button>
+                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span>&nbsp;Send To Back</button>
+                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span>&nbsp;Send To Front</button>
+                        </div>
+                    </form>
+                </div> 
+            </div>
+        </nav>
+        <!-- end bottom nav -->
+
+        <!-- sidebar and report containers -->
+        <div id="iad-main">
+            <div id="iad-sidebar">
+                Current version: <span id="version">vX.Y.Z</span>
+                <div id="messages"></div>
+            </div>
+            <div id="iad-report">
+
+            </div>
+        </div>
+        <!-- end sidebar and report containers -->
+
+        <!-- start widget properties container -->
+        <div id="iad-slide-panel-widget-properties" class="iad-slide-panel">
+            <div class="iad-slide-panel-header">
+                <button id="iad-btn-close-slide-panel-widget-properties" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-slide-panel-widget-properties-title"> </span></div>
+            </div>
+            <div class="iad-slide-panel-content">
+                <div class="iad-form">
+                    <div id="iad-form-widget-properties">
+                    <!-- populated by designer.configforms.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end widget properties container -->
+
+        <!-- start css properties container -->
+        <div id="iad-slide-panel-css-properties" class="iad-slide-panel">
+            <div class="iad-slide-panel-header">
+                <button id="iad-btn-close-slide-panel-css-properties" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Style Editor</span></div>
+            </div>
+            <div class="iad-slide-panel-content">
+                <div class="iad-form">
+                    <div id="iad-form-css-properties">
+                    <!-- populated by designer.css.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end css properties container -->
+
+        <!-- start color properties container -->
+        <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
+            <div class="iad-slide-panel-header">
+                <button id="iad-btn-close-slide-panel-color-scheme" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
+            </div>
+            <div class="iad-slide-panel-content">
+                <div class="iad-form">
+                    <div id="iad-form-color-scheme">
+                    <!-- populated by designer.colorscheme.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end color properties container -->
+
+        <!-- config gallery modal -->
+        <div class="modal fade" id="iad-modal-config-gallery" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"><span class="fa fa-fw fa-th-large"></span>&nbsp;&nbsp;Templates</h4>
+                    </div>
+                    <div class="modal-body modal-body-scrollable">
+                        <div id="iad-config-gallery">
+                            <!-- populated by config-gallery.handlebars -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end config gallery modal -->
+
+        <!-- widget gallery modal -->
+        <div class="modal fade" id="iad-modal-widget-gallery" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"><span class="fa fa-fw fa-bar-chart"></span>&nbsp;&nbsp;Widgets</h4>
+                    </div>
+                    <div class="modal-body modal-body-scrollable">
+                        <div id="iad-widget-gallery">
+                            <!-- populated by widget-gallery.handlebars -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end widget gallery modal -->
+
+        <!-- color picker -->
+        <div id="iad-color-picker">
+            <div id="iad-color-picker-palette"></div>
+            <div class="input-group input-group-sm">
+                <span id="iad-color-picker-swatch" class="input-group-addon">&nbsp;&nbsp;</span>
+                <input id="iad-color-picker-input" type="text" class="form-control">
+            </div>
+        </div>
+        <!-- end color picker -->
+
+        <!-- Insert this line above script imports https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined -->
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+
+        <!-- build:js ./lib/jquery-2.2.3/jquery-2.2.3.min.js -->
+        <script src="./lib/jquery-2.2.3/jquery-2.2.3.js"></script>
+        <!-- /build -->
+
+        <!-- build:js ./lib/bootstrap-3.3.6-dist/js/bootstrap.min.js -->
+        <script src="./lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
+        <!-- /build -->
+
+        <!-- Makes bootstrap modals easier  -->
+        <script src="./lib/bootbox/bootbox.min.js"></script>
+
+        <!-- https://acko.net/blog/farbtastic-jquery-color-picker-plug-in/ for color picker -->
+        <script src="./lib/farbtastic/farbtastic.js"></script>
+
+        <!-- https://www.jacklmoore.com/autosize/ for resizing textareas -->
+        <script src="./lib/autosize/jquery.autosize.min.js"></script>
+
+        <!-- Sortable code -->
+        <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+
+        <!-- Handlebars for templating -->
+        <script src="./lib/handlebars/handlebars.runtime-v4.0.10.js"></script>
+
+        <!-- Less for dynamic css -->
+        <!-- build:js ./lib/less.js-2.7.1/dist/less.min.js -->
+        <script src="./lib/less.js-2.7.1/dist/less.js"></script>
+        <!-- /build -->
+
+        <!-- build:remove --> 
+        <!-- js libraries for scrolling -->
+        <script src="./ia/lib/iscroll.js"></script>
+
+        <!-- Used to listen for the resize event on elements because jquery resize only works on the window -->
+        <script src="./ia/lib/jquery.ba-resize.min.js"></script>
+
+        <!-- Handle floating point values -->
+        <script src="./ia/lib/BigDecimal-all-last.min.js"></script>
+
+        <!-- Handle screenshot -->
+        <script src="./ia/lib/html2canvas.js"></script>
+
+        <!-- Heat Map -->
+        <script src="./ia/lib/heatmap.js"></script>
+
+        <!-- main and util --> 
+        <script src="./ia/util.js"></script>
+        <script src="./ia/main.js"></script>
+
+        <!-- events -->
+        <script src="./ia/events/EventDispatcher.js"></script>
+        <script src="./ia/events/Event.js"></script>
+        <script src="./ia/events/MouseEvent.js"></script>
+
+        <!-- groups -->
+        <script src="./ia/Report.js"></script>
+        <script src="./ia/InteractionGroup.js"></script>
+        <script src="./ia/DataGroup.js"></script>
+
+        <!-- utils -->
+        <script src="./ia/utils/Color.js"></script>
+        <script src="./ia/utils/Shape.js"></script>
+        <script src="./ia/utils/SvgShape.js"></script>
+        <script src="./ia/utils/Formatter.js"></script>
+        <script src="./ia/utils/Locale.js"></script>
+        <script src="./ia/utils/Statistics.js"></script>
+        <script src="./ia/utils/TextSubstitution.js"></script>
+        <script src="./ia/utils/UrlParams.js"></script>
+        <script src="./ia/utils/BrowserDetect.js"></script>
+        <script src="./ia/utils/File.js"></script>
+        <script src="./ia/utils/FeatureServiceReader.js"></script>
+
+        <!-- config -->
+        <script src="./ia/config/ReportConfig.js"></script>
+        <script src="./ia/config/WidgetConfig.js"></script>
+        <script src="./ia/config/ComponentConfig.js"></script>
+        <script src="./ia/config/PropertyConfig.js"></script>
+        <script src="./ia/config/TableConfig.js"></script>
+        <script src="./ia/config/ButtonConfig.js"></script>
+        <script src="./ia/config/TextConfig.js"></script>
+        <script src="./ia/config/ImageConfig.js"></script>
+        <script src="./ia/config/PaletteConfig.js"></script>
+
+        <!-- data -->
+        <script src="./ia/data/BaseData.js"></script>
+        <script src="./ia/data/ReportData.js"></script>
+        <script src="./ia/data/Geography.js"></script>
+        <script src="./ia/data/Theme.js"></script>
+        <script src="./ia/data/Associate.js"></script>
+        <script src="./ia/data/Indicator.js"></script>
+        <script src="./ia/data/Feature.js"></script>
+        <script src="./ia/data/Filter.js"></script>
+        <script src="./ia/data/Limits.js"></script>
+        <script src="./ia/data/MapData.js"></script>
+        <script src="./ia/data/DataEvent.js"></script>
+        <script src="./ia/data/FilterEvent.js"></script>
+        <script src="./ia/data/DataModel.js"></script>
+
+        <!-- widgets -->
+        <script src="./ia/widgets/Widget.js"></script>
+        <script src="./ia/widgets/Panel.js"></script>
+        <script src="./ia/widgets/Button.js"></script>
+        <script src="./ia/widgets/MenuButton.js"></script>
+        <script src="./ia/widgets/Text.js"></script>
+        <script src="./ia/widgets/Image.js"></script>
+
+        <!-- ui -->
+        <script src="./ia/ui/ScrollBox.js"></script>
+        <script src="./ia/ui/Explorer.js"></script>
+        <script src="./ia/ui/Table.js"></script>
+        <script src="./ia/ui/ComparisonTable.js"></script>
+        <script src="./ia/ui/LayerList.js"></script>
+        <script src="./ia/ui/DiscreteLegend.js"></script>
+        <script src="./ia/ui/GradientLegend.js"></script>
+        <script src="./ia/ui/Metadata.js"></script>
+        <script src="./ia/ui/HTMLContainer.js"></script>
+        <script src="./ia/ui/LegendEditor.js"></script>
+        <script src="./ia/ui/MapTools.js"></script>
+        <script src="./ia/ui/TableTools.js"></script>
+        <script src="./ia/ui/AdvancedPieComponent.js"></script>
+        <script src="./ia/ui/FeatureLegend.js"></script>
+        <script src="./ia/ui/MenuBar.js"></script>
+        <script src="./ia/ui/CalloutBox.js"></script>
+        <script src="./ia/ui/PrintBar.js"></script>
+        <script src="./ia/ui/Profile.js"></script>
+        <script src="./ia/ui/ProfileLegend.js"></script>
+        <script src="./ia/ui/FeatureCard.js"></script>
+        <script src="./ia/ui/TimeControl.js"></script>
+        <script src="./ia/ui/TextBox.js"></script>
+        <script src="./ia/ui/AreaBreakdownPieComponent.js"></script>
+        <script src="./ia/ui/ResponsiveMenu.js"></script>
+
+        <!-- mapping and charts -->
+        <script src="./ia/geom/BoundingBox.js"></script>
+        <script src="./ia/geom/BBoxEvent.js"></script>
+        <script src="./ia/geom/CartesianSpace.js"></script>
+        <script src="./ia/geom/Rectangle.js"></script>
+        <script src="./ia/geom/Point.js"></script>
+
+        <script src="./ia/charts/ChartTip.js"></script>
+        <script src="./ia/charts/CanvasBase.js"></script>
+        <script src="./ia/charts/ChartBase.js"></script>
+        <script src="./ia/charts/BarChart.js"></script>
+        <script src="./ia/charts/PyramidChart.js"></script>
+        <script src="./ia/charts/TimeChart.js"></script>
+        <script src="./ia/charts/PieChart.js"></script>
+        <script src="./ia/charts/BoxChart.js"></script>
+        <script src="./ia/charts/TimeBarChart.js"></script>
+        <script src="./ia/charts/Plot.js"></script>
+        <script src="./ia/charts/StackedTimeChart.js"></script>
+        <script src="./ia/charts/RadarChart.js"></script>
+        <script src="./ia/charts/GridChart.js"></script>
+
+        <script src="./ia/charts/layers/LayerBase.js"></script>
+        <script src="./ia/charts/layers/ItemLayer.js"></script>
+        <script src="./ia/charts/layers/TimeLayer.js"></script>
+        <script src="./ia/charts/layers/TimeBoxLayer.js"></script>
+        <script src="./ia/charts/layers/BarLayer.js"></script>
+        <script src="./ia/charts/layers/PyramidLayer.js"></script>
+        <script src="./ia/charts/layers/CountLayer.js"></script>
+        <script src="./ia/charts/layers/PieLayer.js"></script>
+        <script src="./ia/charts/layers/AdvancedPieLayer.js"></script>
+        <script src="./ia/charts/layers/BoxLayer.js"></script>
+        <script src="./ia/charts/layers/TimeBarLayer.js"></script>
+        <script src="./ia/charts/layers/PlotLayer.js"></script>
+        <script src="./ia/charts/layers/LineLayer.js"></script>
+        <script src="./ia/charts/layers/StackedTimeLayer.js"></script>
+        <script src="./ia/charts/layers/StackedBarLayer.js"></script>
+        <script src="./ia/charts/layers/StackedFeaturesLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonLineLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonTimeLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonTimeBarLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonPlotLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonPyramidLayer.js"></script>
+        <script src="./ia/charts/layers/RadarLayer.js"></script>
+        <script src="./ia/charts/layers/ComparisonRadarLayer.js"></script>
+        <script src="./ia/charts/layers/GridLayer.js"></script>
+
+        <script src="./ia/maps/MapMouseEvent.js"></script>
+        <script src="./ia/maps/Map.js"></script>
+        <script src="./ia/maps/GoogleMap.js"></script>
+        <script src="./ia/maps/MapController.js"></script>
+
+        <script src="./ia/maps/layers/FeatureLayer.js"></script>
+        <script src="./ia/maps/layers/ImageLayer.js"></script>
+        <script src="./ia/maps/layers/TileLayer.js"></script>
+        <script src="./ia/maps/layers/WebTileLayer.js"></script>
+        <script src="./ia/maps/layers/AGSLayer.js"></script>
+        <script src="./ia/maps/layers/FeatureServiceLayer.js"></script>
+        <script src="./ia/maps/layers/GeoJsonLayer.js"></script>
+        <script src="./ia/maps/layers/WMSLayer.js"></script>
+        <script src="./ia/maps/layers/MarkerLayer.js"></script>
+        <script src="./ia/maps/layers/GeoRSSLayer.js"></script>
+        <script src="./ia/maps/layers/GoogleMercatorProjection.js"></script>
+
+        <!-- thematics -->
+        <script src="./ia/thematics/ColorPalette.js"></script>
+        <script src="./ia/thematics/SizePalette.js"></script>
+        <script src="./ia/thematics/BreaksCalculator.js"></script>
+        <script src="./ia/thematics/Thematic.js"></script>
+        <script src="./ia/thematics/NumericClassifier.js"></script>
+        <script src="./ia/thematics/CategoricClassifier.js"></script>
+        <script src="./ia/thematics/LegendClass.js"></script>
+        <script src="./ia/thematics/NumberClass.js"></script>
+        <script src="./ia/thematics/RangeClass.js"></script>
+        <script src="./ia/thematics/CategoricClass.js"></script>
+
+        <!-- factories -->
+        <script src="./ia/factories/ComponentFactory.js"></script>
+        <script src="./ia/factories/ChartFactory.js"></script>
+        <script src="./ia/factories/LegendFactory.js"></script>
+        <script src="./ia/factories/FeatureLegendFactory.js"></script>
+        <script src="./ia/factories/AreaBreakdownBarChartFactory.js"></script>
+        <script src="./ia/factories/AreaBreakdownLineChartFactory.js"></script>
+        <script src="./ia/factories/AreaBreakdownPieChartFactory.js"></script>
+        <script src="./ia/factories/BarChartFactory.js"></script>
+        <script src="./ia/factories/BoxAndWhiskerFactory.js"></script>
+        <script src="./ia/factories/TimeSeriesFactory.js"></script>
+        <script src="./ia/factories/DiscreteTimeSeriesFactory.js"></script>
+        <script src="./ia/factories/StackedTimeSeriesFactory.js"></script>
+        <script src="./ia/factories/StackedBarFactory.js"></script>
+        <script src="./ia/factories/StackedFeaturesFactory.js"></script>
+        <script src="./ia/factories/PyramidChartFactory.js"></script>
+        <script src="./ia/factories/TimeControlFactory.js"></script>
+        <script src="./ia/factories/FeatureCardFactory.js"></script>
+        <script src="./ia/factories/MetadataFactory.js"></script>
+        <script src="./ia/factories/StatsBoxFactory.js"></script>
+        <script src="./ia/factories/AdvancedPieChartFactory.js"></script>
+        <script src="./ia/factories/PieChartFactory.js"></script>
+        <script src="./ia/factories/DataTableFactory.js"></script>
+        <script src="./ia/factories/ComparisonTableFactory.js"></script>
+        <script src="./ia/factories/DataExplorerFactory.js"></script>
+        <script src="./ia/factories/GeogExplorerFactory.js"></script>
+        <script src="./ia/factories/FilterExplorerFactory.js"></script>
+        <script src="./ia/factories/MenuBarFactory.js"></script>
+        <script src="./ia/factories/ScatterPlotFactory.js"></script>
+        <script src="./ia/factories/AreaProfileFactory.js"></script>
+        <script src="./ia/factories/MapFactory.js"></script>
+        <script src="./ia/factories/TextBoxFactory.js"></script>
+        <script src="./ia/factories/RadarFactory.js"></script>
+        <script src="./ia/factories/GridChartFactory.js"></script>
+        <script src="./ia/factories/DimensionsFactory.js"></script>
+        <script src="./ia/factories/interactionGroups.js"></script>
+        <!-- /build -->
+
+        <!-- build:template 
+        <script src="./lib/ia/ia-min.js"></script>
+        /build -->
+
+        <!-- build:remove --> 
+        <script src="./js/handlebars.templates.js"></script>
+        <script src="./js/designer.defaults.js"></script>
+        <script src="./js/designer.main.js"></script>
+        <script src="./js/designer.configgallery.js"></script>
+        <script src="./js/designer.widgetgallery.js"></script>
+        <script src="./js/designer.canvas.js"></script>
+        <script src="./js/designer.config.js"></script>
+        <script src="./js/designer.css.js"></script>
+        <script src="./js/designer.configforms.js"></script>
+        <script src="./js/designer.formcontrols.js"></script>
+        <script src="./js/designer.colorpicker.js"></script>
+        <script src="./js/designer.colorscheme.js"></script>
+        <!-- /build -->
+
+        <!-- build:template 
+        <script src="./js/<%= name %>.min.js"></script>
+        /build -->
+
+        <!-- Insert this line after script imports https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined  -->
+        <script>if (window.module) module = window.module;</script>
+
+        <script type="text/javascript">
+            var $j = jQuery.noConflict();
+            $j(document).ready(function()
+            {
+                designer.init();
+            });
+        </script>
+    </body>
+</html>

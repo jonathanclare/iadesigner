@@ -1,0 +1,422 @@
+/* InstantAtlas(tm) Designer | Styles */
+/* InstantAtlas!22 Core, v.6.7.0 CSS export */
+/** Copyright (C) 2012 Geowise LtdAll Rights Reserved. The following is Source Code and is subject to allrestrictions on such code as contained in the End User License Agreement accompanying this product.*/
+
+@report-min-width             : 600px;
+@report-min-height            : 600px;
+@background-color             : #FFFFFF;
+@button-background-color      : #BE6E61;
+@button-border-color          : #884539;
+@button-border-radius         : 2px;
+@button-border-width          : 0px;
+@button-font-color            : #FFFFFF;
+@button-font-weight           : bold;
+@font-color                   : #2A454A;
+@font-family                  : Arial, Helvetica, sans-serif;
+@font-size                    : 14px;
+@panel-background-color       : #F7FCFD;
+@panel-border-color           : #BBD8DD;
+@panel-border-radius          : 0px;
+@panel-border-width           : 1px;
+@panel-header-background-color: #D9F2F7;
+@panel-header-font-color      : #2A454A;
+@panel-header-font-weight     : bold;
+@chart-font-color             : #666666;
+@chart-font-size              : 11px;
+@chart-grid-color             : #cccccc;
+@highlight-color              : #e66c64;
+@selection-color              : #953d37;
+@padding: (@font-size * 0.5);
+@panel-header-font-size: (@font-size * 1.1);
+@panel-header-padding: (@panel-header-font-size * 0.4);
+@button-font-size: (@font-size * 1.1);
+@list-item-highlight: darken(@panel-background-color, 5%);
+@table-header-font-color: @panel-header-font-color;
+@table-header-font-weight: @panel-header-font-weight;
+@table-header-background-color: @panel-header-background-color;
+@table-cell-font-size: (@font-size * 1);
+@table-cell-padding: (@table-cell-font-size * 0.5);
+@table-even-row: lighten(@panel-background-color, 2%);
+@table-odd-row: darken(@panel-background-color, 0.5%);
+@table-column-border: darken(@panel-background-color, 10%);
+@data-tip-background-color: lighten(@panel-background-color, 2%);
+@data-tip-font-size: (@font-size * 0.9);
+@data-tip-padding: (@data-tip-font-size * 0.4);
+@time-control-font-size: (@font-size * 1);
+@feature-card-border-color: @panel-border-color;
+@feature-card-background-color: @panel-background-color;
+@feature-card-header-font-color: @button-font-color;
+@feature-card-header-background-color: @button-background-color;
+@feature-card-subheader-font-color: @panel-header-font-color;
+@feature-card-subheader-background-color: @panel-header-background-color;
+
+.ia-image {
+	z-index: 100; 
+	border-color: @panel-border-color; 
+	border-width: 0.0px; 
+	border-style: solid; 
+	/**  Properties for Images.  */ 
+}
+.ia-report {
+	min-width: @report-min-width; 
+	font-family: @font-family; 
+	font-size: @font-size; 
+	color: @font-color; 
+	min-height: @report-min-height; 
+	background-color: @background-color; 
+	height: 100.0%; 
+	width: 100.0%; 
+	/**  The report container, containing background colour for report, the minimum height and width for the report and font settings for various components including legend, tables and map.  */ 
+}
+.ia-report-printmode {
+	min-width: 400.0px; 
+	min-height: 400.0px; 
+	background-color: @background-color; 
+	height: 680.0px; 
+	width: 1046.0px; 
+	/**  Containing settings for the report container in print mode.  */ 
+}
+.ia-selection-color {
+	color: @selection-color; 
+	/**  Selection Color for all components including map, tables and charts.  */ 
+}
+.ia-highlight-color {
+	color: @highlight-color; 
+	/**  Highlight Color for all components including map, tables and charts.  */ 
+}
+.ia-panel-header {
+	border-bottom-color: @panel-border-color; 
+	font-family: @font-family;
+	font-size: @panel-header-font-size;
+	color: @panel-header-font-color;
+	padding: @panel-header-padding; 
+	font-weight: @panel-header-font-weight; 
+	border-bottom-width: 0px; 
+	text-align: center; 
+	border-bottom-style: solid; 
+	background-color: @panel-header-background-color; 
+	/**  The header panel for all components. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-panel {
+	border-radius: @panel-border-radius; 
+	border-color: @panel-border-color; 
+	border-width: @panel-border-width; 
+	background-color: @panel-background-color; 
+	border-style: solid; 
+	/**  Panels which contain the various components including tables, maps and charts.  */ 
+}
+.ia-popup-panel {
+	border-width: 0.0px; 
+	/**  Popup panel adds drop shadow  */ 
+}
+.ia-panel-btns {
+	border-radius: 0.0px; 
+	background-color: #cccccc; 
+	/**  Panel buttons (export and fullscreen)  */ 
+}
+.ia-panel-btn:hover {
+	border-radius: 0.0px; 
+	background-color: darken(#cccccc, 5%); 
+	/**  Panel button hover (export and fullscreen)  */ 
+}
+.button {
+	border-radius: @button-border-radius; 
+	z-index: 100; 
+	font-family: @font-family; 
+	font-size: @button-font-size; 
+	border-color: @button-border-color; 
+	color: @button-font-color; 
+	font-weight: @button-font-weight; 
+	border-width: @button-border-width; 
+	background-color: @button-background-color; 
+	border-style: solid; 
+	/**  Contains properties for the buttons including font, border and background settings - Also uses ia-button:hover and ia-button:active.  */ 
+}
+.ia-button:hover {
+	background-color: darken(@button-background-color, 30%); 
+	/**  Button hover.  */ 
+}
+.ia-button:active {
+	background-color: darken(@button-background-color, 30%); 
+	/**  Button press.  */ 
+}
+.ia-list-item:hover {
+	background-color: @list-item-highlight; 
+	/**  List item hover for components such as data/filter explorers, legend, table and map toolbar.  */ 
+}
+.ia-list-item:active {
+	background-color: @list-item-highlight; 
+	/**  List item press for components such as data/filter explorers, legend, table and map toolbar.  */ 
+}
+.ia-text {
+	z-index: 100; 
+	text-align: left; 
+	/**  Subtitle text.  */ 
+}
+.ia-title-text {
+	font-size: 18.0px; 
+	text-align: left; 
+	/**  Title text.  */ 
+}
+.ia-datatip {
+	border-radius: 0.0px; 
+	font-family: @font-family; 
+	font-size:  @data-tip-font-size; 
+	padding: @data-tip-padding; 
+	border-color: @font-color; 
+	color: @font-color; 
+	font-weight: normal; 
+	text-align: left; 
+	border-width: 1.0px; 
+	background-color: @data-tip-background-color; 
+	border-style: solid; 
+	/**  Properties for Datatip for map and chart components.  */ 
+}
+.ia-chart {
+	font-size: @chart-font-size; 
+	border-color: @chart-grid-color; 
+	color: @chart-font-color; 
+	/**  Properties for chart components including font and grid line settings.  */ 
+}
+.ia-chart-limits {
+	border-width: 1px; 
+	border-color: @chart-font-color;  
+	/**  Bar chart limits.  */ 
+}
+.ia-table-header {
+	color: @table-header-font-color;
+	font-size:@table-cell-font-size;
+	padding-bottom: @table-cell-padding; 
+	padding-top: @table-cell-padding;
+	border-color: @panel-header-background-color; 
+	font-weight: @table-header-font-weight; 
+	text-align: center; 
+	background-color: @table-header-background-color; 
+	/**  Table column header. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-table-cell {
+	color: @font-color;
+	font-size:@table-cell-font-size;
+	padding-bottom: @table-cell-padding; 
+	padding-top: @table-cell-padding; 
+	border-color: @table-column-border; 
+	vertical-align: middle; 
+	/**  Contains properties for the cells in tables. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-table-cell-numeric {
+	text-align: right; 
+	/**  Properties for numeric table cells, including alignment.  */ 
+}
+.ia-table-cell-categoric {
+	text-align: left; 
+	/**  Properties for categoric table cells, including alignment.  */ 
+}
+.ia-table-row-even {
+	background-color: @table-even-row; 
+	/**  Even table row.  */ 
+}
+.ia-table-row-odd {
+	background-color: @table-odd-row; 
+	/**  Odd table row.  */ 
+}
+.ia-profile-theme-name-cell {
+	color: @table-header-font-color;
+	padding-bottom: @table-cell-padding; 
+	border-top-width: 1.0px; 
+	padding-top: @table-cell-padding; 
+	border-top-style: solid; 
+	padding-left: 30.0px; 
+	font-weight: @table-header-font-weight; 
+	text-align: left; 
+	border-top-color: @panel-border-color; 
+	background-color: @table-header-background-color; 
+	/**  Settings for the Area Profile Theme name cell. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-profile-indicator-name-cell {
+	font-size:@table-cell-font-size;
+	color: @font-color;
+	padding-bottom: @table-cell-padding; 
+	padding-top: @table-cell-padding; 
+	border-right-color: @panel-border-color; 
+	font-weight: normal; 
+	text-align: left; 
+	border-right-width: 1.0px; 
+	border-right-style: solid; 
+	vertical-align: middle; 
+	/**  Settings for the Area Profile Indicator name cell. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-profile-row:hover {
+	font-size:@table-cell-font-size;
+	color: @font-color;
+	background-color: @list-item-highlight; 
+	/**  Settings for the Area Profile row hover.  */ 
+}
+.ia-map-labels {
+	font-family: @font-family; 
+	font-size: 12px; 
+	border-color: #f9f9f9; 
+	color: #333333; 
+	font-weight: bold; 
+	/**  Map labels.  */ 
+}
+.ia-map-copyright {
+	color: #333333;
+	font-size: 10.0px; 
+    height: 19px;       
+    max-width: 30%;        
+	padding: 4.0px; 
+	right: 70.0px; 
+	bottom: 0.0px; 
+	background-color: #f7fbfd;  
+	/**  Map copyright text. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-map-copyright-expand	
+{
+    width: auto; /** Map copyright expand text */
+    height: auto;
+    max-width: 100%;
+}
+.ia-map-selection-opacity {
+	opacity: 0; 
+	/**  Map selection opacity, value between 0 and 1.  */ 
+}
+.ia-map-highlight-opacity {
+	opacity: 0.3; 
+	/**  Map highlight opacity, value between 0 and 1.  */ 
+}
+.ia-metadata {
+	padding: @padding; 
+	/**  Metadata box. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-menubar-btn {
+	border-left-color: @table-column-border; 
+	padding: @padding; 
+	/**  Menubar (Help, Print, Share). Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-table-toolbar {
+	border-top-width: 1.0px; 
+	border-top-style: solid; 
+	border-top-color: @table-column-border; 
+	background-color: @panel-background-color; 
+	/**  Table toolbar (Clear, Filter, Link). Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-map-toolbar {
+	border-radius: 0.0px; 
+	top: 10.0px; 
+	border-color: @panel-border-color; 
+	left: 10.0px; 
+	border-width: 1.0px; 
+	background-color: @panel-background-color; 
+	border-style: solid; 
+	/**  Map toolbar (Clear, Filter etc). Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-explorer-item {
+	padding-bottom: @padding; 
+	padding-top: @padding; 
+	/**  Padding and border properties for Explorer items. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-layer-list-item {
+	padding-bottom: @padding; 
+	padding-top: @padding; 
+	text-align: left; 
+	/**  Layer list item. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-legend-item {
+	padding: @padding; 
+	/**  Legend item. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-time-control-date-btn {
+	font-size: @time-control-font-size;
+	border-left-color: @table-column-border; 
+	padding: @padding; 
+	border-left-width: 1.0px; 
+	border-left-style: solid; 
+	/**  Time control date button  */ 
+}
+.ia-time-control-date-btn-active {
+	background-color: @list-item-highlight; 
+	/**  Time control active date button  */ 
+}
+.ia-feature-card {
+	overflow: hidden; 
+	border-color: @feature-card-border-color; 
+	margin: 20px; 
+	border-width: 1.0px; 
+	background-color: @feature-card-background-color; 
+	border-style: solid; 
+	/**  Feature card  */ 
+}
+.ia-feature-card-header {
+	padding: 8.0px; 
+	color: @feature-card-header-font-color;  
+	font-weight: bold; 
+	text-align: center; 
+	background-color: @feature-card-header-background-color; 
+	/**  Feature card header  */ 
+}
+.ia-feature-card-sub-header {
+	color : @feature-card-subheader-font-color; 
+	font-weight: bold; 
+	padding: 8.0px; 
+	text-align: center; 
+	background-color: @feature-card-subheader-background-color; 
+	/**  Feature card sub header  */ 
+}
+.ia-feature-card-content {
+	margin: 0px; 
+	/**  Feature card content  */ 
+}
+/*------------------- Dimension explorer -------------------*/
+.ia-dimension
+{
+    padding-top:0; 
+    padding-left:15px; 
+    padding-bottom:15px; 
+    padding-right:15px;
+    /**  Dimension explorer container */ 
+}
+.ia-dimension-section
+{
+	margin-top:15px;
+	/**  Dimension explorer section */ 
+}
+.ia-dimension-reset-button
+{
+	padding:10px;
+	/**  Dimension reset button */ 
+}
+.ia-select-label
+{
+	font-weight:bold;
+	/**  Dropdown label */ 
+}
+.ia-select
+{
+	width:100%;
+	padding:5px;
+	margin-top:5px;
+	border-color: #cccccc; 
+	border-width: 1px; 
+	border-style: solid; 
+	/**  Dropdown */ 
+}
+/*------------------- Stops callout box text picking up colour changes -------------------*/
+.ia-share-text
+{
+	color:#666666;
+}
+.ia-editor
+{	
+	color:#666666;
+}
+.ia-editor .ia-list-item:hover 
+{
+	background-color: #f5f5f5; 
+}
+/*------------------- Responsive Menu -------------------*/
+.ia-flow-report-remove-scrollbars
+{
+	min-height: 0px;
+	min-width: 0px;
+	/**  Removes the min width/height scrollbars when in responsive mode */ 
+}

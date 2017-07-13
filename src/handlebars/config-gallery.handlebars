@@ -1,0 +1,35 @@
+<div class="iad-gallery-description" style="padding:15px 15px 15px 15px;">
+	{{description}}
+	<br/><br/><button type="button" class="iad-config-gallery-load-btn btn btn-default" ><span class="fa fa-folder-open-o"></span>&nbsp;&nbsp;{{thumbnail/buttons/load}}</button>
+</div>
+
+{{#galleries}} 
+	<div id="{{galleryId}}" class="iad-gallery">
+		<div class="iad-gallery-header">{{header}}</div>
+		<div class="iad-gallery-description">{{description}}</div>
+
+		<div class="row">
+
+			{{#reports}} 
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="iad-thumbnail-header">{{header}}</div>
+					<div id="{{reportId}}" class="thumbnail iad-thumbnail">
+						<img src="{{screenshotPath this}}" alt="{{screenshotPath this}}"></img>
+						<div class="iad-thumbnail-hover">
+							<div class="iad-thumbnail-info">
+								<div class="iad-thumbnail-description">{{description}}</div>
+							</div>
+							<div class="iad-thumbnail-btns">
+								{{#with ../../thumbnail/buttons}}
+									<button type="button" class="iad-config-gallery-preview-btn btn btn-xs btn-default" ><span class="fa fa-fw fa-search"></span>&nbsp;&nbsp;{{preview}}</button>
+									<button type="button" class="iad-config-gallery-apply-btn btn btn-xs btn-default"><span class="fa fa-fw fa-check"></span>&nbsp;&nbsp;{{apply}}</button>
+								{{/with}}
+							</div>
+						</div>
+					</div>
+				</div>
+			{{/reports}} 
+
+		</div>
+	</div>
+{{/galleries}}  

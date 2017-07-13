@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtlasInterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" edit-mode="Wireframe" name="IA6 Allgemein" schema-version="1.6" template="timeseries_advanced_sm::flash::html" template-version="6.7.8" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd">
+  <Component classes="ia-panel ia-panel-header ia-explorer-item" editable="true" height="400" icon="$IAICON/48x48/text_code.png" id="dataExplorer" moveable="true" name="Datenexplorer" removeable="true" resizeable="true" visible="true" width="300" x="20" y="48">
+    <Description>Allows the end user to select a indicator.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(dataExplorer)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="101"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="true"/>
+    <Property description="Soll der Explorer nach dem Auswählen einer Option ausgeblendet werden?" id="hideOnSelection" name="Bei Auswahl ausblenden" type="boolean" value="true"/>
+    <Property description="Sollten Zeitangaben angezeigt werden?" id="showDates" name="Zeitangaben anzeigen?" type="boolean" value="true"/>
+    <Property description="Soll der Explorer die Zeitangaben in umgekehrter Reihenfolge anzeigen?" id="reverseDates" name="Zeitangaben umkehren?" type="boolean" value="true"/>
+    <Property description="Wenn Zeitangaben nicht angezeigt werden, soll die jeweils letzte Zeitangabe geladen werden?" id="loadMostRecentDate" name="Bei Auswahl letzte Zeitangabe laden?" type="boolean" value="false"/>
+    <Property description="Sollen nicht genutzte Exploreräste eingeklappt werden, wenn einer neuer Ast geöffnet wird?" id="closeBranchesOnSelection" name="Exploreräste bei Auswahl einklappen?" type="boolean" value="true"/>
+  </Component>
+  <Component id="filterExplorer" name="Filterexplorer" editable="true" x="330" y="78" width="150" height="240" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+    <Description>Allows the end user to select a filter.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(filterExplorer)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="102"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="true"/>
+    <Property description="Soll der Explorer nach dem Auswählen einer Option ausgeblendet werden?" id="hideOnSelection" name="Bei Auswahl ausblenden" type="boolean" value="true"/>
+    <Property description="Sollen nicht genutzte Exploreräste eingeklappt werden, wenn einer neuer Ast geöffnet wird?" id="closeBranchesOnSelection" name="Exploreräste bei Auswahl einklappen?" type="boolean" value="true"/>
+    <Property description="Der Filtertyp" id="filterType" name="Filtertyp" type="string" value="single" choices="single;combined"/>
+  </Component>
+  <Component id="geogExplorer" name="Kartenexplorer" editable="true" x="410" y="78" width="150" height="240" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+    <Description>Allows the end user to select a geography.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(geogExplorer)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="101"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="true"/>
+    <Property description="Soll der Explorer nach dem Auswählen einer Option ausgeblendet werden?" id="hideOnSelection" name="Bei Auswahl ausblenden" type="boolean" value="true"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-time-control-date-btn ia-time-control-date-btn-active" editable="true" height="25" icon="$IAICON/48x48/form_blue.png" id="timeControl" moveable="true" name="Zeitreiheneinstellungen" removeable="true" resizeable="true" visible="true" width="410" x="160" y="420">
+    <Description>Runs an animation that loops through the time series data for the selected indicator.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(timeControl)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="10"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Die Zeitverzögerung in Sekunden zwischen zwei Zeitangaben" id="delay" name="Zeitverzögerung in Sekunden" type="float" value="1"/>
+    <Property description="Der Text, der angezeigt wird, wenn für die Komponente keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-feature-card ia-feature-card-header ia-feature-card-sub-header ia-feature-card-content" editable="true" height="300" icon="$IAICON/48x48/table_sql.png" id="featureCard" moveable="true" name="Objektkarte" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>A graphically rich, highly customizable component that can be used to build up area profiles.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(featureCard)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property choices="Order data by feature;Order data by indicator" description="Sollen die Daten nach Kartenelementen oder Indikatoren sortiert werden?" id="dataOrder" name="Datensortierung" type="string" value="Order data by feature"/>
+    <Property choices="All themes;Selected theme only;Selected indicator only" description="Welche Daten sollen angezeigt werden?" id="displayMode" name="Anzeigemodus?" type="string" value="Selected theme only"/>
+    <Property description="Zeigt die Indikatoren nur für die ausgewählte Zeitangabe an." id="displaySelectedDateOnly" name="Nur Indikatoren der ausgewählten Zeitangabe anzeigen?" type="boolean" value="true"/>
+    <Property description="Soll die Hauptüberschrift angezeigt werden? (Der Objektname, falls nach Kartenelementen sortiert wird. Der Themenname, falls nach Indikatoren sortiert wird.)" id="displayFeatureHeader" name="Hauptüberschrift anzeigen?" type="boolean" value="true"/>
+    <Property description="Soll die Unterüberschrift angezeigt werden? (Der Themenname, falls nach Kartenelementen sortiert wird. Der Indikatorname, falls nach Indikatoren sortiert wird.)" id="displayThemeHeader" name="Unterüberschrift anzeigen?" type="boolean" value="true"/>
+    <Property description="Eine Liste aus IDs der Themen, die ignoriert werden sollen" id="ignoreThemeIds" name="Liste der zu ignorierenden Themen" type="string-array" value=""/>
+    <Property description="Eine Liste aus IDs der Indikatoren, die ignoriert werden sollen" id="ignoreIndicatorIds" name="Liste der zu ignorierenden Indikatoren" type="string-array" value=""/>
+    <Property description="Ein HTML-Skript, um jede Datenzeile zu rendern" id="snippet" name="Codeausschnitt" type="string" value="&lt;div style=&quot;padding:8px&quot;&gt;${indicator-name} ${indicator-date} : ${indicator-formatted-value}&lt;/div&gt;"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-map-toolbar ia-google-map-toolbar ia-map-labels ia-map-copyright ia-map-selection-opacity ia-map-highlight-opacity" editable="true" height="385" icon="$IAICON/48x48/document_earth.png" id="map" moveable="true" name="Karte" removeable="true" resizeable="true" visible="true" width="410" x="160" y="20">
+    <Description>The map component of the report. For more information see &lt;a data-link-type="help" href="#help:" target="iaoHelpWindow"&gt;here &lt;i class="fa fa-fw fa-question-circle"&gt;&lt;/i&gt;&lt;/a&gt;.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value="${themeName(' &gt;&gt; ')} ${notEmpty(themeName, '&gt;&gt; ')} ${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')} ${notEmpty(filterName, '&gt;&gt; ')} ${filterValue} ${notEmpty(filterValues, '&gt;&gt; ')} ${filterValues}"/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(map)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="2"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Copyright-Text der Karte" id="copyrightText" name="Copyright der Karte" type="string" value="© Copyright"/>
+    <Property description="Der Pfad zu allen Hintergrundbildern" id="backgroundMappingPath" name="Ordner der Hintergrundbilder" type="string" value="./"/>
+    <Property description="Der maximal erlaubte Kartenzoom in Karteneinheiten (z.B. Maximal erlaubter Zoom:500000, Minimal erlaubter Zoom:10000000). Wenn Sie Google Maps verwenden, benutzen Sie hier bitte die Zoomlevel 0 - 21 (z.B. Maximal erlaubter Zoom:15, Minimal erlaubter Zoom:5)." id="maxZoomAllowed" name="Maximal erlaubter Zoom" type="integer" value="-1"/>
+    <Property description="Der minimal erlaubte Kartenzoom in Karteneinheiten (z.B. Maximal erlaubter Zoom:500000, Minimal erlaubter Zoom:10000000). Wenn Sie Google Maps verwenden, benutzen Sie hier bitte die Zoomlevel 0 - 21 (z.B. Maximal erlaubter Zoom:15, Minimal erlaubter Zoom:5)." id="minZoomAllowed" name="Minimal erlaubter Zoom" type="integer" value="-1"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${featureName}: ${indicatorValue}"/>
+    <Property description="Die Beschriftung der 'Auswahl aufheben' Schaltfläche - frei lassen um die Schaltfläche zu entfernen" id="clearButtonText" name="'Auswahl aufheben' Text" type="string" value="Auswahl aufheben"/>
+    <Property description="Die Beschriftung der 'Filter' Schaltfläche - frei lassen um die Schaltfläche zu entfernen" id="filterButtonText" name="'Filter' Text" type="string" value="Filter"/>
+    <Property description="Der Text 'Graustufen' in der Google Maps Werkzeugleiste" id="googleGreyscaleText" name="Google 'Graustufen' Text" type="string" value="Graustufen"/>
+    <Property description="Der Text 'Auschalten' in der Google Werkzeugleiste" id="googleOffText" name="Google 'Ausschalten' Text" type="string" value="X"/>
+    <Property description="Soll die Suchfunktion zur Verfügung stehen?" id="includeSearchTool" name="Suchfunktion anzeigen?" type="boolean" value="false"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="300" icon="$IAICON/48x48/column-chart.png" id="boxAndWhisker" moveable="true" name="Box-Whisker-Plot" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Displays the minimum, maximum, lower quartile, upper quartile and median for each feature.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(boxAndWhisker)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="10"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${featureName} ${notEmpty(largestObservation, '&lt;br/&gt;Größter Wert: ')}${largestObservation} ${notEmpty(upperQuartile, '&lt;br/&gt;Oberes Quartil: ')}${upperQuartile} ${notEmpty(median, '&lt;br/&gt;Median: ')}${median} ${notEmpty(lowerQuartile, '&lt;br/&gt;Unteres Quartil: ')}${lowerQuartile} ${notEmpty(smallestObservation, '&lt;br/&gt;Kleinster Wert: ')}${smallestObservation}"/>
+    <Property description="Die Datenquelle für den größten Wert" id="largestObservationField" name="Größter Wert Datenquelle" type="string" value="largestObservation"/>
+    <Property description="Die Datenquelle für das obere Quartil" id="upperQuartileField" name="Oberes Quartil Datenquelle" type="string" value="upperQuartile"/>
+    <Property description="Die Datenquelle für den Median" id="medianField" name="Median Datenquelle" type="string" value="median"/>
+    <Property description="Die Datenquelle für das untere Quartil" id="lowerQuartileField" name="Unteres Quartil Datenquelle" type="string" value="lowerQuartile"/>
+    <Property description="Die Datenquelle für den kleinsten Wert" id="smallestObservationField" name="Kleinster Wert Datenquelle" type="string" value="smallestObservation"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property choices="ascending;descending" description="Sortiert die Werte im Diagramm aufsteigend (= ascending) /absteigend (= descending) Die Sortierrichtung der Daten" id="sortDirection" name="Sortierrichtung" type="string" value="ascending"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="radarChart" name="Radardiagramm" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
+    <Description>
+  			Displays multivariate data in the form of a two-dimensional chart of three or more indicators represented on axes starting from the same point.
+  			Use in conjunction with the 'Selected Features Legend'.
+  		</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value="${themeName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}"/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(radarChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="5"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Diagrammtyp" id="chartType" name="Diagrammtyp" type="string" value="radar" choices="radar;rose"/>
+    <Property description="Die Datenquelle für das Diagramm" id="data" name="Daten" type="string" value="value"/>
+    <Property description="Welche Daten sollen angezeigt werden?" id="displayMode" name="Anzeigemodus" type="string" value="All themes" choices="All themes;Selected theme only"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${themeName} &gt;&gt; ${indicatorName} &lt;br/&gt; ${featureName}: ${value}"/>
+    <Property description="Der Text für Diagrambeschriftungen" id="chartLabels" name="Diagrammbeschriftungen" type="string" value="${indicatorName}"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Die Größe der Datenpunkt-Marker" id="markerSize" name="Markergröße" type="integer" value="0"/>
+    <Property description="Der für Beschriftungen vorgesehene Bereich um das Radardiagramm" id="radarPadding" name="Abstand" type="integer" value="60"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Sollen die Diagrammachsen bei Null beginnen?" id="startAxisFromZero" name="Achse bei Null beginnen?" type="boolean" value="false"/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="120" icon="$IAICON/48x48/column-chart.png" id="barChart" moveable="true" name="Säulendiagramm" removeable="true" resizeable="true" visible="true" width="190" x="590" y="460">
+    <Description>For numeric indicators displays a bar for each feature in ascending or descending order. For categoric indicators each bar represents the number of features in each of the map legend classes.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(barChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="3"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Die Datenquelle für das Diagramm. Wird benutzt, um die Säulenhöhen festzulegen. Die Säulenfarben werden durch die Legende bestimmt." id="data" name="Daten" type="string" value="value"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${featureName}: ${indicatorValue}${notEmpty(lowerLimit, '&lt;br/&gt;UG: ')}${lowerLimit}${notEmpty(upperLimit, '&lt;br/&gt;OG: ')}${upperLimit}"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property choices="ascending;descending" description="Sortiert die Werte im Diagramm aufsteigend (= ascending) /absteigend (= descending) Die Sortierrichtung der Daten" id="sortDirection" name="Sortierrichtung" type="string" value="ascending"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Sollen die Säulen des Diagramms bei Null beginnen?" id="drawBarsFromZero" name="Säulen starten bei Null?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="120" icon="$IAICON/48x48/line-chart.png" id="timeSeries" moveable="true" name="Zeitreihe - Liniendiagramm" removeable="true" resizeable="true" visible="true" width="410" x="160" y="460">
+    <Description>Displays time series data for the selected indicator. Use in conjunction with the 'Selected Features Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(timeSeries)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="3"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Die Datenquelle für das Diagramm" id="data" name="Daten" type="string" value="value"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${lineLabel} ${name} (${date}): ${value}"/>
+    <Property description="Sollen die Trendlinien durch fehlende Zeitangaben hinweg verbunden werden oder soll eine Lücke gelassen werden?" id="drawLinesThroughMissingValues" name="Trendlinen trotz fehlender Zeitangaben verbinden?" type="boolean" value="true"/>
+    <Property description="Sollen assoziierte Daten angezeigt werden, falls vorhanden?" id="showAssociate" name="Assoziierte Daten anzeigen" type="boolean" value="false"/>
+    <Property description="Eine Liste aus IDs der assoziierten Spalten, die ignoriert werden sollen" id="ignoreAssociateIds" name="Liste der zu ignorierenden assoziierten Spalten" type="string-array" value=""/>
+    <Property description="<%- db_single_map_timeSeries_ignoreAssociateIds_desc %>" id="ignoreAssociateIds" name="<%- db_single_map_timeSeries_ignoreAssociateIds_name %>" type="string-array" value=""/>
+    <Property description="Die ID des Farbschemas für Multi-Line Daten" id="colorSchemeId" name="Name des Farbschemas" type="string" value="categoricScheme3"/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Soll die ausgewählte Zeitangabe im Diagramm markiert werden?" id="highlightSelectedDate" name="Ausgewählte Zeitangabe markieren?" type="boolean" value="true"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="timeSeriesLineLegend" name="Zeitreihe - Legende des Liniendiagramms" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+    <Description>The time series line legend component of the report.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(timeSeriesLineLegend)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="13"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Das Layout der Legende" id="layout" name="Layout" type="string" value="vertical" choices="horizontal;vertical"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="300" icon="$IAICON/48x48/column-chart.png" id="discreteTimeSeries" moveable="true" name="Zeitreihe - Säulendiagramm" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Displays time series data for the selected indicator. Use in conjunction with the 'Selected Features Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(discreteTimeSeries)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Die Datenquelle für das Diagramm" id="data" name="Daten" type="string" value="value"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll. Dies wird durch die Legende Ausgewählter Kartenelemente außer Kraft gesetzt, sofern sie im Bericht eingefügt ist." id="colorSchemeId" name="Farbschemas" type="string" value="chartScheme1"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${name} (${date}): ${value}"/>
+    <Property description="Soll die ausgewählte Zeitangabe im Diagramm markiert werden?" id="highlightSelectedDate" name="Ausgewählte Zeitangabe markieren?" type="boolean" value="true"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Sollen die Säulen des Diagramms bei Null beginnen?" id="drawBarsFromZero" name="Säulen starten bei Null?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="300" icon="$IAICON/48x48/column-chart.png" id="stackedTimeSeries" moveable="true" name="Gestapelte Assoziierte - Zeitreihe" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Displays associate data for the selected map features. Use in conjunction with the 'Stacked Associates - Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(stackedTimeSeries)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Eine Liste aus IDs der assoziierten Spalten, die ignoriert werden sollen" id="ignoreAssociateIds" name="Liste der zu ignorierenden assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Eine Liste aus Beschriftungen für die assoziierten Spalten (optional)" id="associateLabels" name="Liste der Beschriftungen für die assoziierten Spalten" type="string-array" value=""/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll." id="colorSchemeId" name="Farbschemas" type="string" value="categoricScheme6"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${feature-name} (${date}) &lt;br/&gt; ${associate-name}: ${value}"/>
+    <Property description="Soll die ausgewählte Zeitangabe im Diagramm markiert werden?" id="highlightSelectedDate" name="Ausgewählte Zeitangabe markieren?" type="boolean" value="true"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="stackedBarChart" name="Gestapelte Assoziierte" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+    <Description>Displays associate data for the selected map features. Use in conjunction with the 'Stacked Associates - Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(stackedBarChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Eine Liste aus IDs der assoziierten Spalten, die ignoriert werden sollen" id="ignoreAssociateIds" name="Liste der zu ignorierenden assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Eine Liste aus Beschriftungen für die assoziierten Spalten (optional)" id="associateLabels" name="Liste der Beschriftungen für die assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll." id="colorSchemeId" name="Farbschemas" type="string" value="categoricScheme6"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${feature-name} &lt;br/&gt; ${associate-name}: ${value}"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component id="stackedFeaturesTimeSeries" name="Zeitreihe - gestapeltes Diagramm" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+    <Description>Displays time series data for the selected indicator. Use in conjunction with the 'Selected Features Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(stackedFeaturesTimeSeries)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Die Datenquelle für das Diagramm" id="data" name="Daten" type="string" value="value"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical" choices="horizontal;vertical"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll. Dies wird durch die Legende Ausgewählter Kartenelemente außer Kraft gesetzt, sofern sie im Bericht eingefügt ist." id="colorSchemeId" name="Farbschemas" type="string" value="chartScheme1"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${name} (${date}): ${value}"/>
+    <Property description="Soll die ausgewählte Zeitangabe im Diagramm markiert werden?" id="highlightSelectedDate" name="Ausgewählte Zeitangabe markieren?" type="boolean" value="true"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="35" icon="$IAICON/48x48/form_blue.png" id="stackedLegend" moveable="true" name="Gestapelte Assoziierte - Legende" removeable="true" resizeable="true" visible="false" width="400" x="200" y="449">
+    <Description>The legend associated with the 'Stacked Associates' charts.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(stackedLegend)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="13"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property choices="horizontal;vertical" description="Das Layout der Legende" id="layout" name="Layout" type="string" value="horizontal"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="120" icon="$IAICON/48x48/pie-chart.png" id="pieChart" moveable="true" name="Kreisdiagramm" removeable="true" resizeable="true" visible="true" width="120" x="20" y="460">
+    <Description>Each segment represents the number of features contained in each of the map legend classes</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(pieChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="5"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${name}: ${percentage}% (${value})"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="300" icon="$IAICON/48x48/column-chart.png" id="areaBreakdownPieChart" moveable="true" name="Kreisdiagramm zur Gebietsaufschlüsselung" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Display all indicators (or indicators with same date) in the current theme or associates of the current indicator. Use in conjunction with the 'Area Breakdown - Pie Chart' legend.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(areaBreakdownPieChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property choices="associate;indicator" description="Das Diagramm kann entweder alle Indikatoren (bzw. alle Indikatoren mit der gleichen Zeitangabe) des gewählten Themas oder assoziierte Spalten des gewählten Indikators anzeigen." id="datasource" name="Datenquelle" type="string" value="indicator"/>
+    <Property description="Eine Liste aus IDs der assoziierten Spalten, die ignoriert werden sollen" id="ignoreAssociateIds" name="Liste der zu ignorierenden assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Eine Liste aus Beschriftungen für die assoziierten Spalten (optional)" id="associateLabels" name="Liste der Beschriftungen für die assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${name}: ${percentage}% (${value})"/>
+    <Property choices="horizontal;vertical;single chart" description="Das Layout" id="layout" name="Diagrammlayout" type="string" value="horizontal"/>
+    <Property description="Der Text für Diagramm 1, wenn keine Daten angezeigt werden." id="title1" name="Diagramm 1 Text" type="string" value="Ausgewähltes Gebiet"/>
+    <Property description="Der Text für Diagramm 2, wenn keine Daten angezeigt werden." id="title2" name="Diagramm 2 Text" type="string" value="Vergleichsgebiet"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll." id="colorSchemeId" name="Farbschemas" type="string" value="categoricScheme3"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="35" icon="$IAICON/48x48/form_blue.png" id="areaBreakdownPieLegend" moveable="true" name="Legende des Kreisdiagramms zur Gebietsaufschlüsselung" removeable="true" resizeable="true" visible="false" width="400" x="200" y="449">
+    <Description>The legend associated with the 'Area Breakdown - Pie Chart'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(areaBreakdownPieLegend)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="13"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property choices="horizontal;vertical" description="Das Layout der Legende" id="layout" name="Layout" type="string" value="horizontal"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="300" icon="$IAICON/48x48/column-chart.png" id="areaBreakdownBarChart" moveable="true" name="Säulendiagramm zur Gebietsaufschlüsselung" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Display all indicators (or indicators with same date) in the current theme or associates of the current indicator. Use in conjunction with the 'Selected Features Legend'.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(areaBreakdownBarChart)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property choices="associate;indicator" description="Das Diagramm kann entweder alle Indikatoren (bzw. alle Indikatoren mit der gleichen Zeitangabe) des gewählten Themas oder assoziierte Spalten des gewählten Indikators anzeigen." id="datasource" name="Datenquelle" type="string" value="indicator"/>
+    <Property description="Eine Liste aus IDs der assoziierten Spalten, die ignoriert werden sollen" id="ignoreAssociateIds" name="Liste der zu ignorierenden assoziierten Spalten" type="string-array" value=""/>
+    <Property description="Eine Liste aus Beschriftungen für die assoziierten Spalten (optional)" id="associateLabels" name="Liste der Beschriftungen für die assoziierten Spalten" type="string-array" value=""/>
+    <Property choices="horizontal;vertical" description="Die Ausrichtung des Diagramms" id="orientation" name="Ausrichtung" type="string" value="vertical"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll. Dies wird durch die Legende Ausgewählter Kartenelemente außer Kraft gesetzt, sofern sie im Bericht eingefügt ist." id="colorSchemeId" name="Farbschemas" type="string" value="chartScheme1"/>
+    <Property description="Soll die Säulenfarbe des Diagramms nach Kategorien vergeben werden? " id="colorBarsByCategory" name="Säulenfarbe nach Kategorie vergeben?" type="boolean" value="false"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${name}: ${value}"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Soll die sich Y-Achse des Diagramms an die Werte der ausgewählen Gebiete anpassen?" id="matchAxisToSelectedData" name="Y-Achse an ausgewählte Gebiete anpassen?" type="boolean" value="false"/>
+    <Property description="Sollen die Säulen des Diagramms bei Null beginnen?" id="drawBarsFromZero" name="Säulen starten bei Null?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value=""/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value=""/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die Datenachse des Diagramms" id="fixedMinValue" name="Fester Minimalwert" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Datenachse des Diagramms" id="fixedMaxValue" name="Fester Maximalwert" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Datenachse des Diagramms beinhaltet" id="minChartValue" name="Variable für festes Achsenminimum" type="string" value="minChartValue"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die Datenachse des Diagramms beinhaltet" id="maxChartValue" name="Variable für festes Achsenmaximum" type="string" value="maxChartValue"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-layer-list-item ia-legend-item" editable="true" height="210" icon="$IAICON/48x48/form_blue.png" id="legend" moveable="true" name="Copyright der Karte 2" removeable="true" resizeable="true" visible="true" width="120" x="20" y="60">
+    <Description>Contains a legend for the map alongside a list of layers.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(legend)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="12"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Soll die Schaltfläche für den Legendeneditor angezeigt werden?" id="showLegendEditorButton" name="Schaltfläche für den Legendeneditor anzeigen?" type="boolean" value="true"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header" editable="true" height="300" icon="$IAICON/48x48/form_blue.png" id="featureLegend" moveable="true" name="Legende ausgewählter Kartenelemente" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Displays the list of selected features.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value="Ausgewählte Kartenelemente"/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(featureLegend)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="13"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll." id="colorSchemeId" name="Farbschemas" type="string" value="chartScheme1"/>
+    <Property choices="horizontal;vertical" description="Das Layout der Legende" id="layout" name="Layout" type="string" value="vertical"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-metadata" editable="true" height="160" icon="$IAICON/48x48/note.png" id="metadata" moveable="true" name="Metadaten für ausgewählten Indikator" removeable="true" resizeable="true" visible="true" width="120" x="20" y="285">
+    <Description>
+			Displays further information about the selected indicator.
+		</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(metadata)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="6"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Variable für nutzerdefinierten Metadaten-Text. Dieser kann entweder aus Klartext, HTML-Text oder einen Link zu einer '.html' Datei bestehen, die einen HTML-Code-Abschnitt enthält." id="metadataKey" name="Variable für nutzerdefinierten Metadaten-Text" value="metatext"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-metadata" editable="true" height="300" icon="$IAICON/48x48/note.png" id="statsbox" moveable="true" name="Statistiken zu ausgewähltem Indikator" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>
+			Displays statistics for the selected indicator.
+		</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(statsbox)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="6"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Text" id="text" name="Text" type="string" value="Häufigkeiten: ${count} &lt;br/&gt;Summe: ${sum} &lt;br/&gt;Arith. Mittel: ${mean} &lt;br/&gt;Median: ${median} &lt;br/&gt;&lt;br/&gt;Minimum: ${minValue} &lt;br/&gt;Maximum: ${maxValue} &lt;br/&gt;Intervall: ${range} &lt;br/&gt;&lt;br/&gt;Unteres Quartil: ${lowerQuartile} &lt;br/&gt;Oberes Quartil: ${upperQuartile} &lt;br/&gt;Interquartilabstand: ${interquartileRange} &lt;br/&gt;&lt;br/&gt;Varianz: ${variance} &lt;br/&gt;Standardabweichung: ${standardDeviation}"/>
+    <Property description="Die Anzahl der Nachkommastellen, die standardmäßig verwendet wird. " id="ndecimal" name="Anzahl der Nachkommastellen für Datenwerte" type="integer" value="-1"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-textbox" editable="true" height="300" icon="$IAICON/48x48/note.png" id="textbox" moveable="true" name="Textfeld" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>
+			Text box.
+		</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(metadata)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="16"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Text" id="text" name="Text" type="string" value=""/>
+    <Property description="Die nutzerdefinierte Variable, welche den Text enthält. Dieser kann Plantext, HTML-Text oder einen Link zu einer html Datei enthalten, welche HTML-Code beinhaltet." id="propertyKey" name="Variable für nutzerdefinierte Eigenschaften" value=""/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-menubar" editable="true" height="25" icon="$IAICON/48x48/note.png" id="menuBar" moveable="true" name="Menüsteuerung" removeable="true" resizeable="true" visible="true" width="160" x="590" y="20">
+    <Description>
+  			A configurable menu.
+  		</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(menuBar)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="10"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung für das Menüelement" id="menuItem1" name="Menüelement 1" type="string" value="Teilen"/>
+    <Property description="Die Funktion oder URL des Menüelements" id="menuFunc1" name="Menüfunktion 1" type="string" value="javascript:iaToggleShare()"/>
+  </Component>
+  <Component classes="ia-panel ia-panel-header ia-chart" editable="true" height="300" icon="$IAICON/48x48/line-chart.png" id="scatterPlot" moveable="true" name="Streudiagramm" removeable="true" resizeable="true" visible="false" width="400" x="200" y="150">
+    <Description>Displays the relationship between multiple indicators.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value="Korrelationskoeffizient (r) = ${correlationCoeff}  &gt;&gt; r-Quadrat =  ${rSquare} &gt;&gt; Regressionsgleichung: y = ${gradient}x  + ${intercept}"/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(scatterPlot)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="4"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll diese Komponente als Bild exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Die Datenquelle der X-Achse" id="xData" name="Datenquelle der X-Achse" type="string" value="value"/>
+    <Property description="Die Datenquelle der Y-Achse" id="yData" name="Datenquelle der Y-Achse" type="string" value="value"/>
+    <Property description="Die Größe, die für Punkte verwendet wird." id="pointSize" name="Punktgröße" type="integer" value="8"/>
+    <Property description="Sollen die Vergleichswerte angezeigt werden, falls verfügbar?" id="showComparison" name="Vergleichsdaten immer anzeigen?" type="boolean" value="false"/>
+    <Property description="Der Tooltip, der die Datenwerte zeigt" id="tip" name="Tooltip" type="string" value="${featureName} &lt;br/&gt; Farbe: ${indicatorValue} &lt;br/&gt; X: ${xValue} &lt;br/&gt; Y: ${yValue}"/>
+    <Property description="Der Text, der angezeigt wird, wenn für das Diagramm keine Daten verfügbar sind" id="notAvailableText" name="'Nicht verfügbar' Text" type="string" value="Nicht verfügbar"/>
+    <Property description="Soll die Korrelationslinie angezeigt werden?" id="showCorrelationLine" name="Korrelationslinie anzeigen?" type="boolean" value="true"/>
+    <Property description="Soll sich die Daten-Achse des Diagramms an den aktuelle Datenbereich anpassen?" id="useTightLabels" name="Achse an Daten anpassen?" type="boolean" value="false"/>
+    <Property description="Die Beschriftung der X-Achse" id="xAxisTitle" name="Beschriftung der X-Achse" type="string" value="X"/>
+    <Property description="Die Beschriftung der Y-Achse" id="yAxisTitle" name="Beschriftung der Y-Achse" type="string" value="Y"/>
+    <Property description="Sollen feste Werte für die Datenachse des Diagramms verwendet werden?" id="useFixedValues" name="Feste Werte verwenden?" type="boolean" value="false"/>
+    <Property description="Ein festgesetzter Minimalwert für die X-Achse des Diagramms" id="fixedMinValueX" name="Fester Minimalwert für die X-Achse" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die X-Achse des Diagramms" id="fixedMaxValueX" name="Fester Maximalwert für die X-Achse" type="float" value="0"/>
+    <Property description="Ein festgesetzter Minimalwert für die Y-Achse des Diagramms" id="fixedMinValueY" name="Fester Minimalwert für die Y-Achse" type="float" value="0"/>
+    <Property description="Ein festgesetzter Maximalwert für die Y-Achse des Diagramms" id="fixedMaxValueY" name="Fester Maximalwert für die Y-Achse" type="float" value="0"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die X-Achse des Diagramms beinhaltet" id="minChartValueX" name="Variable für festes X-Achsen-Minimum" type="string" value="minChartValueX"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die X-Achse des Diagramms beinhaltet" id="maxChartValueX" name="Variable für festes X-Achsen-Maximum" type="string" value="maxChartValueX"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Minimalwert für die Y-Achse des Diagramms beinhaltet" id="minChartValueY" name="Variable für festes Y-Achsen-Minimum" type="string" value="minChartValueY"/>
+    <Property description="Eine benutzerdefinierte Variable, die einen festen Maximalwert für die y-Achse des Diagramms beinhaltet" id="maxChartValueY" name="Variable für festes Y-Achsen-Maximum" type="string" value="maxChartValueY"/>
+  </Component>
+  <Table classes="ia-panel ia-panel-header ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="260" icon="$IAICON/48x48/table_sql.png" id="table" moveable="true" name="Tabelle" removeable="true" resizeable="true" visible="true" width="190" x="590" y="185">
+    <Description>Displays the list of features alongside their value for the selected indicator and/or its associates.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(table)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="1"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Name der Tabellenspalte, nach der sortiert werden soll" id="sortColumnName" name="Name der Sortierspalte" type="string" value="name"/>
+    <Property description="Soll es dem End-Nutzer erlaubt sein, die Daten in den Spalten zu sortieren?" id="allowUserSorting" name="Sortieren erlauben?" type="boolean" value="true"/>
+    <Property choices="Ascending;Descending" description="Sortiert die Werte in der Tabellen aufsteigend (= ascending) /absteigend (= descending)" id="sortDirection" name="Sortierrichtung" type="string" value="Ascending"/>
+    <Property description="Soll die Karte zu einem Element zoomen, wenn es ausgewählt wird?" id="zoomOnSelection" name="Beim Auswählen zoomen?" type="boolean" value="true"/>
+    <Property description="Die Beschriftung der 'Auswahl aufheben' Schaltfläche - frei lassen um die Schaltfläche zu entfernen" id="clearButtonText" name="'Auswahl aufheben' Text" type="string" value="Auswahl aufheben"/>
+    <Property description="Die Beschriftung der 'Filter' Schaltfläche - frei lassen um die Schaltfläche zu entfernen" id="filterButtonText" name="'Filter' Text" type="string" value="Filter"/>
+    <Property description="Soll die Legendenfarbe in der Tabelle angezeigt werden?" id="showLegendColor" name="Legendenfarbe anzeigen" type="boolean" value="true"/>
+    <Column alias="Name" name="name" width="0.5"/>
+    <Column alias="${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}" name="value" width="0.5"/>
+  </Table>
+  <Table classes="ia-panel ia-panel-header ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="110" icon="$IAICON/48x48/table_sql.png" id="comparisonTable" moveable="true" name="Vergleichsdaten-Tabelle" removeable="true" resizeable="true" visible="true" width="190" x="590" y="60">
+    <Description>Displays the list of comparison features alongside their value for the selected indicator and/or its associates.</Description>
+    <Property description="Der Titel der Komponente" id="title" name="Titel" type="string" value=""/>
+    <Property description="Soll die Komponente beim Starten sichbar sein? Das Script 'javascript:iaToggle(comparisonTable)' kann genutzt werden um die Sichbarkeit an- und auszustellen." id="visible" name="Beim Starten anzeigen?" type="boolean" value="true"/>
+    <Property description="Der Z-Index" id="zIndex" name="Z-Index" type="integer" value="6"/>
+    <Property description="Ausblenden, wenn mit der Maus außerhalb geklickt wird?" id="isPopUp" name="Pop-up Fenster?" type="boolean" value="false"/>
+    <Property description="Soll die Tabelle exportierbar sein?" id="isExportable" name="Exportierbar?" type="boolean" value="true"/>
+    <Property description="Der Name der Tabellenspalte, nach der sortiert werden soll" id="sortColumnName" name="Name der Sortierspalte" type="string" value="name"/>
+    <Property description="Soll es dem End-Nutzer erlaubt sein, die Daten in den Spalten zu sortieren?" id="allowUserSorting" name="Sortieren erlauben?" type="boolean" value="true"/>
+    <Property choices="Ascending;Descending" description="Sortiert die Werte in der Tabellen aufsteigend (= ascending) /absteigend (= descending)" id="sortDirection" name="Sortierrichtung" type="string" value="Ascending"/>
+    <Property description="Der Name des Farbschemas, das verwendet werden soll." id="colorSchemeId" name="Farbschemas" type="string" value="categoricScheme6"/>
+    <Property description="Soll die Legendenfarbe in der Tabelle angezeigt werden?" id="showLegendColor" name="Legendenfarbe anzeigen" type="boolean" value="true"/>
+    <Property description="Soll die Tabelle mit korrespondierenden Kartenelementen verknüpft werden?" id="linkToMap" name="Link zu Kartenelementen" type="boolean" value="false"/>
+    <Column alias="Name" name="name" width="0.5"/>
+    <Column alias="${indicatorName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}" name="value" width="0.5"/>
+  </Table>
+  <PropertyGroup id="dataFormatting" name="Daten-Formatierung">
+    <Property description="Das Gebietsschema, das genutzt wird, um Zahlen zu formatieren, z.B. 'de' für Deutsch, 'es' für Spanisch, 'fr' für Französisch" id="locale" name="Sprache" type="string" value="de" choices="none;en;de;es;fr;it;nl;be;ca;cs;da;el;et;fi;hr;hu;is;lt;lv;mk;no;pl;pt;ro;ru;sk;sl;sq;sr;sv;tr;uk"/>
+    <Property description="Die Anzahl der Nachkommastellen, die standardmäßig verwendet wird. " id="ndecimal" name="Anzahl der Nachkommastellen" type="integer" value="-1"/>
+  </PropertyGroup>
+  <PropertyGroup id="selection" name="Auswahl">
+    <Property choices="single;multiple" description="Der Auswahlmodus" id="selectionMode" name="Auswahlmodus" type="string" value="multiple"/>
+  </PropertyGroup>
+  <PropertyGroup id="thematics" name="Inhalt der Kartenlegende">
+    <Property description="Die Datenquelle für die Legende" id="data" name="Datenquelle" type="string" value="value"/>
+    <Property description="Der Klassifikationstyp der Legende" id="legendClassifier" name="Klassifizierung" type="string" value="quantile" choices="equalInterval;quantile;natural;continuous;standardDeviation"/>
+    <Property description="Die Anzahl der Nachkommastellen die in der Legende verwendet wird." id="legendPrecision" name="Anzahl der Nachkommastellen" type="integer" value="-1"/>
+    <Property description="Der Text, der angezeigt wird, wenn für ein Element kein Wert existiert" id="noDataValue" name="Wert für 'Keine Daten'" type="string" value="Keine Daten"/>
+    <Property description="Die Farbe, die in der Legende verwendet wird, wenn für eine Objekt kein Wert existiert" id="noDataColor" name="Farbe für 'Keine Daten'" type="colour" value="#ffffff"/>
+    <Property description="Die Klassen der Legende - eine Semikolon-getrennte Liste mit Werten der Form '0;10;20;30'" id="legendBreaks" name="Umbrüche in der Kartenlegende" value=""/>
+    <Property description="Die Beschriftungen der Legende - eine Semikolon-getrennte Liste mit Beschriftungen der Form 'niedrig;mittel;hoch'. Vorraussetzung ist, dass die 'Legendenklassen' gesetzt wurden." id="legendLabels" name="Beschriftung der Kartenlegende" value=""/>
+    <Property description="Der Wert dieser Variablen besteht aus einer der Werte 'equalInterval', 'quantile', 'natural', 'continuous' oder 'standardDeviation'" id="customClassifierKey" name="Variable für nutzerdefinierte Klassifizierung" value="customClassifier"/>
+    <Property description="Der Wert dieser Variablen besteht aus einer durch Semikola abgetrennten Liste aus Farben in der Form '#ffff00;rgb(155,234,100);#0000ff'" id="customColoursKey" name="Variable für nutzerdefinierte Farben" value="customColours"/>
+    <Property description="Der Wert dieser Variablen besteht aus einer durch Semikola abgetrennten Liste aus Werten in der Form '0;10;20;80'" id="customBreaksKey" name="Variable für nutzerdefinierte Klassengrenzen" value="customBreaks"/>
+    <Property description="Der Wert dieser Variablen besteht aus einer durch Semikola abgetrennten Liste aus Beschriftungen in der Form 'hoch;mittel;niedrig'" id="customLabelsKey" name="Variable für nutzerdefinierte Beschriftungen" value="customLabels"/>
+    <Property description="Der Wert dieser Variablen besteht aus dem Namen einer vordefinierten Farbpalette" id="customPaletteKey" name="Variable für nutzerdefinierte Farbpalette" value="customPalette"/>
+    <Property description="Der Text 'Gleiches Intervall' aus der Legenden-Klassifizierungsliste" id="equalInterval" name="'Gleiches Intervall' Text" type="string" value="Gleiches Intervall"/>
+    <Property description="Der Text 'Quantile' aus der Legenden-Klassifizierungsliste" id="quantile" name="'Quantile' Text" type="string" value="Quantile"/>
+    <Property description="Der Text 'Natürliche Grenzen' aus der Legenden-Klassifizierungsliste" id="natural" name="'Natürliche Grenzen' Text" type="string" value="Natürliche Grenzen"/>
+    <Property description="Der Text 'Kontinuierlich' aus der Legenden-Klassifizierungsliste" id="continuous" name="'Kontinuierlich' Text" type="string" value="Kontinuierlich"/>
+    <Property description="Der Text 'Standardabweichung' aus der Legenden-Klassifizierungsliste" id="standardDeviation" name="'Standardabweichung' Text" type="string" value="Standardabweichung"/>
+    <Property description="Die Größe des Intervalls, dass für die Standardabweichung verwendet werden soll" id="sdSize" name="Intervall der Standardabweichung" type="integer" value="1"/>
+    <Property description="Beschriftung der 1. Klasse in einer Legende mit Standardabweichung" id="sd1" name="Beschriftung der 1. Legendenklasse" type="string" value="&gt; 2 SD unter Mittelwert"/>
+    <Property description="Beschriftung der 2. Klasse in einer Legende mit Standardabweichung" id="sd2" name="Beschriftung der 2. Legendenklasse" type="string" value="1 - 2 SD unter Mittelwert"/>
+    <Property description="Beschriftung der 3. Klasse in einer Legende mit Standardabweichung" id="sd3" name="Beschriftung der 3. Legendenklasse" type="string" value="0 - 1 SD unter Mittelwert"/>
+    <Property description="Beschriftung der 4. Klasse in einer Legende mit Standardabweichung" id="sd4" name="Beschriftung der 4. Legendenklasse" type="string" value="0 - 1 SD über Mittelwert"/>
+    <Property description="Beschriftung der 5. Klasse in einer Legende mit Standardabweichung" id="sd5" name="Beschriftung der 5. Legendenklasse" type="string" value="1 - 2 SD über Mittelwert"/>
+    <Property description="Beschriftung der 6. Klasse in einer Legende mit Standardabweichung" id="sd6" name="Beschriftung der 6. Legendenklasse" type="string" value="&gt; 2 SD über Mittelwert"/>
+  </PropertyGroup>
+  <PropertyGroup id="shareText" name="Text des Teilen-Dialogs">
+    <Property description="Der Text, der angezeigt wird, um den Bericht per E-Mail zu verschicken" id="emailReportText" name="'Bericht per E-Mail' Text" type="string" value="Bericht per E-Mail versenden - Kopieren Sie den Link und fügen Sie ihn in Ihre E-Mail ein."/>
+    <Property description="Der Text, der angezeigt wird, um den Bericht einzubetten" id="embedReportText" name="'Bericht einbetten' Text" type="string" value="Bericht einbetten - Kopieren Sie den HTML-Code und fügen Sie ihn in Ihre Webseite ein."/>
+  </PropertyGroup>
+  <PropertyGroup id="pointSymbols" name="Punktsymbole">
+    <Property description="Das Symbol, das für Punkte verwendet wird" id="symbolShape" name="Form" type="string" value="circle" choices="circle;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left;plus;x"/>
+    <Property description="Die kleinste Punktgröße, die für proportionale Punkte verwendet wird" id="minSymbolSize" name="Min. Größe" type="integer" value="15"/>
+    <Property description="Die größte Symbolgröße die für porportionale Symbole verwendet wird." id="maxSymbolSize" name="Max. Größe" type="integer" value="50"/>
+  </PropertyGroup>
+  <PropertyGroup id="lineSymbols" name="Liniensymbol">
+    <Property description="Die kleinste Linienbreite, die für porportionale Linien verwendet wird." id="minLineSize" name="Min. Breite" type="integer" value="2"/>
+    <Property description="Die größte Linienbreite, die für porportionale Linien verwendet wird." id="maxLineSize" name="Max. Breite" type="integer" value="6"/>
+  </PropertyGroup>
+  <PropertyGroup id="exportText" name="Text des Export-Dialogs">
+    <Property description="Der Text, der angezeigt wird, um exportierte Bilder zu speichern" id="saveImageText" name="'Bild Speichern' Text" type="string" value="Mit der rechten Maustaste klicken, um Optionen anzuzeigen..."/>
+  </PropertyGroup>
+  <PropertyGroup id="legendEditor" name="Editor für die Kartenlegende">
+    <Property description="Soll die Auswahl des Legendentyps möglich sein?" id="showLegendTypePanel" name="Auswahl des Legendentyps ermöglichen?" type="boolean" value="true"/>
+    <Property description="Sollen die Legenden-Tools (mehr oder weniger Legendenklassen, Richtung der Palette umkehren) angezeigt werden?" id="showLegendTools" name="Legenden-Tools anzeigen?" type="boolean" value="true"/>
+    <Property description="Soll die Auswahl der Palette möglich sein?" id="showPalettePanel" name="Auswahl der Palette ermöglichen?" type="boolean" value="true"/>
+    <Property description="Soll es möglich sein, die Größe proportionaler Symbole zu verändern?" id="showSizePanel" name="Größenveränderung proportionaler Symbole ermöglichen?" type="boolean" value="true"/>
+  </PropertyGroup>
+  <PropertyGroup id="responsiveDesign" name="Reaktionsfähiges Design">
+    <Property description="Scrollbares Layout für kleinere Displays verwenden?" id="isResponsive" name="Reaktionsfähiges Layout aktivieren?" type="boolean" value="false"/>
+    <Property description="Bilder im scrollbaren Layout verwenden?" id="flowLayoutIncludeImages" name="Bilder verwenden?" type="boolean" value="true"/>
+    <Property description="Die Screengröße bei welcher das reaktionsfähige Layout aktiviert wird" id="flowLayoutMaxWidth" name="Breite ändern" type="integer" value="600"/>
+  </PropertyGroup>
+  <Button zIndex="100" editable="true" height="27" href="javascript:iaToggle(dataExplorer)" id="dataButton" moveable="true" removeable="true" resizeable="true" text="Daten" tooltip="" width="120" x="20" y="20"/>
+  <Button zIndex="100" id="filterButton" text="Filter" href="javascript:iaToggle(filterExplorer)" tooltip="" x="405" y="50" width="75" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Button zIndex="100" id="geographyButton" text="Karten" href="javascript:iaToggle(geogExplorer)" tooltip="" x="485" y="50" width="75" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+  <Image zIndex="100" anchor="left" editable="true" height="25" href="http://www.instantatlas.com" id="iaLogo" moveable="true" removeable="true" rescale="true" resizeable="true" src="./logo.png" target="_blank" width="20" x="760" y="20"/>
+  <MapPalettes classes="5" default="Sequential Cyan" maxclasses="10">
+    <ColourRange id="Sequential Red">
+      <Colour>#fee5d9</Colour>
+      <Colour>#fcae91</Colour>
+      <Colour>#fb6a4a</Colour>
+      <Colour>#de2d26</Colour>
+      <Colour>#a50f15</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Purple">
+      <Colour>#feebe2</Colour>
+      <Colour>#fbb4b9</Colour>
+      <Colour>#f768a1</Colour>
+      <Colour>#c51b8a</Colour>
+      <Colour>#7a0177</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue">
+      <Colour>#eff3ff</Colour>
+      <Colour>#bdd7e7</Colour>
+      <Colour>#6baed6</Colour>
+      <Colour>#3182bd</Colour>
+      <Colour>#08519c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Cyan">
+      <Colour>#e4f4f8</Colour>
+      <Colour>#c0e7f0</Colour>
+      <Colour>#6bc1d7</Colour>
+      <Colour>#2198b5</Colour>
+      <Colour>#07576b</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green">
+      <Colour>#edf8e9</Colour>
+      <Colour>#bae4b3</Colour>
+      <Colour>#74c476</Colour>
+      <Colour>#31a354</Colour>
+      <Colour>#006d2c</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Grey">
+      <Colour>#f0f0f0</Colour>
+      <Colour>#bdbdbd</Colour>
+      <Colour>#111111</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Red Yellow">
+      <Colour>#ffffcc</Colour>
+      <Colour>#feb24c</Colour>
+      <Colour>#b10026</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Blue Yellow">
+      <Colour>#ffffd9</Colour>
+      <Colour>#7fcddb</Colour>
+      <Colour>#0c2c83</Colour>
+    </ColourRange>
+    <ColourRange id="Sequential Green Yellow">
+      <Colour>#ffffe5</Colour>
+      <Colour>#addd8e</Colour>
+      <Colour>#005a32</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Blue">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#eef1f2</Colour>
+      <Colour>#92c5de</Colour>
+      <Colour>#0571b0</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Purple to Green">
+      <Colour>#762a83</Colour>
+      <Colour>#e7d4e8</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#d9f0d3</Colour>
+      <Colour>#1b7837</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Orange to Purple">
+      <Colour>#e66101</Colour>
+      <Colour>#fdb863</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#b2abd2</Colour>
+      <Colour>#5e3c99</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red to Grey">
+      <Colour>#ca0020</Colour>
+      <Colour>#f4a582</Colour>
+      <Colour>#f7f7f7</Colour>
+      <Colour>#bababa</Colour>
+      <Colour>#404040</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Blue">
+      <Colour>#ca373b</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#abd9e9</Colour>
+      <Colour>#2c7bb6</Colour>
+    </ColourRange>
+    <ColourRange id="Diverging Red Yellow Green">
+      <Colour>#d7191c</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#ffffbf</Colour>
+      <Colour>#a6d96a</Colour>
+      <Colour>#1a9641</Colour>
+    </ColourRange>
+    <ColourRange id="Heatmap">
+      <Colour>#ffffff</Colour>
+      <Colour>#ffc6fc</Colour>
+      <Colour>#9cace6</Colour>
+      <Colour>#4db360</Colour>
+      <Colour>#fde361</Colour>
+      <Colour>#fdae61</Colour>
+      <Colour>#d7191c</Colour>
+    </ColourRange>
+    <ColourScheme id="categoricScheme1">
+      <ColourMatch for="__next">#8dd3c7</ColourMatch>
+      <ColourMatch for="__next">#ffffbc</ColourMatch>
+      <ColourMatch for="__next">#bebada</ColourMatch>
+      <ColourMatch for="__next">#fb8072</ColourMatch>
+      <ColourMatch for="__next">#80b1d3</ColourMatch>
+      <ColourMatch for="__next">#fdb462</ColourMatch>
+      <ColourMatch for="__next">#b3de69</ColourMatch>
+      <ColourMatch for="__next">#fccdef</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme2">
+      <ColourMatch for="__next">#fbb3ad</ColourMatch>
+      <ColourMatch for="__next">#b2cce2</ColourMatch>
+      <ColourMatch for="__next">#ccebc5</ColourMatch>
+      <ColourMatch for="__next">#decbe4</ColourMatch>
+      <ColourMatch for="__next">#fed9a5</ColourMatch>
+      <ColourMatch for="__next">#ffffcc</ColourMatch>
+      <ColourMatch for="__next">#e4d7bc</ColourMatch>
+      <ColourMatch for="__next">#fddaec</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme3">
+      <ColourMatch for="__next">#e31a1c</ColourMatch>
+      <ColourMatch for="__next">#377db8</ColourMatch>
+      <ColourMatch for="__next">#4daf4a</ColourMatch>
+      <ColourMatch for="__next">#984ea3</ColourMatch>
+      <ColourMatch for="__next">#ff7f00</ColourMatch>
+      <ColourMatch for="__next">#ffff33</ColourMatch>
+      <ColourMatch for="__next">#a65628</ColourMatch>
+      <ColourMatch for="__next">#f781bf</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme4">
+      <ColourMatch for="__next">#b3e2cd</ColourMatch>
+      <ColourMatch for="__next">#fdcdac</ColourMatch>
+      <ColourMatch for="__next">#cbd5a8</ColourMatch>
+      <ColourMatch for="__next">#f4cae4</ColourMatch>
+      <ColourMatch for="__next">#e6f5c9</ColourMatch>
+      <ColourMatch for="__next">#fff2ae</ColourMatch>
+      <ColourMatch for="__next">#f1e2cc</ColourMatch>
+      <ColourMatch for="__next">#cccccc</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme5">
+      <ColourMatch for="__next">#66c2a5</ColourMatch>
+      <ColourMatch for="__next">#fc8d62</ColourMatch>
+      <ColourMatch for="__next">#8da0cb</ColourMatch>
+      <ColourMatch for="__next">#e78ac3</ColourMatch>
+      <ColourMatch for="__next">#a6d854</ColourMatch>
+      <ColourMatch for="__next">#ffd92f</ColourMatch>
+      <ColourMatch for="__next">#e5c494</ColourMatch>
+      <ColourMatch for="__next">#b3b3b3</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme6">
+      <ColourMatch for="__next">#1b9e77</ColourMatch>
+      <ColourMatch for="__next">#d95f02</ColourMatch>
+      <ColourMatch for="__next">#7570b3</ColourMatch>
+      <ColourMatch for="__next">#e7298a</ColourMatch>
+      <ColourMatch for="__next">#66a61e</ColourMatch>
+      <ColourMatch for="__next">#e6ab02</ColourMatch>
+      <ColourMatch for="__next">#a6761d</ColourMatch>
+      <ColourMatch for="__next">#666666</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme7">
+      <ColourMatch for="__next">#a6cee3</ColourMatch>
+      <ColourMatch for="__next">#1f77b4</ColourMatch>
+      <ColourMatch for="__next">#b2df8a</ColourMatch>
+      <ColourMatch for="__next">#33a02c</ColourMatch>
+      <ColourMatch for="__next">#fb9a99</ColourMatch>
+      <ColourMatch for="__next">#e31a1c</ColourMatch>
+      <ColourMatch for="__next">#fdbf6f</ColourMatch>
+      <ColourMatch for="__next">#ff7f00</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="categoricScheme8">
+      <ColourMatch for="__next">#7fc97f</ColourMatch>
+      <ColourMatch for="__next">#beaed4</ColourMatch>
+      <ColourMatch for="__next">#fdc086</ColourMatch>
+      <ColourMatch for="__next">#ffff99</ColourMatch>
+      <ColourMatch for="__next">#386cb0</ColourMatch>
+      <ColourMatch for="__next">#f0027f</ColourMatch>
+      <ColourMatch for="__next">#bf5b17</ColourMatch>
+      <ColourMatch for="__next">#666666</ColourMatch>
+    </ColourScheme>
+    <ColourScheme id="chartScheme1">
+      <ColourMatch for="__next">#3AAACF</ColourMatch>
+      <ColourMatch for="__next">#FFBB73</ColourMatch>
+      <ColourMatch for="__next">#5FD2B5</ColourMatch>
+      <ColourMatch for="__next">#FE7276</ColourMatch>
+      <ColourMatch for="__next">#7373DF</ColourMatch>
+      <ColourMatch for="__next">#FF7140</ColourMatch>
+      <ColourMatch for="__next">#1c71a9</ColourMatch>
+      <ColourMatch for="__next">#BF8430</ColourMatch>
+    </ColourScheme>
+  </MapPalettes>
+  <SubstitutionVariables>
+    <Variable description="Der Name des Referenz-Layers in der Karte" id="geogName"/>
+    <Variable description="Der Name des ausgewählten Themas" id="themeName"/>
+    <Variable description="Der Name des ausgewählten Indikators" id="indicatorName"/>
+    <Variable description="Der Name des ausgewählten Datums (sofern vorhanden)" id="date"/>
+    <Variable description="Der Name des aktiven Filters" id="filterName"/>
+    <Variable description="Der Wert des aktiven Filters" id="filterValue"/>
+    <Variable description="Der Name des ausgewählten Kartenelements" id="selectedFeature"/>
+    <Variable description="Der Name des markierten Kartenelements" id="featureName"/>
+    <Variable description="Der Indikatorwert der Karte des markierten Kartenelements" id="indicatorValue"/>
+    <Variable description="Die untere Grenze des Indiators der Karte" id="lowerLimit"/>
+    <Variable description="Die obere Grenze des Indiators der Karte" id="upperLimit"/>
+  </SubstitutionVariables>
+</AtlasInterface>

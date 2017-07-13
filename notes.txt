@@ -1,0 +1,16 @@
+30/06/17
+
+Added http-server for testing.
+http-server C:\Work\InstantAtlasReports\ia-designer 
+http://10.20.0.103:8080/
+
+Added mime types to web.config for http://oxygen/ia-designer/ (see web.config)
+<mimeMap fileExtension=".7z" mimeType="application/x-7z-compressed" />
+<mimeMap fileExtension=".yml" mimeType="application/yaml" />
+
+replaced electron-prebuilt with electron because electron-updater was breaking with old version of electron-prebuilt.
+electron-prebuilt and electron are the same package - its now advised to use electron.
+
+Installed asar for opening asar files. asar --help
+
+1n$tantWe8$1&3
