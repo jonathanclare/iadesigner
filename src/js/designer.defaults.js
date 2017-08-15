@@ -113,7 +113,6 @@ var designer = (function (iad, undefined)
                 {
                     'name': 'Widgets',
                     'controls': [
-
                     {
                         'name'      : 'Title Font Color',
                         'type'      : 'colour',
