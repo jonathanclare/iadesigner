@@ -11,7 +11,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var dialog = electron.dialog || remote.dialog;
     var ipcRenderer = electron.ipcRenderer;
 
-    var settings; 
     var changesSaved = true;
     var selectedWidgetId;
     var report;
@@ -31,36 +30,61 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     iad.init = function(options)
     {
-        settings = $.extend({}, this.defaults, options); // Merge to a blank object.
+        var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
 
         //setApplicationMenu();
         //setPopupMenu();
-        registerHelperFunctions();
+        registerHandlebarsHelperFunctions();
         initCss(settings.css, function()
         {
-            initReport(settings.report.path);
+            ia.init(
+            {
+                container   : 'iad-report',
+                onSuccess   : function (r)
+                {
+                    report = r;
+
+                    // Fix image paths.
+                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
+                    {
+                        var src = img.getAttribute('src');
+                        img.src = ('src', settings.report.path + src);
+                    });
+
+                    initCanvas();
+                    initColorPicker();
+                    initColorSchemes();
+                    initConfig();
+                    initFormControls();
+                    initConfigForms();
+                    initConfigGallery(settings.configGallery);
+                    initWidgetGallery(settings.widgetGallery);
+                    initFileDragAndDrop();
+                    updateWidgetPropertiesDropdown();
+                    iad.configforms.updateJavaScriptOptions();
+                    initMenuHandlers();
+
+                    if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                },
+                onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
+                {
+                    console.log(url);
+                    console.log(XMLHttpRequest.status);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                data:
+                {
+                    config      : {source:settings.report.path+'/config.xml'},
+                    attribute   : {source:settings.report.path+'/data.js'},
+                    map         : {source:settings.report.path+'/map.js'}
+                    /*style       : {source:dirPath+'/default.css'}*/
+                }
+            });
         });
     };
 
-    function onReportReady(r)
-    {
-        report = r;
-        initCanvas(report);
-        initColorPicker();
-        initColorSchemes(settings.colorSchemes);
-        initConfig(report);
-        initFormControls();
-        initConfigForms(report, settings.configForms);
-        initConfigGallery(settings.configGallery);
-        initWidgetGallery(settings.widgetGallery);
-        addMenuHandlers();
-        addFileDragAndDrop();
-        updateWidgetPropertiesDropdown();
-
-        iad.configforms.updateJavaScriptOptions();
-    }
-
-    function addMenuHandlers()
+    function initMenuHandlers()
     {
         var configPath;
 
@@ -206,9 +230,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initCss(options, callback)
     {
         // Apply the handlebars template for the css form.
-        var template = window.designer[options.template];
+        var template = window.designer['forms.handlebars'];
         var html = template(options.form);
-        $(options.container).html(html);
+        $('#iad-form-css-properties').html(html);
 
         iad.css.init(
         {
@@ -241,7 +265,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function () 
                         {
-                            iad.changesSaved = false;
+                            changesSaved = false;
                         });
                     });
                 }
@@ -260,7 +284,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             factory.renderComponents(function () 
                             {
-                                iad.changesSaved = false;
+                                changesSaved = false;
                             });
                         });
                     }
@@ -268,7 +292,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function() 
                         {
-                            iad.changesSaved = false;
+                            changesSaved = false;
                         });
                     } 
                 }
@@ -285,11 +309,11 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         iad.colorpicker.init({});
     }
 
-    function initColorSchemes(options)
+    function initColorSchemes()
     {
         iad.colorscheme.init(
         {
-            container: options.container,
+            container: '#iad-form-color-scheme',
             onChange: function(jsonColorScheme)
             {
                 iad.css.setLessVars(jsonColorScheme);
@@ -297,7 +321,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initConfig(report)
+    function initConfig()
     {
         iad.config.init(
         {
@@ -349,13 +373,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initConfigForms(report, options)
+    function initConfigForms()
     {
         iad.configforms.init(
         {
             report : report,
-            container: options.container,
-            template: options.template
+            container: '#iad-form-widget-properties',
+            template: 'forms.handlebars'
         });
     }
 
@@ -409,7 +433,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initCanvas(report)
+    function initCanvas()
     {
         var $nav = $('#iad-nav-widgets');
         iad.canvas.init(
@@ -475,7 +499,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             onEditBtnClick: function (widgetId)
             {
                 openConfigProperties(widgetId);
-                iad.configforms.showWidgetForm(widgetId);      
+                iad.configforms.showWidgetForm(widgetId);
             },
             onActivated: function ()
             {
@@ -491,8 +515,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initConfigGallery(options)
     {
         var configPath;
-        var $menuitem = $(options.menuitem);
-        var $modal = $(options.modal);
+        var $menuitem = $('#iad-menuitem-config-gallery');
+        var $modal = $('#iad-modal-config-gallery');
 
         $menuitem.on('click', function(e)
         {
@@ -505,8 +529,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.configgallery.init(
                 {
-                    template: options.template,
-                    container: options.container,
+                    template: 'config-gallery.handlebars',
+                    container: '#iad-config-gallery',
                     reportPath: options.reportPath,
                     configPath: options.configPath,
                     json: options.json,
@@ -583,8 +607,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initWidgetGallery(options)
     {
         var widgetId;
-        var $menuitem = $(options.menuitem);
-        var $modal = $(options.modal);
+        var $menuitem = $('#iad-menuitem-widget-gallery');
+        var $modal = $('#iad-modal-widget-gallery');
 
         $menuitem.on('click', function(e)
         {
@@ -597,8 +621,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.widgetgallery.init(
                 {
-                    template: options.template,
-                    container: options.container,
+                    template: 'widget-gallery.handlebars',
+                    container: '#iad-widget-gallery',
                     json: options.json,
                     onAdd: function (id)
                     {
@@ -607,7 +631,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     }
                 });
             }
-
             iad.widgetgallery.update();
         });
         $modal.on('hidden.bs.modal', function ()
@@ -616,43 +639,15 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initReport(dirPath)
-    {
-        // Initialise IA Report.
-        ia.init(
-        {
-            container   : settings.report.id,
-            onSuccess   : function (report)
-            {
-                onReportReady(report);
-                if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-            },
-            onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
-            {
-                console.log(url);
-                console.log(XMLHttpRequest.status);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
-            data:
-            {
-                config      : {source:dirPath+'/config.xml'},
-                attribute   : {source:dirPath+'/data.js'},
-                map         : {source:dirPath+'/map.js'}
-                /*style       : {source:dirPath+'/default.css'}*/
-            }
-        });
-    }
-
     function dirPath(filePath)
     {
         return filePath.substring(0,filePath.lastIndexOf('\\')+1);
     }
 
-    function addFileDragAndDrop()
+    function initFileDragAndDrop()
     {
 		// File upload drag and drop.
-		$('#'+settings.report.id).on('drop', function (e) 
+		$('#iad-report').on('drop', function (e) 
 		{
 			e.stopPropagation();
 			e.preventDefault();
@@ -681,7 +676,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 }
             }
 		});
-		$('#'+settings.report.id).on('dragover', function (e) 
+		$('#iad-report').on('dragover', function (e) 
 		{
 			e.stopPropagation();
 			e.preventDefault();
@@ -690,7 +685,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     }
 
     // Registers handlebars helper functions.
-    function registerHelperFunctions()
+    function registerHandlebarsHelperFunctions()
     {
         // Checks if its a string control.
         Handlebars.registerHelper('ifTextControl', function (type, options)

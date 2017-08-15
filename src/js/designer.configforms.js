@@ -239,76 +239,7 @@ var designer = (function (iad, $, window, document, undefined)
 
         // Get the container element.
         if (options && options.container) $container = $(options.container);
-
-        registerHelperFunctions();
     };
-
-    // Registers handlebars helper functions.
-    function registerHelperFunctions()
-    {
-        // Checks if its a string control.
-        Handlebars.registerHelper('ifTextControl', function (type, options)
-        {
-            if (type === undefined) return options.fn(this);
-            if (type === 'string') return options.fn(this);
-            if (type === 'string-array') return options.fn(this);
-            if (type === 'float-array') return options.fn(this);
-            if (type === 'integer-array') return options.fn(this);
-            if (type === 'colour-array') return options.fn(this);
-            if (type === 'boolean-array') return options.fn(this);
-            return options.inverse(this);
-        });
-        // Checks if value is greater than.
-        Handlebars.registerHelper('ifGreaterThan', function (val1, val2, options)
-        {
-            if (val1 > val2) return options.fn(this);
-            return options.inverse(this);
-        });
-        // Checks what kind of control it is.
-        Handlebars.registerHelper('ifEqualTo', function (val1, val2, options)
-        {
-            if (val1 === val2) return options.fn(this);
-            return options.inverse(this);
-        });
-        // For stripes.
-        Handlebars.registerHelper('ifEven', function (conditional, options)
-        {
-            if ((conditional % 2) === 0) return options.fn(this);
-            else return options.inverse(this);
-        });
-        // For active collapsible panel.
-        Handlebars.registerHelper('isActive', function (index, options)
-        {
-            //if (index === me.activePanelIndex) return options.fn(this);
-            return options.inverse(this);
-        });
-        // For map palettes.
-        Handlebars.registerHelper('noOfColorsGreaterThanTwo', function(items, options) 
-        {
-            // Use 3 because it includes two color controls and the add color control.
-            if (items)
-            {
-                if (items.length > 3) return options.fn(this);
-                return options.inverse(this);
-            }
-            else return options.fn(this);
-        });
-        // Checks strings for partial match - useful for changing tooltip/popver behaviour.
-        Handlebars.registerHelper('ifStartsWith', function (val1, val2, options)
-        {
-            if (val1 && val2 && ((val1 === val2) || (val1.indexOf(val2) === 0))) return options.fn(this);
-            return options.inverse(this);
-        });
-        Handlebars.registerHelper('ifEndsWith', function (val1, val2, options)
-        {
-            if (val1 && val2 && ((val1 === val2) || (val1.indexOf(val2) === (val1.length - val2.length)))) return options.fn(this);
-            return options.inverse(this);
-        });
-        Handlebars.registerHelper('substring', function (s, i)
-        {
-            return s.substring(i);
-        });
-    }
 
     // Refreshes the current form.
     iad.configforms.refreshForm = function()

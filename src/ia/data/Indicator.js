@@ -298,6 +298,25 @@ ia.Indicator.prototype.parseData = function(data)
 
 			fv = this.geography.reportData.formatter.format(v, this.precision);
 			this._fComparisonArray.push(fv);
+
+			// For area profiles.
+			var f = comparisonFeatures[i];
+			var feaObj =
+			{
+				id : f.id,
+				name : f.name,
+				value : v,
+				value_formatted : fv,
+				isComparison : f.isComparison
+			};
+			var props = this.getProperties();
+			for (var propName in props) 
+			{
+				feaObj[propName] = props[propName];
+				feaObj[propName+"_formatted"] = this.geography.reportData.formatter.format(props[propName]);
+				feaObj[propName+"_type"] = ia.Thematic.CATEGORIC;
+			}
+			this.featureProfiles[f.id] = feaObj;
 		}
 	}
 

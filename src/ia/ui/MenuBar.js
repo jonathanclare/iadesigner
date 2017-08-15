@@ -37,7 +37,8 @@ ia.MenuBar.prototype.render = function(config)
 {
 	this.container.empty();
 
-	var $table  = $j("<table class='ia-menubar-table'>");
+	//var $table  = $j("<table class='ia-menubar-table'>");
+	var $table  = $j("<table>").addClass('ia-menubar-table');
 	this.container.append($table);
 	
 	var $tr = $j("<tr>");

@@ -98,6 +98,16 @@ ia.PrintBar.prototype.render = function()
 	    e.stopPropagation();
 	    e.preventDefault();
 	    window.print();
+
+        /*var win = window.open();
+		ia.getDataUrl(me._report.container, function(dataURL)
+        {
+            if (dataURL != undefined)
+            {
+    			win.document.body.innerHTML = '<div></div><p><img src="'+dataURL+'"/></p>';
+    			win.print();
+            }
+		});*/
 	});
 };
 
@@ -139,7 +149,8 @@ ia.PrintBar.prototype.loadDragScript = function()
                 for (var i = 0; i < widgets.length; i++)
                 {
                     var widget = widgets[i];
-                    maxZ = Math.max(maxZ, widget.zIndex());
+                    var zIndex = widget.zIndex();
+                    if (ia.isNumber(zIndex)) maxZ = Math.max(maxZ, zIndex);
                 }
                 me._report.getWidget(widgetId).zIndex(maxZ+1);
             }

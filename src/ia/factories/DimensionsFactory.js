@@ -71,8 +71,6 @@ ia.DimensionsFactory = function(config, report, componentGroup)
         resetButtonText = config.getProperty('resetButtonText') || '';
         noSelectionValue = config.getProperty('noSelectionValue') || '';
 
-        console.log(arrDimensionNames)
-
         getAllIndicators();
         addControls();
         updateControls();
@@ -287,9 +285,18 @@ ia.DimensionsFactory = function(config, report, componentGroup)
                 var arrValues = oDimensions[dim];
                 if (arrValues[0] != noSelectionValue)
                 {
-                    var arrProps = indicator.getProperty(dim).split(";");
-                    containsDimensionValues = arrProps.some(function (item, pos) {return arrValues.indexOf(item) >= 0;});
-                    if (!containsDimensionValues) break;
+                    var strProps = indicator.getProperty(dim);
+                    if (strProps != undefined)
+                    {
+                        var arrProps = strProps.split(";");
+                        containsDimensionValues = arrProps.some(function (item, pos) {return arrValues.indexOf(item) >= 0;});
+                        if (!containsDimensionValues) break;
+                    }
+                    else 
+                    {
+                        containsDimensionValues = false;
+                        break;
+                    }
                 }
             }
             

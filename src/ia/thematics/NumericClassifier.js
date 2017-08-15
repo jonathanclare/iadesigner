@@ -250,13 +250,12 @@ ia.NumericClassifier.prototype._buildEsriClasses = function(p)
     this._classes = [];
 
     this._breaks = this._calculator.getBreaks(this.noClasses, this.classificationName);
-    
+
     if (this._breaks != null)
     {
         if (p != undefined)                     precision = p;
         else if (this.precision != undefined)   precision = this.precision;
         else                                    precision = ia.getPrecision(this._breaks);
-
 
         if (this.classificationName == ia.Thematic.CONTINUOUS)
         {
@@ -289,8 +288,33 @@ ia.NumericClassifier.prototype._buildEsriClasses = function(p)
                 }
                 else
                 {
-                    var minFormatted = this.formatter.format(this._breaks[i], precision);
-                    var maxFormatted = this.formatter.format(this._breaks[i+1], precision);
+                    var minFormatted;
+                    var maxFormatted;
+
+                    if (i == 0)
+                    {
+                        // Only round down if the break has more decimal places than the precision.
+                        var b = this._breaks[i];
+                        var nDecimal = b.toString().split(".")[1] != undefined ? b.toString().split(".")[1].length : 0; 
+                        if (nDecimal > precision) b = Math.floor((b/precision) * precision);
+
+                        minFormatted = this.formatter.format(b, precision);
+                    }
+                    else  
+                        minFormatted = this.formatter.format(this._breaks[i], precision);
+
+                    if (i == nClasses - 1)  
+                    {
+                        // Only round up if the break has more decimal places than the precision.
+                        var b = this._breaks[i+1];
+                        var nDecimal = b.toString().split(".")[1] != undefined ? b.toString().split(".")[1].length : 0; 
+                        if (nDecimal > precision) b = Math.ceil((b/precision) * precision);
+
+                        maxFormatted = this.formatter.format(b, precision);
+                    }
+                    else 
+                        maxFormatted = this.formatter.format(this._breaks[i+1], precision);
+
                     var minValue = this.formatter.unformat(minFormatted);
                     var maxValue = this.formatter.unformat(maxFormatted);
 
@@ -299,6 +323,7 @@ ia.NumericClassifier.prototype._buildEsriClasses = function(p)
                         rClass.minRule = ia.RangeClass.GREATER_THAN_OR_EQUAL_TO;
                     else  
                         rClass.minRule = ia.RangeClass.GREATER_THAN;
+
                     rClass.maxRule = ia.RangeClass.LESS_THAN_OR_EQUAL_TO;
                     rClass.formatter = this.formatter;
                     this._classes.push(rClass);

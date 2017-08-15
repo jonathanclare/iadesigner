@@ -68,8 +68,6 @@ ia.AGOLData.prototype.parseData = function(dataModel, callbackFunction)
 {
 	var me = this;
 
-	console.log(dataModel)
-
 	//this.geogsWithData = {};
 	this.geogModels = {};
 	this.geogs = {};
@@ -140,7 +138,7 @@ ia.AGOLData.prototype.buildGeography = function(geogModel, callback)
 		'fieldNames' 		: [geogModel.idField, geogModel.nameField],
 		'urlList'			: [],
 		'indicatorList'		: [],
-		'indicators'		: []
+		'indicators'		: {}
 	};
 
 	// Check if its a new geography.
@@ -721,7 +719,6 @@ ia.AGOLData.prototype.getFeatures = function(geogId, callback)
 	}
 };
 
-
 ia.AGOLData.prototype._checkForRelationships = function (geogId, callback)
 {
     var me = this;
@@ -744,7 +741,7 @@ ia.AGOLData.prototype._checkForRelationships = function (geogId, callback)
                 else
                 {
                     var r = info.relationships[count];
-                    if (r.cardinality == 'esriRelCardinalityOneToMany')
+                    if (r.cardinality == 'esriRelCardinalityOneToMany' && r.role == 'esriRelRoleDestination')
                     {
                         var url = iaGeography.url + '/queryRelatedRecords'
                         var params = 'outFields=' + iaGeography.fieldNames.join(',') + '&relationshipId=' + r.id + '&objectids=1&returnGeometry=false&f=pjson';
@@ -935,6 +932,68 @@ function updateJson(iaGeography, url, indicators)
 	}
 }
 
+ia.AGOLData.prototype._checkForIndicatorRelationships = function (iaGeography, url, indicators, callback)
+{
+    var me = this;
+
+    ia.FeatureServiceReader.getInfo(url, ia.accessToken, function (info)
+    {
+        if (info.relationships != undefined && info.relationships.length > 0)
+        {
+            var count = -1;
+            function onComplete()
+            {
+                count++;
+                if (count == info.relationships.length)
+                {
+                    callback.call(null); // return.
+                }
+                else
+                {
+                    var r = info.relationships[count];
+                    if (r.cardinality == 'esriRelCardinalityOneToMany' && r.role == 'esriRelRoleDestination')
+                    {
+                        var params = 'outFields=*&relationshipId=' + r.id + '&objectids=1&returnGeometry=false&f=pjson';
+                        ia.File.load(
+                        {
+                            url: url + '/queryRelatedRecords',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: params,
+                            onSuccess: function (fsLayer)
+                            {
+                            	if (fsLayer.relatedRecordGroups != undefined && fsLayer.relatedRecordGroups.length > 0)
+                            	{
+                            		var rrg = fsLayer.relatedRecordGroups[0];
+                            		if (rrg.relatedRecords != undefined && rrg.relatedRecords.length > 0)
+                            		{
+   										var attributes = rrg.relatedRecords[0].attributes;
+		                                for (var j = 0; j < indicators.length; j++)
+		                                {
+		                                    var iaIndicator = indicators[j];
+		                                    var dataValue = attributes[iaIndicator.fieldName];
+		                                    if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) dataValue = me.formatter.noDataValue;
+		                                    iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = dataValue;
+		                                }
+                            		}
+                            	}
+                                onComplete();
+                            },
+                            onFail: function ()
+                            {
+                                onComplete();
+                            }
+                        });
+                    }
+                    else onComplete();
+                }
+            };
+            onComplete();
+        }
+        else callback.call(null);
+    });
+};
+
 /** 
  * @private 
  */
@@ -947,8 +1006,11 @@ ia.AGOLData.prototype._loadIndicatorData = function(iaGeography, url, indicators
 		count++;
 		if (count == indicators.length) 
 		{
+			me._checkForIndicatorRelationships(iaGeography, url, indicators, function()
+			{
+				callback.call(null); // return.
+			})
 			//updateJson(iaGeography, url, indicators);
-			callback.call(null); // return.
 		}
 		else 
 		{

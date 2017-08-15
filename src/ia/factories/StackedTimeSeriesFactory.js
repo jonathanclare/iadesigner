@@ -100,6 +100,11 @@ ia.StackedTimeSeriesFactory = function(config, report, componentGroup)
 
 			// Layer.
 			layer = new ia.StackedTimeLayer();
+			layer.tipFunction = function(item, childItem)
+			{
+				var s = ia.timeTipFunction(item, childItem, config.id);
+				return s;
+			};
 
 			// Line Layer (implemented for ECDC 10/02/2015).
 			if (config.getProperty("lineData") != undefined)

@@ -160,7 +160,9 @@ ia.ReportConfig.prototype.parseXML = function(xml, callbackFunction)
 	});
 	
 	// ia.Map Palettes.
-	me._palette = new ia.PaletteConfig($xml.find("MapPalettes"), me.getProperty("noDataColor"), me.getProperty("noDataValue"));
+	var noDataValue = me.getProperty("noDataValue");
+	if (noDataValue == undefined) noDataValue = "";
+	me._palette = new ia.PaletteConfig($xml.find("MapPalettes"), me.getProperty("noDataColor"), noDataValue);
 
 	callbackFunction.call(null, me); // Return.
 };

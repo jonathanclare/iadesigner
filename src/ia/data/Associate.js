@@ -261,6 +261,15 @@ ia.Associate.prototype.parseData = function(data)
 
 			fv = this.geography.reportData.formatter.format(v, this.precision);
 			this._fComparisonArray.push(fv);
+
+			// For area profiles.
+			var feaObj = this.indicator.featureProfiles[featureId];
+			if (feaObj != undefined)
+			{
+				feaObj[this.name] = v;
+				feaObj[this.name+"_formatted"] = fv;
+				feaObj[this.name+"_type"] = this.type;
+			}
 		}
 	}
 };

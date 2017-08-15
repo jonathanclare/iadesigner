@@ -64,6 +64,7 @@ ia.FeatureCardFactory = function(config, report, componentGroup)
 	this.update = function(callbackFunction)
 	{
 		card.noDataValue = report.config.getProperty("noDataValue");
+		if (card.noDataValue == undefined) card.noDataValue = '';
 		card.displayMode = config.getProperty("displayMode"); 
 		card.dataOrder = config.getProperty("dataOrder"); 
 		card.displaySelectedDateOnly = config.getProperty("displaySelectedDateOnly"); 

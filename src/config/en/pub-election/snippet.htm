@@ -1,0 +1,127 @@
+<!-- For more examples visit http://www.instantatlas.com/customers/support/library/desktop/tech-articles/html/feature-card -->
+
+<!-- Theme 1 indicators / Summary, indicators placed in-line -->
+<div style="${notEquals(theme-id, 't0', 'display:none', 'display:inline-block')};
+			background:#f1e2e8;
+			padding:15px;
+			margin:15px 0px 15px 20px;
+			font-size:12px;
+			vertical-align:top;
+			text-align:center">
+			
+    <div style="font-weight:bold">${indicator-name}</div> 
+    
+    <div style="padding-top:5px;${equals(indicator-value, 'Conservative', 'font-weight:bold;color:#333399')}
+				${equals(indicator-value, 'Labour', 'font-weight:bold;color:#cb0000')}
+				${equals(indicator-value, 'Liberal Democrat', 'font-weight:bold;color:#fd9800')}
+				${equals(indicator-value, 'Green', 'font-weight:bold;color:#329800')}
+				${equals(indicator-value, 'UKIP', 'font-weight:bold;color:#653265')}
+				${equals(indicator-value, 'SNP', 'font-weight:bold;color:#fdcb00')}
+				${equals(indicator-value, 'Plaid Cymru', 'font-weight:bold;color:#006500')}
+				${equals(indicator-value, 'Independent', 'font-weight:bold;color:#989898')}
+				${equals(indicator-value, 'Mix', 'font-weight:bold;color:#999999')}">${indicator-formatted-value}</div>
+</div>
+
+<!-- Theme 2 indicators / Candidates with an indicator value, indicators placed on new line -->
+<div style="${equals(theme-id, 't1') && notEmpty(indicator-value) == ('display:block', 'display:none')};
+			padding:15px 20px 15px 20px;width:100%;font-size:12px;border-top:1px solid #f1e2e8">
+
+	<!-- Top three candidates -->
+	<div style="${greaterThan(indicator-index, 2, 'display:none')}">
+
+		<!-- Candidate photo, only display if its been defined -->
+		<div style="${notEmpty(photo-value, 'display:inline-block',  'display:none')}">
+			<img src='${photo-value}' style='border:1px solid #cccccc;width:75px;height:80px'/>
+		</div>
+
+		<div style="display:inline-block;vertical-align:top">
+
+	    	<!-- First line of data -->
+		    <div style="padding:5px">
+
+		        <div style="display:inline-block;padding-right:15px;font-weight:bold;
+		        			color:${equals(party-value, 'Conservative', '#333399')}
+							${equals(party-value, 'Labour', '#cb0000')}
+							${equals(party-value, 'Liberal Democrat', '#fd9800')}
+							${equals(party-value, 'Green', '#329800')}
+							${equals(party-value, 'UKIP', '#653265')}
+							${equals(party-value, 'SNP', '#fdcb00')}
+							${equals(party-value, 'Plaid Cymru', '#006500')}
+							${equals(party-value, 'Independent', '#989898')}
+							${equals(party-value, 'Mix', '#999999')}">${party-formatted-value}</div>
+
+		        <div style="display:inline-block;padding-right:15px;font-weight:bold">${indicator-formatted-value}</div>
+
+		    </div>
+
+	        <!-- Bar -->
+	        <div style="padding:5px">
+	            <svg style="background:#dddddd" preserveAspectRatio="none" width="300" height="10" viewBox="0 0 100 10">
+
+	                <rect x="0" y="0" width="${percentage of vote-value}" height="10"  fill="${equals(party-value, 'Conservative', '#333399')}
+																							${equals(party-value, 'Labour', '#cb0000')}
+																							${equals(party-value, 'Liberal Democrat', '#fd9800')}
+																							${equals(party-value, 'Green', '#329800')}
+																							${equals(party-value, 'UKIP', '#653265')}
+																							${equals(party-value, 'SNP', '#fdcb00')}
+																							${equals(party-value, 'Plaid Cymru', '#006500')}
+																							${equals(party-value, 'Independent', '#989898')}
+																							${equals(party-value, 'Mix', '#999999')}"/>
+	            </svg>
+	        </div>
+
+	    	<!-- Second line of data -->
+		    <div style="padding:5px">
+		        <span style="padding-right:15px;font-size:18px;font-weight:bold;color:${equals(party-value, 'Conservative', '#333399')}
+																	${equals(party-value, 'Labour', '#cb0000')}
+																	${equals(party-value, 'Liberal Democrat', '#fd9800')}
+																	${equals(party-value, 'Green', '#329800')}
+																	${equals(party-value, 'UKIP', '#653265')}
+																	${equals(party-value, 'SNP', '#fdcb00')}
+																	${equals(party-value, 'Plaid Cymru', '#006500')}
+																	${equals(party-value, 'Independent', '#989898')}
+																	${equals(party-value, 'Mix', '#999999')}">
+		            ${percentage of vote-formatted-value}%
+		        </span> 
+
+		        <span>votes </span><span style="padding-right:15px;font-weight:bold">${votes-formatted-value}</span>
+
+		        <!-- Elected png image -->
+				<span><img src='./elected.png' style='vertical-align:middle' />&nbsp;<span>elected</span></span>
+
+		    </div>
+
+		</div>
+	</div>
+
+	<!-- Other candidates - less detail -->
+	<div style="font-size:12px;${lessThan(indicator-index, 3, 'display:none')}">
+
+		<div style="display:inline-block;width:50px;font-weight:bold;color:${equals(party-value, 'Conservative', '#333399')}
+																	${equals(party-value, 'Labour', '#cb0000')}
+																	${equals(party-value, 'Liberal Democrat', '#fd9800')}
+																	${equals(party-value, 'Green', '#329800')}
+																	${equals(party-value, 'UKIP', '#653265')}
+																	${equals(party-value, 'SNP', '#fdcb00')}
+																	${equals(party-value, 'Plaid Cymru', '#006500')}
+																	${equals(party-value, 'Independent', '#989898')}
+																	${equals(party-value, 'Mix', '#999999')}">
+            ${percentage of vote-formatted-value}%
+        </div> 
+
+        <div style="display:inline-block;width:150px;font-weight:bold;color:${equals(party-value, 'Conservative', '#333399')}
+					${equals(party-value, 'Labour', '#cb0000')}
+					${equals(party-value, 'Liberal Democrat', '#fd9800')}
+					${equals(party-value, 'Green', '#329800')}
+					${equals(party-value, 'UKIP', '#653265')}
+					${equals(party-value, 'SNP', '#fdcb00')}
+					${equals(party-value, 'Plaid Cymru', '#006500')}
+					${equals(party-value, 'Independent', '#989898')}
+					${equals(party-value, 'Mix', '#999999')}">${party-formatted-value}</div>
+
+		<div style="display:inline-block;width:150px;">${indicator-formatted-value}</div>
+
+		<span>votes </span><span style="font-weight:bold">${votes-formatted-value}</span>
+	</div>
+
+</div>

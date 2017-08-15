@@ -17,7 +17,8 @@ ia.DiscreteLegend = function(id)
 	this.container = $j("<div id='"+id+"' class='ia-legend'>");
 	
 	// A table used to render the legend.
-	this.$table = $j("<table class='ia-legend-table'>");
+	//this.$table = $j("<table class='ia-legend-table'>");
+	this.$table = $j("<table>").addClass('ia-legend-table');
 	this.container.append(this.$table);
 
 	this.style = {fillStyle:'#EFEFEF', strokeStyle:'#cccccc', lineWidth:'0.5', lineJoin:'miter'};
@@ -266,8 +267,7 @@ ia.DiscreteLegend.prototype._addMouseEvents = function(obj)
 	(
 		function () 
 		{
-			//var index = me.$table.find("tbody > tr").index($j(this));
-			var index = me.$table.find("tbody > tr").data("index");
+			var index = me.$table.find("tbody > tr").index($j(this));
 			if ($j(this).hasClass("ia-legend-select")) 
 			{
 				$j(this).addClass("ia-legend-highlight-select");
@@ -288,9 +288,9 @@ ia.DiscreteLegend.prototype._addMouseEvents = function(obj)
 			$j(this).css("background-color", c);
 		},
 		function () 
-		{
-			//var index = me.$table.find("tbody > tr").index($j(this));
-			var index = me.$table.find("tbody > tr").data("index");
+		{		
+			var index = me.$table.find("tbody > tr").index($j(this));
+
 			$j(this).removeClass("ia-legend-highlight");
 			if ($j(this).hasClass("ia-legend-highlight-select"))
 			{

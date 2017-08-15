@@ -13,15 +13,16 @@ ia.LayerList = function(id)
 
 	this.id = id;
 
-	this.container = $j("<div id='"+id+"' class='ia-layer-list'>");
+	this.container = $j("<div id='"+id+"' class='ia-layer-list-scrollbox'>");
+	this._scrollBox = new ia.ScrollBox(this.container);
 	
 	// The table used to render the data.
-	this.$tableContainer = $j("<div id='"+id+"-container' class='ia-layer-list-scrollbox'>"); 
-	this._scrollBox = new ia.ScrollBox(this.$tableContainer);
+	this.$tableContainer = $j("<div id='"+id+"-container' class='ia-layer-list'>"); 
 	this.container.append(this.$tableContainer);
 
 	// A table used to render the layer list.
-	this.$tableList = $j("<table class='ia-layer-list-table'>");
+	//this.$tableList = $j("<table class='ia-layer-list-table'>");
+	this.$tableList = $j("<table>").addClass('ia-layer-list-table');
 	this.$tableContainer.append(this.$tableList);
 	
 	var me  = this;
@@ -77,8 +78,8 @@ ia.LayerList.prototype.gradientLegend;
  */
 ia.LayerList.prototype._size = function()
 {
-	this.$tableContainer.height(this.container.height());
-	this.$tableContainer.width(this.container.width());
+	//this.$tableContainer.height(this.container.height());
+	//this.$tableContainer.width(this.container.width());
 };
 
 /**

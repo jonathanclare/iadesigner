@@ -984,7 +984,7 @@ ia.DataGroup = function(report, suffix)
         else 
             nClassifier.colorPalette = paletteConfig.getColorPalette(me.legendSettings.paletteId);
 
-        if (indicator.type == ia.Thematic.CATEGORIC)
+        if (me.thematic.getDataType() == ia.Thematic.CATEGORIC)
         {
             report.textSubstitution.setVariable("legendType"+suffix, "");
             report.updateDynamicText(report.textSubstitution);
@@ -999,7 +999,7 @@ ia.DataGroup = function(report, suffix)
                 cClassifier.colorPalette.setColorList(colorList);
                 cClassifier.customColorsDefined = true;*/
 
-                var colorList = paletteConfig.getColorScheme(customPalette).getColorList(colorList);
+                var colorList = paletteConfig.getColorScheme(customPalette).getColorList();
                 var colorPalette = new ia.ColorPalette(colorList);
                 for (var id in cClassifier.colorPalette.matchColorsToValues)
                 {
@@ -1042,13 +1042,13 @@ ia.DataGroup = function(report, suffix)
                     // Combination of using a continuous legend and supplying the breaks for it as well.
                     // Was implemented as part of ECDC project.
                     // Changed by JC 22/05/2017 to allow custom breaks to work with continuous legend.
-                    if (customClassifier == 'continuous')
+                    if (nClassifier.classificationName == 'continuous')
                     {
                         calc.addFunction("continuous", function (noClasses)
                         {
                             var arrValues = calc.getStats().unique;
                             var min = parseFloat(breaksList[0]);
-                            var max = parseFloat(breaksList[1]);
+                            var max = parseFloat(breaksList[breaksList.length-1]);
                             var arrBreaks = arrValues.filter(function (v)
                             {
                                 return (v >= min) && (v <= max);
@@ -1098,7 +1098,7 @@ ia.DataGroup = function(report, suffix)
                     cClassifier.colorPalette.setColorList(colorList);
                     cClassifier.customColorsDefined = true;*/
 
-                    var colorList = paletteConfig.getColorScheme(customPaletteForColourLegend).getColorList(colorList);
+                    var colorList = paletteConfig.getColorScheme(customPaletteForColourLegend).getColorList();
                     var colorPalette = new ia.ColorPalette(colorList);
                     for (var id in cClassifier.colorPalette.matchColorsToValues)
                     {

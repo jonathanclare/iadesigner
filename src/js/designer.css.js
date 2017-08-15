@@ -123,8 +123,6 @@ var designer = (function (iad, $, window, document, undefined)
         less.modifyVars(lessVars);
 
         if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, property, value);
-
-        console.log(lessVars);
     };
 
     return iad;

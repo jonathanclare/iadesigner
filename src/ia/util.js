@@ -1031,19 +1031,6 @@ iaAddGlobalFunctions = function(report)
             // Capture screen shot.
             ia.getDataUrl(report.container, function(dataURL)
             {
-                /*var a = document.createElement('a');
-				var htmlText;
-				if (typeof a.download != "undefined") 
-				{
-					var txt = report.config.getProperty("saveImageText");
-					htmlText = '<div class="ia-share-text">'+txt+'</div><a href="'+dataURL+'" download="dashboard.png"><img class="ia-export-thumbnail" src="'+dataURL+'"/></a>'
-				}
-				else
-				{
-					var txt = report.config.getProperty("saveImageText");
-					htmlText += '<p><div><img class="ia-thumbnail" src="'+dataURL+'"/></div></p>'
-				}*/
-
                 if (dataURL != undefined)
                 {
                     // Thumbnail.
@@ -1112,10 +1099,13 @@ iaAddGlobalFunctions = function(report)
                     imgChart.addEventListener('load', function() 
                     {
                         var c = document.createElement('canvas');
+                        var ctx = c.getContext("2d");
                         c.width = chart.canvas.width;
                         c.height = imgHeader.height + chart.canvas.height;
-                        c.getContext("2d").drawImage(imgHeader,0,0);
-                        c.getContext("2d").drawImage(imgChart,0,imgHeader.height);
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0,imgHeader.height,c.width,imgChart.height);
+                        ctx.drawImage(imgHeader,0,0);
+                        ctx.drawImage(imgChart,0,imgHeader.height);
                         var dataURL = c.toDataURL("image/png");
                         iaExportDataUrl(dataURL, e);
 
@@ -1127,8 +1117,23 @@ iaAddGlobalFunctions = function(report)
         }
         else
         {
-            var dataUrl = chart.exportData(includeLogo);
-            iaExportDataUrl(dataUrl, e);
+            //var dataUrl = chart.exportData(includeLogo);
+            //iaExportDataUrl(dataUrl, e);
+            var dataChart = chart.exportData(includeLogo);
+            var imgChart = document.createElement('img');
+            imgChart.addEventListener('load', function() 
+            {
+                var c = document.createElement('canvas');
+                var ctx = c.getContext("2d");
+                c.width = chart.canvas.width;
+                c.height = chart.canvas.height;
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0,0,c.width,c.height);
+                ctx.drawImage(imgChart,0,0);
+                var dataURL = c.toDataURL("image/png");
+                iaExportDataUrl(dataURL, e);
+            });
+            imgChart.src = dataChart;
         }
     };
 
@@ -1153,10 +1158,13 @@ iaAddGlobalFunctions = function(report)
                         imgContent.addEventListener('load', function() 
                         {
                             var c = document.createElement('canvas');
+                            var ctx = c.getContext("2d");
                             c.width = imgContent.width;
                             c.height = imgHeader.height + imgContent.height;
-                            c.getContext("2d").drawImage(imgHeader,0,0);
-                            c.getContext("2d").drawImage(imgContent,0,imgHeader.height);
+                            ctx.fillStyle = "#ffffff";
+                            ctx.fillRect(0,imgHeader.height,c.width,imgChart.height);
+                            ctx.drawImage(imgHeader,0,0);
+                            ctx.drawImage(imgContent,0,imgHeader.height);
                             var dataURL = c.toDataURL("image/png");
                             iaExportDataUrl(dataURL, e);
 
@@ -1169,10 +1177,28 @@ iaAddGlobalFunctions = function(report)
         }
         else
         {
-            ia.getDataUrl(panel.content, function(dataUrl)
+            ia.getDataUrl(panel.content, function (dataContent)
+            {
+                var imgContent = document.createElement('img');
+                imgContent.addEventListener('load', function() 
+                {
+                    var c = document.createElement('canvas');
+                    var ctx = c.getContext("2d");
+                    c.width = imgContent.width;
+                    c.height = imgContent.height;
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(0,0,c.width,c.height);
+                    ctx.drawImage(imgContent,0,0);
+                    var dataURL = c.toDataURL("image/png");
+                    iaExportDataUrl(dataURL, e);
+
+                });
+                imgContent.src = dataContent;
+            });
+            /*ia.getDataUrl(panel.content, function(dataUrl)
             {
                 iaExportDataUrl(dataUrl, e);
-            });
+            });*/
         }
     };
 

@@ -755,7 +755,11 @@ ia.Theme.prototype.getProfileData = function(featureIds, themeArray, date, useLa
 	{ 
 		var ind = indList[i];
 
-		var indObj = ind.profile;
+		var indObj = {};
+		for (var id in ind.profile) 
+		{ 
+			indObj[id] = ind.profile[id];
+		}
 		indObj.features = [];
 
 		// Features.

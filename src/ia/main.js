@@ -364,6 +364,7 @@
 			// Report Locale.
 			report.locale = new ia.Locale(report.config.getProperty("locale"));
 			report.locale.formatter.noDataValue = report.config.getProperty("noDataValue");
+			if (report.locale.formatter.noDataValue == undefined) report.locale.formatter.noDataValue = "";
 			report.data.formatter = report.locale.formatter;
 
 			// These need to be set before the data is loaded otherwise the properties wont be inherited.
@@ -1287,6 +1288,28 @@
 		}
 
 		var subText = report.config.getComponent(componentId).getProperty("tip");
+
+		// Multi-line chart.
+		// Replaced ${associateName} with ${lineLabel} in config files but keep in for backwards compatibility.
+		if (childItem.associateName != undefined) 
+			subText = subText.split("${associateName}").join(childItem.associateLabel);
+		else 
+			subText = subText.split("${associateName}").join('');
+		if (childItem.associateLabel != undefined) 
+			subText = subText.split("${lineLabel}").join(childItem.associateLabel);
+		else 
+			subText = subText.split("${lineLabel}").join('');
+
+		// Stacked associate charts.
+		if (childItem.name != undefined) 
+			subText = subText.split("${associate-name}").join(childItem.name);
+		else 
+			subText = subText.split("${associate-name}").join('');
+		if (childItem.formattedValue != undefined) 
+			subText = subText.split("${associate-value}").join(childItem.formattedValue);
+		else 
+			subText = subText.split("${associate-value}").join('');
+
 		var s = tipSubstitution.formatMessage(subText);
 		return s;
 	};

@@ -610,7 +610,6 @@ ia.Report.prototype.build = function(callbackFnc)
             this.addImage(widget, c);
         }
     }
-
     tempPanelContainer.remove();
     
     // Call back function.

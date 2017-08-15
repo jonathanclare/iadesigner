@@ -19,15 +19,7 @@ var designer = (function (iad, undefined)
         report:
         {
             // Path of default report to load.
-            path:'./report/',
-            // ID of html element to load reports into.
-            id: 'iad-report',
-        },
-
-        // Color schemes.
-        colorSchemes:
-        {
-            container  : '#iad-form-color-scheme'
+            path:'./report/'
         },
 
         // CSS.
@@ -61,8 +53,6 @@ var designer = (function (iad, undefined)
                 '@report-min-width':'600px',
                 '@selection-color':'#953d37'
             },
-            container  : '#iad-form-css-properties',
-            template   : 'forms.handlebars',
             form   : 
             {
                 'id': 'css',
@@ -277,20 +267,9 @@ var designer = (function (iad, undefined)
             }
         },
 
-        // Config forms.
-        configForms:
-        {
-            container  : '#iad-form-widget-properties',
-            template   : 'forms.handlebars',
-        },
-
         // Config gallery.
         configGallery:
         {
-            menuitem   : '#iad-menuitem-config-gallery',
-            modal      : '#iad-modal-config-gallery',
-            container  : '#iad-config-gallery',
-            template   : 'config-gallery.handlebars',
             reportPath : './report',
             configPath : './config/en',
             json :
@@ -433,10 +412,6 @@ var designer = (function (iad, undefined)
         // Widget gallery.
         widgetGallery:
         {
-            menuitem   : '#iad-menuitem-widget-gallery',
-            modal      : '#iad-modal-widget-gallery',
-            container  : '#iad-widget-gallery',
-            template   : 'widget-gallery.handlebars',
             json :  
             {
                 'dataSourceIndex' : 0,

@@ -63,10 +63,21 @@
  * @class ia.AGSLayer
  * @extends ia.ImageLayer
  * @constructor
+ * @param {String} url The url of the map service.
  */
-ia.AGSLayer = function()
+ia.AGSLayer = function(url)
 {
 	ia.AGSLayer.baseConstructor.call(this);
+
+	if (url.indexOf('MapServer') != -1)
+	{
+		var me = this;
+		ia.FeatureServiceReader.getInfo(url, ia.accessToken, function(fsInfo, token)
+		{
+			if (fsInfo.copyrightText) me.copyrightText = fsInfo.copyrightText;
+			if (fsInfo.documentInfo.Author) me.author = fsInfo.documentInfo.Author;
+		});
+	}
 };
 ia.extend(ia.ImageLayer, ia.AGSLayer);
  	

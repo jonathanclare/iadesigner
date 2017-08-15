@@ -884,21 +884,16 @@ canvas
 	padding-left:30px; /** Explorer group - Controls the indent for each successive branch. */ 
 }
 /*------------------- Layer List - uses user interface  -------------------*/
-.ia-layer-list
-{
-	width:100%; /** Layer list */
-	height:100%;
-}
 .ia-layer-list-scrollbox
 {
-	position:relative; /** Layer list scroll box */
+	width:100%; /** Layer list scroll box */
+	height:100%; 
 	overflow-x:auto;
 	overflow-y:auto;
 }
 .ia-layer-list-table
 {
 	width:100%; /** Layer list table */
-	padding:10px;
 }
 .ia-layer-list-item
 {

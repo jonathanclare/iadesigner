@@ -521,7 +521,7 @@ ia.StackedBarLayer.prototype.showTip = function(item, event)
 			if (childItem.hitArea.intersects(event.x,event.y)) 
 			{
 				// Tip replacement.
-				if (this.tip != "")
+				/*if (this.tip != "")
 				{
 					var label = this.tip;
 					label = label.split("${feature-name}").join(item.name);
@@ -530,8 +530,26 @@ ia.StackedBarLayer.prototype.showTip = function(item, event)
 					label = label.split("${value}").join(childItem.formattedValue);
 					this.map.datatip.text(label);
 				}
-				else this.map.datatip.text(item.name+" ("+childItem.date+") <br/> "+childItem.name+" : "+childItem.formattedValue);
-				
+				else this.map.datatip.text(item.name+" ("+childItem.date+") <br/> "+childItem.name+" : "+childItem.formattedValue);*/
+
+				// Backwards compatibility.
+				var label;
+				if (this.tip.indexOf('${feature-name} (${date}) <br/> ${associate-name}: ${value}') != -1)
+				{
+					var label = this.tip;
+					label = label.split("${feature-name}").join(item.name);
+					label = label.split("${date}").join(childItem.date);
+					label = label.split("${associate-name}").join(childItem.name);
+					label = label.split("${value}").join(childItem.formattedValue);
+				}
+				else if (this.tipFunction != undefined) 
+				{
+					label = this.tipFunction(item, childItem);
+				}
+				else label = item.name+" ("+childItem.date+") <br/> "+childItem.name+" : "+childItem.formattedValue;
+
+				this.map.datatip.text(label);
+			
 				// Position above the bar.
 				var px,py;
 

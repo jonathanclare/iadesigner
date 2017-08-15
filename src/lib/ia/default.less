@@ -26,7 +26,7 @@
 @chart-grid-color             : #cccccc;
 @highlight-color              : #e66c64;
 @selection-color              : #953d37;
-@padding: (@font-size * 0.5);
+@padding: (@font-size * 0.6);
 @panel-header-font-size: (@font-size * 1.1);
 @panel-header-padding: (@panel-header-font-size * 0.4);
 @button-font-size: (@font-size * 1.1);
@@ -314,6 +314,10 @@
 	padding-bottom: @padding; 
 	padding-top: @padding; 
 	/**  Padding and border properties for Explorer items. Add properties to override the 'ia-report styling'.  */ 
+}
+.ia-layer-list
+{
+	padding:@padding;	/** Layer list */
 }
 .ia-layer-list-item {
 	padding-bottom: @padding; 

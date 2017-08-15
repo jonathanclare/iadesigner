@@ -96,6 +96,11 @@ ia.StackedBarFactory = function(config, report, componentGroup)
 
 			// Layer.
 			layer = new ia.StackedBarLayer();
+			layer.tipFunction = function(item, childItem)
+			{
+				var s = ia.timeTipFunction(item, childItem, config.id);
+				return s;
+			};
 
 			// Add common chart properties.
 			me.buildChart(chart, layer);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<AtlasInterface edit-mode="Wireframe" template-version="6.8.0" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" name="IA6 General" schema-version="1.6" template="timeseries_advanced_sm::flash::html" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas">
+<AtlasInterface edit-mode="Wireframe" template-version="6.9.0" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" name="IA6 General" schema-version="1.6" template="timeseries_advanced_sm::flash::html" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas">
  
  	<Component id="dataExplorer" name="Data Explorer" editable="true" x="20" y="48" width="300" height="400" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
   		<Description>Allows the end user to select a indicator.</Description>
@@ -14,6 +14,24 @@
         	<Property description="When dates are not displayed load the most recent date on a selection?" id="loadMostRecentDate" name="Load Most Recent Date On Selection?" type="boolean" value="false"/>
    		<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
  	</Component>
+ 	
+ 	<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
+	      <Description>
+		Dimensions Explorer.
+	      </Description>
+
+	      <Property description="The title" id="title" name="Title" type="string" value=""/>
+	      <Property description="Is it visible at start up? Use 'javascript:iaToggle(dimensionsExplorer)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
+	      <Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="10"/>
+	      <Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false"/>  
+
+	      <Property description="A list of indicator properties to include" id="arrDimensionNames" name="Indicator Properties" type="string-array" value=""/>
+	      <Property description="A list of indicator properties to render as checkboxes" id="arrDimensionCheckbox" name="Use Checkboxes" type="string-array" value=""/>
+
+	      <Property description="The indicator text" id="indicatorSelectTitle" name="Indicator Text" type="string" value="Indicator"/>
+	      <Property description="The reset button text" id="resetButtonText" name="Reset Text" type="string" value="Reset"/>
+	      <Property description="The no selection text" id="noSelectionValue" name="No Selection Text" type="string" value="-"/>
+	</Component>
  
 	<Component id="filterExplorer" name="Filter Explorer" editable="true" x="330" y="78" width="150" height="240" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
   		<Description>Allows the end user to select a filter.</Description>
@@ -210,7 +228,7 @@
 		<!-- chart data -->
 		<Property description="The data for the chart" id="data" name="Data" type="string" value="value"/>
 		<Property description="Should the comparison data be displayed if available?" id="showComparison" name="Always Show Comparison Data" type="boolean" value="false"/>
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${lineLabel} ${name} (${date}): ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${lineLabel} ${feature-name} (${date}): ${indicator-value}" />
 		<Property description="Should lines be drawn through missing dates or should a gap be left?" id="drawLinesThroughMissingValues" name="Draw Lines through Missing Dates?" type="boolean" value="true"/>
 		<Property description="A list of dates to ignore" id="dropDates" name="List Of Dates To Ignore" type="string-array" value="" />	
 
@@ -237,6 +255,10 @@
 		<Property description="A fixed maximum value for the chart data axis" id="fixedMaxValue" name="Fixed Maximum Value" type="float" value="0" />
 		<Property description="A custom property containing a fixed minimum value for the chart data axis" id="minChartValue" name="Fixed Minimum Axis Value Property" type="string" value="minChartValue" />
 		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
+
+		<!-- box and whisker -->
+		<Property description="Show Box And Whisker?" id="showBoxAndWhisker" name="Show Box And Whisker?" type="boolean" value="false"/>    
+		<Property description="Box and whisker data tip" id="boxAndWhiskerTip" name="Box And Whisker Tip" type="string" value="Max-Min (range): ${range} &lt;br/&gt;95th-5th percentile: ${range_95_5} &lt;br/&gt;75th-25th percentile: ${interquartileRange} &lt;br/&gt;Median: ${median}" /> 
 	</Component>
   	
 	<Component id="timeSeriesLineLegend" name="Time Series - Line Legend" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
@@ -267,7 +289,7 @@
   		<Property description="The orientation of the chart" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
   		<Property description="The id of the colour scheme to use. This is overridden by the Selected Features Legend when it is included in the report" id="colorSchemeId" name="Colour Scheme" type="string" value="chartScheme1"/>
    		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${name} (${date}): ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${featureName} (${date}): ${indicatorValue}" />
 		<Property description="Should the selected time period be highlighted in the chart?" id="highlightSelectedDate" name="Highlight Selected Time Period?" type="boolean" value="true" />
 
  		<!-- chart axis formatting -->
@@ -302,7 +324,7 @@
   		<Property description="The orientation of the chart" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
   		<Property description="The id of the colour scheme to use" id="colorSchemeId" name="Colour Scheme" type="string" value="categoricScheme6"/>
    		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${feature-name} (${date}) &lt;br/&gt; ${associate-name}: ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${feature-name} (${date}) &lt;br/&gt; ${associate-name}: ${associate-value}" />
 		<Property description="Should the selected time period be highlighted in the chart?" id="highlightSelectedDate" name="Highlight Selected Time Period?" type="boolean" value="true" />
 	 		
 	 	<!-- chart axis formatting -->
@@ -333,7 +355,7 @@
   		<Property description="The orientation of the chart" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
   		<Property description="The id of the colour scheme to use" id="colorSchemeId" name="Colour Scheme" type="string" value="categoricScheme6"/>
    		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${feature-name} &lt;br/&gt; ${associate-name}: ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${feature-name} &lt;br/&gt; ${associate-name}: ${associate-value}" />
 	 		
 	 	<!-- chart axis formatting -->
  		<Property description="Should the chart data be constrained to the current data range?" id="useTightLabels" name="Match Axis to Data?" type="boolean" value="false" />
@@ -364,7 +386,7 @@
   		<Property description="The orientation of the chart" id="orientation" name="Orientation" type="string" value="vertical" choices="horizontal;vertical"/>
   		<Property description="The id of the colour scheme to use. This is overridden by the Selected Features Legend when it is included in the report" id="colorSchemeId" name="Colour Scheme" type="string" value="chartScheme1"/>
    		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${name} (${date}): ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${featureName} (${date}): ${indicatorValue}" />
 		<Property description="Should the selected time period be highlighted in the chart?" id="highlightSelectedDate" name="Highlight Selected Time Period?" type="boolean" value="true" />
 
  		<!-- chart axis formatting -->
@@ -454,7 +476,7 @@
   		<Property description="The id of the colour scheme to use. This is overridden by the Selected Features Legend when it is included in the report" id="colorSchemeId" name="Colour Scheme" type="string" value="chartScheme1"/>
   		<Property description="Should the chart bars be colored according to category?" id="colorBarsByCategory" name="Color Bars By Category?" type="boolean" value="false" />
    		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${name}: ${value}" />
+		<Property description="The data tip" id="tip" name="Tip" type="string" value="${featureName}: ${indicatorValue}" />
 	 		
 	 	<!-- chart axis formatting -->
  		<Property description="Should the chart data be constrained to the current data range?" id="useTightLabels" name="Match Axis to Data?" type="boolean" value="false" />
@@ -624,6 +646,7 @@
 		<!-- Classification type -->
 		<Property description="The data for the legend" id="data" name="Data Source" type="string" value="value" />
 		<Property description="The legend classification type" id="legendClassifier" name="Classification" type="string" value="quantile" choices="equalInterval;quantile;natural;continuous;standardDeviation"/>
+    		<Property description="Use old classification method" id="useOldClassificationMethod" name="Use Old Classification Method?" type="boolean" value="false"/>
 		<Property description="The default number of decimal places to be shown for legend values." id="legendPrecision" name="Decimal Places" type="integer" value="-1" />
 	  		<Property description="The text displayed for features that have &apos;No Data&apos; or null values" id="noDataValue" name="'No Data' Value" type="string" value="No Data" />
 	  		<Property description="No data colour used in legend" id="noDataColor" name="'No Data' Colour" type="colour" value="#ffffff" />	
@@ -652,7 +675,7 @@
 		<Property description="The text for band 4 of the standard deviation classification" id="sd4" name="Band 4 Text" type="string" value="0 - 1 SD above mean"/>
 		<Property description="The text for band 5 of the standard deviation classification" id="sd5" name="Band 5 Text" type="string" value="1 - 2 SD above mean"/>
 		<Property description="The text for band 6 of the standard deviation classification" id="sd6" name="Band 6 Text" type="string" value="> 2 SD above mean"/>
-    		<Property description="Should the legend be built based on all indicators in the time series?" id="buildLegendUsingTimeSeries" name="Build Legend Using Time Series?" type="boolean" value="false"/>
+    		<Property description="Should the legend be built based on all time periods of the indicator?" id="buildLegendUsingTimeSeries" name="Build Legend Using Time Series?" type="boolean" value="false"/>
 	</PropertyGroup>
 
   	<PropertyGroup id="shareText" name="Share Text">	
@@ -690,7 +713,7 @@
   	<Button zIndex="100" id="dataButton" text="Data" href="javascript:iaToggle(dataExplorer)" tooltip="" x="20" y="20" width="120" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
   	<Button zIndex="100" id="filterButton" text="Filter" href="javascript:iaToggle(filterExplorer)" tooltip="" x="405" y="50" width="75" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
   	<Button zIndex="100" id="geographyButton" text="Geography" href="javascript:iaToggle(geogExplorer)" tooltip="" x="485" y="50" width="75" height="27"  editable="true" moveable="true" removeable="true" resizeable="true"/>
-	<Image zIndex="100" id="iaLogo" rescale="true" anchor="left" src="./logo.png" href="http://www.instantatlas.com" target="_blank" x="760" y="20" width="20" height="25" moveable="true" editable="true" removeable="true" resizeable="true" /> 
+	<Image zIndex="100" id="iaLogo" maintain-aspect-ratio="true" rescale="true" anchor="left" src="./logo.png" href="http://www.instantatlas.com" target="_blank" x="760" y="20" width="20" height="25" moveable="true" editable="true" removeable="true" resizeable="true" /> 
 
   	<MapPalettes classes="5" default="Sequential Cyan" maxclasses="10">
 		<ColourRange id="Sequential Red">

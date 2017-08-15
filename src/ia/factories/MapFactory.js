@@ -69,7 +69,7 @@ ia.MapFactory = function(config, report, componentGroup)
 	var $copyright; 				// Map copyright.
 	var $esriLogo;					// ESRI Logo.
 	var agsHash = {};				// Holds copyright text for ESRI background mapping.
-	var exportEsriLogo = false; 	// idicates whether esri logo should be included when map is exported.		
+	var exportEsriLogo = false; 	// indicates whether esri logo should be included when map is exported.		
 			
 
 	// Bounding box set from url parameters.
@@ -292,6 +292,29 @@ ia.MapFactory = function(config, report, componentGroup)
 	var logoAdded = false;
 	function getBasemapCopyrightText(callback)
 	{
+		var copyrightText = '';
+		var imageLayers = mapData.imageLayers;
+		for (var i = 0; i < imageLayers.length; i++)
+		{
+			var layer = imageLayers[i];
+			if (layer.type == 'ags-layer' && layer.getVisible() && layer.author == 'Esri') 
+			{
+				// ESRI Logo.
+				if (!logoAdded)
+				{
+					$esriLogo = $j('<div id="esri-logo" class="ia-esri-logo"><img src="' + ia.IAS_PATH + 'esri-logo.png"></div>');
+					map.addLogo(ia.IAS_PATH + 'esri-logo.png');
+					panel.append($esriLogo);
+					exportEsriLogo = true;
+					logoAdded = true;
+				}
+				if (layer.copyrightText) copyrightText =  layer.copyrightText; 
+				break;
+			}
+		}
+		callback.call(null, copyrightText); // Return copyright text.
+
+		/*
 		var topVisibleLayer;
 		var imageLayers = mapData.imageLayers;
 		if (imageLayers.length > 0)
@@ -331,6 +354,7 @@ ia.MapFactory = function(config, report, componentGroup)
 			}
 		}
 		else callback.call(null, ''); // Return (no visible ags layers - return empty string).
+		*/
 	};
 
 	// Returns the top visible ags layer copyright.

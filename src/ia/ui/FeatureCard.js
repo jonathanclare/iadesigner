@@ -459,10 +459,10 @@ ia.FeatureCard.prototype._renderFeatureListTheme = function(r, index, themes)
 			r[++index] = "</div>"; 
 		}
 
-		if (theme.hasThemes)
+		if (theme.themes != undefined && theme.themes.length > 0)
 		{
 			// Nested Themes.
-			index = me._renderFeatureListTheme(r, index, theme.getThemes());
+			index = me._renderFeatureListTheme(r, index, theme.themes);
 		}
 	});
 
@@ -483,7 +483,7 @@ ia.FeatureCard.prototype._renderIndicatorList = function(data)
 	var r = new Array(), index = -1;
 
 	// Themes.
-	index = me._renderIndicatorListThemes(r, index, data.themes);
+	index = me._renderIndicatorListTheme(r, index, data.themes);
 
 	var t = r.join("").replace(/(\r\n|\n|\r)/gm,""); // Remove line breaks.
 	this.$content.append(t);
@@ -492,10 +492,10 @@ ia.FeatureCard.prototype._renderIndicatorList = function(data)
 /**
  * Renders the indicator list.
  *
- * @method _renderIndicatorListThemes
+ * @method _renderIndicatorListTheme
  * @param {JSON} data The JSON data.
  */
-ia.FeatureCard.prototype._renderIndicatorListThemes = function(r, index, themes) 
+ia.FeatureCard.prototype._renderIndicatorListTheme = function(r, index, themes) 
 {	
 	var me = this;
 
@@ -707,10 +707,10 @@ ia.FeatureCard.prototype._renderIndicatorListThemes = function(r, index, themes)
 			r[++index] = "</div></div>"; 
 		}
 
-		if (theme.hasThemes)
+		if (theme.themes != undefined && theme.themes.length > 0)
 		{
 			// Nested Themes.
-			index = me._renderIndicatorListTheme(r, index, theme.getThemes());
+			index = me._renderIndicatorListTheme(r, index, theme.themes);
 		}
 	});
 

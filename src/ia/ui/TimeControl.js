@@ -31,7 +31,8 @@ ia.TimeControl = function(id, dataGroup, callbackFunction)
 	this.container  = $j("<div id='"+id+"-container' class='ia-time-control-scrollbox'>");
 	this._scrollBox = new ia.ScrollBox(this.container);
 
-	this.$table  = $j("<table class='ia-time-control-table'>");
+	//this.$table  = $j("<table class='ia-time-control-table'>");
+	this.$table  = $j("<table>").addClass('ia-time-control-table');
 	this.container.append(this.$table);
 
 	var me = this;

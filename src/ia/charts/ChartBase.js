@@ -1211,6 +1211,8 @@ ia.ChartBase.prototype._getLooseLabels = function(minVal, maxVal, noLabels)
  */
 ia.ChartBase.prototype._getTightLabels = function(minVal, maxVal, noLabels)
 {
+	// http://bugzilla.geowise.co.uk/show_bug.cgi?id=10503
+
 	var range = maxVal - minVal;
 	var incr = range / (noLabels-1);
 	var value = parseFloat(minVal);
@@ -1231,9 +1233,4 @@ ia.ChartBase.prototype._getTightLabels = function(minVal, maxVal, noLabels)
 		labels.push(this.formatter.format(values[i], precision));
 	}
 	return {values:values,labels:labels};
-
-	/*var labels = this._getLooseLabels(minVal, maxVal, noLabels);
-	labels[0] = minVal;
-	labels[labels.length-1] = maxVal;
-	return labels;*/
 };

@@ -66,6 +66,10 @@ ia.WebTileLayer = function(url)
 			me.token = token;
 			me._tileInfo = fsInfo.tileInfo;
 			me._fullExtent = fsInfo.fullExtent;
+			
+			if (fsInfo.copyrightText) me.copyrightText = fsInfo.copyrightText;
+			if (fsInfo.documentInfo.Author) me.author = fsInfo.documentInfo.Author;
+
 			me.isLoaded = true;
 			me.render();
 		});
