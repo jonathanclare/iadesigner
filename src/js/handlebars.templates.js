@@ -38,13 +38,9 @@ this["designer"]["config-gallery.handlebars"] = Handlebars.template({"1":functio
     + alias4(((helper = (helper = helpers.apply || (depth0 != null ? depth0.apply : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"apply","hash":{},"data":data}) : helper)))
     + "</button>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
-  "<div class=\"iad-gallery-description\" style=\"padding:15px 15px 15px 15px;\">\r\n	"
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
-    + "\r\n	<br/><br/><button type=\"button\" class=\"iad-config-gallery-load-btn btn btn-default\" ><span class=\"fa fa-folder-open-o\"></span>&nbsp;&nbsp;"
-    + alias4(container.lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.thumbnail : depth0)) != null ? stack1.buttons : stack1)) != null ? stack1.load : stack1), depth0))
-    + "</button>\r\n</div>\r\n\r\n";
-  stack1 = ((helper = (helper = helpers.galleries || (depth0 != null ? depth0.galleries : depth0)) != null ? helper : alias2),(options={"name":"galleries","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
+    var stack1, helper, options, buffer = "";
+
+  stack1 = ((helper = (helper = helpers.galleries || (depth0 != null ? depth0.galleries : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"galleries","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),options) : helper));
   if (!helpers.galleries) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
   if (stack1 != null) { buffer += stack1; }
   return buffer;

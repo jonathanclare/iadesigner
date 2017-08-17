@@ -73,7 +73,7 @@ var designer = (function (iad, $, window, document, undefined)
 		});
 
 		// Load click.
-		$('.iad-config-gallery-load-btn')
+		$('#iad-btn-upload-config')
 		.on('click', function(e) // Loads a config file - loading handled by caller.
 		{
 			e.preventDefault();

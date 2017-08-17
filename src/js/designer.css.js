@@ -55,6 +55,12 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
+    // Returns the less vars as a string.
+    iad.css.getLessVarsAsString = function()
+    {
+        return JSON.stringify(lessVars);
+    };
+
     function readLessFile(callback)
     {
         if (strLess === undefined)
@@ -74,13 +80,14 @@ var designer = (function (iad, $, window, document, undefined)
     }
 
     // Load in a less variables file.
-    iad.css.loadLessVarsFile = function(srcLessVars)
+    iad.css.readLessVarsFile = function(srcLessVars, callback)
     {
         // Read in less variables from AGOL on initial page load.
         $.getJSON(srcLessVars)
         .done(function(jsonLessVars)
         {
             iad.css.setLessVars(jsonLessVars);
+            if (callback !== undefined) callback.call(null); 
         })
         .fail(function(jqXHR, textStatus, errorThrown)
         {
@@ -103,7 +110,7 @@ var designer = (function (iad, $, window, document, undefined)
 
             if (options && options.onLessVarsChanged) options.onLessVarsChanged.call(null, lessVars);
         }
-        
+
         if (!initialised && options && options.onReady) options.onReady.call(null);
         initialised = true;
     };

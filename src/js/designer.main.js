@@ -22,7 +22,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var $cssPanel = $('#iad-slide-panel-css-properties');
     var $colorschemePanel = $('#iad-slide-panel-color-scheme');
     var $widgetPanelTitle = $('#iad-slide-panel-widget-properties-title');
-    var $saveBtn = $('#iad-menuitem-save');
 
     // Listen for messages
     ipcRenderer.on('message', function(event, text) 
@@ -36,12 +35,34 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function changesMade()
     {
-
+        updateDownloadButtons();
+        console.log('changes made');
     }
 
     function changesSaved()
     {
+        console.log('changes saved');
+    }
 
+    function updateDownloadButtons()
+    {
+        // config.xml
+        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
+        var configUrl = URL.createObjectURL(configBlob);
+        $('#iad-btn-download-config').attr('href', configUrl);
+
+        // colorscheme.json
+        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
+        var lessUrl = URL.createObjectURL(lessBlob);
+        $('#iad-btn-download-less').attr('href', lessUrl);
+
+        // default.css
+        /*iad.css.getCssAsString(function (defaultCss)
+        {
+            var cssBlob = new Blob([defaultCss], {type: 'text/css' }); 
+            var cssUrl = URL.createObjectURL(cssBlob);
+            $('#iad-btn-download-css').attr('href', cssUrl);
+        });*/
     }
 
     function imgError(image) 
@@ -56,7 +77,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
 
         //setApplicationMenu();
-        //setPopupMenu();
+        setPopupMenu();
         registerHandlebarsHelperFunctions();
         initCss(settings.css, function()
         {
@@ -85,6 +106,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     initFileDragAndDrop();
                     updateWidgetPropertiesDropdown();
                     iad.configforms.updateJavaScriptOptions();
+                    updateDownloadButtons();
                     initMenuHandlers();
 
                     if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
@@ -109,15 +131,16 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function initMenuHandlers()
     {
-        var configPath;
+        var configPath, reportPath;
 
         // Open.
         $('#iad-menuitem-open').on('click', function(e)
         {
             openConfigFile(function (filePath)
             {
+                reportPath = iad.util.dirPath(filePath);
                 iad.canvas.clearSelection();
-                iad.config.loadReport(iad.util.dirPath(filePath), function ()
+                iad.config.loadReport(reportPath, function ()
                 {
                     configPath = filePath;
                 });
@@ -129,10 +152,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             saveFile(configPath, iad.config.toString(), function ()
             {
-                saveFile(configPath, iad.config.toString(), function ()
-                {
+                //saveFile(configPath, iad.config.toString(), function ()
+                //{
                     changesSaved();
-                });
+                //});
             });
         });
 
@@ -224,6 +247,18 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             closeSlidePanel('css');
             if ($colorschemePanel.is(":visible")) closeSlidePanel('colorscheme');
             else openSlidePanel('colorscheme');
+        });
+
+        // Open less file.
+        $('#iad-btn-upload-less').on('click', function (e)
+        {
+            openLessFile(function (filePath)
+            {
+                iad.css.readLessVarsFile(filePath, function ()
+                {
+
+                });
+            });
         });
     }
 
@@ -729,7 +764,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 }
                 else if (fileName.indexOf('.json') != -1) // json-less-vars.json - file type doesnt seem to work for json.
                 {
+                    iad.css.readLessVarsFile(f.path, function ()
+                    {
 
+                    });
                 }
             }
 		});
@@ -904,6 +942,25 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             title: 'Open config.xml',
             properties: ['openFile'],
             filters: [{name: 'config', extensions: ['xml']}]
+        });
+
+        if (!files) 
+        {
+            return;
+        }
+        else 
+        {
+            if (callback !== undefined) callback.call(null, files[0]);
+        }
+    }
+
+    function openLessFile(callback)
+    {
+        var files = dialog.showOpenDialog(remote.getCurrentWindow(), 
+        {
+            title: 'Open colorscheme.json',
+            properties: ['openFile'],
+            filters: [{name: 'colorscheme', extensions: ['json']}]
         });
 
         if (!files) 

@@ -273,10 +273,8 @@ var designer = (function (iad, undefined)
             configPath : './config/en',
             json :
             {
-               'description':'Choose a template or load one from file.',
                'thumbnail':{
                   'buttons':{
-                     'load':'Load From File...',
                      'preview':'Example',
                      'apply':'Apply'
                   }

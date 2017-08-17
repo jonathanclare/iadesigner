@@ -157,7 +157,9 @@
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Style Editor</span></div>
             </div>
             <div class="iad-slide-panel-content">
-                <div class="iad-form">
+                <div class="iad-form"><div class="iad-upload-buttons">
+                    <a id="iad-btn-download-css" type="button" class="btn btn-default" download="default.css"><span class="fa fa-download"></span>&nbsp;&nbsp;Download</a>
+                    </div>
                     <div id="iad-form-css-properties">
                     <!-- populated by designer.css.js -->
                     </div>
@@ -166,21 +168,26 @@
         </div>
         <!-- end css properties container -->
 
-        <!-- start color properties container -->
+        <!-- start color scheme container -->
         <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
             <div class="iad-slide-panel-header">
                 <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
             </div>
             <div class="iad-slide-panel-content">
+
                 <div class="iad-form">
+                    <div class="iad-upload-buttons">
+                        <a id="iad-btn-upload-less" type="button" class="btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload</a>
+                        <a id="iad-btn-download-less" type="button" class="btn btn-default" download="colorscheme.json"><span class="fa fa-download"></span>&nbsp;&nbsp;Download</a>
+                    </div>
                     <div id="iad-form-color-scheme">
                         <!-- populated by designer.colorscheme.js -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- end color properties container -->
+        <!-- end color scheme container -->
 
         <!-- config gallery modal -->
         <div class="modal fade" id="iad-modal-config-gallery" tabindex="-1" role="dialog">
@@ -191,6 +198,12 @@
                         <h4 class="modal-title"><span class="fa fa-bar-chart"></span>&nbsp;&nbsp;Templates</h4>
                     </div>
                     <div class="modal-body modal-body-scrollable">
+
+                        <div class="iad-upload-buttons">
+                            <a id="iad-btn-upload-config" type="button" class="iad-btn-upload-config btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload</a>
+                            <a id="iad-btn-download-config" type="button" class="iad-btn-download-config btn btn-default" download="config.xml"><span class="fa fa-download"></span>&nbsp;&nbsp;Download</a>
+                        </div>
+
                         <div id="iad-config-gallery">
                             <!-- populated by config-gallery.handlebars -->
                         </div>
@@ -230,7 +243,6 @@
 
         <!-- Insert this line above script imports https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined -->
         <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-
 
         <!-- build:js ./lib/jquery-2.2.3/jquery-2.2.3.min.js -->
         <script src="./lib/jquery-2.2.3/jquery-2.2.3.js"></script>
