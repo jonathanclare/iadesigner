@@ -243,7 +243,7 @@
 								<div class="form-group iad-form-group">
 										<div class="checkbox">
 											<label>
-												<input id="{{id}}" type="checkbox" {{#ifEqualTo ../value 'true'}}checked{{/ifEqualTo}} {{#ifEqualTo ../value true}}checked{{/ifEqualTo}} class="iad-control-checkbox"><span class="control-label iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
+												<input id="{{id}}" type="checkbox" {{#ifEqualTo this.value 'true'}}checked{{/ifEqualTo}} {{#ifEqualTo this.value true}}checked{{/ifEqualTo}} class="iad-control-checkbox"><span class="control-label iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
 											</label>
 										</div>
 								</div>
@@ -345,7 +345,7 @@
 									<div>
                                         <div class="input-group">
 										  <input id="{{id}}" class="iad-control-range" type="range" value="{{value}}" min="{{min}}" max="{{max}}" step="{{step}}">
-                                          <div class="input-group-addon range-value">{{value}}</div>
+                                          <div class="input-group-addon iad-range-value">{{value}}</div>
                                         </div>
 									</div>
 								</div>

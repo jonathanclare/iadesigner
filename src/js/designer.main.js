@@ -11,12 +11,18 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var dialog = electron.dialog || remote.dialog;
     var ipcRenderer = electron.ipcRenderer;
 
-    var changesSaved = true;
     var selectedWidgetId;
+    var editedWidgetId;
     var report;
     
     var version = window.location.hash.substring(1);
     document.getElementById('version').innerText = version;
+
+    var $widgetPanel = $('#iad-slide-panel-widget-properties');
+    var $cssPanel = $('#iad-slide-panel-css-properties');
+    var $colorschemePanel = $('#iad-slide-panel-color-scheme');
+    var $widgetPanelTitle = $('#iad-slide-panel-widget-properties-title');
+    var $saveBtn = $('#iad-menuitem-save');
 
     // Listen for messages
     ipcRenderer.on('message', function(event, text) 
@@ -27,6 +33,23 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         message.innerHTML = text;
         container.appendChild(message);*/
     });
+
+    function changesMade()
+    {
+
+    }
+
+    function changesSaved()
+    {
+
+    }
+
+    function imgError(image) 
+    {
+        image.onerror = "";
+        image.src = "/images/noimage.gif";
+        return true;
+    }
 
     iad.init = function(options)
     {
@@ -78,7 +101,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     config      : {source:settings.report.path+'/config.xml'},
                     attribute   : {source:settings.report.path+'/data.js'},
                     map         : {source:settings.report.path+'/map.js'}
-                    /*style       : {source:dirPath+'/default.css'}*/
+                    /*style       : {source:settings.report.path+'/default.css'}*/
                 }
             });
         });
@@ -94,7 +117,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             openConfigFile(function (filePath)
             {
                 iad.canvas.clearSelection();
-                iad.config.loadReport(dirPath(filePath), function ()
+                iad.config.loadReport(iad.util.dirPath(filePath), function ()
                 {
                     configPath = filePath;
                 });
@@ -106,8 +129,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             saveFile(configPath, iad.config.toString(), function ()
             {
-                changesSaved = true;
-                console.log('saved');
+                saveFile(configPath, iad.config.toString(), function ()
+                {
+                    changesSaved();
+                });
             });
         });
 
@@ -127,101 +152,122 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             }
         });
 
-        // Widget dropdown option.
+        // Insert widgets.
+        $(document).on('click', '#iad-menuitem-insert-image', function(e)
+        {
+            iad.config.addWidget('Image');
+        });
+        $(document).on('click', '#iad-menuitem-insert-text', function(e)
+        {
+            iad.config.addWidget('Text');
+        });
+        $(document).on('click', '#iad-menuitem-insert-button', function(e)
+        {
+            iad.config.addWidget('Button');
+        });
+
+        // Edit widget dropdown option.
         $(document).on('click', '.iad-dropdown-option-widget-properties', function(e)
         {
             e.preventDefault();
             var widgetId = $(this).data('id');
-            openConfigProperties(widgetId);
-            if (widgetId === 'PropertyGroup')
-            {
-                iad.canvas.clearSelection();
-                iad.configforms.showPropertyGroupForm();
-            }
-            else
-            {
-                iad.canvas.select(widgetId);
-                iad.configforms.showWidgetForm(widgetId);
-            }
+            editWidget(widgetId);
         });
 
-        // Edit widget.
+        // Edit widget button.
         $('#iad-btn-widget-edit').on('click', function(e)
         {
-            if (selectedWidgetId !== undefined) 
+            if (selectedWidgetId !== undefined)
             {
-                openConfigProperties(selectedWidgetId);
-                iad.configforms.showWidgetForm(selectedWidgetId);      
+                if (selectedWidgetId === editedWidgetId) closeSlidePanel('widget');
+                else editWidget(selectedWidgetId);
             }
         });
 
-        // Send widget to back.
+        // Send widget to back button.
         $('#iad-btn-widget-send-to-back').on('click', function(e)
         {
             if (selectedWidgetId !== undefined) iad.config.sendToBack(selectedWidgetId);
         });
 
-        // Bring widget to front.
+        // Bring widget to front button.
         $('#iad-btn-widget-bring-to-front').on('click', function(e)
         {
             if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
         });
 
-        // Close slide panels.
-        $('#iad-btn-close-slide-panel-widget-properties').on('click', function (e)
+        // Close slide panel buttons.
+        $('#iad-btn-close-widget-panel').on('click', function (e)
         {
             closeSlidePanel('widget');
         });
-        $('#iad-btn-close-slide-panel-css-properties').on('click', function (e)
+        $('#iad-btn-close-css-panel').on('click', function (e)
         {
             closeSlidePanel('css');
         });
-        $('#iad-btn-close-slide-panel-color-scheme').on('click', function (e)
+        $('#iad-btn-close-color-scheme-panel').on('click', function (e)
         {
             closeSlidePanel('colorscheme');
         });
 
         // Open slide panels.
-        $('#iad-menuitem-open-slide-panel-css-properties').on('click', function (e)
+        $('#iad-menuitem-open-css').on('click', function (e)
         {
             closeSlidePanel('widget');
             closeSlidePanel('colorscheme');
-            if ($('#iad-slide-panel-css-properties').is(":visible")) closeSlidePanel('css');
+            if ($cssPanel.is(":visible")) closeSlidePanel('css');
             else openSlidePanel('css');
         });
-        $('#iad-menuitem-open-slide-panel-color-scheme-properties').on('click', function (e)
+        $('#iad-menuitem-open-color-scheme').on('click', function (e)
         {
             closeSlidePanel('widget');
             closeSlidePanel('css');
-            if ($('#iad-slide-panel-color-scheme').is(":visible")) closeSlidePanel('colorscheme');
+            if ($colorschemePanel.is(":visible")) closeSlidePanel('colorscheme');
             else openSlidePanel('colorscheme');
         });
     }
 
-    function closeSlidePanel (name)
+    function getSlidePanel(name)
     {
-        var $panel;
-        if (name === 'widget') $panel = $('#iad-slide-panel-widget-properties');
-        else if (name === 'css') $panel = $('#iad-slide-panel-css-properties');
-        else if (name === 'colorscheme') $panel = $('#iad-slide-panel-color-scheme');
+        if (name === 'widget') return $widgetPanel ;
+        else if (name === 'css') return $cssPanel;
+        else if (name === 'colorscheme') return $colorschemePanel;
+        return undefined;
+    }
+
+    function closeSlidePanel(name)
+    {
+        if (name === 'widget') editedWidgetId = undefined;
+        var $panel = getSlidePanel(name);
         var w = ($panel.outerWidth() + 20) * -1;
         $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
     }
 
-    function openSlidePanel (name)
+    function openSlidePanel(name)
     {
-        var $panel;
-        if (name === 'widget') $panel = $('#iad-slide-panel-widget-properties');
-        else if (name === 'css') $panel = $('#iad-slide-panel-css-properties');
-        else if (name === 'colorscheme') $panel = $('#iad-slide-panel-color-scheme');
+        var $panel = getSlidePanel(name);
         $panel.show();
         $panel.animate({left: '0px'}, {duration: 400,queue: false});
     }
 
-    function openConfigProperties(widgetId)
+    function editWidget(widgetId)
     {
+        editedWidgetId = widgetId;
+
         var title = iad.config.getDisplayName(widgetId);
-        $('#iad-slide-panel-widget-properties-title').text(title);
+        $widgetPanelTitle.text(title);
+
+        if (widgetId === 'PropertyGroup')
+        {
+            iad.canvas.clearSelection();
+            iad.configforms.showPropertyGroupForm();
+        }
+        else
+        {
+            iad.canvas.select(widgetId);
+            iad.configforms.showWidgetForm(widgetId);
+        }
+
         closeSlidePanel('css');
         closeSlidePanel('colorscheme');
         openSlidePanel('widget');
@@ -265,7 +311,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function () 
                         {
-                            changesSaved = false;
+                            changesMade();
                         });
                     });
                 }
@@ -284,7 +330,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             factory.renderComponents(function () 
                             {
-                                changesSaved = false;
+                                changesMade();
                             });
                         });
                     }
@@ -292,7 +338,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function() 
                         {
-                            changesSaved = false;
+                            changesMade();
                         });
                     } 
                 }
@@ -330,26 +376,36 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.configforms.updateJavaScriptOptions();
                 updateWidgetPropertiesDropdown();
+                
                 // Update widget and legend forms to pick up any changes in data lists for dropdowns.
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
+
+                closeSlidePanel('widget');
+                iad.canvas.clearSelection();
                 iad.canvas.update();
             },
             onWidgetRemoved: function (widgetId)
             {
                 iad.configforms.updateJavaScriptOptions();
                 updateWidgetPropertiesDropdown();
+
+                if (widgetId === selectedWidgetId) iad.canvas.clearSelection();
+                if (widgetId === editedWidgetId) closeSlidePanel('widget');
                 iad.canvas.update();
             },
             onWidgetAdded: function (widgetId)
             {
                 iad.configforms.updateJavaScriptOptions();
                 updateWidgetPropertiesDropdown();
+
+                iad.canvas.clearSelection();
                 iad.canvas.update();
                 iad.canvas.select(widgetId);
             },
             onWidgetChanged: function (widgetId, type)
             {
+                if (widgetId === selectedWidgetId) iad.config.showWidget(widgetId); // Stop popup widgets from disappearing.
                 if (type === 'property-added' || type === 'property-removed' || type === 'column-changed') iad.configforms.showWidgetForm(widgetId);
             },
             onZIndexChanged: function (widgetId)
@@ -368,7 +424,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onConfigChanged: function ()
             {
-                changesSaved = false;
+                changesMade();
             }
         });
     }
@@ -409,10 +465,21 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         iad.config.setWidgetProperty(widgetId, propertyId, newValue); // Special spine chart column properties like min, mid ,max labels.
                     }
                 }
-                else if (tagName === 'Component' || tagName === 'Table' || tagName === 'Button' || tagName === 'Image' || 
-                         tagName === 'Text' || tagName === 'PropertyGroup' || tagName === 'MapPalettes')
-                {
+                else if (tagName === 'Component' || tagName === 'Table')
+                {                    
                     iad.config.setWidgetProperty(widgetId, propertyId, newValue);
+                }  
+                else if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text') 
+                {
+                    iad.config.setWidgetAttribute(widgetId, propertyId, newValue);
+                }
+                else if (tagName == 'PropertyGroup')
+                {
+                    iad.config.setGroupProperty(widgetId, propertyId, newValue);
+                }
+                else if (tagName == 'MapPalettes')
+                {
+
                 }
                 else // Css control.    
                 {
@@ -427,7 +494,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 // Dynamically update thematics.
                 if (widgetId && (widgetId.indexOf('thematics') !== -1 || widgetId.indexOf('pointSymbols') !== -1 || widgetId.indexOf('lineSymbols') !== -1))
                 {
-                    iad.legendform.updateProperty(propertyId, attribute, newValue);
+                    //iad.legendform.updateProperty(propertyId, attribute, newValue);
                 }
             }
         });
@@ -456,7 +523,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 selectedWidgetId = undefined;
             },
             onClearSelection: function ()
-            {           
+            {     
                 $nav.hide();
                 selectedWidgetId = undefined;
             },
@@ -487,19 +554,14 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     },
                     callback: function (result) 
                     {
-                        if (result === true)
-                        {
-                            iad.canvas.clearSelection();
-                            iad.config.removeWidget(widgetId);
-                            //closeSlidePanel('widget');
-                        }
+                        if (result === true) iad.config.removeWidget(widgetId);
                     }
                 });
             },
             onEditBtnClick: function (widgetId)
             {
-                openConfigProperties(widgetId);
-                iad.configforms.showWidgetForm(widgetId);
+                if (widgetId === editedWidgetId) closeSlidePanel('widget');
+                else editWidget(widgetId);
             },
             onActivated: function ()
             {
@@ -607,7 +669,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initWidgetGallery(options)
     {
         var widgetId;
-        var $menuitem = $('#iad-menuitem-widget-gallery');
+        var $menuitem = $('#iad-menuitem-insert-widget');
         var $modal = $('#iad-modal-widget-gallery');
 
         $menuitem.on('click', function(e)
@@ -637,11 +699,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             if (widgetId !== undefined) iad.config.addWidget(widgetId);
         });
-    }
-
-    function dirPath(filePath)
-    {
-        return filePath.substring(0,filePath.lastIndexOf('\\')+1);
     }
 
     function initFileDragAndDrop()
@@ -790,7 +847,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
 
         // General Properties.
-        var options = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="PropertyGroup" class="iad-dropdown-option-widget-properties iad-dropdown-option">General Properties</a></li>';
+        var options = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="PropertyGroup" class="iad-dropdown-option-widget-properties">General Properties</a></li>';
         options += '<li role="presentation" class="divider"></li>';
 
         // Add dropdown options to widget select dropdown.
@@ -813,7 +870,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         var id = $xmlWidget.attr('id');
                         var name = iad.config.getDisplayName(id);
-                        options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="'+ id + '" class="iad-dropdown-option-widget-properties iad-dropdown-option">' + name + '</a></li>';
+                        options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="'+ id + '" class="iad-dropdown-option-widget-properties">' + name + '</a></li>';
                     }
                 }
             }
@@ -892,7 +949,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             openConfigFile(function (filePath)
                             {
-                                iad.config.loadReport(dirPath(filePath), function ()
+                                iad.config.loadReport(iad.util.dirPath(filePath), function ()
                                 {
 
                                 });

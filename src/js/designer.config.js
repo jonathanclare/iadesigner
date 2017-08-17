@@ -38,7 +38,7 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
-    // load a config file.
+    // Load a new config file.
     iad.config.loadConfig = function (configPath, callbackFunction)
     {
         // Load in the config.
@@ -48,7 +48,7 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
-    // Parse the config xml.
+    // Parse a new config xml.
     iad.config.parseConfig = function (configXml, callbackFunction)
     {
         // Parse in the config.
@@ -58,7 +58,7 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
-    // Update the config xml.
+    // Refresh the current config xml.
     iad.config.refreshConfig = function (callbackFunction)
     {
         // Parse in the config.
@@ -901,7 +901,7 @@ var designer = (function (iad, $, window, document, undefined)
         return $xmlMapPalettes.find('ColourRange').map(function() {return $(this).attr('id');});
     };
 
-    // Gets a ColorRange or ColourScheiad.config.
+    // Gets a ColorRange or ColorScheme.
     iad.config.getColourRange = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
@@ -993,7 +993,7 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
-    // Adds a new ColourScheiad.config.
+    // Adds a new ColorScheme.
     iad.config.addColourScheme = function (paletteId, arrColors)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');

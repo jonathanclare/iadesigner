@@ -49,19 +49,7 @@ var designer = (function (iad, $, window, document, undefined)
 			$activePanel.appendTo($parent);
 			$dragPanel.appendTo($parent);
 			$btns.appendTo($dragPanel);
-			$title.appendTo($dragPanel);
-
-			// Remove button.
-			$('<div class="iad-drag-panel-btn iad-drag-panel-btn-remove" title="Remove">')
-			.append($('<i class="fa fa-times">'))
-			.mousedown(function(e) 
-			{
-				e.stopPropagation();
-
-				if (options && options.onRemoveBtnClick) 
-					options.onRemoveBtnClick.call(null, hoveredWidget.id);
-			})
-			.appendTo($btns);
+			//$title.appendTo($dragPanel);
 
 			// Edit button.
 			$('<div class="iad-drag-panel-btn iad-drag-panel-btn-edit" title="Edit">')
@@ -72,6 +60,18 @@ var designer = (function (iad, $, window, document, undefined)
 
 				if (options && options.onEditBtnClick) 
 					options.onEditBtnClick.call(null, hoveredWidget.id);
+			})
+			.appendTo($btns);
+
+			// Remove button.
+			$('<div class="iad-drag-panel-btn iad-drag-panel-btn-remove" title="Remove">')
+			.append($('<i class="fa fa-times">'))
+			.mousedown(function(e) 
+			{
+				e.stopPropagation();
+
+				if (options && options.onRemoveBtnClick) 
+					options.onRemoveBtnClick.call(null, hoveredWidget.id);
 			})
 			.appendTo($btns);
 
@@ -129,11 +129,7 @@ var designer = (function (iad, $, window, document, undefined)
 		$dragPanel.css('display', 'inline');
 
 		// Add the widget name.
-		//if (hoveredWidget.name === undefined) $title.html('');
-		//else 
-		//{
-			$title.html(iad.config.getDisplayName(hoveredWidget.id));
-		//}
+		$title.html(iad.config.getDisplayName(hoveredWidget.id));
 
 		// Position the dragger container.
 		var c = hoveredWidget.container;
@@ -481,11 +477,9 @@ var designer = (function (iad, $, window, document, undefined)
 		hoveredWidget = undefined;
 	};
 
-
 	// Updates the canvas after the report config has changed.
 	iad.canvas.update = function() 
 	{
-        iad.canvas.clearSelection();
 		$activePanel.css('display', 'none');
 		$dragPanel.css('display', 'none');
 

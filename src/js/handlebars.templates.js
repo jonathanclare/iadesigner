@@ -362,15 +362,15 @@ this["designer"]["forms.handlebars"] = Handlebars.template({"1":function(contain
     + "\" class=\"form-control input-sm iad-control-number iad-control-float\" type=\"hidden\" value=\""
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "\">\r\n											<span class=\"btn-group\">													\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-minus\">-</button>\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-plus\">+</button>\r\n											</span>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"55":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"55":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div class=\"form-group iad-form-group\">\r\n										<div class=\"checkbox\">\r\n											<label>\r\n												<input id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" type=\"checkbox\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depths[1] != null ? depths[1].value : depths[1]),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(56, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(56, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depths[1] != null ? depths[1].value : depths[1]),true,{"name":"ifEqualTo","hash":{},"fn":container.program(56, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),true,{"name":"ifEqualTo","hash":{},"fn":container.program(56, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " class=\"iad-control-checkbox\"><span class=\"control-label iad-tooltip-control\" data-toggle=\"tooltip\" title=\""
     + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
     + "\">"
@@ -495,7 +495,7 @@ this["designer"]["forms.handlebars"] = Handlebars.template({"1":function(contain
     + alias4(((helper = (helper = helpers.max || (depth0 != null ? depth0.max : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"max","hash":{},"data":data}) : helper)))
     + "\" step=\""
     + alias4(((helper = (helper = helpers.step || (depth0 != null ? depth0.step : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"step","hash":{},"data":data}) : helper)))
-    + "\">\r\n                                          <div class=\"input-group-addon range-value\">"
+    + "\">\r\n                                          <div class=\"input-group-addon iad-range-value\">"
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "</div>\r\n                                        </div>\r\n									</div>\r\n								</div>\r\n";
 },"79":function(container,depth0,helpers,partials,data) {
@@ -1060,7 +1060,7 @@ this["designer"]["widget-gallery.handlebars"] = Handlebars.template({"1":functio
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
   "		<div class=\"iad-gallery\" "
-    + ((stack1 = helpers["if"].call(alias1,(data && data.first),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.first : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">\r\n			<div class=\"iad-gallery-header\">"
     + alias4(((helper = (helper = helpers.header || (depth0 != null ? depth0.header : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"header","hash":{},"data":data}) : helper)))
     + "</div>\r\n			<div class=\"iad-gallery-description\">"

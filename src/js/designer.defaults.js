@@ -246,7 +246,7 @@ var designer = (function (iad, undefined)
                         'id'        : 'selection-color',
                         'value'     : '#2B484A'
                     }]
-                },
+                }/*,
                 {
                     'name': 'Minimum Page Size',
                     'controls': [
@@ -262,7 +262,7 @@ var designer = (function (iad, undefined)
                         'id'        : 'report-min-height',
                         'value'     : 600
                     }]
-                }]
+                }*/]
             }
         },
 
@@ -430,12 +430,12 @@ var designer = (function (iad, undefined)
                         'id':'ui',
                         'header':'UI',
                         'description':'',
-                        'include':true,
+                        /*'include':true,*/
                         'widgets':
                         [
-                            {'id':'Button','thumbnail':'button.png','name':'Button','description':'Add a new button.','include':'true'},
+                            /*{'id':'Button','thumbnail':'button.png','name':'Button','description':'Add a new button.','include':'true'},
                             {'id':'Text','thumbnail':'text.png','name':'Text','description':'Add new text.','include':'true'},
-                            {'id':'Image','thumbnail':'image.png','name':'Image','description':'Add a new image.','include':'true'},
+                            {'id':'Image','thumbnail':'image.png','name':'Image','description':'Add a new image.','include':'true'},*/
                             {'id':'dataExplorer','thumbnail':'dataExplorer.png'},
                             {'id':'filterExplorer','thumbnail':'filterExplorer.png'},
                             {'id':'geogExplorer','thumbnail':'geogExplorer.png'},

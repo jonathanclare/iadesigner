@@ -18,6 +18,7 @@ ia.Widget = function(id)
 	this._yAnchor = "top";
 	this._visible = false;
 	this._popup = false;
+	this._stopPopup = false;
 }
 	
 /**
@@ -441,8 +442,11 @@ ia.Widget.prototype.popup = function(isPopup)
 	{
 		this._popup = true;
 		this.container.addClass('ia-popup-panel');
-		$j("body").bind("click"+'.popup-'+this.id, function(e) {me.hide();});
-		this.container.bind("click"+'.popup-'+this.id, function(e) {e.stopPropagation();});
+		if (!this._stopPopup)
+		{
+			$j("body").bind("click"+'.popup-'+this.id, function(e) {me.hide();});
+			this.container.bind("click"+'.popup-'+this.id, function(e) {e.stopPropagation();});
+		}
 	}
 	else if (isPopup == false)
 	{
@@ -451,7 +455,18 @@ ia.Widget.prototype.popup = function(isPopup)
 		$j("body").unbind("click"+'.popup-'+this.id); 
 		this.container.unbind("click"+'.popup-'+this.id); 
 	}
-	else return this._popup
+	else return this._popup;
+};
+ia.Widget.prototype.suspendPopup = function()
+{
+	this._stopPopup = true;
+	$j("body").unbind("click"+'.popup-'+this.id); 
+	this.container.unbind("click"+'.popup-'+this.id); 
+};
+ia.Widget.prototype.resumePopup = function()
+{
+	this._stopPopup = false;
+	this.popup(this._popup);
 };
 
 /** 

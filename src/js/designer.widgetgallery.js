@@ -128,6 +128,16 @@ var designer = (function (iad, $, window, document, undefined)
 			}
 		}
 
+		// Find first gallery.
+		for (var m = 0; m < json.galleries.length; m++)
+		{
+			if (json.galleries[m].include === true) 
+			{
+				json.galleries[m].first = true;
+				break;
+			}
+		}
+
 		// Apply handlebars template for gallery.
 		var template = window.designer[options.template];
 		var html = template(json);

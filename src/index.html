@@ -62,30 +62,27 @@
                     <ul class="nav navbar-nav">
                         <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open Report</a></li>
                         <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save Changes</a></li>
-                        <li><a id="iad-menuitem-config-gallery" href="#"><i class="fa fa-th-large"></i>&nbsp;Choose Template</a></li>
+                        <li><a id="iad-menuitem-config-gallery" href="#"><i class="fa fa-bar-chart"></i>&nbsp;Choose Template</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-paint-brush"></span>&nbsp;Style<span class="caret"></span></a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
-                                <li><a id="iad-menuitem-open-slide-panel-color-scheme-properties" href="#">Colour Scheme</a></li>
-                                <li><a id="iad-menuitem-open-slide-panel-css-properties" href="#">Style Editor</a></li>
+                                <li><a id="iad-menuitem-open-color-scheme" href="#">Colour Scheme</a></li>
+                                <li><a id="iad-menuitem-open-css" href="#">Style Editor</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-map-palettes" href="#">Map Palettes</a></li>
                             </ul>
                         </li>
-
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <div class="btn-group" data-toggle="buttons"> 
-                                <label class="btn btn-default navbar-btn active">
-                                    <input type="radio" name="iad-radio-report-mode" value="design" />Design View
-                                </label> 
-                                <label class="btn btn-default navbar-btn">
-                                    <input type="radio" name="iad-radio-report-mode" value="published" />Published View
-                                </label> 
-                            </div>
-                        </li>
-                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <div class="btn-group" data-toggle="buttons"> 
+                            <label class="btn btn-default active">
+                                <input type="radio" name="iad-radio-report-mode" value="design" />Design View
+                            </label> 
+                            <label class="btn btn-default">
+                                <input type="radio" name="iad-radio-report-mode" value="published" />Published View
+                            </label> 
+                        </div>
+                    </form>
                 </div> 
             </div>
         </nav>
@@ -102,7 +99,16 @@
                             <!-- populated by designner.main.js updateWidgetPropertiesDropdown() -->
                             </ul>
                         </li>
-                        <li><a id="iad-menuitem-widget-gallery" href="#"><i class="fa fa-plus"></i>&nbsp;Add Widget</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-plus"></span>&nbsp;Insert<span class="caret"></span></a>
+                            <ul id="iad-dropdown-insert" class="dropdown-menu">
+                                <li><a id="iad-menuitem-insert-text" href="#">Text</a></li>
+                                <li><a id="iad-menuitem-insert-image" href="#">Image</a></li>
+                                <li><a id="iad-menuitem-insert-button" href="#">Button</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a id="iad-menuitem-insert-widget" href="#">Widget</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
                         <div class="btn-group"> 
@@ -131,7 +137,7 @@
         <!-- start widget properties container -->
         <div id="iad-slide-panel-widget-properties" class="iad-slide-panel">
             <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-slide-panel-widget-properties" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button id="iad-btn-close-widget-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-slide-panel-widget-properties-title"> </span></div>
             </div>
             <div class="iad-slide-panel-content">
@@ -147,7 +153,7 @@
         <!-- start css properties container -->
         <div id="iad-slide-panel-css-properties" class="iad-slide-panel">
             <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-slide-panel-css-properties" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button id="iad-btn-close-css-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Style Editor</span></div>
             </div>
             <div class="iad-slide-panel-content">
@@ -163,13 +169,13 @@
         <!-- start color properties container -->
         <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
             <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-slide-panel-color-scheme" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
             </div>
             <div class="iad-slide-panel-content">
                 <div class="iad-form">
                     <div id="iad-form-color-scheme">
-                    <!-- populated by designer.colorscheme.js -->
+                        <!-- populated by designer.colorscheme.js -->
                     </div>
                 </div>
             </div>
@@ -182,7 +188,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"><span class="fa fa-fw fa-th-large"></span>&nbsp;&nbsp;Templates</h4>
+                        <h4 class="modal-title"><span class="fa fa-bar-chart"></span>&nbsp;&nbsp;Templates</h4>
                     </div>
                     <div class="modal-body modal-body-scrollable">
                         <div id="iad-config-gallery">
@@ -487,6 +493,7 @@
         <script src="./js/designer.formcontrols.js"></script>
         <script src="./js/designer.colorpicker.js"></script>
         <script src="./js/designer.colorscheme.js"></script>
+        <script src="./js/designer.util.js"></script>
         <!-- /build -->
 
         <!-- build:template 

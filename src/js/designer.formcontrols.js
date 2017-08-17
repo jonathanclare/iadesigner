@@ -7,9 +7,6 @@ var designer = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
-    // Timeout for controls to prevent memory issues.
-    var controlChangeTimeout;
-
     // The index of the active collapsible panel.
     iad.formcontrols.activePanelIndex = 0;
 
@@ -19,17 +16,6 @@ var designer = (function (iad, $, window, document, undefined)
         options = o;
         addControlHandlers();
     };
-
-    // Called when a config property has been changed.
-    function onPropertyChanged(controlId, newValue)
-    {
-        var arr = controlId.split('~');
-        var tagName = arr[0];
-        var widgetId = arr[1];
-        var propertyId = arr[2];
-        var attribute = arr[3];
-        if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, controlId, tagName, widgetId, propertyId, newValue, attribute); // On property changed.
-    }
 
     // For add / remove below.
     function parseId($btn)
@@ -41,6 +27,17 @@ var designer = (function (iad, $, window, document, undefined)
     // Adds the control handlers.
     function addControlHandlers()
     {
+        // Called when a config property has been changed.
+        var onPropertyChanged = iad.util.debounce(function (controlId, newValue)
+        {
+            var arr = controlId.split('~');
+            var tagName = arr[0];
+            var widgetId = arr[1];
+            var propertyId = arr[2];
+            var attribute = arr[3];
+            if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, controlId, tagName, widgetId, propertyId, newValue, attribute); // On property changed.
+        });
+
         // Text dropdown input replace text.
         $(document).on('click', '.iad-dropdown-menu-replace a', function (e)
         {
@@ -53,7 +50,6 @@ var designer = (function (iad, $, window, document, undefined)
 
             var id = $input.attr('id');
             var value = $input.val();
-
             onPropertyChanged(id, value);
         });
 
@@ -72,7 +68,6 @@ var designer = (function (iad, $, window, document, undefined)
 
             var id = $input.attr('id');
             var value = $input.val();
-
             onPropertyChanged(id, value);
         });
 
@@ -83,7 +78,6 @@ var designer = (function (iad, $, window, document, undefined)
 
             var id = $(this).parents('.input-group').find('.dropdown-toggle').attr('id');
             var value = $(this).attr('data-value');
-
             onPropertyChanged(id, value);
         });
 
@@ -97,71 +91,50 @@ var designer = (function (iad, $, window, document, undefined)
             });
         });
 
-        // Update config button.
-        $(document).on('click', '.iad-update-config-btn', function (e)
-        {
-            e.preventDefault();
-            $('.iad-update-config-btn').removeClass('btn-primary').addClass('btn-default');
-            iad.config.update(db.xmlConfig);
-        });
-
-        // Z-Index.
-        $(document).on('click', '#iad-send-to-back-btn', function (e)
-        {
-            e.preventDefault();
-            iad.config.sendToBack(db.widgets.selectedId);
-        });
-        $(document).on('click', '#iad-bring-to-front-btn', function (e)
-        {
-            e.preventDefault();
-            iad.config.bringToFront(db.widgets.selectedId);
-        });
-
         // Text.
         $(document).on('keyup', '.iad-control-text', function (e) // Handle key entry.
         {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-            $(this).siblings().find('.iad-update-config-btn').removeClass('btn-default').addClass('btn-primary');
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 1000);
+            onPropertyChanged($(this).attr('id'), $(this).val());
         });
         $(document).on('paste', '.iad-control-text', function (e) // Handle pasted text.
         {
-            var $input = $(this);
-            setTimeout(function ()
-            {
-                var id = $input.attr('id');
-                var value = $input.val();
-                $(this).siblings().find('.iad-update-config-btn').removeClass('btn-default').addClass('btn-primary');
-                onPropertyChanged(id, value);
-            }, 100);
+            onPropertyChanged($(this).attr('id'), $(this).val());
+        });
+
+        // Integer.
+        $(document).on('keyup', '.iad-control-integer', function (e) // Handle key entry.
+        {
+            onPropertyChanged($(this).attr('id'), $(this).val());
+        });
+        $(document).on('paste', '.iad-control-integer', function (e) // Handle pasted text.
+        {
+            onPropertyChanged($(this).attr('id'), $(this).val());
+        });
+
+        // Float.
+        $(document).on('keyup', '.iad-control-float', function (e) // Handle key entry.
+        {
+            onPropertyChanged($(this).attr('id'), $(this).val());
+        });
+        $(document).on('paste', '.iad-control-float', function (e) // Handle pasted text.
+        {
+            onPropertyChanged($(this).attr('id'), $(this).val());
         });
 
         // Choice.
         $(document).on('change', '.iad-control-select', function (e)
         {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-            onPropertyChanged(id, value);
+            onPropertyChanged($(this).attr('id'), $(this).val());
         });
         $(document).on('change', '.iad-control-integer-select', function (e)
         {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-            onPropertyChanged(id, value);
+            onPropertyChanged($(this).attr('id'), $(this).val());
         });
 
         // Boolean.
         $(document).on('change', '.iad-control-checkbox', function (e)
         {
-            var id = $(this).attr('id');
-            var value = $(this).is(':checked');
-            onPropertyChanged(id, value);
+            onPropertyChanged($(this).attr('id'), $(this).is(':checked'));
         });
 
         // Color.
@@ -179,60 +152,8 @@ var designer = (function (iad, $, window, document, undefined)
             iad.colorpicker.open($colorSwatch, inColor, function (outColor)
             {
                 $colorSwatch.css('background-color', outColor); // Update the color swatch.
-                $colorSwatch.siblings('.iad-update-config-btn').removeClass('btn-default').addClass('btn-primary');
-
-                clearTimeout(controlChangeTimeout);
-                controlChangeTimeout = setTimeout(function() 
-                {
-                    onPropertyChanged($colorSwatch.attr('id'), outColor);
-                }, 100);
+                onPropertyChanged($colorSwatch.attr('id'), outColor);
             });
-        });
-
-        // Integer.
-        $(document).on('keyup', '.iad-control-integer', function (e) // Handle key entry.
-        {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 1000);
-        });
-        $(document).on('paste', '.iad-control-integer', function (e) // Handle pasted text.
-        {
-            var $input = $(this);
-            setTimeout(function ()
-            {
-                var id = $input.attr('id');
-                var value = $input.val();
-                onPropertyChanged(id, value);
-            }, 100);
-        });
-
-        // Float.
-        $(document).on('keyup', '.iad-control-float', function (e) // Handle key entry.
-        {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 1000);
-        });
-        $(document).on('paste', '.iad-control-float', function (e) // Handle pasted text.
-        {
-            var $input = $(this);
-            setTimeout(function ()
-            {
-                var id = $input.attr('id');
-                var value = $input.val();
-                onPropertyChanged(id, value);
-            }, 100);
         });
 
         // Integer counter buttons.
@@ -248,12 +169,7 @@ var designer = (function (iad, $, window, document, undefined)
             $input.val(value);
 
             var id = $input.attr('id');
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 500);
+            onPropertyChanged(id, value);
         });
         $(document).on('click', '.iad-control-integer-plus', function (e)
         {
@@ -268,12 +184,7 @@ var designer = (function (iad, $, window, document, undefined)
             $input.val(value);
 
             var id = $input.attr('id');
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 500);
+            onPropertyChanged(id, value);
         });
 
         // Float counter buttons.
@@ -290,12 +201,7 @@ var designer = (function (iad, $, window, document, undefined)
             $input.val(value);
 
             var id = $input.attr('id');
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 500);
+            onPropertyChanged(id, value);
         });
         $(document).on('click', '.iad-control-float-plus', function (e)
         {
@@ -311,12 +217,7 @@ var designer = (function (iad, $, window, document, undefined)
             $input.val(value);
 
             var id = $input.attr('id');
-
-            clearTimeout(controlChangeTimeout);
-            controlChangeTimeout = setTimeout(function() 
-            {
-                onPropertyChanged(id, value);
-            }, 500);
+            onPropertyChanged(id, value);
         });
 
         // Range input
