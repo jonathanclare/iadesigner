@@ -15,9 +15,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var editedWidgetId;
     var report;
     
-    var version = window.location.hash.substring(1);
-    document.getElementById('version').innerText = version;
-
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
     var $colorschemePanel = $('#iad-slide-panel-color-scheme');
@@ -26,11 +23,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     // Listen for messages
     ipcRenderer.on('message', function(event, text) 
     {
-        //console.log(text);
-        /*var container = document.getElementById('messages');
-        var message = document.createElement('div');
-        message.innerHTML = text;
-        container.appendChild(message);*/
+        console.log(text);
     });
 
     function onStyleChanged()
@@ -90,6 +83,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     iad.init = function(options)
     {
+        var version = window.location.hash.substring(1);
+        console.log(version);
+
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
 
         //setApplicationMenu();
@@ -941,6 +937,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Open the DevTools.
         //win.webContents.openDevTools();
 
+        console.log(__dirname);
+
         win.loadURL('file://' + __dirname + filePath);
 
         // Emitted when the window is closed.
@@ -1007,131 +1005,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 }
             });
         }
-    }
-
-    function setApplicationMenu() 
-    {
-        var template = 
-        [
-            {
-                label: 'File',
-                submenu: 
-                [
-                    {
-                        label: 'Open',
-                        accelerator: 'Shift+CmdOrCtrl+O',
-                        click: function() 
-                        {
-                            openConfigFile(function (filePath)
-                            {
-                                iad.config.loadReport(iad.util.dirPath(filePath), function ()
-                                {
-
-                                });
-                            });
-                        }
-                    },
-                    {
-                        label: 'Save',
-                        accelerator: 'Shift+CmdOrCtrl+S',
-                        click: function()  
-                        {
-                            console.log('Save');
-                        }
-                    },
-                    {type: 'separator'},
-                    {
-                        label: 'Exit',
-                        role:'close'
-                    }
-                ]
-            },
-            {
-                label: 'Help',
-                submenu: 
-                [
-                    {
-                        label: 'Help on InstantAtlas Designer',
-                        click: function()  
-                        {
-                            console.log('Help on Designer');
-                        }
-                    },
-                    {type: 'separator'},
-                    {
-                        label: 'About',
-                        role:'about'
-                    }
-                ]
-            }
-            /*
-            {
-                label: 'Layout',
-                submenu: 
-                [
-                    {
-                        label: 'Change Layout',
-                        click: function() 
-                        {
-                            console.log('Change Layout');
-                        }
-                    },
-                    {
-                        label: 'Add Widget',
-                        click: function()  
-                        {
-                            console.log('Add Widget');
-                        }
-                    }
-                ]
-            },
-            {
-                label: 'Style',
-                submenu: 
-                [
-                    {
-                        label: 'Edit Styles',
-                        click: function() 
-                        {
-                            console.log('Edit Styles');
-                        }
-                    },
-                    {
-                        label: 'Choose Colour Scheme',
-                        click: function()  
-                        {
-                            console.log('Choose Colour Scheme');
-                        }
-                    }
-                ]
-            },
-            {
-                label: 'View',
-                submenu: 
-                [
-                    {
-                        label: 'Design View',
-                        accelerator: 'Shift+CmdOrCtrl+D',
-                        type:'radio',
-                        click: function() 
-                        {
-                            console.log('Design View');
-                        }
-                    },
-                    {
-                        label: 'Published View',
-                        accelerator: 'Shift+CmdOrCtrl+P',
-                        type:'radio',
-                        click: function()  
-                        {
-                            console.log('Published View');
-                        }
-                    }
-                ]
-            },
-            */
-        ];
-        Menu.setApplicationMenu(Menu.buildFromTemplate(template));
     }
 
     function setPopupMenu() 

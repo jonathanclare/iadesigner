@@ -24,7 +24,7 @@ app.on('ready', function()
     {
         width: 900, 
         height: 600, 
-        //icon:__dirname + '/assets/ia.ico', 
+        icon:__dirname + '/assets/ia.ico', 
         title: 'InstantAtlas Designer',
         show: false
     });
@@ -43,17 +43,14 @@ app.on('ready', function()
 
     win.webContents.on('dom-ready', function() 
     {
-        log.info('dom-ready');
+
     });
 
     win.webContents.once('did-frame-finish-load', function() 
     {
-        log.info('did-frame-finish-load');
         win.maximize();
         win.show();
-
         autoUpdater.checkForUpdates();
-
     });
 
     // and load the index.html of the app.
