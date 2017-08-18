@@ -33,10 +33,39 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         container.appendChild(message);*/
     });
 
-    function changesMade()
+    function onStyleChanged()
     {
-        updateDownloadButtons();
-        console.log('changes made');
+        updateStyleDownloads();
+    }
+
+    function onConfigChanged()
+    {
+        updateConfigDownload();
+    }
+
+    function updateStyleDownloads()
+    {
+        // colorscheme.json
+        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
+        var lessUrl = URL.createObjectURL(lessBlob);
+        $('#iad-btn-download-less').attr('href', lessUrl);
+
+        // default.css
+        iad.css.getCssAsString(function (defaultCss)
+        {
+            var cssBlob = new Blob([defaultCss], {type: 'text/css' }); 
+            var cssUrl = URL.createObjectURL(cssBlob);
+            $('#iad-btn-download-css').attr('href', cssUrl);
+        });
+    }
+
+    function updateConfigDownload()
+    {
+        // config.xml
+        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
+        var configUrl = URL.createObjectURL(configBlob);
+        $('#iad-btn-download-config').attr('href', configUrl);
+
     }
 
     function changesSaved()
@@ -50,19 +79,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
         $('#iad-btn-download-config').attr('href', configUrl);
-
-        // colorscheme.json
-        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
-        var lessUrl = URL.createObjectURL(lessBlob);
-        $('#iad-btn-download-less').attr('href', lessUrl);
-
-        // default.css
-        /*iad.css.getCssAsString(function (defaultCss)
-        {
-            var cssBlob = new Blob([defaultCss], {type: 'text/css' }); 
-            var cssUrl = URL.createObjectURL(cssBlob);
-            $('#iad-btn-download-css').attr('href', cssUrl);
-        });*/
     }
 
     function imgError(image) 
@@ -106,7 +122,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     initFileDragAndDrop();
                     updateWidgetPropertiesDropdown();
                     iad.configforms.updateJavaScriptOptions();
-                    updateDownloadButtons();
+                    updateStyleDownloads();
+                    updateConfigDownload();
                     initMenuHandlers();
 
                     if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
@@ -346,7 +363,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function () 
                         {
-                            changesMade();
+                            onStyleChanged();
                         });
                     });
                 }
@@ -365,7 +382,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             factory.renderComponents(function () 
                             {
-                                changesMade();
+                                onStyleChanged();
                             });
                         });
                     }
@@ -373,9 +390,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function() 
                         {
-                            changesMade();
+                            onStyleChanged();
                         });
-                    } 
+                    }
+                    else onStyleChanged();
                 }
             },
             onReady: function()
@@ -457,9 +475,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     iad.config.refreshConfig();
                 }
             },
-            onConfigChanged: function ()
+            ononConfigChanged: function ()
             {
-                changesMade();
+                onConfigChanged();
             }
         });
     }
@@ -939,7 +957,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         var files = dialog.showOpenDialog(remote.getCurrentWindow(), 
         {
-            title: 'Open config.xml',
+            title: 'Open IA Configuration File',
             properties: ['openFile'],
             filters: [{name: 'config', extensions: ['xml']}]
         });
@@ -958,9 +976,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         var files = dialog.showOpenDialog(remote.getCurrentWindow(), 
         {
-            title: 'Open colorscheme.json',
+            title: 'Open IA Style File',
             properties: ['openFile'],
-            filters: [{name: 'colorscheme', extensions: ['json']}]
+            filters: [{name: 'style', extensions: ['json']}]
         });
 
         if (!files) 

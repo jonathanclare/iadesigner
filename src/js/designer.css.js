@@ -4,9 +4,6 @@ var designer = (function (iad, $, window, document, undefined)
 
     iad.css = iad.css || {};
 
-    // For parsing less into css.
-    var lessParser;     
-
     // Holds default.less as a string.
     var strLess;        
 
@@ -23,7 +20,6 @@ var designer = (function (iad, $, window, document, undefined)
     iad.css.init = function(o)
     {
         options = o; 
-        lessParser = new(less.Parser)();
         iad.css.setLessVars(options.lessVars);
     };
 
@@ -43,14 +39,19 @@ var designer = (function (iad, $, window, document, undefined)
                 var value = lessVars[property];
                 strCssVars = strCssVars + property + ':' + value + ';';
             }
-            inLess = strCssVars + inLess;
-            
-            // Parse the css string.
-            lessParser.parse(inLess, function(err, tree)
+
+            var start = '/* Start User Variables */';
+            var end = '/* End User Variables */';
+            inLess = inLess.substring(0, inLess.indexOf(start) + start.length) + strCssVars + inLess.substring(inLess.indexOf(end));
+
+            less.render(inLess) 
+            .then(function(output) 
             {
-                if (err) console.error(err);
-                var strOutCss = tree.toCSS();
-                callback.call(null, strOutCss); // Return.
+                callback.call(null, output.css); // Return.
+            },
+            function(error) 
+            {
+                console.log(error);
             });
         });
     };
