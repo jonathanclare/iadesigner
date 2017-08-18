@@ -4,33 +4,45 @@ var electron = require('electron');
 var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
 var dialog = electron.dialog;
-
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow; 
 
- 
-
+function isDev() 
+{
+  return process.mainModule.filename.indexOf('app.asar') === -1;
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var win = null;
 
+
+// Auto-updater.
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+log.info('Current version is:' + app.getVersion());
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() 
 {
+    var isDev = process.mainModule.filename.indexOf('app.asar') === -1;
+
     // Create the browser window.
     win = new BrowserWindow(
     {
-        width: 900, 
-        height: 600, 
+        width: 1200,
+        minWidth: 1100,
+        height: 800,
+        minHeight: 600,
         icon:__dirname + '/assets/ia.ico', 
         title: 'InstantAtlas Designer',
         show: false
     });
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    if (isDev) win.webContents.openDevTools();
 
     // Emitted when the window is closed.
     win.on('closed', function() 
@@ -48,9 +60,9 @@ app.on('ready', function()
 
     win.webContents.once('did-frame-finish-load', function() 
     {
-        win.maximize();
+        //win.maximize();
         win.show();
-        autoUpdater.checkForUpdates();
+        if (!isDev) autoUpdater.checkForUpdates();
     });
 
     // and load the index.html of the app.
@@ -67,12 +79,6 @@ app.on('window-all-closed', function()
         app.quit();
     }
 });
-
-// Auto-updater.
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
-log.info('Current version is:' + app.getVersion());
 
 function sendStatusToWindow(text) 
 {
@@ -98,10 +104,10 @@ autoUpdater.on('error', function(e, err)
 });
 autoUpdater.on('download-progress', function(progressObj) 
 {
-      var msg = "Download speed: " + progressObj.bytesPerSecond;
-      msg = msg + ' - Downloaded ' + progressObj.percent + '%';
-      msg = msg + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-      sendStatusToWindow(msg);
+    var msg = "Download speed: " + progressObj.bytesPerSecond;
+    msg = msg + ' - Downloaded ' + progressObj.percent + '%';
+    msg = msg + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatusToWindow(msg);
 });
 autoUpdater.on('update-downloaded', function(e, info)
 {

@@ -62,8 +62,6 @@ Run the following command in a command prompt opened from this directory.
 
 ### Package and build Electron App for web download
 
-when using 'npm run dist:web' you need to copy ./dist/nsisweb/latest.yaml to ./dist/latest.yaml
-
 ```sh
 > npm run dist:web
 ```

@@ -26,6 +26,73 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         console.log(text);
     });
 
+    function imgError(image) 
+    {
+        image.onerror = "";
+        image.src = "/images/noimage.gif";
+        return true;
+    }
+
+    iad.init = function(options)
+    {
+        var version = window.location.hash.substring(1);
+        console.log(version);
+
+        var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
+
+        registerHandlebarsHelperFunctions();
+        initCss(settings.css, function()
+        {
+            ia.init(
+            {
+                container   : 'iad-report',
+                onSuccess   : function (r)
+                {
+                    report = r;
+
+                    // Fix image paths.
+                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
+                    {
+                        var src = img.getAttribute('src');
+                        img.src = ('src', settings.report.path + src);
+                    });
+
+                    initCanvas();
+                    initColorPicker();
+                    initColorSchemes();
+                    initConfig();
+                    initFormControls();
+                    initConfigForms();
+                    initConfigGallery(settings.configGallery);
+                    initWidgetGallery(settings.widgetGallery);
+                    initFileDragAndDrop();
+                    updateWidgetPropertiesDropdown();
+                    iad.configforms.updateJavaScriptOptions();
+                    updateStyleDownloads();
+                    updateConfigDownload();
+                    initMenuHandlers();
+                    setPopupMenu();
+
+                    if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                },
+                onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
+                {
+                    console.log(url);
+                    console.log(XMLHttpRequest.status);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                data:
+                {
+                    config      : {source:settings.report.path+'/config.xml'},
+                    attribute   : {source:settings.report.path+'/data.js'},
+                    map         : {source:settings.report.path+'/map.js'}
+                    /*style       : {source:settings.report.path+'/default.css'}*/
+                }
+            });
+        });
+    };
+
     function onStyleChanged()
     {
         updateStyleDownloads();
@@ -58,89 +125,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
         $('#iad-btn-download-config').attr('href', configUrl);
-
     }
 
     function changesSaved()
     {
         console.log('changes saved');
     }
-
-    function updateDownloadButtons()
-    {
-        // config.xml
-        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
-        var configUrl = URL.createObjectURL(configBlob);
-        $('#iad-btn-download-config').attr('href', configUrl);
-    }
-
-    function imgError(image) 
-    {
-        image.onerror = "";
-        image.src = "/images/noimage.gif";
-        return true;
-    }
-
-    iad.init = function(options)
-    {
-        var version = window.location.hash.substring(1);
-        console.log(version);
-
-        var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
-
-        //setApplicationMenu();
-        setPopupMenu();
-        registerHandlebarsHelperFunctions();
-        initCss(settings.css, function()
-        {
-            ia.init(
-            {
-                container   : 'iad-report',
-                onSuccess   : function (r)
-                {
-                    report = r;
-
-                    // Fix image paths.
-                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
-                    {
-                        var src = img.getAttribute('src');
-                        img.src = ('src', settings.report.path + src);
-                    });
-
-                    initCanvas();
-                    initColorPicker();
-                    initColorSchemes();
-                    initConfig();
-                    initFormControls();
-                    initConfigForms();
-                    initConfigGallery(settings.configGallery);
-                    initWidgetGallery(settings.widgetGallery);
-                    initFileDragAndDrop();
-                    updateWidgetPropertiesDropdown();
-                    iad.configforms.updateJavaScriptOptions();
-                    updateStyleDownloads();
-                    updateConfigDownload();
-                    initMenuHandlers();
-
-                    if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-                },
-                onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
-                {
-                    console.log(url);
-                    console.log(XMLHttpRequest.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
-                },
-                data:
-                {
-                    config      : {source:settings.report.path+'/config.xml'},
-                    attribute   : {source:settings.report.path+'/data.js'},
-                    map         : {source:settings.report.path+'/map.js'}
-                    /*style       : {source:settings.report.path+'/default.css'}*/
-                }
-            });
-        });
-    };
 
     function initMenuHandlers()
     {
