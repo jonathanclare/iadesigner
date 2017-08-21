@@ -21,7 +21,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Load a report.
     iad.config.loadReport = function (dirPath, callbackFunction)
     {
-        // Params for IA report.
+        preConfigLoaded();
         var o = 
         {
             data:
@@ -41,7 +41,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Load a new config file.
     iad.config.loadConfig = function (configPath, callbackFunction)
     {
-        // Load in the config.
+        preConfigLoaded();
         ia.loadConfig(configPath, function ()
         {
             onConfigLoaded(callbackFunction);
@@ -51,7 +51,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Parse a new config xml.
     iad.config.parseConfig = function (configXml, callbackFunction)
     {
-        // Parse in the config.
+        preConfigLoaded();
         ia.parseConfig(configXml, function ()
         {
             onConfigLoaded(callbackFunction);
@@ -61,7 +61,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Refresh the current config xml.
     iad.config.refreshConfig = function (callbackFunction)
     {
-        // Parse in the config.
+        preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
         {
             // Update the xml objects
@@ -71,6 +71,12 @@ var designer = (function (iad, $, window, document, undefined)
             if (callbackFunction) callbackFunction.call(null); // Return.
         });
     };
+
+
+    function preConfigLoaded()
+    {
+        if (options && options.preConfigLoaded) options.preConfigLoaded.call(null); // On config changed.
+    }
 
     function onConfigLoaded(callbackFunction)
     {

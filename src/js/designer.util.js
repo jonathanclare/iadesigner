@@ -91,11 +91,6 @@ var designer = (function (iad, $, window, document, undefined)
         else return iad.util.getRelativePath(url);
     };
 
-    iad.util.dirPath = function (filePath)
-    {
-        return filePath.substring(0,filePath.lastIndexOf('\\')+1);
-    };
-
     return iad;
 
 })(designer || {}, jQuery, window, document);
