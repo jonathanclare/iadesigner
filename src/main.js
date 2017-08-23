@@ -3,19 +3,11 @@
 var electron = require('electron');
 var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
-var dialog = electron.dialog;
 var app = electron.app;
-var BrowserWindow = electron.BrowserWindow; 
-
-function isDev() 
-{
-  return process.mainModule.filename.indexOf('app.asar') === -1;
-}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var win = null;
-
 
 // Auto-updater.
 autoUpdater.logger = log;
@@ -28,21 +20,34 @@ log.info('Current version is:' + app.getVersion());
 app.on('ready', function() 
 {
     var isDev = process.mainModule.filename.indexOf('app.asar') === -1;
-
-    // Create the browser window.
-    win = new BrowserWindow(
+    if (isDev)
     {
-        width: 1200,
-        minWidth: 1100,
-        height: 800,
-        minHeight: 600,
-        icon:__dirname + '/assets/ia.ico', 
-        title: 'InstantAtlas Designer',
-        show: false
-    });
-
-    // Open the DevTools.
-    if (isDev) win.webContents.openDevTools();
+        win = new electron.BrowserWindow(
+        {
+            icon:__dirname + '/assets/ia.ico', 
+            title: 'InstantAtlas Designer'
+            /*,frame: false*/
+        });
+        win.maximize();
+        win.webContents.openDevTools();
+    }
+    else
+    {
+        win = new electron.BrowserWindow(
+        {
+            width: 1200,
+            minWidth: 1100,
+            height: 800,
+            minHeight: 600,
+            show: false,
+            frame: false
+        });
+        win.webContents.once('did-frame-finish-load', function() 
+        {
+            win.show();
+            autoUpdater.checkForUpdates();
+        });
+    }
 
     // Emitted when the window is closed.
     win.on('closed', function() 
@@ -51,18 +56,6 @@ app.on('ready', function()
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null;
-    });
-
-    win.webContents.on('dom-ready', function() 
-    {
-
-    });
-
-    win.webContents.once('did-frame-finish-load', function() 
-    {
-        //win.maximize();
-        win.show();
-        if (!isDev) autoUpdater.checkForUpdates();
     });
 
     // and load the index.html of the app.
@@ -114,7 +107,7 @@ autoUpdater.on('update-downloaded', function(e, info)
     sendStatusToWindow('Update downloaded; will install in 5 seconds');
 
     // Ask user to update the app.
-    dialog.showMessageBox(
+    electron.dialog.showMessageBox(
     {
         type: 'question',
         buttons: ['Install and Relaunch', 'Later'],

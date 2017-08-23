@@ -1,11 +1,79 @@
 @sidebar-width: 300px;
 @navbar-height: 51px;
+@title-bar-height: 30px;
 
 /* Sidebar and report containers */
+#iad-title-bar
+{     
+    -webkit-app-region: drag;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height:@title-bar-height;
+}
+#iad-icon > img 
+{
+    float: left;
+    height: @title-bar-height;
+    width: @title-bar-height;
+}
+#iad-title 
+{
+    padding-left: 10px;
+    float: left;
+    color: #777;
+    line-height: @title-bar-height;
+    font-size: calc(@title-bar-height * 0.4);
+}
+#iad-title-bar-btns 
+{
+    color: #ccc;
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 0px;
+    right: 0px; 
+}
+#iad-title-bar-btns > div 
+{
+    float: right;
+    height: @title-bar-height;
+    width: @title-bar-height;
+    text-align: center;
+    line-height: @title-bar-height;
+}
+#iad-min-btn 
+{
+    font-size: calc(@title-bar-height * 0.35);
+}
+#iad-min-btn:hover 
+{
+    color:#000;
+    background-color: #f7f7f7;
+}
+#iad-max-btn 
+{
+    font-size: calc(@title-bar-height * 0.35);
+}
+#iad-max-btn:hover 
+{
+    color:#000;
+    background-color: #f7f7f7;
+}
+#iad-close-btn 
+{
+    font-size: calc(@title-bar-height * 0.45);
+}
+#iad-close-btn:hover 
+{
+    color:#fff;
+    background-color: #f32424;
+}
+
 #iad-main
 {     
     position: absolute;
-    top: @navbar-height;
+    top: calc(@title-bar-height + @navbar-height);
     left: 0px;
     right: 0px;
     bottom: @navbar-height;
@@ -140,6 +208,10 @@
 .navbar-default
 {
     background: #fff;
+}
+.navbar-fixed-top 
+{
+    top: @title-bar-height;
 }
 /*.navbar-default .navbar-nav:not(.navbar-right) > li:hover 
 {

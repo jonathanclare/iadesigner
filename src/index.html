@@ -27,8 +27,8 @@
         <!-- Farbtastic color picker -->
         <link href="./lib/farbtastic/farbtastic.css" rel="stylesheet"/>
 
-        <!-- build:css ./lib/font-awesome-4.5.0/css/font-awesome.min.css -->
-        <link rel="stylesheet" type="text/css" href="./lib/font-awesome-4.5.0/css/font-awesome.css"  />
+        <!-- build:css ./lib/font-awesome-4.7.0/css/font-awesome.min.css -->
+        <link rel="stylesheet" type="text/css" href="./lib/font-awesome-4.7.0/css/font-awesome.css"  />
         <!-- /build -->
 
         <!-- build:css ./lib/bootstrap-3.3.6-dist/css/bootstrap.min.css -->
@@ -55,6 +55,21 @@
     </head>
 
     <body>
+
+        <!-- title bar for frameless window -->
+        <div id="iad-title-bar">
+            <div id="iad-title-bar-title">
+                <div id="iad-icon"><img src="./assets/ia.png" /></div>
+                <div id="iad-title">InstantAtlas Designer</div>
+            </div>
+            <div id="iad-title-bar-btns">
+                <div id="iad-close-btn"><i class="fa fa-close"></i></div>
+                <div id="iad-max-btn"><i class="fa fa-window-maximize"></i></div>
+                <div id="iad-min-btn"><i class="fa fa-window-minimize"></i></div>
+            </div>
+        </div>
+        <!-- end title bar for frameless window -->
+
         <!-- top nav -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">

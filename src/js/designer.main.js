@@ -13,30 +13,22 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var path = require('path');
     var fs = require('fs');
 
-    var selectedWidgetId;
-    var editedWidgetId;
-    var report;
+    var selectedWidgetId, editedWidgetId, report;
     
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
     var $colorschemePanel = $('#iad-slide-panel-color-scheme');
     var $widgetPanelTitle = $('#iad-slide-panel-widget-properties-title');
 
-    // Listen for messages
+    // Listen for messages from main process.
     ipcRenderer.on('message', function(event, text) 
     {
         console.log(text);
     });
 
-    function imgError(image) 
-    {
-        image.onerror = "";
-        image.src = "/images/noimage.gif";
-        return true;
-    }
-
     iad.init = function(options)
     {
+
         var version = window.location.hash.substring(1);
         console.log(version);
 
@@ -51,13 +43,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 onSuccess   : function (r)
                 {
                     report = r;
-
-                    // Fix image paths.
-                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
-                    {
-                        var src = img.getAttribute('src');
-                        img.src = ('src', settings.report.path + src);
-                    });
 
                     initCanvas();
                     initColorPicker();
@@ -86,9 +71,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 },
                 data:
                 {
-                    config      : {source:settings.report.path+'/config.xml'},
-                    attribute   : {source:settings.report.path+'/data.js'},
-                    map         : {source:settings.report.path+'/map.js'}
+                    config      : {source:settings.report.path+'\\config.xml'},
+                    attribute   : {source:settings.report.path+'\\data.js'},
+                    map         : {source:settings.report.path+'\\map.js'}
                     /*style       : {source:settings.report.path+'/default.css'}*/
                 }
             });
@@ -97,7 +82,31 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function initMenuHandlers()
     {
-        var reportPath, configPath, lessPath, stylePath, reportLoaded = false;
+        var reportLoaded = false, configPath, lessPath, stylePath;
+
+        // Window buttons.
+        var win = remote.getCurrentWindow();
+        $("#iad-min-btn").on("click", function (e) 
+        {
+            win.minimize();
+        });
+        $("#iad-close-btn").on("click", function (e) 
+        {
+            win.close();
+        });
+        $("#iad-max-btn").on("click", function (e) 
+        {
+            if (win.isMaximized()) win.unmaximize();
+            else win.maximize();
+        });
+        win.on('maximize', function (e) 
+        {
+            $("#iad-max-btn").html('<i class="fa fa-window-restore"></i>');
+        });
+        win.on('unmaximize', function (e)
+        {
+            $("#iad-max-btn").html('<i class="fa fa-window-maximize"></i>');
+        });
 
         // Open.
         $('#iad-menuitem-open').on('click', function(e)
@@ -105,11 +114,11 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             openConfigFile(function (filePath)
             {
                 configPath = filePath;
-                reportPath = path.parse(filePath).dir;
+                var reportPath = path.parse(filePath).dir;
                 lessPath = reportPath+'\\style.json';
                 stylePath = reportPath+'\\default.css';
 
-                iad.config.loadReport(reportPath, function () 
+                iad.config.loadReport(configPath, function () 
                 {
                     fs.stat(lessPath, function(err, stat) 
                     {
@@ -500,8 +509,23 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 closeSlidePanel('widget');
                 iad.canvas.clearSelection();
             },
-            onConfigLoaded: function ()
+            onConfigLoaded: function (configPath)
             {
+                if (configPath !== undefined)
+                {
+                    // Reste title to show config file path.
+                    remote.getCurrentWindow().setTitle('InstantAtlas Designer - ' + configPath);
+                    $('#iad-title').html('InstantAtlas Designer - ' + configPath);
+
+                    // Fix image paths.
+                    var reportPath = path.parse(configPath).dir;
+                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
+                    {
+                        var src = img.getAttribute('src');
+                        img.src = reportPath  + '\\' + src;
+                    });
+                }
+
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
@@ -540,7 +564,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     iad.config.refreshConfig();
                 }
             },
-            ononConfigChanged: function ()
+            onConfigChanged: function ()
             {
                 updateConfigDownloadButton();
             }

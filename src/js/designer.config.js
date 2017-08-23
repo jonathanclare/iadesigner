@@ -2,6 +2,8 @@ var designer = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
+    var path = require('path');
+
     iad.config = iad.config || {};
 
     // A reference the the actual xml.
@@ -19,22 +21,27 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Load a report.
-    iad.config.loadReport = function (dirPath, callbackFunction)
+    iad.config.loadReport = function (configPath, callbackFunction)
     {
+        var reportPath = path.parse(configPath).dir;
         preConfigLoaded();
         var o = 
         {
             data:
             {
-                config      : {source:dirPath+'/config.xml'},
-                attribute   : {source:dirPath+'/data.js'},
-                map         : {source:dirPath+'/map.js'}
-               /*style       : {source:dirPath+'/default.css'}*/
-            }
+                config      : {source:configPath},
+                attribute   : {source:reportPath+'\\data.js'},
+                map         : {source:reportPath+'\\map.js'}
+               /*style       : {source:reportPath+'/default.css'}*/
+            },
+            /*params:
+            {
+                custom:{source:reportPath+'\\custom.js'}
+            }*/
         };
         ia.update(o, function() 
         {
-            onConfigLoaded(callbackFunction);
+            onConfigLoaded(configPath, callbackFunction);
         });
     };
 
@@ -44,7 +51,7 @@ var designer = (function (iad, $, window, document, undefined)
         preConfigLoaded();
         ia.loadConfig(configPath, function ()
         {
-            onConfigLoaded(callbackFunction);
+            onConfigLoaded(configPath, callbackFunction);
         });
     };
 
@@ -54,7 +61,7 @@ var designer = (function (iad, $, window, document, undefined)
         preConfigLoaded();
         ia.parseConfig(configXml, function ()
         {
-            onConfigLoaded(callbackFunction);
+            onConfigLoaded(undefined, callbackFunction);
         });
     };
 
@@ -72,19 +79,17 @@ var designer = (function (iad, $, window, document, undefined)
         });
     };
 
-
     function preConfigLoaded()
     {
         if (options && options.preConfigLoaded) options.preConfigLoaded.call(null); // On config changed.
     }
 
-    function onConfigLoaded(callbackFunction)
+    function onConfigLoaded(configPath, callbackFunction)
     {
         // Update the xml objects
         xmlConfig = options.report.config.xml;
         $xmlConfig = $(xmlConfig);
-
-        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); // On config changed.
+        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null, configPath); // On config changed.
         if (options && options.onConfigChanged) options.onConfigChanged.call(null);
         if (callbackFunction) callbackFunction.call(null); // Return.
     }
