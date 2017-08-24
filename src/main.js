@@ -12,6 +12,7 @@ var win = null;
 // Auto-updater.
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+
 log.info('App starting...');
 log.info('Current version is:' + app.getVersion());
 
@@ -24,14 +25,14 @@ app.on('ready', function()
     {
         win = new electron.BrowserWindow(
         {
+            backgroundColor: '#ffffff',
             icon:__dirname + '/assets/ia.ico', 
-            title: 'InstantAtlas Designer'/*,
+            title: 'InstantAtlas Designer',
             width: 1200,
             minWidth: 1100,
             height: 800,
             minHeight: 600,
-            show: false,
-            frame: false*/
+            show: false /*, frame: false*/
         });
         win.maximize();
         win.webContents.openDevTools();
@@ -40,6 +41,7 @@ app.on('ready', function()
     {
         win = new electron.BrowserWindow(
         {
+            backgroundColor: '#ffffff',
             width: 1200,
             minWidth: 1100,
             height: 800,
@@ -62,6 +64,7 @@ app.on('ready', function()
         // when you should delete the corresponding element.
         win = null;
     });
+
 
     // and load the index.html of the app.
     win.loadURL('file://' + __dirname + '/index.html#v' + app.getVersion());

@@ -3,6 +3,7 @@ var designer = (function (iad, $, window, document, undefined)
     'use strict';
 
     var path = require('path');
+    var fs = require('fs');
 
     iad.config = iad.config || {};
 
@@ -21,7 +22,7 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Load a report.
-    iad.config.loadReport = function (configPath, callbackFunction)
+    iad.config.loadReport = function (configPath)
     {
         var reportPath = path.parse(configPath).dir;
         preConfigLoaded();
@@ -39,34 +40,40 @@ var designer = (function (iad, $, window, document, undefined)
                 custom:{source:reportPath+'\\custom.js'}
             }*/
         };
+        var lessPath = reportPath+'\\style.json';
+        fs.stat(lessPath, function(err, stat) 
+        {
+            if (err === null)  iad.css.readLessVarsFile(lessPath);
+        });
         ia.update(o, function() 
         {
-            onConfigLoaded(configPath, callbackFunction);
+            onConfigLoaded();
+            if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
         });
     };
 
     // Load a new config file.
-    iad.config.loadConfig = function (configPath, callbackFunction)
+    iad.config.loadConfig = function (configPath)
     {
         preConfigLoaded();
         ia.loadConfig(configPath, function ()
         {
-            onConfigLoaded(configPath, callbackFunction);
+            onConfigLoaded();
         });
     };
 
     // Parse a new config xml.
-    iad.config.parseConfig = function (configXml, callbackFunction)
+    iad.config.parseConfig = function (configXml)
     {
         preConfigLoaded();
         ia.parseConfig(configXml, function ()
         {
-            onConfigLoaded(undefined, callbackFunction);
+            onConfigLoaded();
         });
     };
 
     // Refresh the current config xml.
-    iad.config.refreshConfig = function (callbackFunction)
+    iad.config.refreshConfig = function ()
     {
         preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
@@ -75,23 +82,21 @@ var designer = (function (iad, $, window, document, undefined)
             xmlConfig = options.report.config.xml;
             $xmlConfig = $(xmlConfig);
             if (options && options.onConfigChanged) options.onConfigChanged.call(null);
-            if (callbackFunction) callbackFunction.call(null); // Return.
         });
     };
 
     function preConfigLoaded()
     {
-        if (options && options.preConfigLoaded) options.preConfigLoaded.call(null); // On config changed.
+        if (options && options.preConfigLoaded) options.preConfigLoaded.call(null);
     }
 
-    function onConfigLoaded(configPath, callbackFunction)
+    function onConfigLoaded()
     {
         // Update the xml objects
         xmlConfig = options.report.config.xml;
         $xmlConfig = $(xmlConfig);
-        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null, configPath); // On config changed.
+        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); 
         if (options && options.onConfigChanged) options.onConfigChanged.call(null);
-        if (callbackFunction) callbackFunction.call(null); // Return.
     }
 
     // Converts xml to string.

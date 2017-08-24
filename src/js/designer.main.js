@@ -10,10 +10,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var dialog = electron.dialog || remote.dialog;
     var ipcRenderer = electron.ipcRenderer;
 
+    var win = remote.getCurrentWindow();
+    var version = window.location.hash.substring(1);
+
     var path = require('path');
     var fs = require('fs');
 
-    var selectedWidgetId, editedWidgetId, report;
+    var selectedWidgetId, editedWidgetId, report, configPath;
     
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
@@ -28,10 +31,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     iad.init = function(options)
     {
-
-        var version = window.location.hash.substring(1);
-        console.log(version);
-
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
 
         registerHandlebarsHelperFunctions();
@@ -64,10 +63,15 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 },
                 onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
                 {
-                    console.log(url);
+                    bootbox.alert(
+                    {
+                        message: "Could not find file: " +url,
+                        backdrop: true
+                    });
+                    /*console.log(url);
                     console.log(XMLHttpRequest.status);
                     console.log(textStatus);
-                    console.log(errorThrown);
+                    console.log(errorThrown);*/
                 },
                 data:
                 {
@@ -82,10 +86,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function initMenuHandlers()
     {
-        var reportLoaded = false, configPath, lessPath, stylePath;
-
         // Window buttons.
-        var win = remote.getCurrentWindow();
         $("#iad-min-btn").on("click", function (e) 
         {
             win.minimize();
@@ -111,29 +112,21 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Open.
         $('#iad-menuitem-open').on('click', function(e)
         {
-            openConfigFile(function (filePath)
+            openConfigFile(function (configPath)
             {
-                configPath = filePath;
-                var reportPath = path.parse(filePath).dir;
-                lessPath = reportPath+'\\style.json';
-                stylePath = reportPath+'\\default.css';
-
-                iad.config.loadReport(configPath, function () 
-                {
-                    fs.stat(lessPath, function(err, stat) 
-                    {
-                        if (err === null) iad.css.readLessVarsFile(lessPath, function () {reportLoaded = true;});
-                        else reportLoaded = true;
-                    });
-                });
+                iad.config.loadReport(configPath);
             });
         });
 
         // Save.
         $('#iad-menuitem-save').on('click', function(e)
         {
-            if (reportLoaded)
+            if (configPath !== undefined)
             {
+                var reportPath = path.parse(configPath).dir;
+                var lessPath = reportPath+'\\style.json';
+                var stylePath = reportPath+'\\default.css';
+
                 saveFile(configPath, iad.config.toString(), function ()
                 { 
                     saveFile(lessPath, iad.css.getLessVarsAsString(), function ()
@@ -142,7 +135,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             saveFile(stylePath, strCss, function ()
                             {
-                                onChangesSaved();
+
                             });
                         });
                     });
@@ -353,11 +346,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function onChangesSaved()
-    {
-        console.log('changes saved');
-    }
-
     function getSlidePanel(name)
     {
         if (name === 'widget') return $widgetPanel ;
@@ -509,23 +497,25 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 closeSlidePanel('widget');
                 iad.canvas.clearSelection();
             },
-            onConfigLoaded: function (configPath)
+            onReportLoaded: function (filePath)
             {
-                if (configPath !== undefined)
+                configPath = filePath;
+                var reportPath = path.parse(configPath).dir;
+
+                // Reste title to show config file path.
+                var title = 'InstantAtlas Designer ' + version + ' - ' + configPath;
+                remote.getCurrentWindow().setTitle(title);
+                $('#iad-title').html(title);
+
+                // Fix image paths.
+                [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
                 {
-                    // Reste title to show config file path.
-                    remote.getCurrentWindow().setTitle('InstantAtlas Designer - ' + configPath);
-                    $('#iad-title').html('InstantAtlas Designer - ' + configPath);
-
-                    // Fix image paths.
-                    var reportPath = path.parse(configPath).dir;
-                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
-                    {
-                        var src = img.getAttribute('src');
-                        img.src = reportPath  + '\\' + src;
-                    });
-                }
-
+                    var src = img.getAttribute('src');
+                    img.src = reportPath  + '\\' + src;
+                });
+            },
+            onConfigLoaded: function ()
+            {
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
@@ -775,10 +765,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             if (configPath !== undefined)
             {
                 iad.canvas.clearSelection();
-                iad.config.loadConfig(configPath, function ()
-                {
-
-                });
+                iad.config.loadConfig(configPath);
             }
         });
 
@@ -863,11 +850,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
                 if (fileType.match('text/xml')) // config.xml
                 {
-                    iad.canvas.clearSelection();
-                    iad.config.loadConfig(f.path, function ()
-                    {
-
-                    });
+                    iad.config.loadReport(f.path);
                 }
                 else if (fileName.indexOf('.json') != -1) // json-less-vars.json - file type doesnt seem to work for json.
                 {
