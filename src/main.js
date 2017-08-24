@@ -25,8 +25,13 @@ app.on('ready', function()
         win = new electron.BrowserWindow(
         {
             icon:__dirname + '/assets/ia.ico', 
-            title: 'InstantAtlas Designer'
-            /*,frame: false*/
+            title: 'InstantAtlas Designer'/*,
+            width: 1200,
+            minWidth: 1100,
+            height: 800,
+            minHeight: 600,
+            show: false,
+            frame: false*/
         });
         win.maximize();
         win.webContents.openDevTools();
