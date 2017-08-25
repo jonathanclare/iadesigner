@@ -27,13 +27,6 @@ var designer = (function (iad, $, window, document, undefined)
         var reportPath = path.parse(configPath).dir;
         preConfigLoaded();
        
-        // style.json.
-        var lessPath = reportPath+'\\style.json';
-        fs.stat(lessPath, function(err, stat) 
-        {
-            if (err === null)  iad.css.readLessVarsFile(lessPath);
-        });
-
         ia.update(
         {
             data:
@@ -45,44 +38,67 @@ var designer = (function (iad, $, window, document, undefined)
         }, 
         function() 
         {
-            // custom.js.
-            if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
-            if (typeof onReportComplete === "function") onReportComplete = undefined;
-            if (typeof onIAReportComplete === "function") onIAReportComplete = undefined;
-
-            var customPath = reportPath+'\\custom.js';
-            fs.stat(customPath, function(err, stat) 
+            loadStyleFile(reportPath, function ()
             {
-                if (err === null) 
+                loadCustomFile(reportPath, function ()
                 {
-                    $.getScript(customPath)
-                    .done(function( script, textStatus ) 
-                    {    
-                        if (typeof iaOnReportComplete === "function") 
-                        {
-                            iaOnReportComplete(options.report);
-                            onReportLoaded(configPath);
-                        }
-                        else if (typeof onReportComplete === "function")
-                        {
-                            onReportComplete(options.report);
-                            onReportLoaded(configPath);
-                        }
-                        else if (typeof onIAReportComplete === "function")
-                        {
-                            onIAReportComplete(options.report);
-                            onReportLoaded(configPath);
-                        }
-                    })
-                    .fail(function( jqxhr, settings, exception ) 
-                    {
-                        onReportLoaded(configPath);
-                    });
-                }
-                else onReportLoaded(configPath);
+                    onReportLoaded(configPath);
+                });
             });
         });
     };
+
+    function loadStyleFile(reportPath, callback)
+    {
+        var lessPath = reportPath+'\\style.json';
+        fs.stat(lessPath, function(err, stat) 
+        {
+            if (err === null)  iad.css.readLessVarsFile(lessPath, function()
+            {
+                callback.call(null);
+            });
+            else callback.call(null);
+        });
+    }
+
+    function loadCustomFile(reportPath, callback)
+    {
+        if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
+        if (typeof onReportComplete === "function") onReportComplete = undefined;
+        if (typeof onIAReportComplete === "function") onIAReportComplete = undefined;
+
+        var customPath = reportPath+'\\custom.js';
+        fs.stat(customPath, function(err, stat) 
+        {
+            if (err === null) 
+            {
+                $.getScript(customPath)
+                .done(function( script, textStatus ) 
+                {    
+                    if (typeof iaOnReportComplete === "function") 
+                    {
+                        iaOnReportComplete(options.report);
+                        callback.call(null);
+                    }
+                    else if (typeof onReportComplete === "function")
+                    {
+                        onReportComplete(options.report);
+                        callback.call(null);
+                    }
+                    else if (typeof onIAReportComplete === "function")
+                    {
+                        onIAReportComplete(options.report);
+                        callback.call(null);
+                    }
+                })
+                .fail(function( jqxhr, settings, exception ) 
+                {
+                    callback.call(null);
+                });
+            }
+            else callback.call(null);
+        });
+    }
 
     // Load a new config file.
     iad.config.loadConfig = function (configPath)
@@ -107,10 +123,8 @@ var designer = (function (iad, $, window, document, undefined)
     // Refresh the current config xml.
     iad.config.refreshConfig = function ()
     {
-        preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
         {
-            // Update the xml objects
             xmlConfig = options.report.config.xml;
             $xmlConfig = $(xmlConfig);
             if (options && options.onConfigChanged) options.onConfigChanged.call(null);
@@ -124,7 +138,9 @@ var designer = (function (iad, $, window, document, undefined)
 
     function onReportLoaded(configPath)
     {
-        onConfigLoaded();
+        xmlConfig = options.report.config.xml;
+        $xmlConfig = $(xmlConfig);
+        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); 
         if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
     }
 

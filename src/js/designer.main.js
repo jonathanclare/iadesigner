@@ -86,11 +86,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function onChangesMade()
     {
-        if (configPath !== undefined)
-        {
-            changesSaved = false;
-            $('#iad-menuitem-save').parent().removeClass('disabled');
-        }
+        console.log("onChangesMade");
+        if (configPath !== undefined) changesSaved = false;
     }
 
     function saveChanges(callback)
@@ -110,57 +107,55 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         saveFile(stylePath, strCss, function ()
                         {              
                             changesSaved = true;
-                            $('#iad-menuitem-save').parent().addClass('disabled');
                             if (callback !== undefined) callback.call(null);  
                         });
                     });
                 });
             });
         } 
-    }
-
-    function saveOnClose()
-    {
-        if (configPath === undefined) 
-        {
-            win.close();
-        }
         else
         {
-            if (changesSaved) win.close();
-            else
+            bootbox.alert(
             {
-                bootbox.confirm(
+                message: 'You need to load a valid InstantAtlas Report before you can use this functionality.' +
+                ' See <a target="_blank" href="http://www.instantatlas.com/">www.instantatlas.com</a> for further details',
+                backdrop: true
+            });
+        }
+    }
+
+    function saveChangesBeforeContinuing(callback)
+    {
+        if (changesSaved) callback.call(null); 
+        else
+        {
+            bootbox.confirm(
+            {
+                title: "Save Changes?",
+                message: "Save changes before continuing?",
+                buttons: 
                 {
-                    title: "Save Changes?",
-                    message: "Save changes before closing?",
-                    buttons: 
+                    cancel: 
                     {
-                        cancel: 
-                        {
-                            label: '<i class="fa fa-times"></i> No'
-                        },
-                        confirm: 
-                        {
-                            label: '<i class="fa fa-check"></i> Yes'
-                        }
+                        label: '<i class="fa fa-times"></i> No'
                     },
-                    callback: function (result) 
+                    confirm: 
                     {
-                        if (result === true)
-                        {
-                            saveChanges(function()
-                            {
-                                win.close();
-                            });
-                        }
-                        else
-                        {
-                            win.close();
-                        }
+                        label: '<i class="fa fa-check"></i> Yes'
                     }
-                });
-            }
+                },
+                callback: function (result) 
+                {
+                    if (result === true)
+                    {
+                        saveChanges(function()
+                        {
+                            callback.call(null); 
+                        });
+                    }
+                    else callback.call(null); 
+                }
+            });
         }
     }
 
@@ -197,7 +192,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $("#iad-close-btn").on("click", function (e) 
         {
-            saveOnClose();
+            saveChangesBeforeContinuing(function()
+            {
+                win.close();
+            });
         });
         $("#iad-max-btn").on("click", function (e) 
         {
@@ -231,7 +229,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Exit.
         $('#iad-menuitem-exit').on('click', function(e)
         {
-            saveOnClose();
+            saveChangesBeforeContinuing(function()
+            {
+                win.close();
+            });
         });
 
         // Design / Published mode.
@@ -251,9 +252,16 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
 
         // Refresh report.
-        $('#iad-refresh-report').on('click', function(e)
+        $('#iad-menuitem-refresh-report').on('click', function(e)
         {
-            if (configPath !== undefined) iad.config.loadReport(configPath);
+            if (configPath !== undefined)
+            {
+                saveChangesBeforeContinuing(function()
+                {
+                    iad.config.loadReport(configPath);
+                });
+            }
+            else iad.config.refreshConfig();
         });
 
         // Insert widgets.
@@ -594,6 +602,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onReportLoaded: function (filePath)
             {
+
+        console.log("onReportLoaded");
+
+                changesSaved = true;
                 configPath = filePath;
                 var reportPath = path.parse(configPath).dir;
 
@@ -608,6 +620,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     var src = img.getAttribute('src');
                     img.src = reportPath  + '\\' + src;
                 });
+
+                updateConfigDownloadButton();
             },
             onConfigLoaded: function ()
             {

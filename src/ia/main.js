@@ -249,14 +249,30 @@
 			var config = options.data.config;
 			if (config)
 			{
-				if (config.source) 			configSource = config.source;
-				else if (config.xml) 		configXML = config.xml;
+				if (config.source) 			
+				{
+					configSource = config.source;
+					configXML = undefined;
+				}
+				else if (config.xml) 		
+				{
+					configXML = config.xml;
+					configSource = undefined;
+				}
 			}
 			var attribute = options.data.attribute;
 			if (attribute)
 			{
-				if (attribute.source) 		dataSource = attribute.source; 
-				else if (attribute.json) 	dataJSON = attribute.json;
+				if (attribute.source) 		
+				{
+					dataSource = attribute.source; 
+					dataJSON = undefined;
+				}
+				else if (attribute.json) 	
+				{
+					dataJSON = attribute.json;
+					dataSource = undefined; 
+				}
 			}
 			var model = options.data.model;
 			if (model)
@@ -266,14 +282,30 @@
 			var map = options.data.map;
 			if (map)
 			{
-				if (map.source) 			mapSource = map.source; 
-				else if (map.json) 			mapJSON = map.json; 
+				if (map.source) 	
+				{
+					mapSource = map.source; 
+					mapJSON = undefined;
+				}		
+				else if (map.json) 			
+				{
+					mapJSON = map.json; 
+					mapSource = undefined; 
+				}
 			}
 			var style = options.data.style;
 			if (style)
 			{
-				if (style.source) 			styleSource = style.source; 
-				else if (style.text) 		styleText = style.text; 
+				if (style.source) 		
+				{
+					styleSource = style.source; 
+					styleText = undefined; 
+				}	
+				else if (style.text) 	
+				{
+					styleText = style.text; 
+					styleSource = undefined; 
+				}	
 			}
 		}
 
