@@ -26,29 +26,61 @@ var designer = (function (iad, $, window, document, undefined)
     {
         var reportPath = path.parse(configPath).dir;
         preConfigLoaded();
-        var o = 
+       
+        // style.json.
+        var lessPath = reportPath+'\\style.json';
+        fs.stat(lessPath, function(err, stat) 
+        {
+            if (err === null)  iad.css.readLessVarsFile(lessPath);
+        });
+
+        ia.update(
         {
             data:
             {
                 config      : {source:configPath},
                 attribute   : {source:reportPath+'\\data.js'},
                 map         : {source:reportPath+'\\map.js'}
-               /*style       : {source:reportPath+'/default.css'}*/
-            },
-            /*params:
+            }
+        }, 
+        function() 
+        {
+            // custom.js.
+            if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
+            if (typeof onReportComplete === "function") onReportComplete = undefined;
+            if (typeof onIAReportComplete === "function") onIAReportComplete = undefined;
+
+            var customPath = reportPath+'\\custom.js';
+            fs.stat(customPath, function(err, stat) 
             {
-                custom:{source:reportPath+'\\custom.js'}
-            }*/
-        };
-        var lessPath = reportPath+'\\style.json';
-        fs.stat(lessPath, function(err, stat) 
-        {
-            if (err === null)  iad.css.readLessVarsFile(lessPath);
-        });
-        ia.update(o, function() 
-        {
-            onConfigLoaded();
-            if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                if (err === null) 
+                {
+                    $.getScript(customPath)
+                    .done(function( script, textStatus ) 
+                    {    
+                        if (typeof iaOnReportComplete === "function") 
+                        {
+                            iaOnReportComplete(options.report);
+                            onReportLoaded(configPath);
+                        }
+                        else if (typeof onReportComplete === "function")
+                        {
+                            onReportComplete(options.report);
+                            onReportLoaded(configPath);
+                        }
+                        else if (typeof onIAReportComplete === "function")
+                        {
+                            onIAReportComplete(options.report);
+                            onReportLoaded(configPath);
+                        }
+                    })
+                    .fail(function( jqxhr, settings, exception ) 
+                    {
+                        onReportLoaded(configPath);
+                    });
+                }
+                else onReportLoaded(configPath);
+            });
         });
     };
 
@@ -88,6 +120,12 @@ var designer = (function (iad, $, window, document, undefined)
     function preConfigLoaded()
     {
         if (options && options.preConfigLoaded) options.preConfigLoaded.call(null);
+    }
+
+    function onReportLoaded(configPath)
+    {
+        onConfigLoaded();
+        if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
     }
 
     function onConfigLoaded()

@@ -16,7 +16,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var path = require('path');
     var fs = require('fs');
 
-    var selectedWidgetId, editedWidgetId, report, configPath;
+    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true;
     
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
@@ -84,6 +84,110 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     };
 
+    function onChangesMade()
+    {
+        if (configPath !== undefined)
+        {
+            changesSaved = false;
+            $('#iad-menuitem-save').parent().removeClass('disabled');
+        }
+    }
+
+    function saveChanges(callback)
+    {
+        if (configPath !== undefined)
+        {
+            var reportPath = path.parse(configPath).dir;
+            var lessPath = reportPath+'\\style.json';
+            var stylePath = reportPath+'\\default.css';
+
+            saveFile(configPath, iad.config.toString(), function ()
+            { 
+                saveFile(lessPath, iad.css.getLessVarsAsString(), function ()
+                {
+                    iad.css.getCssAsString(function (strCss)
+                    {
+                        saveFile(stylePath, strCss, function ()
+                        {              
+                            changesSaved = true;
+                            $('#iad-menuitem-save').parent().addClass('disabled');
+                            if (callback !== undefined) callback.call(null);  
+                        });
+                    });
+                });
+            });
+        } 
+    }
+
+    function saveOnClose()
+    {
+        if (configPath === undefined) 
+        {
+            win.close();
+        }
+        else
+        {
+            if (changesSaved) win.close();
+            else
+            {
+                bootbox.confirm(
+                {
+                    title: "Save Changes?",
+                    message: "Save changes before closing?",
+                    buttons: 
+                    {
+                        cancel: 
+                        {
+                            label: '<i class="fa fa-times"></i> No'
+                        },
+                        confirm: 
+                        {
+                            label: '<i class="fa fa-check"></i> Yes'
+                        }
+                    },
+                    callback: function (result) 
+                    {
+                        if (result === true)
+                        {
+                            saveChanges(function()
+                            {
+                                win.close();
+                            });
+                        }
+                        else
+                        {
+                            win.close();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    function updateStyleDownloadButtons()
+    {
+        // colorscheme.json
+        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
+        var lessUrl = URL.createObjectURL(lessBlob);
+        $('#iad-btn-download-less').attr('href', lessUrl);
+
+        // default.css
+        iad.css.getCssAsString(function (strCss)
+        {
+            var cssBlob = new Blob([strCss], {type: 'text/css' }); 
+            var cssUrl = URL.createObjectURL(cssBlob);
+            $('#iad-btn-download-css').attr('href', cssUrl);
+        });
+    }
+
+    function updateConfigDownloadButton()
+    {
+        // config.xml
+        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
+        var configUrl = URL.createObjectURL(configBlob);
+        $('#iad-btn-download-config').attr('href', configUrl);
+    }
+
     function initMenuHandlers()
     {
         // Window buttons.
@@ -93,7 +197,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $("#iad-close-btn").on("click", function (e) 
         {
-            win.close();
+            saveOnClose();
         });
         $("#iad-max-btn").on("click", function (e) 
         {
@@ -121,34 +225,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Save.
         $('#iad-menuitem-save').on('click', function(e)
         {
-            if (configPath !== undefined)
-            {
-                var reportPath = path.parse(configPath).dir;
-                var lessPath = reportPath+'\\style.json';
-                var stylePath = reportPath+'\\default.css';
+            saveChanges();
+        });
 
-                saveFile(configPath, iad.config.toString(), function ()
-                { 
-                    saveFile(lessPath, iad.css.getLessVarsAsString(), function ()
-                    {
-                        iad.css.getCssAsString(function (strCss)
-                        {
-                            saveFile(stylePath, strCss, function ()
-                            {
-
-                            });
-                        });
-                    });
-                });
-            } 
-            else
-            {
-                bootbox.alert(
-                {
-                    message: "You need to open a valid InstantAtlas Report first.",
-                    backdrop: true
-                });
-            }
+        // Exit.
+        $('#iad-menuitem-exit').on('click', function(e)
+        {
+            saveOnClose();
         });
 
         // Design / Published mode.
@@ -165,6 +248,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 // Edit on.
                 iad.canvas.on();
             }
+        });
+
+        // Refresh report.
+        $('#iad-refresh-report').on('click', function(e)
+        {
+            if (configPath !== undefined) iad.config.loadReport(configPath);
         });
 
         // Insert widgets.
@@ -430,7 +519,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function () 
                         {
-                            updateStyleDownloadButtons();
+                            onStyleChanged();
                         });
                     });
                 }
@@ -449,7 +538,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             factory.renderComponents(function () 
                             {
-                                updateStyleDownloadButtons();
+                                onStyleChanged();
                             });
                         });
                     }
@@ -457,10 +546,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         factory.renderComponents(function() 
                         {
-                            updateStyleDownloadButtons();
+                            onStyleChanged();
                         });
                     }
-                    else updateStyleDownloadButtons();
+                    else onStyleChanged();
                 }
             },
             onReady: function()
@@ -468,6 +557,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 if (callback !== undefined) callback.call(null);
             }
         });
+
+        function onStyleChanged()
+        {
+            onChangesMade();
+            updateStyleDownloadButtons();
+        }
     }
 
     function initColorPicker()
@@ -502,7 +597,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 configPath = filePath;
                 var reportPath = path.parse(configPath).dir;
 
-                // Reste title to show config file path.
+                // Reset title to show config file path.
                 var title = 'InstantAtlas Designer ' + version + ' - ' + configPath;
                 remote.getCurrentWindow().setTitle(title);
                 $('#iad-title').html(title);
@@ -556,6 +651,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onConfigChanged: function ()
             {
+                onChangesMade();
                 updateConfigDownloadButton();
             }
         });
@@ -708,7 +804,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigGallery(options)
     {
-        var configPath;
+        var cPath;
         var $menuitem = $('#iad-menuitem-config-gallery');
         var $modal = $('#iad-modal-config-gallery');
 
@@ -718,7 +814,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $modal.on('shown.bs.modal', function ()
         {
-            configPath = undefined;
+            cPath = undefined;
             if (!iad.configgallery.initialised)
             {
                 iad.configgallery.init(
@@ -734,7 +830,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                         {
                             onContinue: function ()
                             {
-                                configPath = filePath;
+                                cPath = filePath;
                                 $modal.modal('hide');
                             }
                         });
@@ -751,7 +847,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                             {
                                 openConfigFile(function (filePath)
                                 {
-                                    configPath = filePath;
+                                    cPath = filePath;
                                     $modal.modal('hide');
                                 });
                             }
@@ -762,10 +858,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $modal.on('hidden.bs.modal', function ()
         {
-            if (configPath !== undefined)
+            if (cPath !== undefined)
             {
                 iad.canvas.clearSelection();
-                iad.config.loadConfig(configPath);
+                iad.config.loadConfig(cPath);
             }
         });
 
@@ -1003,30 +1099,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             }
         }
         $('#iad-dropdown-widget-properties').html(options);
-    }
-
-    function updateStyleDownloadButtons()
-    {
-        // colorscheme.json
-        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
-        var lessUrl = URL.createObjectURL(lessBlob);
-        $('#iad-btn-download-less').attr('href', lessUrl);
-
-        // default.css
-        iad.css.getCssAsString(function (strCss)
-        {
-            var cssBlob = new Blob([strCss], {type: 'text/css' }); 
-            var cssUrl = URL.createObjectURL(cssBlob);
-            $('#iad-btn-download-css').attr('href', cssUrl);
-        });
-    }
-
-    function updateConfigDownloadButton()
-    {
-        // config.xml
-        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
-        var configUrl = URL.createObjectURL(configBlob);
-        $('#iad-btn-download-config').attr('href', configUrl);
     }
 
     return iad;

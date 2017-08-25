@@ -15,6 +15,7 @@ autoUpdater.logger.transports.file.level = 'info';
 
 log.info('App starting...');
 log.info('Current version is:' + app.getVersion());
+log.info('App Path:' + app.getPath('userData'));
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -29,12 +30,12 @@ app.on('ready', function()
             icon:__dirname + '/assets/ia.ico', 
             title: 'InstantAtlas Designer',
             width: 1200,
-            minWidth: 1100,
+            minWidth: 800,
             height: 800,
-            minHeight: 600,
-            show: false /*, frame: false*/
+            minHeight: 600/*,
+            frame: false*/
         });
-        win.maximize();
+        //win.maximize();
         win.webContents.openDevTools();
     }
     else
@@ -43,7 +44,7 @@ app.on('ready', function()
         {
             backgroundColor: '#ffffff',
             width: 1200,
-            minWidth: 1100,
+            minWidth: 800,
             height: 800,
             minHeight: 600,
             show: false,
@@ -64,7 +65,6 @@ app.on('ready', function()
         // when you should delete the corresponding element.
         win = null;
     });
-
 
     // and load the index.html of the app.
     win.loadURL('file://' + __dirname + '/index.html#v' + app.getVersion());
