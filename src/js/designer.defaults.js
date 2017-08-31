@@ -22,6 +22,39 @@ var designer = (function (iad, undefined)
             path:'./report/'
         },
 
+        // Config.
+        config:
+        {
+            paths:
+            [
+                {template:'areaprofiler::flash::html', path:'./config/en/db-area-profile/config.xml'},
+                {template:'areaprofiler::flash::html::arcgisonline', path:'./config/en/db-area-profile-agol/config.xml'},
+                {template:'bubbleplot::flash::html', path:'./config/en/db-bubble-plot/config.xml'},
+                {template:'bubbleplot::flash::html', path:'./config/en/db-bubble-plot-alt/config.xml'},
+                {template:'bubbleplot::flash::html::single', path:'./config/en/db-bubble-plot-simple/config.xml'},
+                {template:'double_timeseries_advanced_dm::flash::double_base::html', path:'./config/en/db-double-base-layer/config.xml'},
+                {template:'double_timeseries_advanced_dm::flash::double_base::html', path:'./config/en/db-double-base-layer-alt/config.xml'},
+                {template:'double_timeseries_advanced_dm::flash::html', path:'./config/en/db-double-geog/config.xml'},
+                {template:'double_timeseries_advanced_dm::flash::html', path:'./config/en/db-double-geog-alt/config.xml'},
+                {template:'timeseries_advanced_dm::flash::html', path:'./config/en/db-double-plot/config.xml'},
+                {template:'timeseries_advanced_dm::flash::html::arcgisonline', path:'./config/en/db-double-plot-agol/config.xml'},
+                {template:'timeseries_advanced_dm::flash::html', path:'./config/en/db-double-plot-alt/config.xml'},
+                {template:'areaprofiler::flash::election::html', path:'./config/en/db-election/config.xml'},
+                {template:'areaprofiler::flash::election::html', path:'./config/en/db-election-alt/config.xml'},
+                {template:'bubbleplot::flash::html::single', path:'./config/en/db-funnel-plot/config.xml'},
+                {template:'areaprofiler::flash::html', path:'./config/en/db-health-profile/config.xml'},
+                {template:'areaprofiler::flash::html', path:'./config/en/db-performance-profile/config.xml'},
+                {template:'areaprofiler::flash::html::arcgisonline', path:'./config/en/db-performance-profile-agol/config.xml'},
+                {template:'timeseries_advanced_sm::flash::pyramid::html', path:'./config/en/db-pyramid/config.xml'},
+                {template:'bubbleplot::flash::html::single', path:'./config/en/db-scatter-plot/config.xml'},
+                {template:'timeseries_advanced_sm::flash::html', path:'./config/en/db-single-map/config.xml'},
+                {template:'timeseries_advanced_sm::flash::html::arcgisonline', path:'./config/en/db-single-map-agol/config.xml'},
+                {template:'timeseries_advanced_sm::flash::html', path:'./config/en/db-single-map-alt/config.xml'},
+                {template:'timeseries_advanced_sm::flash::html', path:'./config/en/db-single-map-default/config.xml'},
+                {template:'timeseries_advanced_sm::flash::html', path:'./config/en/db-single-map-only/config.xml'}
+            ]
+        },
+
         // CSS.
         css:
         {

@@ -21,30 +21,74 @@ var designer = (function (iad, $, window, document, undefined)
         $xmlConfig = $(xmlConfig);
     };
 
+    function readXmlFile(filePath, callback)
+    {
+        $.ajax(
+        {
+            type: 'GET',
+            url: filePath,
+            dataType: 'xml',
+            success: function(xml) 
+            {
+                callback.call(null, xml);
+            }
+        });
+    }
+
+    function addMissingComponentsToXml(xml, callback)
+    {
+        readXmlFile('./config/en/db-single-map/config.xml', function (xmlTemplate)
+        {
+            var $xml = $(xml);
+            var $xmlTemplate = $(xmlTemplate);
+            var $xmlWidgets = $xmlTemplate.find('Component, Table');
+            $.each($xmlWidgets, function(i, xmlWidget)
+            {
+                var $widget = $(xmlWidget);
+                if ($xml.find('#' + $widget.attr('id')).length === 0) 
+                {
+                    $widget.attr('visible', false);
+                    $widget.attr('x', 200);
+                    $widget.attr('y', 150);
+                    $widget.attr('width', 400);
+                    $widget.attr('height', 300);
+                    $xml.find('AtlasInterface').append(widget);
+                }
+            });
+            callback.call(null);
+        });
+    }
+
     // Load a report.
     iad.config.loadReport = function (configPath)
-    {
-        var reportPath = path.parse(configPath).dir;
-        preConfigLoaded();
-       
-        ia.update(
+    { 
+        readXmlFile(configPath, function (xml)
         {
-            data:
-            {
-                config      : {source:configPath},
-                attribute   : {source:reportPath+'\\data.js'},
-                map         : {source:reportPath+'\\map.js'}
-            }
-        }, 
-        function() 
-        {
-            loadStyleFile(reportPath, function ()
-            {
-                loadCustomFile(reportPath, function ()
+             addMissingComponentsToXml(xml, function()
+             {
+                var reportPath = path.parse(configPath).dir;
+                preConfigLoaded();
+               
+                ia.update(
                 {
-                    onReportLoaded(configPath);
+                    data:
+                    {
+                        config      : {xml:xml},
+                        attribute   : {source:reportPath+'\\data.js'},
+                        map         : {source:reportPath+'\\map.js'}
+                    }
+                }, 
+                function() 
+                {
+                    loadStyleFile(reportPath, function ()
+                    {
+                        loadCustomFile(reportPath, function ()
+                        {
+                            onReportLoaded(configPath);
+                        });
+                    });
                 });
-            });
+             });
         });
     };
 
@@ -111,10 +155,10 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Parse a new config xml.
-    iad.config.parseConfig = function (configXml)
+    iad.config.parseConfig = function (xml)
     {
         preConfigLoaded();
-        ia.parseConfig(configXml, function ()
+        ia.parseConfig(xml, function ()
         {
             onConfigLoaded();
         });
@@ -125,9 +169,7 @@ var designer = (function (iad, $, window, document, undefined)
     {
         ia.parseConfig(xmlConfig, function ()
         {
-            xmlConfig = options.report.config.xml;
-            $xmlConfig = $(xmlConfig);
-            if (options && options.onConfigChanged) options.onConfigChanged.call(null);
+            onConfigLoaded();
         });
     };
 
@@ -326,7 +368,7 @@ var designer = (function (iad, $, window, document, undefined)
     function addButton(widgetId)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
-        var strXML = '<Button id="' + widgetId + '" zIndex="' + zIndex + '" text="My Button" href="" tooltip="" x="0" y="0" width="200" height="50" editable="true" moveable="true" removeable="true" resizeable="true"/>';
+        var strXML = '<Button id="' + widgetId + '" zIndex="' + zIndex + '" text="My Button" href="" tooltip="" x="300" y="275" width="200" height="50" editable="true" moveable="true" removeable="true" resizeable="true"/>';
         var xml = $($.parseXML(strXML)).find('Button'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 
@@ -340,7 +382,7 @@ var designer = (function (iad, $, window, document, undefined)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
         var text = 'My Text';
-        var strXML = '<Text id="' + widgetId + '" zIndex="' + zIndex + '" anchor="start" editable="true" fill="#000000" font-family="Arial" font-size="24" font-style="normal" font-weight="bold" href="" moveable="true" removeable="true" resizeable="true" rotate="0" target="_blank" wrap-width="100" x="0" y="0">' + text + '</Text>';
+        var strXML = '<Text id="' + widgetId + '" zIndex="' + zIndex + '" anchor="start" editable="true" fill="#000000" font-family="Arial" font-size="24" font-style="normal" font-weight="bold" href="" moveable="true" removeable="true" resizeable="true" rotate="0" target="_blank" wrap-width="100" x="350" y="288" >' + text + '</Text>';
         var xml = $($.parseXML(strXML)).find('Text'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 
@@ -353,7 +395,7 @@ var designer = (function (iad, $, window, document, undefined)
     function addImage(widgetId)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
-        var strXML = '<Image id="' + widgetId + '" zIndex="' + zIndex + '" rescale="true" anchor="left" src="./image_placeholder.png" href="" target="_blank" x="0" y="0" width="150" height="150" moveable="true" editable="true" removeable="true" resizeable="true"/>';
+        var strXML = '<Image id="' + widgetId + '" zIndex="' + zIndex + '" rescale="true" anchor="left" src="./image_placeholder.png" href="" target="_blank" x="325" y="225" width="150" height="150" moveable="true" editable="true" removeable="true" resizeable="true"/>';
         var xml = $($.parseXML(strXML)).find('Image'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 

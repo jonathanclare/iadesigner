@@ -86,7 +86,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function onChangesMade()
     {
-        console.log("onChangesMade");
         if (configPath !== undefined) changesSaved = false;
     }
 
@@ -118,7 +117,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             bootbox.alert(
             {
                 message: 'You need to load a valid InstantAtlas Report before you can use this functionality.' +
-                ' See <a target="_blank" href="http://www.instantatlas.com/">www.instantatlas.com</a> for further details',
+                ' See <a target="_blank" href="http://www.instantatlas.com/">www.instantatlas.com</a> for further details.',
                 backdrop: true
             });
         }
@@ -214,9 +213,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Open.
         $('#iad-menuitem-open').on('click', function(e)
         {
-            openConfigFile(function (configPath)
+            saveChangesBeforeContinuing(function()
             {
-                iad.config.loadReport(configPath);
+                openConfigFile(function (configPath)
+                {
+                    iad.config.loadReport(configPath);
+                });
             });
         });
 
@@ -602,15 +604,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onReportLoaded: function (filePath)
             {
-
-        console.log("onReportLoaded");
-
                 changesSaved = true;
                 configPath = filePath;
                 var reportPath = path.parse(configPath).dir;
 
                 // Reset title to show config file path.
-                var title = 'InstantAtlas Designer ' + version + ' - ' + configPath;
+                var title = 'InstantAtlas Designer - ' + configPath;
                 remote.getCurrentWindow().setTitle(title);
                 $('#iad-title').html(title);
 
@@ -652,7 +651,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             onZIndexChanged: function (widgetId)
             {
                 iad.canvas.select(widgetId);
-                //$('#ia-widget-tab').tab('show');
             },
             onGroupPropertyChanged: function (propertyGroupId, propertyId)
             {
