@@ -16,7 +16,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var path = require('path');
     var fs = require('fs');
 
-    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true;
+    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
     
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
@@ -38,8 +38,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             ia.init(
             {
-                container   : 'iad-report',
-                onSuccess   : function (r)
+                container: 'iad-report',
+                onSuccess: function (r)
                 {
                     report = r;
 
@@ -53,7 +53,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     initWidgetGallery(settings.widgetGallery);
                     initFileDragAndDrop();
                     updateDropdownMenus();
-                    iad.configforms.updateJavaScriptOptions();
                     updateStyleDownloadButtons();
                     updateConfigDownloadButton();
                     initMenuHandlers();
@@ -61,24 +60,19 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
                     if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
                 },
-                onFail      : function(url, XMLHttpRequest, textStatus, errorThrown)
+                onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
                 {
                     bootbox.alert(
                     {
                         message: "Could not find file: " +url,
                         backdrop: true
                     });
-                    /*console.log(url);
-                    console.log(XMLHttpRequest.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);*/
                 },
                 data:
                 {
-                    config      : {source:settings.report.path+'\\config.xml'},
-                    attribute   : {source:settings.report.path+'\\data.js'},
-                    map         : {source:settings.report.path+'\\map.js'}
-                    /*style       : {source:settings.report.path+'/default.css'}*/
+                    config: {source:settings.report.path+'/config.xml'},
+                    attribute: {source:settings.report.path+'/data.js'},
+                    map : {source:settings.report.path+'/map.js'}
                 }
             });
         });
@@ -86,16 +80,16 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function onChangesMade()
     {
-        if (configPath !== undefined) changesSaved = false;
+        if (userReportLoaded) changesSaved = false;
     }
 
     function saveChanges(callback)
     {
-        if (configPath !== undefined)
+        if (userReportLoaded)
         {
             var reportPath = path.parse(configPath).dir;
-            var lessPath = reportPath+'\\style.json';
-            var stylePath = reportPath+'\\default.css';
+            var lessPath = reportPath+'/style.json';
+            var stylePath = reportPath+'/default.css';
 
             saveFile(configPath, iad.config.toString(), function ()
             { 
@@ -215,9 +209,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             saveChangesBeforeContinuing(function()
             {
-                openConfigFile(function (configPath)
+                openConfigFile(function (filePath)
                 {
-                    iad.config.loadReport(configPath);
+                    userReportLoaded = true;
+                    iad.config.loadReport(filePath);
                 });
             });
         });
@@ -256,7 +251,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Refresh report.
         $('#iad-menuitem-refresh-report').on('click', function(e)
         {
-            if (configPath !== undefined) 
+            if (userReportLoaded) 
                 iad.config.refreshReport(configPath);
             else 
                 iad.config.refreshConfig();
@@ -613,14 +608,14 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onConfigLoaded: function ()
             {
-                if (configPath !== undefined)
+                if (userReportLoaded)
                 {
                     // Fix image paths.
                     var reportPath = path.parse(configPath).dir;
                     [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
                     {
                         var src = img.getAttribute('src');
-                        img.src = reportPath  + '\\' + src;
+                        img.src = reportPath  + '/' + src;
                     });
                 }
 
@@ -870,36 +865,42 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $modal.on('hidden.bs.modal', function ()
         {
-            if (cPath !== undefined)
+            if (cPath !== undefined) 
             {
-                iad.canvas.clearSelection();
-                iad.config.loadConfig(cPath);
+                if (userReportLoaded)
+                    iad.config.loadConfig(cPath);
+                else
+                    iad.config.loadReport(cPath);
             }
         });
 
         function showWarning(o)
         {
-            bootbox.confirm(
+            if (userReportLoaded) 
             {
-                title: "Continue?",
-                message: "Any changes to widget properties (including table columns) will be lost if you apply a new template. Do you wish to continue?",
-                buttons: 
+                bootbox.confirm(
                 {
-                    cancel: 
+                    title: "Continue?",
+                    message: "Any changes to widget properties (including table columns) will be lost if you apply a new template. Do you wish to continue?",
+                    buttons: 
                     {
-                        label: '<i class="fa fa-times"></i> No'
+                        cancel: 
+                        {
+                            label: '<i class="fa fa-times"></i> No'
+                        },
+                        confirm: 
+                        {
+                            label: '<i class="fa fa-check"></i> Yes'
+                        }
                     },
-                    confirm: 
+                    callback: function (result) 
                     {
-                        label: '<i class="fa fa-check"></i> Yes'
+                        if (result === true && o && o.onContinue) o.onContinue.call(null);
+                        else if (options && o.onCancel) o.onCancel.call(null);
                     }
-                },
-                callback: function (result) 
-                {
-                    if (result === true && o && o.onContinue) o.onContinue.call(null);
-                    else if (options && o.onCancel) o.onCancel.call(null);
-                }
-            });
+                });
+            }
+            else o.onContinue.call(null);
         }
     }
 
@@ -954,13 +955,17 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 var fileSize = f.size + ' bytes';
                 var filePath = f.path;
                 var lastModified = 'last modified: '+f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a';
-                ia.log(fileName+' '+fileType+' '+fileSize+' '+lastModified);
+                //ia.log(fileName+' '+fileType+' '+fileSize+' '+lastModified);
 
                 if (fileType.match('text/xml')) // config.xml
                 {
-                    iad.config.loadReport(f.path);
+                    saveChangesBeforeContinuing(function()
+                    {
+                        userReportLoaded = true;
+                        iad.config.loadReport(f.path);
+                    });
                 }
-                else if (fileName.indexOf('.json') != -1) // json-less-vars.json - file type doesnt seem to work for json.
+                else if (fileName.indexOf('.json') != -1) // styles.json - file type doesnt seem to work for json.
                 {
                     iad.css.readLessVarsFile(f.path, function () {});
                 }

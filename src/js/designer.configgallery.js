@@ -68,7 +68,7 @@ var designer = (function (iad, $, window, document, undefined)
 		.on('click', function(e) // Apply the selected config file.
 		{
 			var report = reportHash[reportId];
-			var path = './' + options.configPath + '/' + report.path + '/config.xml';
+			var path = options.configPath + '/' + report.path + '/config.xml';
 			if (options && options.onApply) options.onApply.call(null, path);
 		});
 

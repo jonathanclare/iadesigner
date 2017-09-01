@@ -65,7 +65,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Load style.json
     function loadStyleFile(reportPath, callback)
     {
-        var lessPath = reportPath+'\\style.json';
+        var lessPath = reportPath+'/style.json';
         fs.stat(lessPath, function(err, stat) 
         {
             if (err === null)  iad.css.readLessVarsFile(lessPath, function()
@@ -83,7 +83,7 @@ var designer = (function (iad, $, window, document, undefined)
         if (typeof onReportComplete === "function") onReportComplete = undefined;
         if (typeof onIAReportComplete === "function") onIAReportComplete = undefined;
 
-        var customPath = reportPath+'\\custom.js';
+        var customPath = reportPath+'/custom.js';
         fs.stat(customPath, function(err, stat) 
         {
             if (err === null) 
@@ -125,14 +125,13 @@ var designer = (function (iad, $, window, document, undefined)
             addMissingComponentsToXml(xml, function()
             {
                 var reportPath = path.parse(configPath).dir;
-               
                 ia.update(
                 {
                     data:
                     {
                         config      : {xml:xml},
-                        attribute   : {source:reportPath+'\\data.js'},
-                        map         : {source:reportPath+'\\map.js'}
+                        attribute   : {source:reportPath+'/data.js'},
+                        map         : {source:reportPath+'/map.js'}
                     }
                 }, 
                 function() 
