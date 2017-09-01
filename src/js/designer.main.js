@@ -46,7 +46,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     initCanvas();
                     initColorPicker();
                     initColorSchemes();
-                    initConfig();
+                    initConfig(settings.config);
                     initFormControls();
                     initConfigForms();
                     initConfigGallery(settings.configGallery);
@@ -256,14 +256,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Refresh report.
         $('#iad-menuitem-refresh-report').on('click', function(e)
         {
-            if (configPath !== undefined)
-            {
-                saveChangesBeforeContinuing(function()
-                {
-                    iad.config.loadReport(configPath);
-                });
-            }
-            else iad.config.refreshConfig();
+            if (configPath !== undefined) 
+                iad.config.refreshReport(configPath);
+            else 
+                iad.config.refreshConfig();
         });
 
         // Insert widgets.
@@ -592,10 +588,11 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initConfig()
+    function initConfig(options)
     {
         iad.config.init(
         {
+            paths:options.paths,
             report : report,
             preConfigLoaded: function ()
             {                
@@ -606,28 +603,36 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 changesSaved = true;
                 configPath = filePath;
-                var reportPath = path.parse(configPath).dir;
 
                 // Reset title to show config file path.
                 var title = 'InstantAtlas Designer - ' + configPath;
                 remote.getCurrentWindow().setTitle(title);
                 $('#iad-title').html(title);
-
-                // Fix image paths.
-                [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
-                {
-                    var src = img.getAttribute('src');
-                    img.src = reportPath  + '\\' + src;
-                });
-
+                
                 updateConfigDownloadButton();
             },
             onConfigLoaded: function ()
             {
+                if (configPath !== undefined)
+                {
+                    // Fix image paths.
+                    var reportPath = path.parse(configPath).dir;
+                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
+                    {
+                        var src = img.getAttribute('src');
+                        img.src = reportPath  + '\\' + src;
+                    });
+                }
+
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
                 iad.canvas.update();
+            },
+            onConfigChanged: function ()
+            {
+                onChangesMade();
+                updateConfigDownloadButton();
             },
             onWidgetRemoved: function (widgetId)
             {
@@ -660,11 +665,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 {
                     iad.config.refreshConfig();
                 }
-            },
-            onConfigChanged: function ()
-            {
-                onChangesMade();
-                updateConfigDownloadButton();
             }
         });
     }

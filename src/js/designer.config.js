@@ -37,9 +37,12 @@ var designer = (function (iad, $, window, document, undefined)
 
     function addMissingComponentsToXml(xml, callback)
     {
-        readXmlFile('./config/en/db-single-map/config.xml', function (xmlTemplate)
+        var $xml = $(xml);
+        var $AtlasInterface = $xml.find('AtlasInterface');
+        var item = iad.util.getItem(options.paths, 'template', $AtlasInterface.attr('template'));
+
+        readXmlFile(item.path, function (xmlTemplate)
         {
-            var $xml = $(xml);
             var $xmlTemplate = $(xmlTemplate);
             var $xmlWidgets = $xmlTemplate.find('Component, Table');
             $.each($xmlWidgets, function(i, xmlWidget)
@@ -52,46 +55,14 @@ var designer = (function (iad, $, window, document, undefined)
                     $widget.attr('y', 150);
                     $widget.attr('width', 400);
                     $widget.attr('height', 300);
-                    $xml.find('AtlasInterface').append(widget);
+                    $AtlasInterface.append($widget);
                 }
             });
             callback.call(null);
         });
     }
 
-    // Load a report.
-    iad.config.loadReport = function (configPath)
-    { 
-        readXmlFile(configPath, function (xml)
-        {
-             addMissingComponentsToXml(xml, function()
-             {
-                var reportPath = path.parse(configPath).dir;
-                preConfigLoaded();
-               
-                ia.update(
-                {
-                    data:
-                    {
-                        config      : {xml:xml},
-                        attribute   : {source:reportPath+'\\data.js'},
-                        map         : {source:reportPath+'\\map.js'}
-                    }
-                }, 
-                function() 
-                {
-                    loadStyleFile(reportPath, function ()
-                    {
-                        loadCustomFile(reportPath, function ()
-                        {
-                            onReportLoaded(configPath);
-                        });
-                    });
-                });
-             });
-        });
-    };
-
+    // Load style.json
     function loadStyleFile(reportPath, callback)
     {
         var lessPath = reportPath+'\\style.json';
@@ -105,6 +76,7 @@ var designer = (function (iad, $, window, document, undefined)
         });
     }
 
+    // Load custom.js
     function loadCustomFile(reportPath, callback)
     {
         if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
@@ -144,13 +116,54 @@ var designer = (function (iad, $, window, document, undefined)
         });
     }
 
+    // Load a new report.
+    iad.config.loadReport = function (configPath)
+    { 
+        preConfigLoaded();
+        readXmlFile(configPath, function (xml)
+        {
+            addMissingComponentsToXml(xml, function()
+            {
+                var reportPath = path.parse(configPath).dir;
+               
+                ia.update(
+                {
+                    data:
+                    {
+                        config      : {xml:xml},
+                        attribute   : {source:reportPath+'\\data.js'},
+                        map         : {source:reportPath+'\\map.js'}
+                    }
+                }, 
+                function() 
+                {
+                    loadStyleFile(reportPath, function ()
+                    {
+                        loadCustomFile(reportPath, function ()
+                        {
+                            if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                            onConfigLoaded(); 
+                        });
+                    });
+                });
+            });
+        });
+    };
+
     // Load a new config file.
     iad.config.loadConfig = function (configPath)
     {
         preConfigLoaded();
-        ia.loadConfig(configPath, function ()
+        readXmlFile(configPath, function (xml)
         {
-            onConfigLoaded();
+            addMissingComponentsToXml(xml, function()
+            {
+                ia.parseConfig(xml, function ()
+                {
+                    onConfigLoaded();
+                    if (options && options.onConfigChanged) options.onConfigChanged.call(null);
+                });
+            });
         });
     };
 
@@ -158,41 +171,53 @@ var designer = (function (iad, $, window, document, undefined)
     iad.config.parseConfig = function (xml)
     {
         preConfigLoaded();
-        ia.parseConfig(xml, function ()
+        addMissingComponentsToXml(xml, function()
         {
-            onConfigLoaded();
+            ia.parseConfig(xml, function ()
+            {
+                onConfigLoaded();
+                if (options && options.onConfigChanged) options.onConfigChanged.call(null);
+            });
         });
     };
 
     // Refresh the current config xml.
     iad.config.refreshConfig = function ()
     {
+        preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
         {
             onConfigLoaded();
         });
     };
 
+    // Refresh the report.
+    iad.config.refreshReport = function (configPath)
+    {
+        preConfigLoaded();
+        ia.parseConfig(xmlConfig, function ()
+        {
+            var reportPath = path.parse(configPath).dir;
+            loadCustomFile(reportPath, function ()
+            {
+                onConfigLoaded();
+            });
+        });
+    };
+
+    // Called before loading new config.xml or reprt.
     function preConfigLoaded()
     {
         if (options && options.preConfigLoaded) options.preConfigLoaded.call(null);
     }
 
-    function onReportLoaded(configPath)
-    {
-        xmlConfig = options.report.config.xml;
-        $xmlConfig = $(xmlConfig);
-        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); 
-        if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
-    }
-
+    // Called when config.xml has finished loading.
     function onConfigLoaded()
     {
         // Update the xml objects
         xmlConfig = options.report.config.xml;
         $xmlConfig = $(xmlConfig);
         if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); 
-        if (options && options.onConfigChanged) options.onConfigChanged.call(null);
     }
 
     // Converts xml to string.
