@@ -140,40 +140,11 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    // Copy asset files to the build directory.
                     {
-                        expand: true,
-                        cwd: '<%= pkg.dir.src %>/assets/', // Makes the src relative to cwd so that the full file path is not copied into build.    
-                        src: '**/*',
-                        dest: '<%= pkg.dir.build %>/assets/'
-                    }, 
-                    // Copy lib folders.
-                    {
-                        expand: true,
-                        cwd: '<%= pkg.dir.src %>/lib/', 
-                        src: '**/*',
-                        dest: '<%= pkg.dir.build %>/lib/'
-                    }, 
-                    // Copies img files to the build directory.
-                    {
-                        expand: true,
-                        cwd: 'src/img/',  
-                        src: '**/*',
-                        dest: '<%= pkg.dir.build %>/img/'
-                    },
-                    // Copies config files to the build directory.
-                    {
-                        expand: true,
-                        cwd: 'src/config/',   
-                        src: '**/*',
-                        dest: '<%= pkg.dir.build %>/config/'
-                    },
-                    // Copies report files to the build directory.
-                    {
-                        expand: true,
-                        cwd: 'src/report/',  
-                        src: '**/*',
-                        dest: '<%= pkg.dir.build %>/report/'
+                        expand: true, 
+                        cwd: '<%= pkg.dir.src %>', 
+                        src: ['assets/**','lib/**','img/**','config/**', '*.png', 'help.htm', 'notes.htm', 'snippet.htm'], 
+                        dest: '<%= pkg.dir.build %>'
                     }
                 ]
             },

@@ -90,7 +90,7 @@ var designer = (function (iad, $, window, document, undefined)
         if (iad.util.pathIsAbsolute(url)) return iad.util.getWindowProtocol(url);
         else return iad.util.getRelativePath(url);
     };
-    
+
     iad.util.getItem = function (arr, prop, value)
     {
         var arrFilter = arr.filter(function (o)
