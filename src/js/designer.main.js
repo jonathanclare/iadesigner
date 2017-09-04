@@ -157,14 +157,14 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // colorscheme.json
         var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
         var lessUrl = URL.createObjectURL(lessBlob);
-        $('#iad-btn-download-less').attr('href', lessUrl);
+        $('#iad-btn-download-stylejson').attr('href', lessUrl);
 
         // default.css
         iad.css.getCssAsString(function (strCss)
         {
             var cssBlob = new Blob([strCss], {type: 'text/css' }); 
             var cssUrl = URL.createObjectURL(cssBlob);
-            $('#iad-btn-download-css').attr('href', cssUrl);
+            $('#iad-btn-download-defaultcss').attr('href', cssUrl);
         });
     }
 
@@ -173,7 +173,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // config.xml
         var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
-        $('#iad-btn-download-config').attr('href', configUrl);
+        $('#iad-btn-download-configxml').attr('href', configUrl);
     }
 
     function initMenuHandlers()
@@ -331,8 +331,23 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             else openSlidePanel('colorscheme');
         });
 
-        // Open less file.
-        $('#iad-btn-upload-less').on('click', function (e)
+        // Open advanced modal.
+        $('#iad-menuitem-advanced').on('click', function(e)
+        {
+            $('#iad-modal-advanced').modal({show: true});
+        });
+
+        // Upload config.
+        $('#iad-btn-upload-configxml') .on('click', function(e)
+        {
+            openConfigFile(function (filePath)
+            {
+                iad.config.loadConfig(filePath);
+            });
+        });
+
+        // Upload style.json.
+        $('#iad-btn-upload-stylejson').on('click', function (e)
         {
             openLessFile(function (filePath)
             {
@@ -845,20 +860,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     onPreview: function (filePath)
                     {
                         openWin('file://' + __dirname + filePath);
-                    },
-                    onLoad: function ()
-                    {
-                        showWarning(
-                        {
-                            onContinue: function ()
-                            {
-                                openConfigFile(function (filePath)
-                                {
-                                    cPath = filePath;
-                                    $modal.modal('hide');
-                                });
-                            }
-                        });
                     }
                 });
             }

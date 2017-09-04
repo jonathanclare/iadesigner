@@ -72,14 +72,6 @@ var designer = (function (iad, $, window, document, undefined)
 			if (options && options.onApply) options.onApply.call(null, path);
 		});
 
-		// Load click.
-		$('#iad-btn-upload-config')
-		.on('click', function(e) // Loads a config file - loading handled by caller.
-		{
-			e.preventDefault();
-			if (options && options.onLoad) options.onLoad.call(null);
-		});
-
 		this.initialised = true;
 	};
 

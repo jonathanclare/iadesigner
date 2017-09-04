@@ -93,9 +93,17 @@
                             </ul>
                         </li>
                     </ul>
-                    <!--ul class="nav navbar-nav navbar-right">
-                        <li><a id="iad-menuitem-refresh-report" href="#" title="Refresh Report"><i class="fa fa-refresh"></i></a></li>
-                    </ul-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-lg fa-ellipsis-v"></span></a>
+                            <ul id="iad-dropdown-styles" class="dropdown-menu">
+                                <li><a id="iad-menuitem-advanced" href="#">Advanced</a></li>
+                                <li><a id="iad-menuitem-settings" href="#">Settings</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a id="iad-menuitem-about" href="#">About</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                     <form class="navbar-form navbar-right">
                         <div class="btn-group" data-toggle="buttons"> 
                             <label class="btn btn-default active">
@@ -181,9 +189,7 @@
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Style Editor</span></div>
             </div>
             <div class="iad-slide-panel-content">
-                <div class="iad-form"><div class="iad-upload-buttons">
-                    <a id="iad-btn-download-css" type="button" class="btn btn-default" download="default.css"><span class="fa fa-download"></span>&nbsp;&nbsp;Download default.css</a>
-                    </div>
+                <div class="iad-form">
                     <div id="iad-form-css-properties">
                     <!-- populated by designer.css.js -->
                     </div>
@@ -199,12 +205,7 @@
                 <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
             </div>
             <div class="iad-slide-panel-content">
-
                 <div class="iad-form">
-                    <div class="iad-upload-buttons">
-                        <a id="iad-btn-upload-less" type="button" class="btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload style.json</a>
-                        <a id="iad-btn-download-less" type="button" class="btn btn-default" download="style.json"><span class="fa fa-download"></span>&nbsp;&nbsp;Download style.json</a>
-                    </div>
                     <div id="iad-form-color-scheme">
                         <!-- populated by designer.colorscheme.js -->
                     </div>
@@ -222,12 +223,6 @@
                         <h4 class="modal-title"><span class="fa fa-bar-chart"></span>&nbsp;&nbsp;Templates</h4>
                     </div>
                     <div class="modal-body modal-body-scrollable">
-
-                        <div class="iad-upload-buttons">
-                            <a id="iad-btn-upload-config" type="button" class="iad-btn-upload-config btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload config.xml</a>
-                            <a id="iad-btn-download-config" type="button" class="iad-btn-download-config btn btn-default" download="config.xml"><span class="fa fa-download"></span>&nbsp;&nbsp;Download config.xml</a>
-                        </div>
-
                         <div id="iad-config-gallery">
                             <!-- populated by config-gallery.handlebars -->
                         </div>
@@ -254,6 +249,43 @@
             </div>
         </div>
         <!-- end widget gallery modal -->
+
+        <!-- advanced modal -->
+        <div class="modal fade" id="iad-modal-advanced" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Advanced</h4>
+                    </div>
+                    <div class="modal-body modal-body-scrollable">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Config</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a id="iad-btn-upload-configxml" type="button" class="iad-btn-upload-config btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload config.xml</a>
+                                <a id="iad-btn-download-configxml" type="button" class="iad-btn-download-config btn btn-default" download="config.xml"><span class="fa fa-download"></span>&nbsp;&nbsp;Download config.xml</a>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Styles</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a id="iad-btn-upload-stylejson" type="button" class="btn btn-default"><span class="fa fa-upload"></span>&nbsp;&nbsp;Upload style.json</a>
+                                <a id="iad-btn-download-stylejson" type="button" class="btn btn-default" download="style.json"><span class="fa fa-download"></span>&nbsp;&nbsp;Download style.json</a>
+                                <a id="iad-btn-download-defaultcss" type="button" class="btn btn-default" download="default.css"><span class="fa fa-download"></span>&nbsp;&nbsp;Download default.css</a>
+                            </div>
+                        </div>
+                          
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- advanced modal -->
 
         <!-- color picker -->
         <div id="iad-color-picker">
