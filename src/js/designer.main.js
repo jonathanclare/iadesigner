@@ -614,10 +614,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 changesSaved = true;
                 configPath = filePath;
 
-                // Reset title to show config file path.
-                var title = 'InstantAtlas Designer - ' + configPath;
-                remote.getCurrentWindow().setTitle(title);
-                $('#iad-title').html(title);
+                if (userReportLoaded)
+                {
+                    // Reset title to show config file path.
+                    var title = 'InstantAtlas Designer - ' + configPath;
+                    remote.getCurrentWindow().setTitle(title);
+                    $('#iad-title').html(title);
+                }
                 
                 updateConfigDownloadButton();
             },

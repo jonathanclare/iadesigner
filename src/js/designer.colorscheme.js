@@ -201,8 +201,6 @@ var designer = (function (iad, $, window, document, undefined)
 
                     // Add the color to the color scheme.
                     cs[property] = hex;
-                    // Add the color to the color scheme.
-                    cs[property] = hex;
                 }
 
                 // Add the color scheme.
