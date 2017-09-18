@@ -59,8 +59,8 @@ var designer = (function (iad, $, window, document, undefined)
 		.on('click', function(e) // Open the a live report preview in a new tab.
 		{
 			var report = reportHash[reportId];
-			var path = options.reportPath + '/atlas.html?config=../' + options.configPath + '/' + report.path + '/config&dataPath=../' + options.configPath + '/' + report.path + '/';
-			if (options && options.onPreview) options.onPreview.call(null, path);
+			var path = options.reportPath + '/atlas.html?config=../../' + options.configPath + '/' + report.path + '/config&dataPath=../../' + options.configPath + '/' + report.path + '/';
+			if (options && options.onPreview) options.onPreview.call(null, path, report.header);
 		});
 
 		// Apply click.
@@ -69,7 +69,7 @@ var designer = (function (iad, $, window, document, undefined)
 		{
 			var report = reportHash[reportId];
 			var path = options.configPath + '/' + report.path + '/config.xml';
-			if (options && options.onApply) options.onApply.call(null, path);
+			if (options && options.onApply) options.onApply.call(null, path, report.header);
 		});
 
 		this.initialised = true;

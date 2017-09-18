@@ -8,23 +8,19 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var remote = electron.remote;
     var Menu = electron.Menu || remote.Menu;
     var dialog = electron.dialog || remote.dialog;
-    var ipcRenderer = electron.ipcRenderer;
-
-    var win = remote.getCurrentWindow();
-    var version = window.location.hash.substring(1);
-
+    var ipc = electron.ipcRenderer;
     var path = require('path');
     var fs = require('fs');
 
-    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
-    
+    var win = remote.getCurrentWindow();
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
     var $colorschemePanel = $('#iad-slide-panel-color-scheme');
     var $widgetPanelTitle = $('#iad-slide-panel-widget-properties-title');
+    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
 
-    // Listen for messages from main process.
-    ipcRenderer.on('message', function(event, text) 
+    // Listen for log messages from main process for debugging.
+    ipc.on('log', function(event, text) 
     {
         console.log(text);
     });
@@ -32,51 +28,88 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad.init = function(options)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
-
-        registerHandlebarsHelperFunctions();
-        initCss(settings.css, function()
+        checkForUpdate(function()
         {
-            ia.init(
+            registerHandlebarsHelperFunctions();
+            initCss(settings.css, function()
             {
-                container: 'iad-report',
-                onSuccess: function (r)
+                ia.init(
                 {
-                    report = r;
-
-                    initCanvas();
-                    initColorPicker();
-                    initColorSchemes();
-                    initConfig(settings.config);
-                    initFormControls();
-                    initConfigForms();
-                    initConfigGallery(settings.configGallery);
-                    initWidgetGallery(settings.widgetGallery);
-                    initFileDragAndDrop();
-                    updateDropdownMenus();
-                    updateStyleDownloadButtons();
-                    updateConfigDownloadButton();
-                    initMenuHandlers();
-                    setPopupMenu();
-
-                    if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-                },
-                onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                {
-                    bootbox.alert(
+                    container: 'iad-report',
+                    onSuccess: function (r)
                     {
-                        message: "Could not find file: " +url,
-                        backdrop: true
-                    });
-                },
-                data:
-                {
-                    config: {source:settings.report.path+'/config.xml'},
-                    attribute: {source:settings.report.path+'/data.js'},
-                    map : {source:settings.report.path+'/map.js'}
-                }
+                        report = r;
+
+                        initCanvas();
+                        initColorPicker();
+                        initColorSchemes();
+                        initConfig(settings.config);
+                        initFormControls();
+                        initConfigForms();
+                        initConfigGallery(settings.configGallery);
+                        initWidgetGallery(settings.widgetGallery);
+                        initFileDragAndDrop();
+                        updateDropdownMenus();
+                        updateStyleDownloadButtons();
+                        updateConfigDownloadButton();
+                        initMenuHandlers();
+                        renderAboutModal();
+                        setPopupMenu();
+
+                        if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                    },
+                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        bootbox.alert(
+                        {
+                            message: "Could not find file: " +url,
+                            backdrop: true
+                        });
+                    },
+                    data:
+                    {
+                        config: {source:settings.report.path+'/config.xml'},
+                        attribute: {source:settings.report.path+'/data.js'},
+                        map : {source:settings.report.path+'/map.js'}
+                    }
+                });
             });
         });
     };
+
+    function checkForUpdate(callback)
+    {
+        ipc.on('update-downloaded', function(event) 
+        {
+            bootbox.confirm(
+            {
+                title: 'Update Now?',
+                message: 'A new version of InstantAtlas Designer has been downloaded.' + 
+                ' It will be installed the next time you restart the application',
+                buttons: 
+                {
+                    cancel: 
+                    {
+                        label: '<i class="fa fa-times"></i> Later'
+                    },
+                    confirm: 
+                    {
+                        label: '<i class="fa fa-check"></i> Install and Relaunch'
+                    }
+                },
+                callback: function (result) 
+                {
+                    if (result === true) ipc.send('quit-and-install');
+                    else callback.call(null);
+                }
+            });
+        });
+        ipc.on('update-not-available', function(event) 
+        { 
+            callback.call(null);
+        });
+        ipc.send('check-for-update');
+    }
 
     function onChangesMade()
     {
@@ -174,6 +207,25 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
         $('#iad-btn-download-configxml').attr('href', configUrl);
+    }
+
+    function renderAboutModal()
+    {
+        ipc.on('got-app-info', function (event, arrAppInfo) 
+        {
+            var str = '<table class="table table-striped">';
+                for (var i = 0; i < arrAppInfo.length; i++)
+                {
+                    var o = arrAppInfo[i];
+                    str += '<tr>';
+                        str += '<td>'+o.name+'</td>';
+                        str += '<td>'+o.value+'</td>';                    
+                    str += '</tr>';
+                }
+            str += '</table>';
+            $('#iad-app-info').html(str);
+        });
+        ipc.send('get-app-info');
     }
 
     function initMenuHandlers()
@@ -331,12 +383,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             else openSlidePanel('colorscheme');
         });
 
-        // Open advanced modal.
-        $('#iad-menuitem-advanced').on('click', function(e)
-        {
-            $('#iad-modal-advanced').modal({show: true});
-        });
-
         // Upload config.
         $('#iad-btn-upload-configxml') .on('click', function(e)
         {
@@ -384,7 +430,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         window.addEventListener('contextmenu', function (e)
         {
             e.preventDefault();
-            menu.popup(remote.getCurrentWindow());
+            menu.popup(win);
         }, false);
     }
 
@@ -397,7 +443,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function openConfigFile(callback)
     {
-        var files = dialog.showOpenDialog(remote.getCurrentWindow(), 
+        var files = dialog.showOpenDialog(win, 
         {
             title: 'Open IA Configuration File',
             properties: ['openFile'],
@@ -416,7 +462,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function openLessFile(callback)
     {
-        var files = dialog.showOpenDialog(remote.getCurrentWindow(), 
+        var files = dialog.showOpenDialog(win, 
         {
             title: 'Open IA Style File',
             properties: ['openFile'],
@@ -618,7 +664,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 {
                     // Reset title to show config file path.
                     var title = 'InstantAtlas Designer - ' + configPath;
-                    remote.getCurrentWindow().setTitle(title);
+                    win.setTitle(title);
                     $('#iad-title').html(title);
                 }
                 
@@ -849,7 +895,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     reportPath: options.reportPath,
                     configPath: options.configPath,
                     json: options.json,
-                    onApply: function (filePath)
+                    onApply: function (filePath, name)
                     {
                         showWarning(
                         {
@@ -860,9 +906,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                             }
                         });
                     },
-                    onPreview: function (filePath)
+                    onPreview: function (filePath, name)
                     {
-                        openWin('file://' + __dirname + filePath);
+                        openWin('file://' + __dirname + '/' + filePath);
                     }
                 });
             }

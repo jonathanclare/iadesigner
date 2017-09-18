@@ -1,3 +1,12 @@
+06/09/17
+
+"url": "http://instantatlas.com/apps/ia-designer/dist/"
+changed to...
+"url": "http://oxygen/Work/GitHub/iadesigner/dist/"
+for quicker testing
+
+Theres no way of stopping autoupdater from installing a new version. It will be installed silently when the app is closed, even if you clicked to install later.
+
 30/06/17
 
 Added http-server for testing.

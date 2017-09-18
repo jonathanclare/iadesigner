@@ -1256,15 +1256,16 @@ canvas
 {
     position: absolute;
     white-space: nowrap;
-    top: -33px;
+    top: -27px;
     right: -2px;
     padding: 0px;
     background-color: #000000;
+    border-radius: 5px 5px 0 0;
 }
 .ia-drag-panel-btn 
 {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 22px;
 	background-position:center center;  
     background-repeat: no-repeat;
     font-size: 18.0px;

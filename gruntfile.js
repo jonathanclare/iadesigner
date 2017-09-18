@@ -368,7 +368,7 @@ module.exports = function (grunt)
 
     // '>grunt buildJs' 
     // Run this to build the js files during development.
-    grunt.registerTask('buildJs', ['handlebars', 'jshint', 'concat', 'groundskeeper', 'uglify']);
+    grunt.registerTask('buildJs', ['handlebars', 'jshint', 'concat', /*'groundskeeper',*/ 'uglify']);
 
     // '>grunt copyFiles' 
     // Run this to copy the extra files during development.

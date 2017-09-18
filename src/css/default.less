@@ -169,13 +169,21 @@
 /* Title bar */
 #iad-title-bar
 {     
-    -webkit-app-region: drag;
     position: absolute;
     top: 0px;
     left: 0px;
     right: 0px;
     height:@title-bar-height;
     background-color:#f8f8f8;
+}
+#iad-title-bar-draggable
+{     
+    -webkit-app-region: drag;
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    right: 0px;
+    height:calc(@title-bar-height - 5px);
 }
 #iad-icon > img 
 {

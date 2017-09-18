@@ -62,6 +62,8 @@ Run the following command in a command prompt opened from this directory.
 
 ### Package and build Electron App for web download
 
+Increase the version number in package.json
+
 ```sh
 > npm run dist:web
 ```

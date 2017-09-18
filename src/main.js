@@ -3,25 +3,20 @@
 var electron = require('electron');
 var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
+var ipc = electron.ipcMain;
 var app = electron.app;
+var os = require('os');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var win = null;
-
-// Auto-updater.
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-
-log.info('App starting...');
-log.info('Current version is:' + app.getVersion());
-log.info('App Path:' + app.getPath('userData'));
+var isDev;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() 
 {
-    var isDev = process.mainModule.filename.indexOf('app.asar') === -1;
+    isDev = process.mainModule.filename.indexOf('app.asar') === -1;
     if (isDev)
     {
         win = new electron.BrowserWindow(
@@ -32,11 +27,15 @@ app.on('ready', function()
             width: 1200,
             minWidth: 800,
             height: 800,
-            minHeight: 600/*,
+            minHeight: 600,
+            show: false/*,
             frame: false*/
         });
-        //win.maximize();
         win.webContents.openDevTools();
+        win.webContents.once('did-frame-finish-load', function() 
+        {
+            win.show();
+        });
     }
     else
     {
@@ -53,7 +52,6 @@ app.on('ready', function()
         win.webContents.once('did-frame-finish-load', function() 
         {
             win.show();
-            autoUpdater.checkForUpdates();
         });
     }
 
@@ -81,56 +79,68 @@ app.on('window-all-closed', function()
     }
 });
 
-function sendStatusToWindow(text) 
+// Log to renderer console.
+function logToConsole(text) 
 {
     log.info(text);
-    win.webContents.send('message', text);
+    win.webContents.send('log', text);
 }
+
+// Autoupdates.
+ipc.on('check-for-update', function (event) 
+{
+    if (isDev) win.webContents.send('update-not-available');
+    else autoUpdater.checkForUpdates();
+});
+ipc.on('quit-and-install', function (event) 
+{
+    autoUpdater.quitAndInstall();
+});
 autoUpdater.on('checking-for-update', function()
 {
-    sendStatusToWindow('Checking for update...');
+    logToConsole('Checking for update...');
 });
 autoUpdater.on('update-available', function(e, info)
 {
-    sendStatusToWindow('Update available.');
+    logToConsole('Update available.');
 });
 autoUpdater.on('update-not-available', function(e, info) 
 {
-    sendStatusToWindow('Update not available.');
+    win.webContents.send('update-not-available');
+    logToConsole('Update not available.');
 });
 autoUpdater.on('error', function(e, err) 
 {
-    sendStatusToWindow('Error in auto-updater.');
-    sendStatusToWindow(err);
+    win.webContents.send('update-not-available');
+    logToConsole('Error in auto-updater.');
+    logToConsole(err);
 });
 autoUpdater.on('download-progress', function(progressObj) 
 {
     var msg = "Download speed: " + progressObj.bytesPerSecond;
     msg = msg + ' - Downloaded ' + progressObj.percent + '%';
     msg = msg + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    sendStatusToWindow(msg);
+    logToConsole(msg);
 });
 autoUpdater.on('update-downloaded', function(e, info)
 {
-    sendStatusToWindow('Update downloaded; will install in 5 seconds');
+    win.webContents.send('update-downloaded');
+    logToConsole('Update downloaded');
+});
 
-    // Ask user to update the app.
-    electron.dialog.showMessageBox(
-    {
-        type: 'question',
-        buttons: ['Install and Relaunch', 'Later'],
-        defaultId: 0,
-        message: 'A new version of ' + app.getName() + ' has been downloaded',
-        detail: 'It will be installed the next time you restart the application'
-    }, 
-    function (response) 
-    {
-        if (response === 0)
-        {
-            setTimeout(function() 
-            {
-                autoUpdater.quitAndInstall();  
-            }, 1);
-        }
-    });
+// Provide app info to renderer process upon request.
+ipc.on('get-app-info', function (event) 
+{
+    // Send app info back to renderer.
+    event.sender.send('got-app-info', 
+    [
+        {name:'Name', value:app.getName()},
+        {name:'Version', value:app.getVersion()},
+        {name:'App Path', value:app.getAppPath()},
+        {name:'User Data', value:app.getPath('userData')},
+        {name:'Home Directory', value:os.homedir()},
+        {name:'Electron Version', value:process.versions.electron},
+        {name:'Node Version', value:process.versions.node},
+        {name:'Chrome Version', value:process.versions.chrome}
+    ]);
 });
