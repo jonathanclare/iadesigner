@@ -79,6 +79,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Load custom.js
     function loadCustomFile(reportPath, callback)
     {
+        // Override any functions included in previous custom.js
         if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
         if (typeof onReportComplete === "function") onReportComplete = undefined;
         if (typeof onIAReportComplete === "function") onIAReportComplete = undefined;
