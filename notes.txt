@@ -1,8 +1,6 @@
 --------
 19/09/17
 
-Changed dist:web to dist:dev
-
 Added grunt-bump for version control in package.json
 
 grunt bump
@@ -22,10 +20,10 @@ grunt bump:major
 
 In package.js added some new scripts for releasing different versions. 
 
-"dist:dev": "grunt bump:prerelease && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
-"dist:patch": "grunt bump:patch && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
-"dist:minor": "grunt bump:minor && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
-"dist:major": "grunt bump:major && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest"
+"dist:web": "grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+"dist:patch": "grunt bump:patch && dist:web",
+"dist:minor": "grunt bump:minor && dist:web",
+"dist:major": "grunt bump:major && dist:web"
 
 --------
 06/09/17
@@ -35,7 +33,8 @@ changed to...
 "url": "http://oxygen/Work/GitHub/iadesigner/dist/"
 for quicker testing
 
-Theres no way of stopping autoupdater from installing a new version. It will be installed silently when the app is closed, even if you clicked to install later.
+Theres no way of stopping autoupdater from installing a new version once autoUpdater.checkForUpdates() is called. 
+It will be installed silently when the app is closed, even if you clicked to install later.
 
 --------
 30/06/17

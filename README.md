@@ -18,9 +18,9 @@ To make sure Grunt has been properly installed, you can run the following comman
 > grunt --version
 ```
 
-### Install NPM project dependencies 
+# INSTALL APP 
 
-npm install will install, build and distribute the project.
+Install NPM project dependencies, build and run the app.
 
 Run the following commands in a command prompt opened from this directory. 
 
@@ -28,20 +28,11 @@ Run the following commands in a command prompt opened from this directory.
 > npm install
 ```
 
-# BUILD THE PROJECT
-
-Run the following command in a command prompt opened from this directory. 
-
-### Build 
-```sh
-> grunt
-```
-
 # DEVELOPMENT
 
 Run the following commands in a command prompt opened from this directory. 
 
-### Watches for code changes and automatically updates the web page  
+### Automatically build the app when code changes are made  
 ```sh
 > grunt watch
 ```
@@ -51,12 +42,12 @@ Run the following commands in a command prompt opened from this directory.
 > grunt build
 ```
 
-### Start Electron App 
+### Start the App 
 ```sh
 > npm start
 ```
 
-# BUILD AND PACKAGE
+# PACKAGE
 
 Run the following command in a command prompt opened from this directory. 
 
@@ -64,9 +55,9 @@ Run the following command in a command prompt opened from this directory.
 
 Version change in package.json is automated.
 
-Version bumped to 0.0.1-1
+Version remains unchanged
 ```sh
-> npm run dist:dev
+> npm run dist:web
 ```
 
 Version bumped to 0.0.1
