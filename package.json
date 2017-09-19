@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.40",
+  "version": "0.0.42",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -53,7 +53,7 @@
     "dist:web": "grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
     "dist:patch": "grunt bump:patch && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
     "dist:minor": "grunt bump:minor && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
-    "dist:major": "grunt bump:major && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+    "dist:major": "grunt bump:major && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest"
   },
   "build": {
     "publish": [
