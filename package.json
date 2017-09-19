@@ -47,7 +47,7 @@
   "main": "./build/main.js",
   "scripts": {
     "start": "electron ./src/main.js",
-    "postinstall": "electron-builder install-app-deps && grunt build && npm run dist:dev && grunt copy:latest && electron ./src/main.js",
+    "postinstall": "electron-builder install-app-deps && grunt build && npm run dist:dev && npm start",
     "pack": "electron-builder --dir",
     "dist": "grunt build && build --win --ia32 --x64",
     "dist:dev": "grunt bump:prerelease && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
