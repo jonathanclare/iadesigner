@@ -1,3 +1,24 @@
+--------
+19/09/17
+
+Added grunt-bump for version control in package.json
+
+grunt bump
+>> Version bumped to 0.0.2
+
+grunt bump:patch
+>> Version bumped to 0.0.3
+
+grunt bump:minor
+>> Version bumped to 0.1.0
+
+grunt bump
+>> Version bumped to 0.1.1
+
+grunt bump:major
+>> Version bumped to 1.0.0
+
+--------
 06/09/17
 
 "url": "http://instantatlas.com/apps/ia-designer/dist/"
@@ -7,6 +28,7 @@ for quicker testing
 
 Theres no way of stopping autoupdater from installing a new version. It will be installed silently when the app is closed, even if you clicked to install later.
 
+--------
 30/06/17
 
 Added http-server for testing.

@@ -316,6 +316,7 @@ module.exports = function (grunt)
                 }
             }
         },
+        // Used this to experiment with deploy dist to online.
         'ftp-deploy': 
         {
             build: 
@@ -329,10 +330,50 @@ module.exports = function (grunt)
                 src: 'package',
                 dest: 'apps/'
             }
+        },
+        /*
+        Bump the version number in package.json.grunt 
+
+        bump
+        >> Version bumped to 0.0.2
+
+        grunt bump:patch
+        >> Version bumped to 0.0.3
+
+        grunt bump:minor
+        >> Version bumped to 0.1.0
+
+        grunt bump
+        >> Version bumped to 0.1.1
+
+        grunt bump:major
+        >> Version bumped to 1.0.0
+        */
+        'bump': 
+        {
+            options: 
+            {
+                files: ['package.json'],
+                updateConfigs: [],
+                commit: false,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: false,
+                pushTo: 'upstream',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false,
+                prereleaseName: false,
+                metadata: '',
+                regExp: false
+            }
         }
     });
 
     // Load the plugins that provide the tasks.
+    grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-concat');
