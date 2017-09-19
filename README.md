@@ -56,34 +56,30 @@ Run the following commands in a command prompt opened from this directory.
 > npm start
 ```
 
-# PACKAGE AND BUILD
+# BUILD AND PACKAGE
 
 Run the following command in a command prompt opened from this directory. 
 
 ### Package and build Electron App for web download
 
-Version change in package.json is automated
+Version change in package.json is automated.
 
-For a patch version
+Version bumped to 0.0.1-1
+```sh
+> npm run dist:dev
+```
 
+Version bumped to 0.0.1
 ```sh
 > npm run dist:patch
 ```
 
-For a minor version
-
+Version bumped to 0.1.1
 ```sh
 > npm run dist:minor
 ```
 
-For a major version
-
+Version bumped to 1.1.1
 ```sh
 > npm run dist:major
-```
-
-Without changing the version
-
-```sh
-> npm run dist:web
 ```
