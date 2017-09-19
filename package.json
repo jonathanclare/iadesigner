@@ -50,7 +50,10 @@
     "postinstall": "electron-builder install-app-deps && grunt build && npm run dist:web && grunt copy:latest && electron ./src/main.js",
     "pack": "electron-builder --dir",
     "dist": "grunt build && build --win --ia32 --x64",
-    "dist:web": "grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest"
+    "dist:web": "grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+    "dist:patch": "grunt bump:patch && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+    "dist:minor": "grunt bump:minor && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+    "dist:major": "grunt bump:major && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
   },
   "build": {
     "publish": [

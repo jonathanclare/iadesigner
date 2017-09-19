@@ -62,7 +62,27 @@ Run the following command in a command prompt opened from this directory.
 
 ### Package and build Electron App for web download
 
-Increase the version number in package.json
+Version change in package.json is automated
+
+For a patch version
+
+```sh
+> npm run dist:patch
+```
+
+For a minor version
+
+```sh
+> npm run dist:minor
+```
+
+For a major version
+
+```sh
+> npm run dist:major
+```
+
+Without changing the version
 
 ```sh
 > npm run dist:web

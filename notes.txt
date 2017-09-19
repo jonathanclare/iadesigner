@@ -18,6 +18,12 @@ grunt bump
 grunt bump:major
 >> Version bumped to 1.0.0
 
+In package.js added some new scripts for releasing different versions. 
+
+"dist:patch": "grunt bump:patch && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+"dist:minor": "grunt bump:minor && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+"dist:major": "grunt bump:major && grunt build && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+
 --------
 06/09/17
 
