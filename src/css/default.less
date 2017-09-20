@@ -3,6 +3,52 @@
 @title-bar-height: 30px;
 
 /* Bootstrap Overrides */
+body
+{
+    font-size: 12px;
+}
+
+svg.octicon {
+    fill: red;
+    height: 16px;
+    margin-right:10px;
+}
+#update-available.active 
+{
+    height: 30px;
+}
+
+#update-available 
+{    
+    user-select: none;
+    position: absolute;
+    top: calc(@title-bar-height + @navbar-height);
+    left: 0px;
+    right: 0px;
+    z-index:1000;
+
+    display: flex;
+    overflow: hidden;
+    align-content: center;
+    align-items: center;
+    justify-content: left;
+    padding-left: 10px;
+    border-bottom: 1px solid #eeeeee;
+    height: 0px;
+    transition: height 0.25s;
+    flex: none;
+}
+#update-available .close {
+    position: absolute;
+    right: 10px;
+    border: 0;
+    height: 16px;
+    width: 16px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
 
 /* Navbar */
 .navbar-default
@@ -46,9 +92,13 @@
     padding-top: 5px;
     padding-bottom: 2px;
 }
+.dropdown-menu 
+{
+    font-size: 12px;
+}
 .dropdown-menu>li>a 
 {
-    color: #666;
+    /*color: #666;*/
 }
 .btn-sm 
 {

@@ -153,15 +153,31 @@
                     </ul>
                     <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
                         <div class="btn-group"> 
-                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i>&nbsp;Edit</button>
-                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span>&nbsp;Send To Back</button>
-                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span>&nbsp;Bring To Front</button>
+                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm"><i class="fa fa-fw fa-pencil"></i>&nbsp;Edit</button>
+                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span>&nbsp;Send To Back</button>
+                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span>&nbsp;Bring To Front</button>
                         </div>
                     </form>
                 </div> 
             </div>
         </nav>
         <!-- end bottom nav -->
+
+        <!-- update available -->
+        <div id="update-available" class="active">
+            <svg aria-hidden="true" class="octicon icon" version="1.1" viewBox="0 0 16 16">
+                <path d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path>
+            </svg>
+            <span>
+                    An updated version of GitHub Desktop is available and will be installed at the next launch. See <a class="link-button-component" href="https://desktop.github.com/release-notes/">what's new</a> or <a class="link-button-component" href="">restart now</a>
+            </span>
+            <a class="close">
+                <svg aria-hidden="true" class="octicon" version="1.1" viewBox="0 0 12 16">
+                        <path d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                </svg>
+            </a>
+        </div>
+        <!-- end update available -->
 
         <!-- sidebar and report containers -->
         <div id="iad-main">
