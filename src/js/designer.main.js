@@ -244,16 +244,21 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         $("#iad-max-btn").on("click", function (e) 
         {
-            if (win.isMaximized()) win.unmaximize();
-            else win.maximize();
+            win.maximize();
+        });
+        $("#iad-restore-btn").on("click", function (e) 
+        {
+            win.unmaximize();
         });
         win.on('maximize', function (e) 
         {
-            $("#iad-max-btn").html('<i class="fa fa-window-restore"></i>');
+            $("#iad-max-btn").hide();
+            $("#iad-restore-btn").show();
         });
         win.on('unmaximize', function (e)
         {
-            $("#iad-max-btn").html('<i class="fa fa-window-maximize"></i>');
+            $("#iad-max-btn").show();
+            $("#iad-restore-btn").hide();
         });
 
         // Open.

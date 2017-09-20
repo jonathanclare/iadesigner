@@ -61,9 +61,18 @@
             <div id="iad-icon"><img src="./assets/ia.png" /></div>
             <div id="iad-title">InstantAtlas Designer</div>
             <div id="iad-title-bar-btns">
-                <div id="iad-close-btn"><i class="fa fa-times"></i></div>
-                <div id="iad-max-btn"><i class="fa fa-window-maximize"></i></div>
-                <div id="iad-min-btn"><i class="fa fa-window-minimize"></i></div>
+                <div id="iad-close-btn">
+                    <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path></svg>
+                </div>
+                <div id="iad-restore-btn">
+                    <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z"><svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path></svg></path></svg>
+                </div>
+                <div id="iad-max-btn">
+                    <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"></path></svg>
+                </div>
+                <div id="iad-min-btn">
+                    <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,5 10,5 10,6 0,6 Z"></path></svg>
+                </div>
             </div>
         </div>
         <!-- end title bar for frameless window -->
@@ -93,10 +102,8 @@
                                 <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li>
                                 <li><a id="iad-menuitem-settings" href="#">Settings</a></li>
@@ -105,15 +112,16 @@
                             </ul>
                         </li>
                     </ul>
+
                     <form class="navbar-form navbar-right">
                         <div class="btn-group" data-toggle="buttons"> 
-                            <label class="btn btn-default active">
+                            <label class="btn btn-default btn-sm active">
                                 <input type="radio" name="iad-radio-report-mode" value="design" />Design View
                             </label> 
-                            <label class="btn btn-default">
+                            <label class="btn btn-default btn-sm">
                                 <input type="radio" name="iad-radio-report-mode" value="published" />Published View
                             </label>                             
-                            <button id="iad-menuitem-refresh-report" type="button" class="btn btn-default" title="Refresh"><i class="fa fa-refresh"></i></button>
+                            <button id="iad-menuitem-refresh-report" type="button" class="btn btn-default btn-sm" title="Refresh"><i class="fa fa-refresh"></i></button>
                         </div>
                     </form>
                 </div> 

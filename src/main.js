@@ -25,9 +25,9 @@ app.on('ready', function()
             icon:__dirname + '/assets/ia.ico', 
             title: 'InstantAtlas Designer',
             width: 1200,
-            minWidth: 800,
+            minWidth: 1000,
             height: 800,
-            minHeight: 600,
+            minHeight: 750,
             show: false/*,
             frame: false*/
         });
@@ -43,9 +43,9 @@ app.on('ready', function()
         {
             backgroundColor: '#ffffff',
             width: 1200,
-            minWidth: 800,
+            minWidth: 1000,
             height: 800,
-            minHeight: 600,
+            minHeight: 750,
             show: false,
             frame: false
         });

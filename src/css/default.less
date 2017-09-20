@@ -13,18 +13,9 @@
 {
     top: @title-bar-height;
 }
-/* Navbar - stop collapse */
-.navbar-collapse.collapse 
-{
-    display: block!important;
-}
 .navbar-nav>li, .navbar-nav 
 {
     float: left !important;
-}
-.navbar-nav.navbar-right:last-child 
-{
-    margin-right: -15px !important;
 }
 .navbar-right 
 {
@@ -42,20 +33,18 @@
 }
 .form-control 
 {
-    font-size: 11px;
+    font-size: 12px;
     color: #666;
-    font-family:verdana;
     border-radius: 0px;
     -webkit-box-shadow: 0 0px 0px rgba(0,0,0,0.05);
     box-shadow: 0 0px 0px rgba(0,0,0,0.05);
 }
 .control-label 
 {
-    font-size: 11px;
+    font-size: 12px;
     color: #666;
     padding-top: 5px;
     padding-bottom: 2px;
-    font-family:verdana;
 }
 .dropdown-menu>li>a 
 {
@@ -63,7 +52,6 @@
 }
 .btn-sm 
 {
-    font-family:verdana;
     border-radius: 0px;
 }
 
@@ -201,7 +189,6 @@
 }
 #iad-title-bar-btns 
 {
-    color: #ccc;
     -webkit-app-region: no-drag;
     position: fixed;
     top: 0px;
@@ -211,19 +198,33 @@
 {
     float: right;
     height: @title-bar-height;
-    width: @title-bar-height;
+    width: 45px;
     text-align: center;
     line-height: @title-bar-height;
+    background-color: transparent;
+    transition: background-color 0.25s ease;
 }
-#iad-min-btn:hover, #iad-max-btn:hover 
+#iad-title-bar-btns > div > svg 
+{
+    fill: #777;
+}
+#iad-title-bar-btns > div:hover > svg 
+{
+    fill: #fff;
+}
+#iad-restore-btn  
+{
+    display:none;
+}
+#iad-min-btn:hover, #iad-max-btn:hover, #iad-restore-btn:hover  
 {
     color:#fff;
-    background-color: #4fcaf9;
+    background-color: #d4d4d4;
 }
 #iad-close-btn:hover 
 {
-    color:#fff;
-    background-color: #f32424;
+    color: #fff;
+    background-color: #e81123;
 }
 #iad-close-btn 
 {
@@ -234,7 +235,7 @@
 .iad-range-value 
 {
     padding: 6px 12px;
-    font-size:  11px;
+    font-size:  12px;
     font-weight: normal;
     color: #666;
     background-color: #fff;
