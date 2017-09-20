@@ -5,6 +5,7 @@
 /* Bootstrap Overrides */
 body
 {
+    user-select: none;
     font-size: 12px;
 }
 
@@ -20,7 +21,6 @@ svg.octicon {
 
 #update-available 
 {    
-    user-select: none;
     position: absolute;
     top: calc(@title-bar-height + @navbar-height);
     left: 0px;
@@ -184,16 +184,6 @@ svg.octicon {
     right: 0px;
     bottom: @navbar-height;
 }
-#iad-sidebar
-{     
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 0px;  
-    border-right: solid 1px #e7e7e7;
-    overflow: auto;
-}
 #iad-report 
 {
     position: absolute;
@@ -294,14 +284,15 @@ svg.octicon {
     display:none;
     overflow: hidden;
     position: absolute;
-    top: 100px;
-    bottom: 100px;
+    top: 0px;
+    bottom: 0px;
     background-color: #ffffff;
-    border-radius: 0 6px 6px 0px;
-    z-index:1000;
-    box-shadow: 0 5px 15px rgba(0,0,0,.5);
-    left: -520px;
-    width: 520px;
+    /*border-radius: 0 6px 6px 0px;*/
+    /*z-index:1000;*/
+    /*box-shadow: 0 5px 15px rgba(0,0,0,.5);*/
+    left: -450px;
+    width: 450px;
+    border-right: 1px solid #e5e5e5;
 }
 .iad-slide-panel-header 
 {

@@ -164,7 +164,7 @@
         <!-- end bottom nav -->
 
         <!-- update available -->
-        <div id="update-available" class="active">
+        <!--div id="update-available" class="active">
             <svg aria-hidden="true" class="octicon icon" version="1.1" viewBox="0 0 16 16">
                 <path d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path>
             </svg>
@@ -176,71 +176,66 @@
                         <path d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
                 </svg>
             </a>
-        </div>
+        </div-->
         <!-- end update available -->
 
-        <!-- sidebar and report containers -->
+        <!-- slide panel and report containers -->
         <div id="iad-main">
-            <div id="iad-sidebar">
-                Current version: <span id="version">vX.Y.Z</span>
-                <div id="messages"></div>
-            </div>
-            <div id="iad-report">
+            <div id="iad-report"></div>
 
-            </div>
-        </div>
-        <!-- end sidebar and report containers -->
-
-        <!-- start widget properties container -->
-        <div id="iad-slide-panel-widget-properties" class="iad-slide-panel">
-            <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-widget-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-slide-panel-widget-properties-title"> </span></div>
-            </div>
-            <div class="iad-slide-panel-content">
-                <div class="iad-form">
-                    <div id="iad-form-widget-properties">
-                    <!-- populated by designer.configforms.js -->
+            <!-- start widget properties slide panel -->
+            <div id="iad-slide-panel-widget-properties" class="iad-slide-panel">
+                <div class="iad-slide-panel-header">
+                    <button id="iad-btn-close-widget-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-slide-panel-widget-properties-title"> </span></div>
+                </div>
+                <div class="iad-slide-panel-content">
+                    <div class="iad-form">
+                        <div id="iad-form-widget-properties">
+                        <!-- populated by designer.configforms.js -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end widget properties container -->
+            <!-- end widget properties slide panel -->
 
-        <!-- start css properties container -->
-        <div id="iad-slide-panel-css-properties" class="iad-slide-panel">
-            <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-css-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
-            </div>
-            <div class="iad-slide-panel-content">
-                <div class="iad-form">
-                    <div id="iad-form-css-properties">
-                    <!-- populated by initCss() -->
+            <!-- start css properties slide panel -->
+            <div id="iad-slide-panel-css-properties" class="iad-slide-panel">
+                <div class="iad-slide-panel-header">
+                    <button id="iad-btn-close-css-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
+                </div>
+                <div class="iad-slide-panel-content">
+                    <div class="iad-form">
+                        <div id="iad-form-css-properties">
+                        <!-- populated by initCss() -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end css properties container -->
+            <!-- end css properties slide panel -->
 
-        <!-- start color scheme container -->
-        <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
-            <div class="iad-slide-panel-header">
-                <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
-            </div>
-            <div class="iad-slide-panel-content iad-slide-panel-content-with-footer">
-                <div class="iad-form">
-                    <div id="iad-form-color-scheme">
-                        <!-- populated by designer.colorscheme.js -->
+            <!-- start color scheme slide panel -->
+            <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
+                <div class="iad-slide-panel-header">
+                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
+                </div>
+                <!--div class="iad-slide-panel-content iad-slide-panel-content-with-footer"-->
+                <div class="iad-slide-panel-content">
+                    <div class="iad-form">
+                        <div id="iad-form-color-scheme">
+                            <!-- populated by designer.colorscheme.js -->
+                        </div>
                     </div>
                 </div>
+                <!--div class="iad-slide-panel-footer">
+                    <button id="iad-btn-undo-color-scheme" type="button" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                </div-->
             </div>
-            <div class="iad-slide-panel-footer">
-                <button id="iad-btn-undo-color-scheme" type="button" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Undo</button>
-            </div>
+            <!-- end color scheme slide panel -->
         </div>
-        <!-- end color scheme container -->
+        <!-- end slide panel and report containers -->
 
         <!-- config gallery modal -->
         <div class="modal fade" id="iad-modal-config-gallery" tabindex="-1" role="dialog">

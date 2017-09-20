@@ -13,6 +13,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var fs = require('fs');
 
     var win = remote.getCurrentWindow();
+    var $report = $('#iad-report');
     var $widgetPanel = $('#iad-slide-panel-widget-properties');
     var $cssPanel = $('#iad-slide-panel-css-properties');
     var $colorschemePanel = $('#iad-slide-panel-color-scheme');
@@ -339,11 +340,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Edit widget button.
         $('#iad-btn-widget-edit').on('click', function(e)
         {
-            if (selectedWidgetId !== undefined)
-            {
-                if (selectedWidgetId === editedWidgetId) closeSlidePanel('widget');
-                else editWidgetProperties(selectedWidgetId);
-            }
+            if (selectedWidgetId !== undefined) editWidgetProperties(selectedWidgetId);
         });
 
         // Send widget to back button.
@@ -361,31 +358,25 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Close slide panel buttons.
         $('#iad-btn-close-widget-panel').on('click', function (e)
         {
-            closeSlidePanel('widget');
+            hideSlidePanel('widget');
         });
         $('#iad-btn-close-css-panel').on('click', function (e)
         {
-            closeSlidePanel('css');
+            hideSlidePanel('css');
         });
         $('#iad-btn-close-color-scheme-panel').on('click', function (e)
         {
-            closeSlidePanel('colorscheme');
+            hideSlidePanel('colorscheme');
         });
 
         // Open slide panels.
         $('#iad-menuitem-open-css').on('click', function (e)
         {
-            closeSlidePanel('widget');
-            closeSlidePanel('colorscheme');
-            if ($cssPanel.is(":visible")) closeSlidePanel('css');
-            else openSlidePanel('css');
+            showSlidePanel('css');
         });
         $('#iad-menuitem-open-color-scheme').on('click', function (e)
         {
-            closeSlidePanel('widget');
-            closeSlidePanel('css');
-            if ($colorschemePanel.is(":visible")) closeSlidePanel('colorscheme');
-            else openSlidePanel('colorscheme');
+            showSlidePanel('colorscheme');
         });
 
         // Upload config.
@@ -504,25 +495,74 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function getSlidePanel(name)
     {
-        if (name === 'widget') return $widgetPanel ;
+        if (name === 'widget') return $widgetPanel;
         else if (name === 'css') return $cssPanel;
         else if (name === 'colorscheme') return $colorschemePanel;
         return undefined;
     }
 
-    function closeSlidePanel(name)
+    function hideSlidePanel(name)
     {
         if (name === 'widget') editedWidgetId = undefined;
         var $panel = getSlidePanel(name);
-        var w = ($panel.outerWidth() + 20) * -1;
+        var w = $panel.outerWidth() * -1;
         $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
+        $report.animate({left:'0px'}, {duration: 400, queue: false});
     }
 
-    function openSlidePanel(name)
+    function fadeSlidePanel(name)
+    {
+        if (name === 'widget') editedWidgetId = undefined;
+        var $panel = getSlidePanel(name);
+        if ($panel.is(":visible"))
+        {
+            var l = $panel.outerWidth() * -1;
+            $panel.fadeOut({duration: 400,queue: false, complete: function() {$panel.css('left', l + 'px');}});
+        }
+    }
+
+    function showSlidePanel(name)
     {
         var $panel = getSlidePanel(name);
-        $panel.show();
-        $panel.animate({left: '0px'}, {duration: 400,queue: false});
+
+        // Check if a panel is already visible.
+        if ($cssPanel.is(":visible") || $colorschemePanel.is(":visible") || $widgetPanel.is(":visible"))
+        {
+            // Close any other open panels.
+            if (name === 'widget')
+            {
+                fadeSlidePanel('css');
+                fadeSlidePanel('colorscheme');
+            }
+            else if (name === 'css')
+            {
+                fadeSlidePanel('widget');
+                fadeSlidePanel('colorscheme');
+            }
+            else if (name === 'colorscheme')
+            {
+                fadeSlidePanel('widget');
+                fadeSlidePanel('css');
+            }
+            $panel.css('left', '0px');
+            $panel.fadeIn({duration: 400,queue: false});
+        }
+        else
+        {
+            var w = $panel.outerWidth();
+            $panel.show();
+            $panel.animate({left: '0px'}, {duration: 400,queue: false});
+            $report.animate({left: w + 'px'}, {duration: 400, queue: false});
+        }
+    }
+
+    function editGeneralProperties()
+    {
+        editedWidgetId = 'PropertyGroup';
+        var title = iad.config.getDisplayName('PropertyGroup');
+        $widgetPanelTitle.text(title);
+        iad.canvas.clearSelection();
+        iad.configforms.showPropertyGroupForm();
     }
 
     function editWidgetProperties(widgetId)
@@ -543,9 +583,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             iad.configforms.showWidgetForm(widgetId);
         }
 
-        closeSlidePanel('css');
-        closeSlidePanel('colorscheme');
-        openSlidePanel('widget');
+        showSlidePanel('widget');
     }
 
     function initCss(options, callback)
@@ -657,8 +695,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             report : report,
             preConfigLoaded: function ()
             {                
-                closeSlidePanel('widget');
-                iad.canvas.clearSelection();
+                editGeneralProperties();
             },
             onReportLoaded: function (filePath)
             {
@@ -702,7 +739,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 updateDropdownMenus();
                 if (widgetId === selectedWidgetId) iad.canvas.clearSelection();
-                if (widgetId === editedWidgetId) closeSlidePanel('widget');
+                if (widgetId === editedWidgetId) editGeneralProperties();
                 iad.canvas.update();
             },
             onWidgetAdded: function (widgetId)
@@ -864,8 +901,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             },
             onEditBtnClick: function (widgetId)
             {
-                if (widgetId === editedWidgetId) closeSlidePanel('widget');
-                else editWidgetProperties(widgetId);
+                editWidgetProperties(widgetId);
             },
             onActivated: function ()
             {
@@ -997,7 +1033,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initFileDragAndDrop()
     {
 		// File upload drag and drop.
-		$('#iad-report').on('drop', function (e) 
+		$report.on('drop', function (e) 
 		{
 			e.stopPropagation();
 			e.preventDefault();
@@ -1026,7 +1062,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 }
             }
 		});
-		$('#iad-report').on('dragover', function (e) 
+		$report.on('dragover', function (e) 
 		{
 			e.stopPropagation();
 			e.preventDefault();
