@@ -14,10 +14,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     var win = remote.getCurrentWindow();
     var $report = $('#iad-report');
-    var $widgetPanel = $('#iad-slide-panel-widget-properties');
-    var $cssPanel = $('#iad-slide-panel-css-properties');
-    var $colorschemePanel = $('#iad-slide-panel-color-scheme');
-    var $widgetPanelTitle = $('#iad-slide-panel-widget-properties-title');
+    var $sidebarWidget = $('#iad-sidebar-widget');
+    var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
+    var $sidebarCss = $('#iad-sidebar-css');
+    var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
 
     // Listen for log messages from main process for debugging.
@@ -232,34 +232,34 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initMenuHandlers()
     {
         // Window buttons.
-        $("#iad-window-minimize-btn").on("click", function (e) 
+        $("#iad-window-minimize").on("click", function (e) 
         {
             win.minimize();
         });
-        $("#iad-window-close-btn").on("click", function (e) 
+        $("#iad-window-close").on("click", function (e) 
         {
             saveChangesBeforeContinuing(function()
             {
                 win.close();
             });
         });
-        $("#iad-window-maximize-btn").on("click", function (e) 
+        $("#iad-window-maximize").on("click", function (e) 
         {
             win.maximize();
         });
-        $("#iad-window-restore-btn").on("click", function (e) 
+        $("#iad-window-restore").on("click", function (e) 
         {
             win.unmaximize();
         });
         win.on('maximize', function (e) 
         {
-            $("#iad-window-maximize-btn").hide();
-            $("#iad-window-restore-btn").show();
+            $("#iad-window-maximize").addClass('iad-window-btn-hidden');
+            $("#iad-window-restore").removeClass('iad-window-btn-hidden');
         });
         win.on('unmaximize', function (e)
         {
-            $("#iad-window-maximize-btn").show();
-            $("#iad-window-restore-btn").hide();
+            $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
+            $("#iad-window-restore").addClass('iad-window-btn-hidden');
         });
 
         // Open.
@@ -495,9 +495,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function getSlidePanel(name)
     {
-        if (name === 'widget') return $widgetPanel;
-        else if (name === 'css') return $cssPanel;
-        else if (name === 'colorscheme') return $colorschemePanel;
+        if (name === 'widget') return $sidebarWidget;
+        else if (name === 'css') return $sidebarCss;
+        else if (name === 'colorscheme') return $sidebarColorscheme;
         return undefined;
     }
 
@@ -526,7 +526,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var $panel = getSlidePanel(name);
 
         // Check if a panel is already visible.
-        if ($cssPanel.is(":visible") || $colorschemePanel.is(":visible") || $widgetPanel.is(":visible"))
+        if ($sidebarCss.is(":visible") || $sidebarColorscheme.is(":visible") || $sidebarWidget.is(":visible"))
         {
             // Close any other open panels.
             if (name === 'widget')
@@ -560,7 +560,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         editedWidgetId = 'PropertyGroup';
         var title = iad.config.getDisplayName('PropertyGroup');
-        $widgetPanelTitle.text(title);
+        $sidebarWidgetTitle.text(title);
         iad.canvas.clearSelection();
         iad.configforms.showPropertyGroupForm();
     }
@@ -570,7 +570,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         editedWidgetId = widgetId;
 
         var title = iad.config.getDisplayName(widgetId);
-        $widgetPanelTitle.text(title);
+        $sidebarWidgetTitle.text(title);
 
         if (widgetId === 'PropertyGroup')
         {

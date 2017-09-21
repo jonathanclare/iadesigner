@@ -9,47 +9,6 @@ body
     font-size: 12px;
 }
 
-svg.octicon {
-    fill: red;
-    height: 16px;
-    margin-right:10px;
-}
-#update-available.active 
-{
-    height: 30px;
-}
-
-#update-available 
-{    
-    position: absolute;
-    top: calc(@title-bar-height + @navbar-height);
-    left: 0px;
-    right: 0px;
-    z-index:1000;
-
-    display: flex;
-    overflow: hidden;
-    align-content: center;
-    align-items: center;
-    justify-content: left;
-    padding-left: 10px;
-    border-bottom: 1px solid #eeeeee;
-    height: 0px;
-    transition: height 0.25s;
-    flex: none;
-}
-#update-available .close {
-    position: absolute;
-    right: 10px;
-    border: 0;
-    height: 16px;
-    width: 16px;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-}
-
-
 /* Navbar */
 .navbar-default
 {
@@ -175,7 +134,7 @@ svg.octicon {
 
 /* End Bootstrap Overrides */
 
-/* Sidebar and report containers */
+/* Main and report containers */
 #iad-main
 {     
     position: absolute;
@@ -194,16 +153,7 @@ svg.octicon {
     overflow: auto;
 }
 
-/* Window Title bar */
-#iad-window-title-bar
-{     
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height:@title-bar-height;
-    background-color:#f8f8f8;
-}
+/* Window title bar */
 #iad-window-title-bar-draggable
 {     
     -webkit-app-region: drag;
@@ -213,54 +163,66 @@ svg.octicon {
     right: 0px;
     height:calc(@title-bar-height - 5px);
 }
+#iad-window-title-bar
+{     
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height:@title-bar-height;
+    background-color:#f8f8f8;
+}
+#iad-window-icon 
+{
+    display: flex;
+    padding:5px; 
+    flex:0 0 @title-bar-height;
+}
 #iad-window-icon > img 
 {
-    float: left;
-    padding:5px;
-    height: @title-bar-height;
-    width: @title-bar-height;
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 #iad-window-title 
 {
-    float: left;
+    display: flex;
+    justify-content:center;
+    align-items:center;
     color: #777;
-    line-height: @title-bar-height;
-    font-size: calc(@title-bar-height * 0.4);
+    flex: 1;
 }
-#iad-window-btns 
+.iad-window-btn
 {
+    display: flex;
+    justify-content:center;
+    align-items:center;
     -webkit-app-region: no-drag;
-    position: fixed;
-    top: 0px;
-    right: 0px; 
-}
-#iad-window-btns > div 
-{
-    float: right;
-    height: @title-bar-height;
-    width: 45px;
-    text-align: center;
-    line-height: @title-bar-height;
     transition: background-color 0.25s ease;
+    flex:0 0 45px;
 }
-#iad-window-btns > div > svg 
+.iad-window-btn-hidden  
+{
+    flex:0;
+}
+.iad-window-btn > svg 
 {
     fill: #777;
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
 }
-#iad-window-btns > div:hover > svg 
+.iad-window-btn:hover > svg 
 {
     fill: #fff;
 }
-#iad-window-restore-btn  
-{
-    display:none;
-}
-#iad-window-minimize-btn:hover, #iad-window-maximize-btn:hover, #iad-window-restore-btn:hover  
+#iad-window-minimize:hover, #iad-window-maximize:hover, #iad-window-restore:hover  
 {
     color:#fff;
     background-color: #999;
 }
-#iad-window-close-btn:hover 
+#iad-window-close:hover 
 {
     color: #fff;
     background-color: #e81123;
@@ -279,7 +241,7 @@ svg.octicon {
 }
 
 /* Slide panel */
-.iad-slide-panel 
+.iad-sidebar 
 { 
     display:none;
     overflow: hidden;
@@ -287,14 +249,11 @@ svg.octicon {
     top: 0px;
     bottom: 0px;
     background-color: #ffffff;
-    /*border-radius: 0 6px 6px 0px;*/
-    /*z-index:1000;*/
-    /*box-shadow: 0 5px 15px rgba(0,0,0,.5);*/
     left: -450px;
     width: 450px;
     border-right: 1px solid #e5e5e5;
 }
-.iad-slide-panel-header 
+.iad-sidebar-header 
 {
     overflow: hidden;
     position: absolute;
@@ -304,7 +263,7 @@ svg.octicon {
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
 }
-.iad-slide-panel-footer 
+.iad-sidebar-footer 
 {
     text-align:center;
     overflow: hidden;
@@ -315,7 +274,7 @@ svg.octicon {
     padding: 15px;
     border-top: 1px solid #e5e5e5;
 }
-.iad-slide-panel-content 
+.iad-sidebar-content 
 {
     overflow: hidden;
     position: absolute;
@@ -323,7 +282,7 @@ svg.octicon {
     bottom: 0px;
     width: 100%;
 }
-.iad-slide-panel-content-with-footer 
+.iad-sidebar-content-with-footer 
 {
     top: 50px;
     bottom: 65px;

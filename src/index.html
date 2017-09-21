@@ -60,49 +60,49 @@
         <div id="iad-window-title-bar">
             <div id="iad-window-icon"><img src="./assets/ia.png" /></div>
             <div id="iad-window-title">InstantAtlas Designer</div>
-            <div id="iad-window-btns">
-                <div id="iad-window-close-btn">
-                    <svg aria-hidden="true" version="1.1" width="10" height="10">
-                        <path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path>
-                    </svg>
-                </div>
-                <div id="iad-window-restore-btn">
-                    <svg aria-hidden="true" version="1.1" width="10" height="10">
-                        <path d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z">
-                            <svg aria-hidden="true" version="1.1" width="10" height="10">
-                                <path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path>
-                            </svg>
-                        </path>
-                    </svg>
-                </div>
-                <div id="iad-window-maximize-btn">
-                    <svg aria-hidden="true" version="1.1" width="10" height="10">
-                        <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"></path>
-                    </svg>
-                </div>
-                <div id="iad-window-minimize-btn">
-                    <svg aria-hidden="true" version="1.1" width="10" height="10">
-                        <path d="M 0,5 10,5 10,6 0,6 Z"></path>
-                    </svg>
-                </div>
+            <div id="iad-window-minimize" class="iad-window-btn">
+                <svg aria-hidden="true" version="1.1" width="10" height="10">
+                    <path d="M 0,5 10,5 10,6 0,6 Z"></path>
+                </svg>
+            </div>
+            <div id="iad-window-restore" class="iad-window-btn iad-window-btn-hidden">
+                <svg aria-hidden="true" version="1.1" width="10" height="10">
+                    <path d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z">
+                        <svg aria-hidden="true" version="1.1" width="10" height="10">
+                            <path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path>
+                        </svg>
+                    </path>
+                </svg>
+            </div>
+            <div id="iad-window-maximize" class="iad-window-btn">
+                <svg aria-hidden="true" version="1.1" width="10" height="10">
+                    <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"></path>
+                </svg>
+            </div>
+            <div id="iad-window-close" class="iad-window-btn">
+                <svg aria-hidden="true" version="1.1" width="10" height="10">
+                    <path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path>
+                </svg>
             </div>
         </div>
         <!-- end window title bar for frameless window -->
-        
+
         <!-- update available -->
-        <!--div id="update-available" class="active">
-            <svg aria-hidden="true" class="octicon icon" version="1.1" viewBox="0 0 16 16">
-                <path d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path>
-            </svg>
-            <span>
-                    An updated version of GitHub Desktop is available and will be installed at the next launch. See <a class="link-button-component" href="https://desktop.github.com/release-notes/">what's new</a> or <a class="link-button-component" href="">restart now</a>
-            </span>
-            <a class="close">
-                <svg aria-hidden="true" class="octicon" version="1.1" viewBox="0 0 12 16">
-                        <path d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+        <div id="iad-update-bar" class="active">
+            <div id="iad-update-icon">
+                <svg aria-hidden="true" class="octicon icon" version="1.1" viewBox="0 0 16 16">
+                    <path d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path>
                 </svg>
-            </a>
-        </div-->
+            </div>
+            <div id="iad-update-text">
+                An updated version of GitHub Desktop is available and will be installed at the next launch. See <a class="link-button-component" href="https://desktop.github.com/release-notes/">what's new</a> or <a class="link-button-component" href="">restart now</a>
+            </div>
+            <div id="iad-update-close">
+                <svg aria-hidden="true" class="octicon" version="1.1" viewBox="0 0 12 16">
+                    <path d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                </svg>
+            </div>
+        </div>
         <!-- end update available -->
 
         <!-- top nav -->
@@ -196,12 +196,12 @@
             <div id="iad-report"></div>
 
             <!-- start widget properties slide panel -->
-            <div id="iad-slide-panel-widget-properties" class="iad-slide-panel">
-                <div class="iad-slide-panel-header">
-                    <button id="iad-btn-close-widget-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-slide-panel-widget-properties-title"> </span></div>
+            <div id="iad-sidebar-widget" class="iad-sidebar">
+                <div class="iad-sidebar-header">
+                    <button id="iad-btn-close-widget-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"> </span></div>
                 </div>
-                <div class="iad-slide-panel-content">
+                <div class="iad-sidebar-content">
                     <div class="iad-form">
                         <div id="iad-form-widget-properties">
                         <!-- populated by designer.configforms.js -->
@@ -212,12 +212,12 @@
             <!-- end widget properties slide panel -->
 
             <!-- start css properties slide panel -->
-            <div id="iad-slide-panel-css-properties" class="iad-slide-panel">
-                <div class="iad-slide-panel-header">
-                    <button id="iad-btn-close-css-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div id="iad-sidebar-css" class="iad-sidebar">
+                <div class="iad-sidebar-header">
+                    <button id="iad-btn-close-css-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
                 </div>
-                <div class="iad-slide-panel-content">
+                <div class="iad-sidebar-content">
                     <div class="iad-form">
                         <div id="iad-form-css-properties">
                         <!-- populated by initCss() -->
@@ -228,20 +228,20 @@
             <!-- end css properties slide panel -->
 
             <!-- start color scheme slide panel -->
-            <div id="iad-slide-panel-color-scheme" class="iad-slide-panel">
-                <div class="iad-slide-panel-header">
-                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-slide-panel-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div id="iad-sidebar-colorscheme" class="iad-sidebar">
+                <div class="iad-sidebar-header">
+                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
                 </div>
-                <!--div class="iad-slide-panel-content iad-slide-panel-content-with-footer"-->
-                <div class="iad-slide-panel-content">
+                <!--div class="iad-sidebar-content iad-sidebar-content-with-footer"-->
+                <div class="iad-sidebar-content">
                     <div class="iad-form">
                         <div id="iad-form-color-scheme">
                             <!-- populated by designer.colorscheme.js -->
                         </div>
                     </div>
                 </div>
-                <!--div class="iad-slide-panel-footer">
+                <!--div class="iad-sidebar-footer">
                     <button id="iad-btn-undo-color-scheme" type="button" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Undo</button>
                 </div-->
             </div>

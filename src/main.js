@@ -28,10 +28,10 @@ app.on('ready', function()
             minWidth: 1000,
             height: 800,
             minHeight: 750,
-            show: false/*,
-            frame: false*/
+            show: false,
+            frame: false
         });
-        win.webContents.openDevTools();
+        //win.webContents.openDevTools();
         win.webContents.once('did-frame-finish-load', function() 
         {
             win.show();
