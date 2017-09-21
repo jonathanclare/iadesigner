@@ -34,6 +34,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
         registerHandlebarsHelperFunctions();
 
+        // Open links in default browser window.
+        $(document).on('click', 'a[href^="http"]', function(event) 
+        {
+            event.preventDefault();
+            shell.openExternal(this.href);
+        });
+
         checkForUpdate(function()
         {
             initCss(settings.css, function()
@@ -94,12 +101,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
         ipc.on('update-not-available', function(event) 
         { 
-            showUpdateBar(function()
-            {
-                callback.call(null);
-            });
-            //$updateBar.hide();
-            //callback.call(null);
+            $updateBar.hide();
+            callback.call(null);
         });
         ipc.send('check-for-update');
     }
@@ -416,13 +419,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         $('#iad-restart-now').on('click', function (e)
         {
             ipc.send('quit-and-install');
-        });
-
-        // Open links in default browser window.
-        $(document).on('click', 'a[href^="http"]', function(event) 
-        {
-            event.preventDefault();
-            shell.openExternal(this.href);
         });
     }
 
