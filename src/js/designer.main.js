@@ -9,6 +9,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var Menu = electron.Menu || remote.Menu;
     var dialog = electron.dialog || remote.dialog;
     var ipc = electron.ipcRenderer;
+    var shell = electron.shell;
     var path = require('path');
     var fs = require('fs');
 
@@ -415,6 +416,13 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         $('#iad-restart-now').on('click', function (e)
         {
             ipc.send('quit-and-install');
+        });
+
+        // Open links in default browser window.
+        $(document).on('click', 'a[href^="http"]', function(event) 
+        {
+            event.preventDefault();
+            shell.openExternal(this.href);
         });
     }
 
