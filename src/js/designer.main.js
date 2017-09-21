@@ -232,34 +232,34 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initMenuHandlers()
     {
         // Window buttons.
-        $("#iad-min-btn").on("click", function (e) 
+        $("#iad-window-minimize-btn").on("click", function (e) 
         {
             win.minimize();
         });
-        $("#iad-close-btn").on("click", function (e) 
+        $("#iad-window-close-btn").on("click", function (e) 
         {
             saveChangesBeforeContinuing(function()
             {
                 win.close();
             });
         });
-        $("#iad-max-btn").on("click", function (e) 
+        $("#iad-window-maximize-btn").on("click", function (e) 
         {
             win.maximize();
         });
-        $("#iad-restore-btn").on("click", function (e) 
+        $("#iad-window-restore-btn").on("click", function (e) 
         {
             win.unmaximize();
         });
         win.on('maximize', function (e) 
         {
-            $("#iad-max-btn").hide();
-            $("#iad-restore-btn").show();
+            $("#iad-window-maximize-btn").hide();
+            $("#iad-window-restore-btn").show();
         });
         win.on('unmaximize', function (e)
         {
-            $("#iad-max-btn").show();
-            $("#iad-restore-btn").hide();
+            $("#iad-window-maximize-btn").show();
+            $("#iad-window-restore-btn").hide();
         });
 
         // Open.
@@ -707,7 +707,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     // Reset title to show config file path.
                     var title = 'InstantAtlas Designer - ' + configPath;
                     win.setTitle(title);
-                    $('#iad-title').html(title);
+                    $('#iad-window-title').html(title);
                 }
                 
                 updateConfigDownloadButton();

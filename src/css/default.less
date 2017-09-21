@@ -194,8 +194,8 @@ svg.octicon {
     overflow: auto;
 }
 
-/* Title bar */
-#iad-title-bar
+/* Window Title bar */
+#iad-window-title-bar
 {     
     position: absolute;
     top: 0px;
@@ -204,7 +204,7 @@ svg.octicon {
     height:@title-bar-height;
     background-color:#f8f8f8;
 }
-#iad-title-bar-draggable
+#iad-window-title-bar-draggable
 {     
     -webkit-app-region: drag;
     position: absolute;
@@ -213,28 +213,28 @@ svg.octicon {
     right: 0px;
     height:calc(@title-bar-height - 5px);
 }
-#iad-icon > img 
+#iad-window-icon > img 
 {
     float: left;
     padding:5px;
     height: @title-bar-height;
     width: @title-bar-height;
 }
-#iad-title 
+#iad-window-title 
 {
     float: left;
     color: #777;
     line-height: @title-bar-height;
     font-size: calc(@title-bar-height * 0.4);
 }
-#iad-title-bar-btns 
+#iad-window-btns 
 {
     -webkit-app-region: no-drag;
     position: fixed;
     top: 0px;
     right: 0px; 
 }
-#iad-title-bar-btns > div 
+#iad-window-btns > div 
 {
     float: right;
     height: @title-bar-height;
@@ -243,24 +243,24 @@ svg.octicon {
     line-height: @title-bar-height;
     transition: background-color 0.25s ease;
 }
-#iad-title-bar-btns > div > svg 
+#iad-window-btns > div > svg 
 {
     fill: #777;
 }
-#iad-title-bar-btns > div:hover > svg 
+#iad-window-btns > div:hover > svg 
 {
     fill: #fff;
 }
-#iad-restore-btn  
+#iad-window-restore-btn  
 {
     display:none;
 }
-#iad-min-btn:hover, #iad-max-btn:hover, #iad-restore-btn:hover  
+#iad-window-minimize-btn:hover, #iad-window-maximize-btn:hover, #iad-window-restore-btn:hover  
 {
     color:#fff;
-    background-color: #d4d4d4;
+    background-color: #999;
 }
-#iad-close-btn:hover 
+#iad-window-close-btn:hover 
 {
     color: #fff;
     background-color: #e81123;
