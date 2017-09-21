@@ -1,6 +1,7 @@
 @sidebar-width: 300px;
 @navbar-height: 51px;
 @title-bar-height: 30px;
+@update-bar-height: 30px;
 
 /* Bootstrap Overrides */
 body
@@ -138,7 +139,7 @@ body
 #iad-main
 {     
     position: absolute;
-    top: calc(@title-bar-height + @navbar-height);
+    top: calc(@title-bar-height + @update-bar-height + @navbar-height);
     left: 0px;
     right: 0px;
     bottom: @navbar-height;
@@ -226,6 +227,56 @@ body
 {
     color: #fff;
     background-color: #e81123;
+}
+
+/* Update bar */
+#iad-update-bar
+{     
+    display: flex;
+    position: absolute;
+    top: calc(@title-bar-height + @navbar-height);
+    left: 0px;
+    right: 0px;
+    height:@update-bar-height;
+    background-color:#ffffff;
+    border-bottom: 1px solid #e5e5e5;
+}
+#iad-update-icon 
+{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex:0 0 @update-bar-height;
+}
+#iad-update-icon > svg 
+{
+    height: 16px;
+    fill: #777;
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+#iad-update-text 
+{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    color: #777;
+    flex: 1;
+}
+#iad-update-close
+{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex:0 0 @update-bar-height;
+}
+#iad-update-close > svg 
+{
+    fill: #777;
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* Controls */
