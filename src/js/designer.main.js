@@ -13,7 +13,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var fs = require('fs');
 
     var win = remote.getCurrentWindow();
+    var $main = $('#iad-main');
     var $report = $('#iad-report');
+    var $updateBar = $('#iad-update-bar');
     var $sidebarWidget = $('#iad-sidebar-widget');
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $sidebarCss = $('#iad-sidebar-css');
@@ -29,9 +31,10 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad.init = function(options)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
+        registerHandlebarsHelperFunctions();
+
         checkForUpdate(function()
         {
-            registerHandlebarsHelperFunctions();
             initCss(settings.css, function()
             {
                 ia.init(
@@ -76,40 +79,47 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 });
             });
         });
+
     };
 
     function checkForUpdate(callback)
     {
         ipc.on('update-downloaded', function(event) 
         {
-            bootbox.confirm(
+            showUpdateBar(function()
             {
-                title: 'Update Now?',
-                message: 'A new version of InstantAtlas Designer has been downloaded.' + 
-                ' It will be installed the next time you restart the application',
-                buttons: 
-                {
-                    cancel: 
-                    {
-                        label: '<i class="fa fa-times"></i> Later'
-                    },
-                    confirm: 
-                    {
-                        label: '<i class="fa fa-check"></i> Install and Relaunch'
-                    }
-                },
-                callback: function (result) 
-                {
-                    if (result === true) ipc.send('quit-and-install');
-                    else callback.call(null);
-                }
+                callback.call(null);
             });
         });
         ipc.on('update-not-available', function(event) 
         { 
-            callback.call(null);
+            showUpdateBar(function()
+            {
+                callback.call(null);
+            });
+            //$updateBar.hide();
+            //callback.call(null);
         });
         ipc.send('check-for-update');
+    }
+    function showUpdateBar(callback)
+    {
+        var h = $updateBar.outerHeight();
+        $main.animate({top:'+='+h+'px'}, {duration: 400, queue: false});
+        $updateBar.animate({top: '+='+h+'px'}, {duration: 400,queue: false, complete: function() 
+        {
+            if (callback !== undefined) callback.call(null);
+        }});
+    }
+    function closeUpdateBar(callback)
+    {
+        var h = $updateBar.outerHeight();
+        $main.animate({top:'-='+h+'px'}, {duration: 400, queue: false});
+        $updateBar.animate({top: '-='+h+'px'}, {duration: 400,queue: false, complete: function() 
+        {
+            $updateBar.hide();
+            if (callback !== undefined) callback.call(null);
+        }});
     }
 
     function onChangesMade()
@@ -358,25 +368,25 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         // Close slide panel buttons.
         $('#iad-btn-close-widget-panel').on('click', function (e)
         {
-            hideSlidePanel('widget');
+            hideSidebar('widget');
         });
         $('#iad-btn-close-css-panel').on('click', function (e)
         {
-            hideSlidePanel('css');
+            hideSidebar('css');
         });
         $('#iad-btn-close-color-scheme-panel').on('click', function (e)
         {
-            hideSlidePanel('colorscheme');
+            hideSidebar('colorscheme');
         });
 
         // Open slide panels.
         $('#iad-menuitem-open-css').on('click', function (e)
         {
-            showSlidePanel('css');
+            showSidebar('css');
         });
         $('#iad-menuitem-open-color-scheme').on('click', function (e)
         {
-            showSlidePanel('colorscheme');
+            showSidebar('colorscheme');
         });
 
         // Upload config.
@@ -395,6 +405,16 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.css.readLessVarsFile(filePath, function () {});
             });
+        });
+
+        // Updates.
+        $('#iad-update-close').on('click', function (e)
+        {
+            closeUpdateBar();
+        });
+        $('#iad-restart-now').on('click', function (e)
+        {
+            ipc.send('quit-and-install');
         });
     }
 
@@ -493,7 +513,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function getSlidePanel(name)
+    function getSidebar(name)
     {
         if (name === 'widget') return $sidebarWidget;
         else if (name === 'css') return $sidebarCss;
@@ -501,19 +521,19 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         return undefined;
     }
 
-    function hideSlidePanel(name)
+    function hideSidebar(name)
     {
         if (name === 'widget') editedWidgetId = undefined;
-        var $panel = getSlidePanel(name);
+        var $panel = getSidebar(name);
         var w = $panel.outerWidth() * -1;
         $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
         $report.animate({left:'0px'}, {duration: 400, queue: false});
     }
 
-    function fadeSlidePanel(name)
+    function fadeSidebar(name)
     {
         if (name === 'widget') editedWidgetId = undefined;
-        var $panel = getSlidePanel(name);
+        var $panel = getSidebar(name);
         if ($panel.is(":visible"))
         {
             var l = $panel.outerWidth() * -1;
@@ -521,9 +541,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function showSlidePanel(name)
+    function showSidebar(name)
     {
-        var $panel = getSlidePanel(name);
+        var $panel = getSidebar(name);
 
         // Check if a panel is already visible.
         if ($sidebarCss.is(":visible") || $sidebarColorscheme.is(":visible") || $sidebarWidget.is(":visible"))
@@ -531,18 +551,18 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             // Close any other open panels.
             if (name === 'widget')
             {
-                fadeSlidePanel('css');
-                fadeSlidePanel('colorscheme');
+                fadeSidebar('css');
+                fadeSidebar('colorscheme');
             }
             else if (name === 'css')
             {
-                fadeSlidePanel('widget');
-                fadeSlidePanel('colorscheme');
+                fadeSidebar('widget');
+                fadeSidebar('colorscheme');
             }
             else if (name === 'colorscheme')
             {
-                fadeSlidePanel('widget');
-                fadeSlidePanel('css');
+                fadeSidebar('widget');
+                fadeSidebar('css');
             }
             $panel.css('left', '0px');
             $panel.fadeIn({duration: 400,queue: false});
@@ -583,7 +603,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             iad.configforms.showWidgetForm(widgetId);
         }
 
-        showSlidePanel('widget');
+        showSidebar('widget');
     }
 
     function initCss(options, callback)
