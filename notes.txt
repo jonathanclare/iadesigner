@@ -1,11 +1,29 @@
 --------
+22/09/17
+
+Added
+
+grunt bump:prepatch
+>> Version bumped to 0.0.1-0
+
+grunt bump:preminor
+>> Version bumped to 0.1.0-0
+
+grunt bump:premajor
+>> Version bumped to 1.0.0-0
+
+"dist:prepatch": "grunt bump:prepatch && npm run dist:web",
+"dist:preminor": "grunt bump:preminor && npm run dist:web",
+"dist:premajor": "grunt bump:premajor && npm run dist:web",
+
+--------
 19/09/17
 
 Added grunt-bump for version control in package.json
 https://github.com/vojtajina/grunt-bump
 
 grunt bump:patch
->> Version bumped to 0.0.3
+>> Version bumped to 0.0.1
 
 grunt bump:minor
 >> Version bumped to 0.1.0

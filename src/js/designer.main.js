@@ -356,8 +356,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         {
             bootbox.confirm(
             {
-                title: "Confirm Delete?",
-                message: "Are you sure you want to remove this widget?",
+                title: iad.config.getDisplayName(selectedWidgetId) + ' - Confirm Removal?',
+                message: 'Are you sure you want to remove this widget?',
                 buttons: 
                 {
                     cancel: 
@@ -929,8 +929,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {
                 bootbox.confirm(
                 {
-                    title: "Confirm Delete?",
-                    message: "Are you sure you want to remove this widget?",
+                    title: iad.config.getDisplayName(widgetId) + ' - Confirm Removal?',
+                    message: 'Are you sure you want to remove this widget?',
                     buttons: 
                     {
                         cancel: 

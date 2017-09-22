@@ -74,3 +74,18 @@ Version bumped to 1.1.1
 ```sh
 > npm run dist:major
 ```
+
+Version bumped to 0.0.1-0
+```sh
+> npm run dist:prepatch
+```
+
+Version bumped to 0.1.1-0
+```sh
+> npm run dist:preminor
+```
+
+Version bumped to 1.1.1-0
+```sh
+> npm run dist:premajor
+```
