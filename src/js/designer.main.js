@@ -351,6 +351,31 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             editWidgetProperties(widgetId);
         });
 
+        // Remove widget button.
+        $('#iad-btn-widget-remove').on('click', function(e)
+        {
+            bootbox.confirm(
+            {
+                title: "Confirm Delete?",
+                message: "Are you sure you want to remove this widget?",
+                buttons: 
+                {
+                    cancel: 
+                    {
+                        label: '<i class="fa fa-times"></i> No'
+                    },
+                    confirm: 
+                    {
+                        label: '<i class="fa fa-check"></i> Yes'
+                    }
+                },
+                callback: function (result) 
+                {
+                    if (result === true) iad.config.removeWidget(selectedWidgetId);
+                }
+            });
+        });
+
         // Edit widget button.
         $('#iad-btn-widget-edit').on('click', function(e)
         {
@@ -905,7 +930,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 bootbox.confirm(
                 {
                     title: "Confirm Delete?",
-                    message: "Are you sure you want to delete this widget?",
+                    message: "Are you sure you want to remove this widget?",
                     buttons: 
                     {
                         cancel: 
