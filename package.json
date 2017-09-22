@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.57-0",
+  "version": "0.0.59-0",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -56,7 +56,8 @@
     "dist:premajor": "grunt bump:premajor && npm run dist:web",
     "dist:patch": "grunt bump:patch && npm run dist:web",
     "dist:minor": "grunt bump:minor && npm run dist:web",
-    "dist:major": "grunt bump:major && npm run dist:web"
+    "dist:major": "grunt bump:major && npm run dist:web",
+    "dist:version": "grunt bump --setversion=2.0.1 && npm run dist:web"
   },
   "build": {
     "publish": [

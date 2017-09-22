@@ -16,4 +16,6 @@ Older config.xml files will have components removed so we have to match up using
 Current solution is to find the matching config.xml using the template attribute and inject any missing widgets into the config.xml file being read in.
 Could this break older config.xml files.
 
-Theres no way of matching config.xml files by language, so its reliant on tyhe user setting the language for the app.
+Theres no way of matching config.xml files by language, so its reliant on the user setting the language for the app.
+
+Cant delete radarChart2.
