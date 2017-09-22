@@ -19,10 +19,13 @@ app.on('ready', function()
 {
     isDev = process.mainModule.filename.indexOf('app.asar') === -1;
 
+    var minWidth = 1000, minHeight = 800;
     var winState = windowState(
-    {
-        defaultWidth: 1000,
-        defaultHeight: 800
+    { 
+        file: 'window-state.json',
+        path: app.getPath('userData') + '\\InstantAtlas Designer\\',
+        defaultWidth: minWidth,
+        defaultHeight: minHeight
     });
 
     if (isDev)
@@ -36,8 +39,8 @@ app.on('ready', function()
             y: winState.y,
             width: winState.width,
             height: winState.height,
-            minWidth: 1000,
-            minHeight: 800,
+            minWidth: minWidth,
+            minHeight: minHeight,
             show: false/*,
             frame: false*/
         });
@@ -52,13 +55,13 @@ app.on('ready', function()
             y: winState.y,
             width: winState.width,
             height: winState.height,
-            minWidth: 1000,
-            minHeight: 800,
+            minWidth: minWidth,
+            minHeight: minHeight,
             show: false,
             frame: false
         });
     }
-    
+
     winState.manage(win);
 
     win.on('ready-to-show', function() 

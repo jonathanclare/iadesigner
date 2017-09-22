@@ -8,7 +8,7 @@ How to copy and move referenced images.
 
 When editing widget properties open panels must remain open.
 
-Window position and user settings need to be stored.
+User settings need to be stored.
 
 Signing for windows - do we need it - how does it work.
 

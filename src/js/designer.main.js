@@ -5,13 +5,21 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad = iad || {};
 
     var electron = require('electron');
-    var remote = electron.remote;
-    var Menu = electron.Menu || remote.Menu;
-    var dialog = electron.dialog || remote.dialog;
-    var ipc = electron.ipcRenderer;
-    var shell = electron.shell;
+    var log = require('electron-log');
+    var jsonfile = require('jsonfile');
+
     var path = require('path');
     var fs = require('fs');
+    var mkdirp = require('mkdirp');
+
+    var ipc = electron.ipcRenderer;
+    var shell = electron.shell;
+
+    // Access modules in the main process.
+    var remote = electron.remote;
+    var Menu = remote.Menu;
+    var dialog = remote.dialog;
+    var app = remote.app;
 
     var $main = $('#iad-main');
     var $report = $('#iad-report');
@@ -24,23 +32,54 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     // Reference to main window.
     var win = remote.getCurrentWindow();
-    win.on('maximize', function (e) 
-    {
-        $("#iad-window-maximize").addClass('iad-window-btn-hidden');
-        $("#iad-window-restore").removeClass('iad-window-btn-hidden');
-    });
-    win.on('unmaximize', function (e)
-    {
-        $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
-        $("#iad-window-restore").addClass('iad-window-btn-hidden');
-    });
-    if (win.isMaximized())
+
+    // Handle whether restore or maximize window button is displayed.
+    win.on('maximize', showRestoreBtn);
+    win.on('unmaximize', showMaximizeBtn);
+    if (win.isMaximized()) showMaximizeBtn();
+    function showRestoreBtn()
     {
         $("#iad-window-maximize").addClass('iad-window-btn-hidden');
         $("#iad-window-restore").removeClass('iad-window-btn-hidden');
     }
+    function showMaximizeBtn()
+    {
+        $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
+        $("#iad-window-restore").addClass('iad-window-btn-hidden');
+    }
 
-    // Listen for log messages from main process for debugging.
+    // Handle window close.
+    win.on('closed', onClosed);
+    function onClosed()
+    {
+        win.removeListener('closed', onClose);
+        win.removeListener('maximize', showRestoreBtn);
+        win.removeListener('unmaximize', showMaximizeBtn);
+        writeUserSettings();
+    }
+
+    // Write user settings to file.
+    var filePath = app.getPath('userData') + '\\InstantAtlas Designer\\user-settings.json';
+    function writeUserSettings()
+    {
+        log.info('writeUserSettings');
+        try 
+        {
+            var obj = {name: 'JC'};
+            mkdirp.sync(path.dirname(filePath));
+            jsonfile.writeFileSync(filePath, obj);
+        } 
+        catch (err) {}
+    }
+
+    // Open links in default browser window.
+    $(document).on('click', 'a[href^="http"]', function(event) 
+    {
+        event.preventDefault();
+        shell.openExternal(this.href);
+    });
+
+    // Listen for log messages from main process for debugging purposes.
     ipc.on('log', function(event, text) 
     {
         console.log(text);
@@ -49,16 +88,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad.init = function(options)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
-
-        // Open links in default browser window.
-        $(document).on('click', 'a[href^="http"]', function(event) 
-        {
-            event.preventDefault();
-            shell.openExternal(this.href);
-        });
-
         registerHandlebarsHelperFunctions();
-
         checkForUpdate(function()
         {
             initCss(settings.css, function()
@@ -489,11 +519,12 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     function openWin(url)
     {  
-        var win = new remote.BrowserWindow({ width: 1000, height: 800});
-        win.loadURL(url);
-        win.on('closed', function() {win = null;});
+        var childWin = new remote.BrowserWindow({ width: 1000, height: 800});
+        childWin.loadURL(url);
+        childWin.on('closed', function() {childWin = null;});
     }
 
+    // File handling.
     function openConfigFile(callback)
     {
         var files = dialog.showOpenDialog(win, 
@@ -512,7 +543,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             if (callback !== undefined) callback.call(null, files[0]);
         }
     }
-
     function openLessFile(callback)
     {
         var files = dialog.showOpenDialog(win, 
@@ -531,7 +561,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             if (callback !== undefined) callback.call(null, files[0]);
         }
     }
-
     function saveFile(filePath, strFileContent, callback)
     {
         if (filePath !== undefined)
@@ -550,6 +579,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
+    // Sidebars.
     function getSidebar(name)
     {
         if (name === 'widget') return $sidebarWidget;
@@ -557,7 +587,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         else if (name === 'colorscheme') return $sidebarColorscheme;
         return undefined;
     }
-
     function hideSidebar(name)
     {
         if (name === 'widget') editedWidgetId = undefined;
@@ -566,7 +595,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
         $report.animate({left:'0px'}, {duration: 400, queue: false});
     }
-
     function fadeSidebar(name)
     {
         if (name === 'widget') editedWidgetId = undefined;
@@ -577,7 +605,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             $panel.fadeOut({duration: 400,queue: false, complete: function() {$panel.css('left', l + 'px');}});
         }
     }
-
     function showSidebar(name)
     {
         var $panel = getSidebar(name);
