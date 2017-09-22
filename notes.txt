@@ -16,7 +16,6 @@ grunt bump:premajor
 "dist:preminor": "grunt bump:preminor && npm run dist:web",
 "dist:premajor": "grunt bump:premajor && npm run dist:web",
 
-
 Set a specific version
 "dist:version": "grunt bump --setversion=2.0.1 && npm run dist:web"
 
