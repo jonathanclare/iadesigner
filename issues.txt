@@ -1,0 +1,15 @@
+Do we need to overwrite ia-min.js
+
+Designer uses a combination of default.less and styles.json. default.css can be written to but it is never read.
+
+Images need fixing
+
+When editing widget properties open panels must remain open
+
+Window position and user settings need to be stored
+
+Signing for windows - do we need it - how does it work
+
+Older config.xml files will have components removed so we have to match up using the template attribute. This potentially means we are injecting new components into older config files.
+
+Theres no way of matching config.xml files by language, so its reliant on tyhe user setting the language for the app.
