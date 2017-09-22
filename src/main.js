@@ -3,6 +3,7 @@
 var electron = require('electron');
 var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
+var windowState = require('electron-window-state');
 var ipc = electron.ipcMain;
 var app = electron.app;
 var os = require('os');
@@ -17,43 +18,54 @@ var isDev;
 app.on('ready', function() 
 {
     isDev = process.mainModule.filename.indexOf('app.asar') === -1;
+
+    var winState = windowState(
+    {
+        defaultWidth: 1000,
+        defaultHeight: 800
+    });
+
     if (isDev)
     {
         win = new electron.BrowserWindow(
         {
             backgroundColor: '#ffffff',
             icon:__dirname + '/assets/ia.ico', 
-            title: 'InstantAtlas Designer',
-            width: 1200,
+            title: 'InstantAtlas Designer', 
+            x: winState.x,
+            y: winState.y,
+            width: winState.width,
+            height: winState.height,
             minWidth: 1000,
-            height: 800,
-            minHeight: 750,
+            minHeight: 800,
             show: false/*,
             frame: false*/
         });
         win.webContents.openDevTools();
-        win.webContents.once('did-frame-finish-load', function() 
-        {
-            win.show();
-        });
     }
     else
     {
         win = new electron.BrowserWindow(
         {
             backgroundColor: '#ffffff',
-            width: 1200,
+            x: winState.x,
+            y: winState.y,
+            width: winState.width,
+            height: winState.height,
             minWidth: 1000,
-            height: 800,
-            minHeight: 750,
+            minHeight: 800,
             show: false,
             frame: false
         });
-        win.webContents.once('did-frame-finish-load', function() 
-        {
-            win.show();
-        });
     }
+    
+    winState.manage(win);
+
+    win.on('ready-to-show', function() 
+    {
+        win.show();
+        win.focus();
+    });
 
     // Emitted when the window is closed.
     win.on('closed', function() 

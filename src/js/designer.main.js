@@ -13,7 +13,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var path = require('path');
     var fs = require('fs');
 
-    var win = remote.getCurrentWindow();
     var $main = $('#iad-main');
     var $report = $('#iad-report');
     var $updateBar = $('#iad-update-bar');
@@ -22,6 +21,24 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
+
+    // Reference to main window.
+    var win = remote.getCurrentWindow();
+    win.on('maximize', function (e) 
+    {
+        $("#iad-window-maximize").addClass('iad-window-btn-hidden');
+        $("#iad-window-restore").removeClass('iad-window-btn-hidden');
+    });
+    win.on('unmaximize', function (e)
+    {
+        $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
+        $("#iad-window-restore").addClass('iad-window-btn-hidden');
+    });
+    if (win.isMaximized())
+    {
+        $("#iad-window-maximize").addClass('iad-window-btn-hidden');
+        $("#iad-window-restore").removeClass('iad-window-btn-hidden');
+    }
 
     // Listen for log messages from main process for debugging.
     ipc.on('log', function(event, text) 
@@ -32,7 +49,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad.init = function(options)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
-        registerHandlebarsHelperFunctions();
 
         // Open links in default browser window.
         $(document).on('click', 'a[href^="http"]', function(event) 
@@ -40,6 +56,8 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             event.preventDefault();
             shell.openExternal(this.href);
         });
+
+        registerHandlebarsHelperFunctions();
 
         checkForUpdate(function()
         {
@@ -264,16 +282,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         $("#iad-window-restore").on("click", function (e) 
         {
             win.unmaximize();
-        });
-        win.on('maximize', function (e) 
-        {
-            $("#iad-window-maximize").addClass('iad-window-btn-hidden');
-            $("#iad-window-restore").removeClass('iad-window-btn-hidden');
-        });
-        win.on('unmaximize', function (e)
-        {
-            $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
-            $("#iad-window-restore").addClass('iad-window-btn-hidden');
         });
 
         // Open.
