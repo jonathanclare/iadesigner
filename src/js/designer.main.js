@@ -62,55 +62,45 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     iad.init = function(options)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
-        registerHandlebarsHelperFunctions();
 
-        getUserSettings(function(json)
+        checkForUpdate(function()
         {
-            console.log(json);
-
-            checkForUpdate(function()
+            getUserSettings(function(json)
             {
+                // Set all user settings here.
+                console.log(json.configPath);
+
+                if (fs.existsSync(json.configPath)) 
+                {
+                    userReportLoaded = true;
+                    settings.report.path = json.configPath;
+                }
+
+                registerHandlebarsHelperFunctions();
+                initConfig(settings.config);
+
                 initCss(settings.css, function()
                 {
-                    ia.init(
+                    iad.config.initReport('iad-report', settings.report.path, function(r)
                     {
-                        container: 'iad-report',
-                        onSuccess: function (r)
-                        {
-                            report = r;
+                        report = r;
 
-                            initCanvas();
-                            initColorPicker();
-                            initColorSchemes();
-                            initConfig(settings.config);
-                            initFormControls();
-                            initConfigForms();
-                            initConfigGallery(settings.configGallery);
-                            initWidgetGallery(settings.widgetGallery);
-                            initFileDragAndDrop();
-                            updateDropdownMenus();
-                            updateStyleDownloadButtons();
-                            updateConfigDownloadButton();
-                            initMenuHandlers();
-                            renderAboutModal();
-                            setPopupMenu();
+                        initCanvas();
+                        initColorPicker();
+                        initColorSchemes();
+                        initFormControls();
+                        initConfigForms();
+                        initConfigGallery(settings.configGallery);
+                        initWidgetGallery(settings.widgetGallery);
+                        initFileDragAndDrop();
+                        updateDropdownMenus();
+                        updateStyleDownloadButtons();
+                        updateConfigDownloadButton();
+                        initMenuHandlers();
+                        renderAboutModal();
+                        setPopupMenu();
 
-                            if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-                        },
-                        onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                        {
-                            bootbox.alert(
-                            {
-                                message: "Could not find file: " +url,
-                                backdrop: true
-                            });
-                        },
-                        data:
-                        {
-                            config: {source:settings.report.path+'/config.xml'},
-                            attribute: {source:settings.report.path+'/data.js'},
-                            map : {source:settings.report.path+'/map.js'}
-                        }
+                        if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
                     });
                 });
             });
@@ -121,15 +111,17 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         ipc.send('set-user-setting', name, value);
     }
+    // Call once.
     function getUserSettings(callback)
     {
         ipc.on('got-user-settings', function(event, json) 
         { 
-            callback.call(json);
+            callback.call(null, json);
         });
         ipc.send('get-user-settings');
     }
 
+    // Call once.
     function checkForUpdate(callback)
     {
         ipc.on('update-downloaded', function(event) 
@@ -315,6 +307,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                 {
                     userReportLoaded = true;
                     iad.config.loadReport(filePath);
+                    setUserSetting('configPath', filePath);
                 });
             });
         });
@@ -449,7 +442,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         });
 
         // Upload config.
-        $('#iad-btn-upload-configxml') .on('click', function(e)
+        $('#iad-btn-upload-configxml').on('click', function(e)
         {
             openConfigFile(function (filePath)
             {
@@ -768,7 +761,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         iad.config.init(
         {
             paths:options.paths,
-            report : report,
             preConfigLoaded: function ()
             {                
                 editGeneralProperties();
@@ -1130,6 +1122,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
                     {
                         userReportLoaded = true;
                         iad.config.loadReport(f.path);
+                        setUserSetting('configPath', f.path);
                     });
                 }
                 else if (fileName.indexOf('.json') != -1) // styles.json - file type doesnt seem to work for json.

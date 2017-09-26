@@ -12,13 +12,12 @@ var designer = (function (iad, $, window, document, undefined)
 
     // Passed in options.
     var options;
+    var report;
 
     // Initialise.
     iad.config.init = function (o)
     {
         options = o;
-        xmlConfig = options.report.config.xml;
-        $xmlConfig = $(xmlConfig);
     };
 
     function readXmlFile(filePath, callback)
@@ -94,17 +93,17 @@ var designer = (function (iad, $, window, document, undefined)
                 {    
                     if (typeof iaOnReportComplete === "function") 
                     {
-                        iaOnReportComplete(options.report);
+                        iaOnReportComplete(report);
                         callback.call(null);
                     }
                     else if (typeof onReportComplete === "function")
                     {
-                        onReportComplete(options.report);
+                        onReportComplete(report);
                         callback.call(null);
                     }
                     else if (typeof onIAReportComplete === "function")
                     {
-                        onIAReportComplete(options.report);
+                        onIAReportComplete(report);
                         callback.call(null);
                     }
                 })
@@ -116,6 +115,53 @@ var designer = (function (iad, $, window, document, undefined)
             else callback.call(null);
         });
     }
+
+    // Initialise the report.
+    iad.config.initReport = function (containerId, configPath, callback)
+    { 
+        readXmlFile(configPath, function (xml)
+        {
+            addMissingComponentsToXml(xml, function()
+            {
+                var reportPath = path.parse(configPath).dir;
+
+                ia.init(
+                {
+                    container: containerId,
+                    onSuccess: function (r)
+                    {
+                        report = r;
+                        xmlConfig = report.config.xml;
+                        $xmlConfig = $(xmlConfig);
+
+                        loadStyleFile(reportPath, function ()
+                        {
+                            loadCustomFile(reportPath, function ()
+                            {
+                                callback.call(null, r);
+                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                                onConfigLoaded();
+                            });
+                        });
+                    },
+                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        bootbox.alert(
+                        {
+                            message: "Could not find file: " +url,
+                            backdrop: true
+                        });
+                    },
+                    data:
+                    {
+                        config      : {xml:xml},
+                        attribute   : {source:reportPath+'/data.js'},
+                        map         : {source:reportPath+'/map.js'}
+                    }
+                });
+            });
+        });
+    };
 
     // Load a new report.
     iad.config.loadReport = function (configPath)
@@ -215,7 +261,7 @@ var designer = (function (iad, $, window, document, undefined)
     function onConfigLoaded()
     {
         // Update the xml objects
-        xmlConfig = options.report.config.xml;
+        xmlConfig = report.config.xml;
         $xmlConfig = $(xmlConfig);
         if (options && options.onConfigLoaded) options.onConfigLoaded.call(null); 
     }
@@ -281,14 +327,14 @@ var designer = (function (iad, $, window, document, undefined)
     iad.config.removeWidget = function (widgetId)
     {
         var $xmlWidget = iad.config.getWidgetXml(widgetId);
-        var widget = options.report.getWidget(widgetId);
+        var widget = report.getWidget(widgetId);
         var tagName = $xmlWidget.prop('tagName');
 
         if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text')
         {
             $xmlWidget.remove();
-            options.report.config.removeWidget(widget.id);
-            options.report.removeWidget(widget.id);
+            report.config.removeWidget(widget.id);
+            report.removeWidget(widget.id);
         }
         else if (tagName === 'Component' || tagName === 'Table')
         {
@@ -342,7 +388,7 @@ var designer = (function (iad, $, window, document, undefined)
         $xmlWidget.attr('visible', true);
 
         // Check if its already been built and added.
-        var widget = options.report.getWidget(widgetId);
+        var widget = report.getWidget(widgetId);
         if (widget !== undefined)
         {
             widget.container.show();
@@ -353,11 +399,11 @@ var designer = (function (iad, $, window, document, undefined)
             var tagName = $xmlWidget.prop('tagName');
 
             var config;
-            if (tagName === 'Table') config = options.report.config.addTable($xmlWidget.get(0));
-            else config = options.report.config.addComponent($xmlWidget.get(0));
+            if (tagName === 'Table') config = report.config.addTable($xmlWidget.get(0));
+            else config = report.config.addComponent($xmlWidget.get(0));
 
             widget = new ia.Panel(widgetId);
-            options.report.addPanel(widget, config);
+            report.addPanel(widget, config);
 
             // These components require a full update because more data may need to be read in for them to work.
             if (widgetId.indexOf('featureCard') !== -1 || 
@@ -370,7 +416,7 @@ var designer = (function (iad, $, window, document, undefined)
                 iad.config.refreshConfig(function()
                 {
                     // Build.
-                    var factory = options.report.getComponent('factory');
+                    var factory = report.getComponent('factory');
                     factory.build(widgetId, function ()
                     {
                         onWidgetAdded(widgetId);
@@ -380,7 +426,7 @@ var designer = (function (iad, $, window, document, undefined)
             else 
             {
                 // Build.
-                var factory = options.report.getComponent('factory');
+                var factory = report.getComponent('factory');
                 factory.build(widgetId, function ()
                 {
                     onWidgetAdded(widgetId);
@@ -397,9 +443,9 @@ var designer = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Button'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 
-        var config = options.report.config.addButton(xml.get(0));
+        var config = report.config.addButton(xml.get(0));
         var widget = new ia.Button(widgetId);
-        options.report.addButton(widget, config);
+        report.addButton(widget, config);
     }
 
     // Adds text.
@@ -411,9 +457,9 @@ var designer = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Text'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 
-        var config = options.report.config.addText(xml.get(0));
+        var config = report.config.addText(xml.get(0));
         var widget = new ia.Text(widgetId);
-        options.report.addText(widget, config);
+        report.addText(widget, config);
     }
 
     // Adds an image.
@@ -424,9 +470,9 @@ var designer = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Image'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
 
-        var config = options.report.config.addImage(xml.get(0));
+        var config = report.config.addImage(xml.get(0));
         var widget = new ia.Image(widgetId, "./image_placeholder.png");
-        options.report.addImage(widget, config);
+        report.addImage(widget, config);
     }
 
     // Returns the components.
@@ -498,14 +544,14 @@ var designer = (function (iad, $, window, document, undefined)
         config.parseXML($xmlWidget.get(0));
 
         // Update the widget.
-        var widget = options.report.getWidget(widgetId);
+        var widget = report.getWidget(widgetId);
         widget.update(config);
 
         // Update any dynamic text that may have changed.
-        options.report.updateDynamicText(options.report.textSubstitution);
+        report.updateDynamicText(report.textSubstitution);
 
         // Update and render the widget.
-        var factory = options.report.getComponent('factory');
+        var factory = report.getComponent('factory');
         factory.update(widgetId, function ()
         {
             factory.render(widgetId, function ()
@@ -604,7 +650,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Gets the config object for the widget.
     iad.config.getWidgetConfig = function(widgetId)
     {
-        var config = options.report.config.getWidget(widgetId);
+        var config = report.config.getWidget(widgetId);
         return config;
     };
 
@@ -663,7 +709,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Show a widget whose visibility is set to hidden.
     iad.config.showWidget = function(widgetId)
     {
-        var panel = options.report.getPanel(widgetId);
+        var panel = report.getPanel(widgetId);
         if (panel !== undefined)
         {
             var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
@@ -679,7 +725,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Hide a widget whose visibility is set to hidden.
     iad.config.hideWidget = function(widgetId)
     {
-        var panel = options.report.getPanel(widgetId);
+        var panel = report.getPanel(widgetId);
         if (panel !== undefined)
         {
             var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
@@ -687,7 +733,7 @@ var designer = (function (iad, $, window, document, undefined)
             if (popup === 'true' || vis === 'false')
             {
                 var config = iad.config.getWidgetConfig(widgetId);
-                var widget = options.report.getWidget(widgetId);
+                var widget = report.getWidget(widgetId);
                 widget.update(config);
             }
         }

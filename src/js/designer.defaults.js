@@ -19,7 +19,7 @@ var designer = (function (iad, undefined)
         report:
         {
             // Path of default report to load.
-            path:'config/en/db-single-map'
+            path:'config/en/db-single-map/config.xml'
         },
 
         // Config.
