@@ -6,11 +6,9 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     var electron = require('electron');
     var log = require('electron-log');
-    var jsonfile = require('jsonfile');
 
     var path = require('path');
     var fs = require('fs');
-    var mkdirp = require('mkdirp');
 
     var ipc = electron.ipcRenderer;
     var shell = electron.shell;
@@ -36,7 +34,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     // Handle whether restore or maximize window button is displayed.
     win.on('maximize', showRestoreBtn);
     win.on('unmaximize', showMaximizeBtn);
-    if (win.isMaximized()) showMaximizeBtn();
+    if (win.isMaximized()) showRestoreBtn();
     function showRestoreBtn()
     {
         $("#iad-window-maximize").addClass('iad-window-btn-hidden');
@@ -46,30 +44,6 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         $("#iad-window-maximize").removeClass('iad-window-btn-hidden');
         $("#iad-window-restore").addClass('iad-window-btn-hidden');
-    }
-
-    // Handle window close.
-    win.on('closed', onClosed);
-    function onClosed()
-    {
-        win.removeListener('closed', onClose);
-        win.removeListener('maximize', showRestoreBtn);
-        win.removeListener('unmaximize', showMaximizeBtn);
-        writeUserSettings();
-    }
-
-    // Write user settings to file.
-    var filePath = app.getPath('userData') + '\\InstantAtlas Designer\\user-settings.json';
-    function writeUserSettings()
-    {
-        log.info('writeUserSettings');
-        try 
-        {
-            var obj = {name: 'JC'};
-            mkdirp.sync(path.dirname(filePath));
-            jsonfile.writeFileSync(filePath, obj);
-        } 
-        catch (err) {}
     }
 
     // Open links in default browser window.
@@ -89,54 +63,72 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     {
         var settings = $.extend({}, this.defaults, options); // Merge to a blank object.
         registerHandlebarsHelperFunctions();
-        checkForUpdate(function()
+
+        getUserSettings(function(json)
         {
-            initCss(settings.css, function()
+            console.log(json);
+
+            checkForUpdate(function()
             {
-                ia.init(
+                initCss(settings.css, function()
                 {
-                    container: 'iad-report',
-                    onSuccess: function (r)
+                    ia.init(
                     {
-                        report = r;
-
-                        initCanvas();
-                        initColorPicker();
-                        initColorSchemes();
-                        initConfig(settings.config);
-                        initFormControls();
-                        initConfigForms();
-                        initConfigGallery(settings.configGallery);
-                        initWidgetGallery(settings.widgetGallery);
-                        initFileDragAndDrop();
-                        updateDropdownMenus();
-                        updateStyleDownloadButtons();
-                        updateConfigDownloadButton();
-                        initMenuHandlers();
-                        renderAboutModal();
-                        setPopupMenu();
-
-                        if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-                    },
-                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                    {
-                        bootbox.alert(
+                        container: 'iad-report',
+                        onSuccess: function (r)
                         {
-                            message: "Could not find file: " +url,
-                            backdrop: true
-                        });
-                    },
-                    data:
-                    {
-                        config: {source:settings.report.path+'/config.xml'},
-                        attribute: {source:settings.report.path+'/data.js'},
-                        map : {source:settings.report.path+'/map.js'}
-                    }
+                            report = r;
+
+                            initCanvas();
+                            initColorPicker();
+                            initColorSchemes();
+                            initConfig(settings.config);
+                            initFormControls();
+                            initConfigForms();
+                            initConfigGallery(settings.configGallery);
+                            initWidgetGallery(settings.widgetGallery);
+                            initFileDragAndDrop();
+                            updateDropdownMenus();
+                            updateStyleDownloadButtons();
+                            updateConfigDownloadButton();
+                            initMenuHandlers();
+                            renderAboutModal();
+                            setPopupMenu();
+
+                            if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                        },
+                        onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            bootbox.alert(
+                            {
+                                message: "Could not find file: " +url,
+                                backdrop: true
+                            });
+                        },
+                        data:
+                        {
+                            config: {source:settings.report.path+'/config.xml'},
+                            attribute: {source:settings.report.path+'/data.js'},
+                            map : {source:settings.report.path+'/map.js'}
+                        }
+                    });
                 });
             });
         });
-
     };
+
+    function setUserSetting(name, value)
+    {
+        ipc.send('set-user-setting', name, value);
+    }
+    function getUserSettings(callback)
+    {
+        ipc.on('got-user-settings', function(event, json) 
+        { 
+            callback.call(json);
+        });
+        ipc.send('get-user-settings');
+    }
 
     function checkForUpdate(callback)
     {

@@ -1,17 +1,28 @@
 //var app = require('app');  // Module to control application life.
 //var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var electron = require('electron');
+var ipc = electron.ipcMain;
+var app = electron.app;
+
 var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
 var windowState = require('electron-window-state');
-var ipc = electron.ipcMain;
-var app = electron.app;
+var jsonfile = require('jsonfile');
+
+var path = require('path');
 var os = require('os');
+var mkdirp = require('mkdirp');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var win = null;
+
 var isDev;
+var pathUserSettings = app.getPath('userData') + '\\InstantAtlas Designer\\ia-designer-user-settings.json';
+var jsonUserSettings = 
+{
+    locale: 'en'
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -19,10 +30,19 @@ app.on('ready', function()
 {
     isDev = process.mainModule.filename.indexOf('app.asar') === -1;
 
+    // User settings.
+    try 
+    {
+        var json = jsonfile.readFileSync(pathUserSettings);
+        jsonUserSettings = Object.assign(jsonUserSettings, json);
+    } 
+    catch (err) {}
+
+    // Window state.
     var minWidth = 1000, minHeight = 800;
     var winState = windowState(
     { 
-        file: 'window-state.json',
+        file: 'ia-designer-window-state.json',
         path: app.getPath('userData') + '\\InstantAtlas Designer\\',
         defaultWidth: minWidth,
         defaultHeight: minHeight
@@ -73,6 +93,14 @@ app.on('ready', function()
     // Emitted when the window is closed.
     win.on('closed', function() 
     {
+        // Save user settings.
+        try 
+        {
+            mkdirp.sync(path.dirname(pathUserSettings));
+            jsonfile.writeFileSync(pathUserSettings, jsonUserSettings);
+        } 
+        catch (err) {}
+
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
@@ -98,8 +126,20 @@ app.on('window-all-closed', function()
 function logToConsole(text) 
 {
     log.info(text);
-    win.webContents.send('log', text);
+    if (win !== undefined) win.webContents.send('log', text);
 }
+
+// User settings.
+ipc.on('set-user-setting', function (event, name, value) 
+{
+    var o = {};
+    o[name] = value;
+    jsonUserSettings = Object.assign(jsonUserSettings, o);
+});
+ipc.on('get-user-settings', function (event) 
+{
+    event.sender.send('got-user-settings', jsonUserSettings);
+});
 
 // Autoupdates.
 ipc.on('check-for-update', function (event) 
