@@ -761,7 +761,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
             {                
                 editGeneralProperties();
             },
-            onFail: function (url, XMLHttpRequest, textStatus, errorThrown)
+            onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
                 bootbox.alert(
                 {

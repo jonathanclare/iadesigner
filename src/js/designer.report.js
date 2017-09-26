@@ -46,7 +46,7 @@ var designer = (function (iad, $, window, document, undefined)
                     },
                     onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
                     {
-                        if (options && options.onFail) options.onFail.call(null);
+                        if (options && options.onReportFailed) options.onReportFailed.call(null);
                     },
                     data:
                     {
