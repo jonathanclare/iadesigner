@@ -12,6 +12,8 @@ var designer = (function (iad, $, window, document, undefined)
 
     // Passed in options.
     var options;
+
+    // Report object.
     var report;
 
     // Initialise.
@@ -46,7 +48,7 @@ var designer = (function (iad, $, window, document, undefined)
                     },
                     onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
                     {
-                        if (options && options.onReportFailed) options.onReportFailed.call(null);
+                        if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
                     },
                     data:
                     {
