@@ -129,7 +129,7 @@ var designer = (function (iad, $, window, document, undefined)
 		$dragPanel.css('display', 'inline');
 
 		// Add the widget name.
-		$title.html(iad.config.getDisplayName(hoveredWidget.id));
+		$title.html(iad.report.getDisplayName(hoveredWidget.id));
 
 		// Position the dragger container.
 		var c = hoveredWidget.container;

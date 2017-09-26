@@ -234,78 +234,78 @@ var designer = (function (iad, $, window, document, undefined)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addColumn(o.widgetId);
+            iad.report.addColumn(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-column', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removeColumn(o.widgetId, o.index);
+            iad.report.removeColumn(o.widgetId, o.index);
         });
         // Add / Remove spine chart symbol.
         $(document).on('click', '.iad-control-add-symbol', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addSymbol(o.widgetId);
+            iad.report.addSymbol(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-symbol', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removeSymbol(o.widgetId, o.index);
+            iad.report.removeSymbol(o.widgetId, o.index);
         });
         // Add / Remove spine chart target.
         $(document).on('click', '.iad-control-add-target', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addTarget(o.widgetId);
+            iad.report.addTarget(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-target', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removeTarget(o.widgetId, o.index);
+            iad.report.removeTarget(o.widgetId, o.index);
         });
         // Add / Remove spine chart break.
         $(document).on('click', '.iad-control-add-break', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addBreak(o.widgetId);
+            iad.report.addBreak(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-break', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removeBreak(o.widgetId, o.index);
+            iad.report.removeBreak(o.widgetId, o.index);
         });
         // Add / Remove Menu item on menu bar.
         $(document).on('click', '.iad-control-add-menu-item', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addMenuItem(o.widgetId);
+            iad.report.addMenuItem(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-menu-item', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removeMenuItem(o.widgetId, o.index);
+            iad.report.removeMenuItem(o.widgetId, o.index);
         });
         // Add / Remove pyramid line.
         $(document).on('click', '.iad-control-add-pyramid-line', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.addPyramidLine(o.widgetId);
+            iad.report.addPyramidLine(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-pyramid-line', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.config.removePyramidLine(o.widgetId, o.index);
+            iad.report.removePyramidLine(o.widgetId, o.index);
         });
 
         // Collapsible panels.

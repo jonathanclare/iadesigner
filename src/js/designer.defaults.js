@@ -15,16 +15,10 @@ var designer = (function (iad, undefined)
         // Locale
         locale:'en',
 
-        // Reports
+        // Config.
         report:
         {
-            // Path of default report to load.
-            path:'config/en/db-single-map/config.xml'
-        },
-
-        // Config.
-        config:
-        {
+            path:'config/en/db-single-map/config.xml', // Path of default report to load.
             paths:
             [
                 {template:'areaprofiler::flash::html', path:'config/en/db-area-profile/config.xml'},

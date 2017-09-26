@@ -162,7 +162,7 @@ var designer = (function (iad, $, window, document, undefined)
             {'label': 'Toggle Share', 'value': 'javascript:iaToggleShare()'},
             {'label': 'Toggle Legend Editor', 'value': 'javascript:iaToggleLegendEditor()'}
         ];
-        var $xmlWidgets = iad.config.getComponents();
+        var $xmlWidgets = iad.report.getComponents();
         $.each($xmlWidgets, function (i, xmlWidget)
         {
             var $xmlWidget = $(xmlWidget);
@@ -259,7 +259,7 @@ var designer = (function (iad, $, window, document, undefined)
 
         var json = {'id': 'generalproperties','forms': []};
 
-        var $xmlPropGroups = iad.config.getGroupProperties();
+        var $xmlPropGroups = iad.report.getGroupProperties();
         $.each($xmlPropGroups, function(i, xmlPropGroup)
         {
             var $xmlPropGroup = $(xmlPropGroup);
@@ -287,7 +287,7 @@ var designer = (function (iad, $, window, document, undefined)
         //$('#iad-send-to-back-btn').show();
         //$('#iad-bring-to-front-btn').show();
 
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         var tagName = $xmlWidget.prop('tagName');
 
         var json = {'id': 'widget','forms': []};
@@ -382,11 +382,11 @@ var designer = (function (iad, $, window, document, undefined)
                     widgetId = arr[1];
                     var colIndex = arr[2];
 
-                    var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
+                    var $column = iad.report.getWidgetXml(widgetId).find('Column').eq(colIndex);
                     columns[columns.length] = $column;
                 });
 
-                iad.config.orderColumns(widgetId, columns);
+                iad.report.orderColumns(widgetId, columns);
             }
         });
         //$('.draggableList').disableSelection();
@@ -426,7 +426,7 @@ var designer = (function (iad, $, window, document, undefined)
         var $desc = $xmlComponent.find('Description');
 
         // Adjust the name if its a component not using the first data source.
-        var adjustedName = iad.config.getDisplayName(id);
+        var adjustedName = iad.report.getDisplayName(id);
 
         var form = 
         {
@@ -519,7 +519,7 @@ var designer = (function (iad, $, window, document, undefined)
                     control.type = 'select';
                     control.choices = [];
 
-                    var $columns = iad.config.getColumns(activeWidgetId);
+                    var $columns = iad.report.getColumns(activeWidgetId);
                     $.each($columns, function(i, xmlColumn)
                     {
                         var alias = options.report.textSubstitution.formatMessage($(xmlColumn).attr('alias'));
@@ -536,7 +536,7 @@ var designer = (function (iad, $, window, document, undefined)
                     control.type = 'select';
                     control.choices = [];
 
-                    var colorSchemeIds = iad.config.getColourSchemeIds();
+                    var colorSchemeIds = iad.report.getColourSchemeIds();
                     for (var k = 0; k < colorSchemeIds.length; k++)
                     {
                         var colorSchemeId = colorSchemeIds[k];

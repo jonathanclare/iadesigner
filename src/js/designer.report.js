@@ -5,7 +5,7 @@ var designer = (function (iad, $, window, document, undefined)
     var path = require('path');
     var fs = require('fs');
 
-    iad.config = iad.config || {};
+    iad.report = iad.report || {};
 
     // A reference the the actual xml.
     var xmlConfig, $xmlConfig;
@@ -15,9 +15,48 @@ var designer = (function (iad, $, window, document, undefined)
     var report;
 
     // Initialise.
-    iad.config.init = function (o)
+    iad.report.init = function (o)
     {
         options = o;
+
+        readXmlFile(options.path, function (xml)
+        {
+            addMissingComponentsToXml(xml, function()
+            {
+                var reportPath = path.parse(options.path).dir;
+
+                ia.init(
+                {
+                    container: options.container,
+                    onSuccess: function (r)
+                    {
+                        report = r;
+                        xmlConfig = report.config.xml;
+                        $xmlConfig = $(xmlConfig);
+
+                        loadStyleFile(reportPath, function ()
+                        {
+                            loadCustomFile(reportPath, function ()
+                            {
+                                if (options && options.onReportInit) options.onReportInit.call(null, report);
+                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
+                                onConfigLoaded();
+                            });
+                        });
+                    },
+                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        if (options && options.onFail) options.onFail.call(null);
+                    },
+                    data:
+                    {
+                        config      : {xml:xml},
+                        attribute   : {source:reportPath+'/data.js'},
+                        map         : {source:reportPath+'/map.js'}
+                    }
+                });
+            });
+        });
     };
 
     function readXmlFile(filePath, callback)
@@ -116,55 +155,8 @@ var designer = (function (iad, $, window, document, undefined)
         });
     }
 
-    // Initialise the report.
-    iad.config.initReport = function (containerId, configPath, callback)
-    { 
-        readXmlFile(configPath, function (xml)
-        {
-            addMissingComponentsToXml(xml, function()
-            {
-                var reportPath = path.parse(configPath).dir;
-
-                ia.init(
-                {
-                    container: containerId,
-                    onSuccess: function (r)
-                    {
-                        report = r;
-                        xmlConfig = report.config.xml;
-                        $xmlConfig = $(xmlConfig);
-
-                        loadStyleFile(reportPath, function ()
-                        {
-                            loadCustomFile(reportPath, function ()
-                            {
-                                callback.call(null, r);
-                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
-                                onConfigLoaded();
-                            });
-                        });
-                    },
-                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                    {
-                        bootbox.alert(
-                        {
-                            message: "Could not find file: " +url,
-                            backdrop: true
-                        });
-                    },
-                    data:
-                    {
-                        config      : {xml:xml},
-                        attribute   : {source:reportPath+'/data.js'},
-                        map         : {source:reportPath+'/map.js'}
-                    }
-                });
-            });
-        });
-    };
-
     // Load a new report.
-    iad.config.loadReport = function (configPath)
+    iad.report.loadReport = function (configPath)
     { 
         preConfigLoaded();
         readXmlFile(configPath, function (xml)
@@ -197,7 +189,7 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Load a new config file.
-    iad.config.loadConfig = function (configPath)
+    iad.report.loadConfig = function (configPath)
     {
         preConfigLoaded();
         readXmlFile(configPath, function (xml)
@@ -214,7 +206,7 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Parse a new config xml.
-    iad.config.parseConfig = function (xml)
+    iad.report.parseConfig = function (xml)
     {
         preConfigLoaded();
         addMissingComponentsToXml(xml, function()
@@ -228,7 +220,7 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Refresh the current config xml.
-    iad.config.refreshConfig = function ()
+    iad.report.refreshConfig = function ()
     {
         preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
@@ -238,7 +230,7 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Refresh the report.
-    iad.config.refreshReport = function (configPath)
+    iad.report.refreshReport = function (configPath)
     {
         preConfigLoaded();
         ia.parseConfig(xmlConfig, function ()
@@ -267,7 +259,7 @@ var designer = (function (iad, $, window, document, undefined)
     }
 
     // Converts xml to string.
-    iad.config.toString = function ()
+    iad.report.toString = function ()
     {
         var xmlString;
         if (typeof XMLSerializer == 'function')
@@ -279,12 +271,12 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Gets the display name for the widget by removing any extra spaces or data source numbers.
-    iad.config.getDisplayName = function (widgetId)
+    iad.report.getDisplayName = function (widgetId)
     {
         if (widgetId === 'PropertyGroup') return 'General Properties';
         else
         {
-            var $xmlWidget = iad.config.getWidgetXml(widgetId);
+            var $xmlWidget = iad.report.getWidgetXml(widgetId);
             var tagName = $xmlWidget.prop('tagName');
             if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text')
             {
@@ -300,7 +292,7 @@ var designer = (function (iad, $, window, document, undefined)
                     name = name.substring(0, name.indexOf(' ' + index));
                 }
 
-                var dataSource = iad.config.getDataSource(widgetId);
+                var dataSource = iad.report.getDataSource(widgetId);
                 if (dataSource > 1) name += ' ' + dataSource;
 
                 return name;
@@ -309,13 +301,13 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Gets the widget id without suffix.
-    iad.config.getIdWithoutSuffix = function (widgetId)
+    iad.report.getIdWithoutSuffix = function (widgetId)
     {
         return widgetId.replace(/[0-9]/g, '');
     };
 
     // Gets the index of the data source for the widget.
-    iad.config.getDataSource = function (widgetId)
+    iad.report.getDataSource = function (widgetId)
     {
         var match = widgetId.match(/\d+/);
         var index = 1;
@@ -324,9 +316,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a widget.
-    iad.config.removeWidget = function (widgetId)
+    iad.report.removeWidget = function (widgetId)
     {
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         var widget = report.getWidget(widgetId);
         var tagName = $xmlWidget.prop('tagName');
 
@@ -354,7 +346,7 @@ var designer = (function (iad, $, window, document, undefined)
     }
 
     // Adds a widget.
-    iad.config.addWidget = function (widgetId)
+    iad.report.addWidget = function (widgetId)
     {
         if (widgetId === 'Button')
         {
@@ -383,8 +375,8 @@ var designer = (function (iad, $, window, document, undefined)
     // Adds a component / table.
     function addComponent(widgetId)
     {
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
-        $xmlWidget.find('Property#zIndex').attr('value', iad.config.getMaxZIndex() + 1);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
+        $xmlWidget.find('Property#zIndex').attr('value', iad.report.getMaxZIndex() + 1);
         $xmlWidget.attr('visible', true);
 
         // Check if its already been built and added.
@@ -413,7 +405,7 @@ var designer = (function (iad, $, window, document, undefined)
                 widgetId.indexOf('areaBreakdownBarChart') !== -1 || 
                 widgetId.indexOf('areaBreakdownPieChart') !== -1)
             {
-                iad.config.refreshConfig(function()
+                iad.report.refreshConfig(function()
                 {
                     // Build.
                     var factory = report.getComponent('factory');
@@ -438,7 +430,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Adds a button.
     function addButton(widgetId)
     {
-        var zIndex = iad.config.getMaxZIndex() + 1;
+        var zIndex = iad.report.getMaxZIndex() + 1;
         var strXML = '<Button id="' + widgetId + '" zIndex="' + zIndex + '" text="My Button" href="" tooltip="" x="300" y="275" width="200" height="50" editable="true" moveable="true" removeable="true" resizeable="true"/>';
         var xml = $($.parseXML(strXML)).find('Button'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
@@ -451,7 +443,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Adds text.
     function addText(widgetId)
     {
-        var zIndex = iad.config.getMaxZIndex() + 1;
+        var zIndex = iad.report.getMaxZIndex() + 1;
         var text = 'My Text';
         var strXML = '<Text id="' + widgetId + '" zIndex="' + zIndex + '" anchor="start" editable="true" fill="#000000" font-family="Arial" font-size="24" font-style="normal" font-weight="bold" href="" moveable="true" removeable="true" resizeable="true" rotate="0" target="_blank" wrap-width="100" x="350" y="288" >' + text + '</Text>';
         var xml = $($.parseXML(strXML)).find('Text'); // Weird way of inserting xml was required for IE to work.
@@ -465,7 +457,7 @@ var designer = (function (iad, $, window, document, undefined)
     // Adds an image.
     function addImage(widgetId)
     {
-        var zIndex = iad.config.getMaxZIndex() + 1;
+        var zIndex = iad.report.getMaxZIndex() + 1;
         var strXML = '<Image id="' + widgetId + '" zIndex="' + zIndex + '" rescale="true" anchor="left" src="./image_placeholder.png" href="" target="_blank" x="325" y="225" width="150" height="150" moveable="true" editable="true" removeable="true" resizeable="true"/>';
         var xml = $($.parseXML(strXML)).find('Image'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append(xml);
@@ -476,45 +468,45 @@ var designer = (function (iad, $, window, document, undefined)
     }
 
     // Returns the components.
-    iad.config.getComponents = function ()
+    iad.report.getComponents = function ()
     {
         var $xmlWidgets = $xmlConfig.find('Component, Table');
         return $xmlWidgets;
     }; 
 
     // Returns the buttons.
-    iad.config.getButtons = function ()
+    iad.report.getButtons = function ()
     {
         var $xmlWidgets = $xmlConfig.find('Button');
         return $xmlWidgets;
     };
 
     // Returns the text.
-    iad.config.getText = function ()
+    iad.report.getText = function ()
     {
         var $xmlWidgets = $xmlConfig.find('Text');
         return $xmlWidgets;
     };
 
     // Returns the images.
-    iad.config.getImages = function ()
+    iad.report.getImages = function ()
     {
         var $xmlWidgets = $xmlConfig.find('Image');
         return $xmlWidgets;
     };
 
     // Returns the property groups.
-    iad.config.getGroupProperties = function ()
+    iad.report.getGroupProperties = function ()
     {
         var $xmlWidgets = $xmlConfig.find('PropertyGroup');
         return $xmlWidgets;
     };
 
     // Sets a group property to the given value.
-    iad.config.setGroupProperty = function (widgetId, propertyId, value)
+    iad.report.setGroupProperty = function (widgetId, propertyId, value)
     {
         // Set the new property value.
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
             var $xmlProperty = $xmlWidget.find('Property#' + propertyId);
@@ -528,19 +520,19 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Get the value for a group property.
-    iad.config.getGroupProperty = function (widgetId, propertyId)
+    iad.report.getGroupProperty = function (widgetId, propertyId)
     {
-       return iad.config.getWidgetProperty(widgetId, propertyId);
+       return iad.report.getWidgetProperty(widgetId, propertyId);
     };
 
     // On widget changed.
     function onWidgetChanged(widgetId, type)
     {
         // Get the widget xml.
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
 
         // Update the widget config.
-        var config = iad.config.getWidgetConfig(widgetId);
+        var config = iad.report.getWidgetConfig(widgetId);
         config.parseXML($xmlWidget.get(0));
 
         // Update the widget.
@@ -556,7 +548,7 @@ var designer = (function (iad, $, window, document, undefined)
         {
             factory.render(widgetId, function ()
             {
-                //iad.config.showWidget(widgetId);
+                //iad.report.showWidget(widgetId);
                 if (options && options.onWidgetChanged) options.onWidgetChanged.call(null, widgetId, type); // On widget changed.
                 if (options && options.onConfigChanged) options.onConfigChanged.call(null);
             });
@@ -564,9 +556,9 @@ var designer = (function (iad, $, window, document, undefined)
     }
 
     // Sets the widget dimensions.
-    iad.config.setWidgetDimensions = function (widgetId, x, y, w, h)
+    iad.report.setWidgetDimensions = function (widgetId, x, y, w, h)
     {
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
             if (x !== undefined) $xmlWidget.attr('x', Math.round((x / 100) * 800));
@@ -580,10 +572,10 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Sets a widget property to the given value.
-    iad.config.setWidgetProperty = function (widgetId, propertyId, value)
+    iad.report.setWidgetProperty = function (widgetId, propertyId, value)
     {
         // Set the new property value.
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
             var $xmlProperty = $xmlWidget.find('Property#' + propertyId);
@@ -608,9 +600,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Get the value for a widget property.
-    iad.config.getWidgetProperty = function (widgetId, propertyId)
+    iad.report.getWidgetProperty = function (widgetId, propertyId)
     {
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
             var $xmlProperty = $xmlWidget.find('Property#' + propertyId);
@@ -620,10 +612,10 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Sets a widget attribute to the give value.
-    iad.config.setWidgetAttribute = function (widgetId, attribute, value)
+    iad.report.setWidgetAttribute = function (widgetId, attribute, value)
     {
         // Set the new property value.
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
             if (attribute === 'nodevalue')
@@ -648,19 +640,19 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Gets the config object for the widget.
-    iad.config.getWidgetConfig = function(widgetId)
+    iad.report.getWidgetConfig = function(widgetId)
     {
         var config = report.config.getWidget(widgetId);
         return config;
     };
 
     // Bring the widget to the front.
-    iad.config.bringToFront = function(widgetId)
+    iad.report.bringToFront = function(widgetId)
     {
-        if (iad.config.getWidgetAttribute(widgetId, 'zIndex') !== undefined)
-            iad.config.setWidgetAttribute(widgetId, 'zIndex', iad.config.getMaxZIndex() + 1);
+        if (iad.report.getWidgetAttribute(widgetId, 'zIndex') !== undefined)
+            iad.report.setWidgetAttribute(widgetId, 'zIndex', iad.report.getMaxZIndex() + 1);
         else
-            iad.config.setWidgetProperty(widgetId, 'zIndex', iad.config.getMaxZIndex() + 1);
+            iad.report.setWidgetProperty(widgetId, 'zIndex', iad.report.getMaxZIndex() + 1);
 
 
         if (options && options.onZIndexChanged) options.onZIndexChanged.call(null, widgetId); // On widget brought to front.
@@ -668,12 +660,12 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Send the widget to the back.
-    iad.config.sendToBack = function(widgetId)
+    iad.report.sendToBack = function(widgetId)
     {
-        var minZIndex = iad.config.getMinZIndex();
+        var minZIndex = iad.report.getMinZIndex();
 
         // Components.
-        var $xmlWidgets = iad.config.getComponents();
+        var $xmlWidgets = iad.report.getComponents();
         $.each($xmlWidgets, function(i, xmlWidget)
         {
             var $xmlWidget = $(xmlWidget);
@@ -682,8 +674,8 @@ var designer = (function (iad, $, window, document, undefined)
             var vis = $xmlWidget.attr('visible');
             var zIndex = ia.parseInt($xmlWidget.find('Property#zIndex').attr('value'));
 
-            if      (id === widgetId)   iad.config.setWidgetProperty(id, 'zIndex', minZIndex);
-            else if (vis === 'true')    iad.config.setWidgetProperty(id, 'zIndex', zIndex + 1);
+            if      (id === widgetId)   iad.report.setWidgetProperty(id, 'zIndex', minZIndex);
+            else if (vis === 'true')    iad.report.setWidgetProperty(id, 'zIndex', zIndex + 1);
         });
 
         // Buttons, text and images.
@@ -696,9 +688,9 @@ var designer = (function (iad, $, window, document, undefined)
             {
                 var id = $xmlWidget.attr('id');
                 if (id === widgetId) 
-                    iad.config.setWidgetAttribute(id, 'zIndex', minZIndex);
+                    iad.report.setWidgetAttribute(id, 'zIndex', minZIndex);
                 else 
-                    iad.config.setWidgetAttribute(id, 'zIndex', ia.parseInt(zIndex) + 1);
+                    iad.report.setWidgetAttribute(id, 'zIndex', ia.parseInt(zIndex) + 1);
             }
         });
 
@@ -707,13 +699,13 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Show a widget whose visibility is set to hidden.
-    iad.config.showWidget = function(widgetId)
+    iad.report.showWidget = function(widgetId)
     {
         var panel = report.getPanel(widgetId);
         if (panel !== undefined)
         {
-            var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
-            var vis = iad.config.getWidgetProperty(widgetId, 'visible');
+            var popup = iad.report.getWidgetProperty(widgetId, 'isPopUp');
+            var vis = iad.report.getWidgetProperty(widgetId, 'visible');
             if (popup === 'true' || vis === 'false')
             {
                 panel.popup(false);
@@ -723,16 +715,16 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Hide a widget whose visibility is set to hidden.
-    iad.config.hideWidget = function(widgetId)
+    iad.report.hideWidget = function(widgetId)
     {
         var panel = report.getPanel(widgetId);
         if (panel !== undefined)
         {
-            var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
-            var vis = iad.config.getWidgetProperty(widgetId, 'visible');
+            var popup = iad.report.getWidgetProperty(widgetId, 'isPopUp');
+            var vis = iad.report.getWidgetProperty(widgetId, 'visible');
             if (popup === 'true' || vis === 'false')
             {
-                var config = iad.config.getWidgetConfig(widgetId);
+                var config = iad.report.getWidgetConfig(widgetId);
                 var widget = report.getWidget(widgetId);
                 widget.update(config);
             }
@@ -740,27 +732,27 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Get the value for a widget attribute.
-    iad.config.getWidgetAttribute = function (widgetId, attribute)
+    iad.report.getWidgetAttribute = function (widgetId, attribute)
     {
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length) return $xmlWidget.attr(attribute);
         else return undefined;
     };
 
     // Gets the xml for the widget.
-    iad.config.getWidgetXml = function (widgetId)
+    iad.report.getWidgetXml = function (widgetId)
     {
         var $xmlWidget = $xmlConfig.find('#' + widgetId);
         return $xmlWidget;
     };
 
     // Get min z-index.
-    iad.config.getMinZIndex = function ()
+    iad.report.getMinZIndex = function ()
     {
         var minZIndex = Infinity;
 
         // Components.
-        var $xmlWidgets = iad.config.getComponents();
+        var $xmlWidgets = iad.report.getComponents();
         $.each($xmlWidgets, function (i, xmlWidget)
         {
             var $xmlWidget = $(xmlWidget);
@@ -782,12 +774,12 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Get max z-index.
-    iad.config.getMaxZIndex = function ()
+    iad.report.getMaxZIndex = function ()
     {
         var maxZIndex = -Infinity;
 
         // Components.
-        var $xmlWidgets = iad.config.getComponents();
+        var $xmlWidgets = iad.report.getComponents();
         $.each($xmlWidgets, function (i, xmlWidget)
         {
             var $xmlWidget = $(xmlWidget);
@@ -809,9 +801,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a menu item.
-    iad.config.addMenuItem = function (widgetId)
+    iad.report.addMenuItem = function (widgetId)
     {
-        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var $xmlComponent = iad.report.getWidgetXml(widgetId);
         var index = s4();
         appendProperty(widgetId, '<Property id="menuItem' + index + '" description="The label for the menu item" name="Menu Item" type="string" value="New Item" />');
         appendProperty(widgetId, '<Property id="menuFunc' + index + '" description="The function or url for the menu item" name="Menu Function" type="string" value="" />');
@@ -820,9 +812,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a menu item.
-    iad.config.removeMenuItem = function (widgetId, index)
+    iad.report.removeMenuItem = function (widgetId, index)
     {
-        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var $xmlComponent = iad.report.getWidgetXml(widgetId);
         $xmlComponent.find('Property#' + 'menuItem' + index).remove();
         $xmlComponent.find('Property#' + 'menuFunc' + index).remove();
 
@@ -830,9 +822,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a table column.
-    iad.config.addColumn = function (widgetId)
+    iad.report.addColumn = function (widgetId)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         var strXML = '<Column alias="My Column" name="value" width="0.25" />';
         var xml = $($.parseXML(strXML)).find('Column');
         $xmlTable.append(xml);
@@ -841,18 +833,18 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a stable column.
-    iad.config.removeColumn = function (widgetId, index)
+    iad.report.removeColumn = function (widgetId, index)
     {
-        var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
+        var $column = iad.report.getWidgetXml(widgetId).find('Column').eq(index);
         $column.remove();
 
         onWidgetChanged(widgetId, 'column-changed'); // On widget changed.
     };
 
     // Re-orders the columns.
-    iad.config.orderColumns = function (widgetId, columns)
+    iad.report.orderColumns = function (widgetId, columns)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
 
         for (var i = 0; i < columns.length; i++)
         {
@@ -863,16 +855,16 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Returns the table columns.
-    iad.config.getColumns = function (widgetId)
+    iad.report.getColumns = function (widgetId)
     {
-        var $columns = iad.config.getWidgetXml(widgetId).find('Column');
+        var $columns = iad.report.getWidgetXml(widgetId).find('Column');
         return $columns;
     };
 
     // Adds a spine chart symbol.
-    iad.config.addSymbol = function (widgetId)
+    iad.report.addSymbol = function (widgetId)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         var index = s4();
         appendProperty(widgetId, '<Property id="symbol_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for symbol"  name="Symbol Shape" type="string" value="circle" />');
         appendProperty(widgetId, '<Property id="symbol_color_' + index + '" description="Colour that will be used for symbol" name="Symbol Colour" type="colour" value="#999999" />');
@@ -884,9 +876,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a spine chart symbol.
-    iad.config.removeSymbol = function (widgetId, index)
+    iad.report.removeSymbol = function (widgetId, index)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         $xmlTable.find('Property#' + 'symbol_shape_' + index).remove();
         $xmlTable.find('Property#' + 'symbol_color_' + index).remove();
         $xmlTable.find('Property#' + 'symbol_size_' + index).remove();
@@ -897,9 +889,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a spine chart target.
-    iad.config.addTarget = function (widgetId)
+    iad.report.addTarget = function (widgetId)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         var index = s4();
         appendProperty(widgetId, '<Property id="target_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for target" name="Target Shape" type="string" value="vertical line" />');
         appendProperty(widgetId, '<Property id="target_color_' + index + '" description="Colour that will be used for target" name="Target Colour" type="colour" value="#999999" />');
@@ -911,9 +903,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a spine chart target.
-    iad.config.removeTarget = function (widgetId, index)
+    iad.report.removeTarget = function (widgetId, index)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         $xmlTable.find('Property#' + 'target_shape_' + index).remove();
         $xmlTable.find('Property#' + 'target_color_' + index).remove();
         $xmlTable.find('Property#' + 'target_size_' + index).remove();
@@ -924,9 +916,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a spine chart break.
-    iad.config.addBreak = function (widgetId)
+    iad.report.addBreak = function (widgetId)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         var index = s4();
         appendProperty(widgetId, '<Property id="break_color_' + index + '" description="Colour that will be used for break" name="Break Colour" type="colour" value="#e7e7e7" />');
         appendProperty(widgetId, '<Property id="break_label_' + index + '" description="Label that will be associated with break" name="Break Label" type="string" value="Break Label" />');
@@ -935,9 +927,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a spine chart break.
-    iad.config.removeBreak = function (widgetId, index)
+    iad.report.removeBreak = function (widgetId, index)
     {
-        var $xmlTable = iad.config.getWidgetXml(widgetId);
+        var $xmlTable = iad.report.getWidgetXml(widgetId);
         $xmlTable.find('Property#' + 'break_color_' + index).remove();
         $xmlTable.find('Property#' + 'break_label_' + index).remove();
 
@@ -945,9 +937,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a line to the prramid chart.
-    iad.config.addPyramidLine = function (widgetId)
+    iad.report.addPyramidLine = function (widgetId)
     {
-        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var $xmlComponent = iad.report.getWidgetXml(widgetId);
         var index = s4();
         appendProperty(widgetId, '<Property id="line_color_' + index + '" description="Colour that will be used for the line" name="Line Colour" type="colour" value="#999999" />');
         appendProperty(widgetId, '<Property id="line_label_' + index + '" description="Label that will be associated with the line" name="Line Label" type="string" value="Line Label" />');
@@ -957,9 +949,9 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a line from the pyramid chart.
-    iad.config.removePyramidLine = function (widgetId, index)
+    iad.report.removePyramidLine = function (widgetId, index)
     {
-        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var $xmlComponent = iad.report.getWidgetXml(widgetId);
         $xmlComponent.find('Property#' + 'line_color_' + index).remove();
         $xmlComponent.find('Property#' + 'line_label_' + index).remove();
         $xmlComponent.find('Property#' + 'line_value_' + index).remove();
@@ -970,13 +962,13 @@ var designer = (function (iad, $, window, document, undefined)
     // Append property xml to a component - this includes a fix for IE weirdness when appending xml.
     function appendProperty(widgetId, strXML)
     {
-        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var $xmlComponent = iad.report.getWidgetXml(widgetId);
         var xml = $($.parseXML(strXML)).find('Property');
         $xmlComponent.append(xml);
     }
 
     // Set a column attribute.
-    iad.config.setColumnProperty = function (controlId, widgetId, colIndex, attribute, newValue)
+    iad.report.setColumnProperty = function (controlId, widgetId, colIndex, attribute, newValue)
     {
         // Check for symbol values in profiles.
         // symbol(symbolValue:state,textValue:value,symbolAlign:right)
@@ -1043,7 +1035,7 @@ var designer = (function (iad, $, window, document, undefined)
             newValue = 'health(symbolValue:' + symbolValue + ',areaValue:' + nameValue + ',nationalValue:' + nationalValue + ')';
         }
 
-        var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
+        var $column = iad.report.getWidgetXml(widgetId).find('Column').eq(colIndex);
         $column.attr(attribute, newValue);
 
         onWidgetChanged(widgetId); // On widget changed.
@@ -1061,8 +1053,8 @@ var designer = (function (iad, $, window, document, undefined)
 
     // Map Palettes.
 
-    // Gets the palette type - ColourRange or ColorScheiad.config.
-    iad.config.getPaletteType = function (paletteId)
+    // Gets the palette type - ColourRange or ColorScheiad.report.
+    iad.report.getPaletteType = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]'); 
@@ -1071,58 +1063,58 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Gets the ColourScheme ids.
-    iad.config.getColourSchemeIds = function ()
+    iad.report.getColourSchemeIds = function ()
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         return $xmlMapPalettes.find('ColourScheme').map(function() {return $(this).attr('id');});
     };
 
     // Gets the ColourRange ids.
-    iad.config.getColourRangeIds = function ()
+    iad.report.getColourRangeIds = function ()
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         return $xmlMapPalettes.find('ColourRange').map(function() {return $(this).attr('id');});
     };
 
     // Gets a ColorRange or ColorScheme.
-    iad.config.getColourRange = function (paletteId)
+    iad.report.getColourRange = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
         if ($xmlColorRange.length) {}
         else
-            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheiad.config.
+            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheiad.report.
 
         return $xmlColorRange;
     };
 
     // Gets a palette colour.
-    iad.config.getPaletteColour = function (paletteId, colorIndex)
+    iad.report.getPaletteColour = function (paletteId, colorIndex)
     {
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var $xmlColorRange  = iad.report.getColourRange(paletteId);
         var xmlColor        = $xmlColorRange.children()[colorIndex];
         return xmlColor;
     };
 
     // Sets a palette colour.
-    iad.config.setPaletteColour = function (paletteId, colorIndex, color)
+    iad.report.setPaletteColour = function (paletteId, colorIndex, color)
     {
-        var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
+        var xmlColor = iad.report.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).text(ia.Color.toHex(color));
     };
 
     // Sets a palette colour 'for' value.
-    iad.config.setPaletteForValue = function (paletteId, colorIndex, forValue)
+    iad.report.setPaletteForValue = function (paletteId, colorIndex, forValue)
     {
-        var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
+        var xmlColor = iad.report.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).attr('for', forValue);
     };
 
     // Adds a palette colour.
-    iad.config.addPaletteColour = function (paletteId, color)
+    iad.report.addPaletteColour = function (paletteId, color)
     {
-        var paletteType     = iad.config.getPaletteType(paletteId);
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var paletteType     = iad.report.getPaletteType(paletteId);
+        var $xmlColorRange  = iad.report.getColourRange(paletteId);
         var $xmlColor, strXML;
         if (paletteType === 'ColourRange')   // ColorRange.
         {
@@ -1138,17 +1130,17 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Removes a palette colour.
-    iad.config.removePaletteColour = function (paletteId, colorIndex)
+    iad.report.removePaletteColour = function (paletteId, colorIndex)
     {
-        var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
+        var xmlColor = iad.report.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).remove();
     };
 
     // Adds a new ColourRange.
-    iad.config.addColourRange = function (paletteId, arrColors)
+    iad.report.addColourRange = function (paletteId, arrColors)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var $xmlColorRange  = iad.report.getColourRange(paletteId);
         if ($xmlColorRange.length)  // Palette already exists so empty it.
         {
             $xmlColorRange.empty();
@@ -1161,14 +1153,14 @@ var designer = (function (iad, $, window, document, undefined)
         }
         for (var i = 0; i < arrColors.length; i++)
         {
-            iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
+            iad.report.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
     };
 
     // Updates a ColourRange with new colors.
-    iad.config.updateConfigColourRange = function (paletteId, arrColors)
+    iad.report.updateConfigColourRange = function (paletteId, arrColors)
     {
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var $xmlColorRange  = iad.report.getColourRange(paletteId);
         var $xmlColors      = $xmlColorRange.find("Colour");
         $.each($xmlColors, function(i, xmlColor)
         {
@@ -1177,10 +1169,10 @@ var designer = (function (iad, $, window, document, undefined)
     };
 
     // Adds a new ColorScheme.
-    iad.config.addColourScheme = function (paletteId, arrColors)
+    iad.report.addColourScheme = function (paletteId, arrColors)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var $xmlColorRange  = iad.report.getColourRange(paletteId);
         if ($xmlColorRange.length)  // Palette already exists so empty it.
         {
             $xmlColorRange.empty();
@@ -1193,24 +1185,24 @@ var designer = (function (iad, $, window, document, undefined)
         }
         for (var i = 0; i < arrColors.length; i++)
         {
-            iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
+            iad.report.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
     };
 
     // Sets the given palette as the default colour range.
-    iad.config.setDefaultColourRange = function (paletteId)
+    iad.report.setDefaultColourRange = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         $xmlMapPalettes.attr('default', paletteId);    
     };
 
-    // Sets the given palette as the default colour scheiad.config.
-    iad.config.setDefaultColourScheme = function (paletteId)
+    // Sets the given palette as the default colour scheiad.report.
+    iad.report.setDefaultColourScheme = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         
         // Prepend selected xml ColorScheme so its used as the default categoric legend.
-        var $xmlColorRange = iad.config.getColourRange(paletteId);
+        var $xmlColorRange = iad.report.getColourRange(paletteId);
         $xmlMapPalettes.prepend($xmlColorRange);
     };
 

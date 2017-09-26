@@ -43,7 +43,7 @@ var designer = (function (iad, $, window, document, undefined)
 
 		// Get widgets and sort into alphabetical order so that galleries 
 		// will look similar across config files no matter what order widgets appear in config file.
-		var $xmlWidgets = iad.config.getComponents();
+		var $xmlWidgets = iad.report.getComponents();
 
 		// Split components up by data source.
 		var dataSources = new Array([], [], [], []);
@@ -103,8 +103,8 @@ var designer = (function (iad, $, window, document, undefined)
 			{
 				// Get config info.
 				var id 			= $xmlWidget.attr('id');
-				var adjustedId 	= iad.config.getIdWithoutSuffix(id);
-				var name 		= iad.config.getDisplayName(id);
+				var adjustedId 	= iad.report.getIdWithoutSuffix(id);
+				var name 		= iad.report.getDisplayName(id);
 				var description = $xmlWidget.find('Description').text();
 
 				// Find the widget in the gallery
