@@ -8,10 +8,10 @@ var log = require('electron-log');
 var autoUpdater = require("electron-updater").autoUpdater;
 var windowState = require('electron-window-state');
 var jsonfile = require('jsonfile');
+var mkdirp = require('mkdirp');
 
 var path = require('path');
 var os = require('os');
-var mkdirp = require('mkdirp');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
