@@ -131,7 +131,9 @@ module.exports = function (grunt)
         clean: 
         {
             // Deletes build.
-            build: {src: ['<%= pkg.dir.build %>']}
+            build: {src: ['<%= pkg.dir.build %>']},
+            // Deletes dist.
+            dist: {src: ['<%= pkg.dir.dist %>']}
         },
         // Copies files to the build directory.
         copy: 
@@ -152,18 +154,24 @@ module.exports = function (grunt)
             {
                 files: 
                 [
+                    // Copies latest.yml to the dist directory for autoupdates to work.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.dist %>/nsis-web/',  
-                        src: 'latest.yml',
+                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
+                        src: '*.yml',
+                        dest: '<%= pkg.dir.dist %>'
+                    },
+                    // Copies web.config to the dist directory in order for .yml and .7z files to be recognised so that autoupdates work.
+                    {
+                        expand: true, 
+                        flatten: true, // Flattens results to a single level so directory structure isnt copied.
+                        src: '<%= pkg.dir.src %>/website/web.config',
                         dest: '<%= pkg.dir.dist %>/'
                     }
                 ]
             }
         },
-        // Processes and copies the index.html file to the build directory.
         // Adds a banner displaying the project name, version and date (see index.html).
-        // Replaces source paths in html files with minimised versions (see index.html).
         processhtml: 
         {
             options:
@@ -174,33 +182,51 @@ module.exports = function (grunt)
                     name: '<%= pkg.name %>',
                     title: '<%= pkg.title %>',
                     description: '<%= pkg.description %>',
-                    keywords: '<%= pkg.keywords %>'
+                    keywords: '<%= pkg.keywords %>',
+                    version: '<%= pkg.version %>',
+                    productName:'<%= pkg.build.productName %>'
                 }
             },
-            build: 
+            build: // Processes and copies the index.html file to the build directory.
             {
                 files: 
                 {                                 
-                    '<%= file.index_html_build %>': '<%= file.index_html_src %>' // 'destination': 'source'.
+                    '<%= file.index_html_build %>': '<%= file.index_html_src %>', // 'destination': 'source'.
                 }
+            },
+            dist:  // Processes and copies the website files to the dist directory.
+            {
+                files: 
+                [
+                    {'<%= pkg.dir.dist %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'}, // 'destination': 'source'.
+                    {'<%= pkg.dir.dist %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}
+                ]
             }
         }, 
         // Minimises html files.
         // Adds a banner displaying the project name, version and date.
         htmlmin: 
-        {                        
+        {                                 
+            options: 
+            {           
+                banner: '<!-- <%= banner %> -->',                    
+                removeComments: true,
+                collapseWhitespace: true
+            },                    
             build: 
-            {                                      
-                options: 
-                {           
-                    banner: '<!-- <%= banner %> -->',                    
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
+            {         
                 files: 
                 {                                 
                     '<%= file.index_html_min %>': '<%= file.index_html_build %>' // 'destination': 'source'.
                 }
+            },
+            dist:  // Processes and copies the website files to the dist directory.
+            {
+                files: 
+                [                          
+                    {'<%= pkg.dir.dist %>/release-notes/index.html': '<%= pkg.dir.dist %>/release-notes/index.src.html'}, // 'destination': 'source'.
+                    {'<%= pkg.dir.dist %>/index.html': '<%= pkg.dir.dist %>/index.src.html'}
+                ]
             }
         },
         // Extracts and lists TODOs and FIXMEs from code.
@@ -399,9 +425,13 @@ module.exports = function (grunt)
 
     // '>grunt todos' Extracts and lists TODOs and FIXMEs from code.
 
+    // '>grunt buildWebsite' 
+    // Run this to build the release notes.
+    grunt.registerTask('buildWebsite', ['processhtml:dist', 'htmlmin:dist']);
+
     // '>grunt buildIndexHtml' 
     // Run this to build the html files during development.
-    grunt.registerTask('buildIndexHtml', ['processhtml', 'htmlmin']);
+    grunt.registerTask('buildIndexHtml', ['processhtml:build', 'htmlmin:build']);
 
     // '>grunt buildCss' 
     // Run this to build the css files during development.

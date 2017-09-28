@@ -52,6 +52,11 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
         event.preventDefault();
         shell.openExternal(this.href);
     });
+    $(document).on('click', '.nav li.disabled a', function(event) 
+    {
+        event.preventDefault();
+        shell.openExternal(this.href);
+    });
 
     // Listen for log messages from main process for debugging purposes.
     ipc.on('log', function(event, text) 

@@ -1,14 +1,15 @@
 # Developer Notes
 
 ## 28-09-2017
+Created src/website/index.html - this is copied to ./dist/ when "grunt buildWebsite" is run
+Created src/website/release-notes.html - this is copied to ./dist/release-notes/ and renamed index.html when "grunt buildWebsite" is run
 
 "url": "http://oxygen/Work/GitHub/iadesigner/dist/"
 changed to...
-"url": "http://oxygen.geowise.co.uk/ia-designer/dist/"
+"url": "http://oxygen.geowise.co.uk/ia-designer/" which points to C:\Work\GitHub\iadesigner\dist
 for rollout to geowise
 
 ## 22-09-2017
-
 Added
 
 grunt bump:prepatch
@@ -28,7 +29,6 @@ Set a specific version
 "dist:version": "grunt bump --setversion=2.0.1 && npm run dist:web"
 
 ## 19-09-2017
-
 Added grunt-bump for version control in package.json
 https://github.com/vojtajina/grunt-bump
 
@@ -49,7 +49,6 @@ In package.js added some new scripts for releasing different versions.
 "dist:major": "grunt bump:major && dist:web"
 
 ## 06-09-2017
-
 "url": "http://instantatlas.com/apps/ia-designer/dist/"
 changed to...
 "url": "http://oxygen/Work/GitHub/iadesigner/dist/"
@@ -59,7 +58,6 @@ Theres no way of stopping autoupdater from installing a new version once autoUpd
 It will be installed silently when the app is closed, even if you clicked to install later.
 
 ## 30/06/17
-
 Added http-server for testing.
 http-server C:\Work\InstantAtlasReports\ia-designer 
 http://10.20.0.103:8080/
