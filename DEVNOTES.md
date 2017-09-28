@@ -1,5 +1,13 @@
---------
-22/09/17
+# Developer Notes
+
+## 28-09-2017
+
+"url": "http://oxygen/Work/GitHub/iadesigner/dist/"
+changed to...
+"url": "http://oxygen.geowise.co.uk/ia-designer/dist/"
+for rollout to geowise
+
+## 22-09-2017
 
 Added
 
@@ -19,8 +27,7 @@ grunt bump:premajor
 Set a specific version
 "dist:version": "grunt bump --setversion=2.0.1 && npm run dist:web"
 
---------
-19/09/17
+## 19-09-2017
 
 Added grunt-bump for version control in package.json
 https://github.com/vojtajina/grunt-bump
@@ -41,8 +48,7 @@ In package.js added some new scripts for releasing different versions.
 "dist:minor": "grunt bump:minor && dist:web",
 "dist:major": "grunt bump:major && dist:web"
 
---------
-06/09/17
+## 06-09-2017
 
 "url": "http://instantatlas.com/apps/ia-designer/dist/"
 changed to...
@@ -52,20 +58,26 @@ for quicker testing
 Theres no way of stopping autoupdater from installing a new version once autoUpdater.checkForUpdates() is called. 
 It will be installed silently when the app is closed, even if you clicked to install later.
 
---------
-30/06/17
+## 30/06/17
 
 Added http-server for testing.
 http-server C:\Work\InstantAtlasReports\ia-designer 
 http://10.20.0.103:8080/
 
-Added mime types to web.config for http://oxygen/ia-designer/ (see web.config)
+For autoupdates to work in IIS added mime types to web.config which werent included by default.
 <mimeMap fileExtension=".7z" mimeType="application/x-7z-compressed" />
 <mimeMap fileExtension=".yml" mimeType="application/yaml" />
 
-replaced electron-prebuilt with electron because electron-updater was breaking with old version of electron-prebuilt.
-electron-prebuilt and electron are the same package - its now advised to use electron.
+Autoupdates werent working so replaced 'electron-prebuilt' with 'electron' because 'electron-updater' was breaking with old version of 'electron-prebuilt'.
+'electron-prebuilt' and 'electron' are the same package - its now advised to use electron wherever possible.
+https://stackoverflow.com/questions/41574586/what-is-the-difference-between-electron-and-electron-prebuilt
 
+Used NPM 'http-server' for testing autoupdates.
+http-server C:\Work\InstantAtlasReports\ia-designer 
+http://10.20.0.103:8080/
+https://www.npmjs.com/package/http-server
+
+When I wanted to check the contents of an asar file (used in packaging the app) I installed asar for opening asar files. asar --help
 Installed asar for opening asar files. asar --help
 
 1n$tantWe8$1&3
