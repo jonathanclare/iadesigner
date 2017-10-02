@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
-        <head>
+	<head>
         <!-- build:template
-        <title><%= title %> - Overview</title>
+        <title><%= title %> - Help</title>
         /build -->
 
         <!-- build:template 
@@ -26,8 +26,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="./default.css"  />
-        </head>
-        <body>
+	</head>
+	<body>
         <!-- Header -->
         <header class="flex-box header">
 
@@ -35,7 +35,7 @@
             <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
 
             <!-- Nav -->
-            <nav role="navigation" class="nav flex-box">  
+            <nav role="navigation" class="nav flex-box">   
                 <!-- build:remove --> 
                     <a class="flex-box" href="./">Overview</a> 
                     <div class="flex-box">|</div>
@@ -44,11 +44,11 @@
                     <a class="flex-box" href="./help.html">Help</a>
                 <!-- /build -->
                 <!-- build:template 
-                    <a class="flex-box" href="./">Overview</a> 
+                    <a class="flex-box" href="../">Overview</a> 
                     <div class="flex-box">|</div>
-                    <a class="flex-box" href="./release-notes/">Release Notes</a>
+                    <a class="flex-box" href="../release-notes/">Release Notes</a>
                     <div class="flex-box">|</div>
-                    <a class="flex-box" href="./help/">Help</a> %></a>
+                    <a class="flex-box" href="./">Help</a> %></a>
                 /build -->
             </nav>
 
@@ -57,16 +57,7 @@
 
         <!-- Main content -->
         <main class="main">
-            <section class="flex-box section">
-                <div class="flex-box download">
-                    <!-- build:remove --> 
-                        <a class="download-button" href="./dist/InstantAtlas Designer Web Setup 0.0.47.exe" download="InstantAtlas Designer Web Setup 0.0.47.exe">Download for Windows</a>
-                    <!-- /build -->
-                    <!-- build:template 
-                        <a href="<%= productName %> Web Setup <%= version %>.exe" download="<%= productName %> Web Setup <%= version %>.exe">Download for Windows</a>
-                    /build -->
-                </div>
-            </section>
+
         </main>
-        </body>
+	</body>
 </html>

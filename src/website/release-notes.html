@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="">
+<html lang="en">
 	<head>
         <!-- build:template
         <title><%= title %> - Release Notes</title>
@@ -28,14 +28,65 @@
         <link rel="stylesheet" type="text/css" href="./default.css"  />
 	</head>
 	<body>
+        <!-- Header -->
+        <header class="flex-box header">
+
+            <!-- Logo -->
+            <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+
+            <!-- Nav -->
+            <nav role="navigation" class="nav flex-box">   
+                <!-- build:remove --> 
+                    <a class="flex-box" href="./">Overview</a> 
+                    <div class="flex-box">|</div>
+                    <a class="flex-box" href="./release-notes.html">Release Notes</a>
+                    <div class="flex-box">|</div>
+                    <a class="flex-box" href="./help.html">Help</a>
+                <!-- /build -->
+                <!-- build:template 
+                    <a class="flex-box" href="../">Overview</a> 
+                    <div class="flex-box">|</div>
+                    <a class="flex-box" href="./">Release Notes</a>
+                    <div class="flex-box">|</div>
+                    <a class="flex-box" href="../help/">Help</a> %></a>
+                /build -->
+            </nav>
+
+            <!-- Title -->
+        </header>
+
         <!-- Main content -->
         <main class="main">
-            <section class="section flex-box">
-                <table>
-                    <tr><td><div class="badge improved">IMPROVED</div></td><td>Better message for GitHub Enterprise users when there is a network error</td><td>#1035</td></tr>
-                    <tr><td><div class="badge fixed">FIXED</div></td><td>Better message for GitHub Enterprise users when there is a network error</td><td>#1035</td></tr>
-                    <tr><td><div class="badge new">NEW</div></td><td>Better message for GitHub Enterprise users when there is a network error</td><td>#1035</td></tr>
-                </table>
+            <section class="flex-box section">
+                <div class="title">Release Notes for InstantAtlas Designer</div>
+            </section>
+            <section class="flex-box section release-section">
+                <div class="flex-box release-header"><div class="flex-box box badge version">1.0.3</div><div class="flex-box box release-date">October 1st 2017</div></div>
+                <ul class="list">
+                    <li class="flex-box list-item">
+                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge new">new</div><div class="flex-box box description">Better message for GitHub Enterprise users when ther</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                </ul>
+            </section>
+            <section class="flex-box section release-section">
+                <div class="flex-box release-header"><div class="flex-box box badge version">1.0.3</div><div class="flex-box box release-date">October 1st 2017</div></div>
+                <ul class="list">
+                    <li class="flex-box list-item">
+                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge new">new</div><div class="flex-box box description">Better message for GitHub Enterprise users when ther</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    </li>
+                </ul>
             </section>
         </main>
 	</body>
