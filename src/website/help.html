@@ -25,14 +25,24 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
         <!-- Styles -->
-        <link rel="stylesheet" type="text/css" href="./default.css"  />
+        <!-- build:remove --> 
+            <link rel="stylesheet" type="text/css" href="./default.css"  />
+        <!-- /build -->
+        <!-- build:template 
+            <link rel="stylesheet" type="text/css" href="../default.min.css" />
+        /build -->
 	</head>
 	<body>
         <!-- Header -->
         <header class="flex-box header">
 
             <!-- Logo -->
-            <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+            <!-- build:remove --> 
+                <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+            <!-- /build -->
+            <!-- build:template 
+                    <div><div class="logo" style="background-image:url('../ia.png')"></div></div>
+            /build -->
 
             <!-- Nav -->
             <nav role="navigation" class="nav flex-box">   
@@ -48,7 +58,7 @@
                     <div class="flex-box">|</div>
                     <a class="flex-box" href="../release-notes/">Release Notes</a>
                     <div class="flex-box">|</div>
-                    <a class="flex-box" href="./">Help</a> %></a>
+                    <a class="flex-box" href="./">Help</a></a>
                 /build -->
             </nav>
 

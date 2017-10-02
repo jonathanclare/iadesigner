@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-        <head>
+    <head>
         <!-- build:template
         <title><%= title %> - Overview</title>
         /build -->
@@ -25,9 +25,14 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
         <!-- Styles -->
-        <link rel="stylesheet" type="text/css" href="./default.css"  />
-        </head>
-        <body>
+        <!-- build:remove --> 
+            <link rel="stylesheet" type="text/css" href="./default.css"  />
+        <!-- /build -->
+        <!-- build:template 
+            <link rel="stylesheet" type="text/css" href="default.min.css" />
+        /build -->
+    </head>
+    <body>
         <!-- Header -->
         <header class="flex-box header">
 
@@ -48,7 +53,7 @@
                     <div class="flex-box">|</div>
                     <a class="flex-box" href="./release-notes/">Release Notes</a>
                     <div class="flex-box">|</div>
-                    <a class="flex-box" href="./help/">Help</a> %></a>
+                    <a class="flex-box" href="./help/">Help</a></a>
                 /build -->
             </nav>
 
@@ -63,10 +68,10 @@
                         <a class="download-button" href="./dist/InstantAtlas Designer Web Setup 0.0.47.exe" download="InstantAtlas Designer Web Setup 0.0.47.exe">Download for Windows</a>
                     <!-- /build -->
                     <!-- build:template 
-                        <a href="<%= productName %> Web Setup <%= version %>.exe" download="<%= productName %> Web Setup <%= version %>.exe">Download for Windows</a>
+                        <a class="download-button" href="<%= productName %> Web Setup <%= version %>.exe" download="<%= productName %> Web Setup <%= version %>.exe">Download for Windows</a>
                     /build -->
                 </div>
             </section>
         </main>
-        </body>
+    </body>
 </html>

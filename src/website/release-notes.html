@@ -25,14 +25,24 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
         <!-- Styles -->
-        <link rel="stylesheet" type="text/css" href="./default.css"  />
+        <!-- build:remove --> 
+            <link rel="stylesheet" type="text/css" href="./default.css"  />
+        <!-- /build -->
+        <!-- build:template 
+            <link rel="stylesheet" type="text/css" href="../default.min.css" />
+        /build -->
 	</head>
 	<body>
         <!-- Header -->
         <header class="flex-box header">
 
             <!-- Logo -->
-            <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+            <!-- build:remove --> 
+                <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+            <!-- /build -->
+            <!-- build:template 
+                    <div><div class="logo" style="background-image:url('../ia.png')"></div></div>
+            /build -->
 
             <!-- Nav -->
             <nav role="navigation" class="nav flex-box">   
@@ -48,7 +58,7 @@
                     <div class="flex-box">|</div>
                     <a class="flex-box" href="./">Release Notes</a>
                     <div class="flex-box">|</div>
-                    <a class="flex-box" href="../help/">Help</a> %></a>
+                    <a class="flex-box" href="../help/">Help</a></a>
                 /build -->
             </nav>
 
@@ -61,30 +71,13 @@
                 <div class="title">Release Notes for InstantAtlas Designer</div>
             </section>
             <section class="flex-box section release-section">
-                <div class="flex-box release-header"><div class="flex-box box badge version">1.0.3</div><div class="flex-box box release-date">October 1st 2017</div></div>
+                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.84</div><div class="flex-box box release-date">October 1st 2017 (internal release)</div></div>
                 <ul class="list">
-                    <li class="flex-box list-item">
-                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge removed">removed</div><div class="flex-box box description">Crippled save functionality</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
                     </li>
                     <li class="flex-box list-item"">
-                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
-                    </li>
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge new">new</div><div class="flex-box box description">Better message for GitHub Enterprise users when ther</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
-                    </li>
-                </ul>
-            </section>
-            <section class="flex-box section release-section">
-                <div class="flex-box release-header"><div class="flex-box box badge version">1.0.3</div><div class="flex-box box release-date">October 1st 2017</div></div>
-                <ul class="list">
-                    <li class="flex-box list-item">
-                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
-                    </li>
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Better message for GitHub Enterprise users when there is a network error</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
-                    </li>
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge new">new</div><div class="flex-box box description">Better message for GitHub Enterprise users when ther</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/">#1035</a></div>
+                        <div class="flex-box box badge removed">removed</div><div class="flex-box box description">Removed map palette menu option</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
                     </li>
                 </ul>
             </section>

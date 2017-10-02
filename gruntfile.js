@@ -115,7 +115,7 @@ module.exports = function (grunt)
         // Minimises the css file created from the less processing stage.
         cssmin: 
         {
-            target: 
+            build: 
             {
                 files: [
                 {
@@ -123,6 +123,17 @@ module.exports = function (grunt)
                     cwd: '<%= pkg.dir.build %>/css',
                     src: ['*.css', '!*.min.css'],
                     dest: '<%= pkg.dir.build %>/css',
+                    ext: '.min.css'
+                }]
+            },
+            website: 
+            {
+                files: [
+                {
+                    expand: true,
+                    cwd: '<%= pkg.dir.src %>/website/',
+                    src: ['*.css', '!*.min.css'],
+                    dest: '<%= pkg.dir.dist %>',
                     ext: '.min.css'
                 }]
             }
@@ -160,12 +171,19 @@ module.exports = function (grunt)
                         cwd: '<%= pkg.dir.dist %>/nsis-web',  
                         src: '*.yml',
                         dest: '<%= pkg.dir.dist %>'
-                    },
-                    // Copies web.config to the dist directory in order for .yml and .7z files to be recognised so that autoupdates work.
+                    }
+                ]
+            },
+            website: 
+            {
+                files: 
+                [
+                    // Copy required website files.
                     {
                         expand: true, 
                         flatten: true, // Flattens results to a single level so directory structure isnt copied.
-                        src: '<%= pkg.dir.src %>/website/web.config',
+                        cwd: '<%= pkg.dir.src %>/website/', 
+                        src: ['web.config', 'ia.png'],
                         dest: '<%= pkg.dir.dist %>/'
                     }
                 ]
@@ -194,12 +212,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_build %>': '<%= file.index_html_src %>', // 'destination': 'source'.
                 }
             },
-            dist:  // Processes and copies the website files to the dist directory.
+            website:  // Processes and copies the website files to the dist directory.
             {
                 files: 
                 [
-                    {'<%= pkg.dir.dist %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'}, // 'destination': 'source'.
-                    {'<%= pkg.dir.dist %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}
+                    {'<%= pkg.dir.dist %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
+                    {'<%= pkg.dir.dist %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'},
+                    {'<%= pkg.dir.dist %>/help/index.src.html': '<%= pkg.dir.src %>/website/help.html'}
                 ]
             }
         }, 
@@ -220,12 +239,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_min %>': '<%= file.index_html_build %>' // 'destination': 'source'.
                 }
             },
-            dist:  // Processes and copies the website files to the dist directory.
+            website:  // Processes and copies the website files to the dist directory.
             {
                 files: 
-                [                          
-                    {'<%= pkg.dir.dist %>/release-notes/index.html': '<%= pkg.dir.dist %>/release-notes/index.src.html'}, // 'destination': 'source'.
-                    {'<%= pkg.dir.dist %>/index.html': '<%= pkg.dir.dist %>/index.src.html'}
+                [     
+                    {'<%= pkg.dir.dist %>/index.html': '<%= pkg.dir.dist %>/index.src.html'}, // 'destination': 'source'.                   
+                    {'<%= pkg.dir.dist %>/release-notes/index.html': '<%= pkg.dir.dist %>/release-notes/index.src.html'},                  
+                    {'<%= pkg.dir.dist %>/help/index.html': '<%= pkg.dir.dist %>/help/index.src.html'},
                 ]
             }
         },
@@ -427,7 +447,7 @@ module.exports = function (grunt)
 
     // '>grunt buildWebsite' 
     // Run this to build the release notes.
-    grunt.registerTask('buildWebsite', ['processhtml:dist', 'htmlmin:dist']);
+    grunt.registerTask('buildWebsite', ['processhtml:website', 'htmlmin:website', 'copy:website', 'cssmin:website']);
 
     // '>grunt buildIndexHtml' 
     // Run this to build the html files during development.
@@ -435,7 +455,7 @@ module.exports = function (grunt)
 
     // '>grunt buildCss' 
     // Run this to build the css files during development.
-    grunt.registerTask('buildCss', ['less', 'cssmin']);
+    grunt.registerTask('buildCss', ['less', 'cssmin:build']);
 
     // '>grunt buildJs' 
     // Run this to build the js files during development.

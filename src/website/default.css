@@ -94,10 +94,6 @@ a:hover
     flex: 1 1 auto;
     list-style: none;
 }
-.list-item
-{
-    margin-bottom:0.5rem;
-}
 
 /* Boxes */
 .box
@@ -154,9 +150,13 @@ a:hover
 {
     background:#0366d6;
 }
+.badge.removed
+{
+    background:#a72828;
+}
 .badge.version
 {
-    background:#6f42c1;
+    background:#99cc33;
 }
 
 /* Description */
