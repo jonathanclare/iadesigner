@@ -3,7 +3,7 @@
 {{#each this}}
 ## v{{version}} - {{date}}
 {{#each changes}}
-{{badge}} - {{description}} - {{bug}}
+- {{badge}} - {{description}} {{#if bug}}- [{{bug}}](http://bugzilla.geowise.co.uk/show_bug.cgi?id={{bug}}){{/if}}
 {{/each}}
 
 {{/each}}

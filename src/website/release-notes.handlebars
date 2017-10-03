@@ -80,8 +80,9 @@
 	            	{{#each changes}}
 					<li class="flex-box list-item"">
                 		<div class="flex-box box badge {{badge}}">{{badge}}</div>
-                		<div class="flex-box box description">{{description}}</div>
-                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/{{bug}}">{{bug}}</a></div>
+                		<div class="flex-box box description">
+                            {{description}} {{#if bug}} - <a href="http://bugzilla.geowise.co.uk/show_bug.cgi?id={{bug}}">{{bug}}</a>{{/if}}
+                        </div>
                 	</li>
 					{{/each}}
             	</ul>
