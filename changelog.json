@@ -21,7 +21,7 @@
 	"date":"2017-10-01",
 	"changes":
 	[
-		{"badge":"removed", "description":"Crippled save functionality", "bug":"10503"},
+		{"badge":"removed", "description":"Crippled save functionality", "bug":""},
 		{"badge":"removed", "description":"Removed map palette menu option", "bug":""}
 	]
 }
