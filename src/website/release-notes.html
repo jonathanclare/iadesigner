@@ -34,7 +34,7 @@
             <link rel="stylesheet" type="text/css" href="./default.css"  />
         <!-- /build -->
         <!-- build:template 
-            <link rel="stylesheet" type="text/css" href="../default.min.css?<%= version %>" />
+            <link rel="stylesheet" type="text/css" href="../default.min.css?v<%= version %>" />
         /build -->
 	</head>
 	<body>
@@ -71,35 +71,47 @@
             <section class="flex-box section">
                 <div class="title">Release Notes for InstantAtlas Designer</div>
             </section>
-            <section class="flex-box section release-section">
-                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.93</div><div class="flex-box box release-date">October 2nd 2017 (internal release)</div></div>
-                <ul class="list">
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Included code in overview page to prevent page from caching so that people are always downloading the latest version</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
-                    </li>
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Remove refresh page button from menu - could cause to confusion</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
-                    </li>
-                </ul>
+
+        	<!-- Handlebars -->
+            <section class="flex-box section release-section">                
+            	<div class="flex-box release-header"><div class="flex-box box badge version">0.0.93</div><div class="flex-box box release-date">2017-10-02</div></div>
+            	<ul class="list">
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge fixed">fixed</div>
+                		<div class="flex-box box description">Included code in overview page to prevent page from caching so that people are always downloading the latest version</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                	</li>
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge improved">improved</div>
+                		<div class="flex-box box description">Remove refresh page button from menu - could lead to confusion</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                	</li>
+            	</ul>
             </section>
-            <section class="flex-box section release-section">
-                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.91</div><div class="flex-box box release-date">October 2nd 2017 (internal release)</div></div>
-                <ul class="list">
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Changed http://oxygen.geowise.co.uk/ia-designer/ to http://oxygen/ia-designer/ to allow internal access</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
-                    </li>
-                </ul>
+            <section class="flex-box section release-section">                
+            	<div class="flex-box release-header"><div class="flex-box box badge version">0.0.91</div><div class="flex-box box release-date">2017-10-02</div></div>
+            	<ul class="list">
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge fixed">fixed</div>
+                		<div class="flex-box box description">Changed http://oxygen.geowise.co.uk/ia-designer/ to http://oxygen/ia-designer/ to allow internal access</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                	</li>
+            	</ul>
             </section>
-            <section class="flex-box section release-section">
-                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.84</div><div class="flex-box box release-date">October 1st 2017 (internal release)</div></div>
-                <ul class="list">
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge removed">removed</div><div class="flex-box box description">Crippled save functionality</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
-                    </li>
-                    <li class="flex-box list-item"">
-                        <div class="flex-box box badge removed">removed</div><div class="flex-box box description">Removed map palette menu option</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
-                    </li>
-                </ul>
+            <section class="flex-box section release-section">                
+            	<div class="flex-box release-header"><div class="flex-box box badge version">0.0.84</div><div class="flex-box box release-date">2017-10-01</div></div>
+            	<ul class="list">
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge removed">removed</div>
+                		<div class="flex-box box description">Crippled save functionality</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                	</li>
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge removed">removed</div>
+                		<div class="flex-box box description">Removed map palette menu option</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                	</li>
+            	</ul>
             </section>
         </main>
 	</body>

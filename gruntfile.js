@@ -144,7 +144,9 @@ module.exports = function (grunt)
             // Deletes build.
             build: {src: ['<%= pkg.dir.build %>']},
             // Deletes dist.
-            dist: {src: ['<%= pkg.dir.dist %>']}
+            dist: {src: ['<%= pkg.dir.dist %>']},
+            // Deletes release-notes.html because compile-handlebars appends rather than overwriting the file.
+            website: {src: ['<%= pkg.dir.src %>/website/release-notes.html', 'CHANGELOG.md']}
         },
         // Copies files to the build directory.
         copy: 
@@ -362,6 +364,25 @@ module.exports = function (grunt)
                 }
             }
         },
+        // Precompiles handlebars templates into html files.
+        'compile-handlebars': 
+        {
+            website: 
+            {
+                files: 
+                [
+                    {
+                        src: '<%= pkg.dir.src %>/website/release-notes.handlebars',
+                        dest: '<%= pkg.dir.src %>/website/release-notes.html'
+                    },
+                    {
+                        src: '<%= pkg.dir.src %>/website/changelog.handlebars',
+                        dest: 'CHANGELOG.md'
+                    }
+                ],
+                templateData: 'changelog.json'
+            }
+        },
         // Used this to experiment with deploy dist to online.
         'ftp-deploy': 
         {
@@ -420,6 +441,7 @@ module.exports = function (grunt)
 
     // Load the plugins that provide the tasks.
     grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-compile-handlebars');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -447,7 +469,7 @@ module.exports = function (grunt)
 
     // '>grunt buildWebsite' 
     // Run this to build the release notes.
-    grunt.registerTask('buildWebsite', ['processhtml:website', 'htmlmin:website', 'copy:website', 'cssmin:website']);
+    grunt.registerTask('buildWebsite', ['clean:website', 'compile-handlebars:website', 'processhtml:website', 'htmlmin:website', 'copy:website', 'cssmin:website']);
 
     // '>grunt buildIndexHtml' 
     // Run this to build the html files during development.

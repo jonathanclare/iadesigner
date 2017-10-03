@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
         <!-- build:template
-        <title><%= title %> - Help</title>
+        <title><%= title %> - Release Notes</title>
         /build -->
 
         <!-- build:template 
@@ -53,13 +53,13 @@
             <nav role="navigation" class="nav flex-box">   
                 <!-- build:remove --> 
                     <a class="flex-box nav-link" href="./">Overview</a> 
-                    <a class="flex-box nav-link" href="./release-notes.html">Release Notes</a>
-                    <a class="flex-box nav-link nav-link-active" href="./help.html">Help</a>
+                    <a class="flex-box nav-link nav-link-active" href="./release-notes.html">Release Notes</a>
+                    <a class="flex-box nav-link" href="./help.html">Help</a>
                 <!-- /build -->
                 <!-- build:template 
                     <a class="flex-box nav-link" href="../">Overview</a> 
-                    <a class="flex-box nav-link" href="../release-notes/">Release Notes</a>
-                    <a class="flex-box nav-link nav-link-active" href="./">Help</a></a>
+                    <a class="flex-box nav-link nav-link-active" href="./">Release Notes</a>
+                    <a class="flex-box nav-link" href="../help/">Help</a></a>
                 /build -->
             </nav>
 
@@ -68,7 +68,25 @@
 
         <!-- Main content -->
         <main class="main">
+            <section class="flex-box section">
+                <div class="title">Release Notes for InstantAtlas Designer</div>
+            </section>
 
+        	<!-- Handlebars -->
+            {{#each this}}
+            <section class="flex-box section release-section">                
+            	<div class="flex-box release-header"><div class="flex-box box badge version">{{version}}</div><div class="flex-box box release-date">{{date}}</div></div>
+            	<ul class="list">
+	            	{{#each changes}}
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge {{badge}}">{{badge}}</div>
+                		<div class="flex-box box description">{{description}}</div>
+                		<div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/{{bug}}">{{bug}}</a></div>
+                	</li>
+					{{/each}}
+            	</ul>
+            </section>
+			{{/each}}
         </main>
 	</body>
 </html>

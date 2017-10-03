@@ -1,0 +1,28 @@
+[
+{
+	"version":"0.0.93",
+	"date":"2017-10-02",
+	"changes":
+	[
+		{"badge":"fixed", "description":"Included code in overview page to prevent page from caching so that people are always downloading the latest version", "bug":""},
+		{"badge":"improved", "description":"Remove refresh page button from menu - could lead to confusion", "bug":""}
+	]
+},
+{
+	"version":"0.0.91",
+	"date":"2017-10-02",
+	"changes":
+	[
+		{"badge":"fixed", "description":"Changed http://oxygen.geowise.co.uk/ia-designer/ to http://oxygen/ia-designer/ to allow internal access", "bug":""}
+	]
+},
+{
+	"version":"0.0.84",
+	"date":"2017-10-01",
+	"changes":
+	[
+		{"badge":"removed", "description":"Crippled save functionality", "bug":""},
+		{"badge":"removed", "description":"Removed map palette menu option", "bug":""}
+	]
+}
+]

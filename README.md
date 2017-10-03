@@ -101,3 +101,7 @@ Version bumped to 1.1.1
 ```sh
 > npm run dist:major
 ```
+
+# CHANGELOG
+
+Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated on 'grunt buildWebsite'
