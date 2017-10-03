@@ -183,7 +183,7 @@ module.exports = function (grunt)
                         expand: true, 
                         flatten: true, // Flattens results to a single level so directory structure isnt copied.
                         cwd: '<%= pkg.dir.src %>/website/', 
-                        src: ['web.config', 'ia.png'],
+                        src: ['web.config', '*.png'],
                         dest: '<%= pkg.dir.dist %>/'
                     }
                 ]

@@ -21,6 +21,11 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Prevent caching -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <meta http-equiv="Expires" content="0"/>
+
         <!-- Import webfonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -29,12 +34,12 @@
             <link rel="stylesheet" type="text/css" href="./default.css"  />
         <!-- /build -->
         <!-- build:template 
-            <link rel="stylesheet" type="text/css" href="../default.min.css" />
+            <link rel="stylesheet" type="text/css" href="../default.min.css?<%= version %>" />
         /build -->
 	</head>
 	<body>
         <!-- Header -->
-        <header class="flex-box header">
+        <header class="flex-box section header">
 
             <!-- Logo -->
             <!-- build:remove --> 
@@ -47,18 +52,14 @@
             <!-- Nav -->
             <nav role="navigation" class="nav flex-box">   
                 <!-- build:remove --> 
-                    <a class="flex-box" href="./">Overview</a> 
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./release-notes.html">Release Notes</a>
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./help.html">Help</a>
+                    <a class="flex-box nav-link" href="./">Overview</a> 
+                    <a class="flex-box nav-link" href="./release-notes.html">Release Notes</a>
+                    <a class="flex-box nav-link nav-link-active" href="./help.html">Help</a>
                 <!-- /build -->
                 <!-- build:template 
-                    <a class="flex-box" href="../">Overview</a> 
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="../release-notes/">Release Notes</a>
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./">Help</a></a>
+                    <a class="flex-box nav-link" href="../">Overview</a> 
+                    <a class="flex-box nav-link" href="../release-notes/">Release Notes</a>
+                    <a class="flex-box nav-link nav-link-active" href="./">Help</a></a>
                 /build -->
             </nav>
 

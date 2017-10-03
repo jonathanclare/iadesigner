@@ -21,6 +21,11 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Prevent caching -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <meta http-equiv="Expires" content="0"/>
+
         <!-- Import webfonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -29,12 +34,12 @@
             <link rel="stylesheet" type="text/css" href="./default.css"  />
         <!-- /build -->
         <!-- build:template 
-            <link rel="stylesheet" type="text/css" href="../default.min.css" />
+            <link rel="stylesheet" type="text/css" href="../default.min.css?<%= version %>" />
         /build -->
 	</head>
 	<body>
         <!-- Header -->
-        <header class="flex-box header">
+        <header class="flex-box section header">
 
             <!-- Logo -->
             <!-- build:remove --> 
@@ -47,18 +52,14 @@
             <!-- Nav -->
             <nav role="navigation" class="nav flex-box">   
                 <!-- build:remove --> 
-                    <a class="flex-box" href="./">Overview</a> 
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./release-notes.html">Release Notes</a>
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./help.html">Help</a>
+                    <a class="flex-box nav-link" href="./">Overview</a> 
+                    <a class="flex-box nav-link nav-link-active" href="./release-notes.html">Release Notes</a>
+                    <a class="flex-box nav-link" href="./help.html">Help</a>
                 <!-- /build -->
                 <!-- build:template 
-                    <a class="flex-box" href="../">Overview</a> 
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="./">Release Notes</a>
-                    <div class="flex-box">|</div>
-                    <a class="flex-box" href="../help/">Help</a></a>
+                    <a class="flex-box nav-link" href="../">Overview</a> 
+                    <a class="flex-box nav-link nav-link-active" href="./">Release Notes</a>
+                    <a class="flex-box nav-link" href="../help/">Help</a></a>
                 /build -->
             </nav>
 
@@ -69,6 +70,25 @@
         <main class="main">
             <section class="flex-box section">
                 <div class="title">Release Notes for InstantAtlas Designer</div>
+            </section>
+            <section class="flex-box section release-section">
+                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.93</div><div class="flex-box box release-date">October 2nd 2017 (internal release)</div></div>
+                <ul class="list">
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Included code in overview page to prevent page from caching so that people are always downloading the latest version</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                    </li>
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge improved">improved</div><div class="flex-box box description">Remove refresh page button from menu - could cause to confusion</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                    </li>
+                </ul>
+            </section>
+            <section class="flex-box section release-section">
+                <div class="flex-box release-header"><div class="flex-box box badge version">0.0.91</div><div class="flex-box box release-date">October 2nd 2017 (internal release)</div></div>
+                <ul class="list">
+                    <li class="flex-box list-item"">
+                        <div class="flex-box box badge fixed">fixed</div><div class="flex-box box description">Changed http://oxygen.geowise.co.uk/ia-designer/ to http://oxygen/ia-designer/ to allow internal access</div><div class="flex-box box bug"><a href="http://bugzilla.geowise.co.uk/"></a></div>
+                    </li>
+                </ul>
             </section>
             <section class="flex-box section release-section">
                 <div class="flex-box release-header"><div class="flex-box box badge version">0.0.84</div><div class="flex-box box release-date">October 1st 2017 (internal release)</div></div>
