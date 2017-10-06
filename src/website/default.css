@@ -120,18 +120,12 @@ a:hover
     flex: 1 1 auto;
     justify-content:flex-start;
 }
-.release-date 
-{
-    font-weight: bold;
-    margin-top: 1rem;
-    justify-content: flex-start;
-}
 
 /* Badge */
 .badge
 {
     align-self:flex-start;
-    flex:0 0 100px;
+    flex:0 0 110px;
     text-transform: uppercase;
     font-size: 1rem;
     padding: 0.5rem;
@@ -156,7 +150,18 @@ a:hover
 }
 .badge.version
 {
+    border:1px solid #99cc33;
     background:#99cc33;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+    border-radius:3px 0 0 3px;
+}
+.badge.date
+{
+    border:1px solid #99cc33;
+    color:#99cc33;
+    background:#fff;
+    margin: 0.5rem 0.5rem 0.5rem 0rem;
+    border-radius:0 3px 3px 0;
 }
 
 /* Description */

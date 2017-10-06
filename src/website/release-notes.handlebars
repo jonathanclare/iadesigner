@@ -26,6 +26,14 @@
         <meta http-equiv="Pragma" content="no-cache"/>
         <meta http-equiv="Expires" content="0"/>
 
+        <!-- Icon -->
+        <!-- build:remove --> 
+            <link rel="icon" href="./ia.png">
+        <!-- /build -->
+        <!-- build:template 
+            <link rel="icon" href="../ia.png">
+        /build -->
+
         <!-- Import webfonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -75,7 +83,10 @@
         	<!-- Handlebars -->
             {{#each this}}
             <section class="flex-box section release-section">                
-            	<div class="flex-box release-header"><div class="flex-box box badge version">{{version}}</div><div class="flex-box box release-date">{{date}}</div></div>
+            	<div class="flex-box release-header">
+                    <div class="flex-box box badge version">{{version}}</div>
+                    <div class="flex-box box badge date">{{date}}</div>
+                </div>
             	<ul class="list">
 	            	{{#each changes}}
 					<li class="flex-box list-item"">
