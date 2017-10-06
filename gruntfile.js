@@ -35,7 +35,7 @@ module.exports = function (grunt)
             {
                 scripturl:true // Ignore Script Url warnings.
             },
-            all: ['gruntfile.js', 'src/main.js', '<%= pkg.dir.src %>/js/designer.*.js']
+            all: ['gruntfile.js', 'src/main.js', '<%= pkg.dir.src %>/js/<%= pkg.name %>.*.js']
         },
         // Concatenates and bundles the js source code file.
         // Adds a banner displaying the project name, version and date.
@@ -351,7 +351,7 @@ module.exports = function (grunt)
             {
                 options: 
                 {
-                    namespace: 'designer',
+                    namespace: '<%= pkg.name %>',
                     processName: function(filePath) 
                     { 
                         var pieces = filePath.split('/');
@@ -415,6 +415,24 @@ module.exports = function (grunt)
 
         grunt bump:major
         >> Version bumped to 1.0.0
+
+        to commit and create a new release on github: 
+        commit: true,
+        createTag: true,
+        push: true,
+
+        When first running this you may get an error because you need to add git to your PATH variables
+        https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command
+
+        A secondary error may also occur relating to git-lfs:
+        https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error
+
+        to fix this open '.git\hooks\pre-push and comment out all the lines
+
+        to switch this off:
+        commit: false,
+        createTag: false,
+        push: false,
         */
         'bump': 
         {
@@ -429,7 +447,7 @@ module.exports = function (grunt)
                 tagName: 'v%VERSION%',
                 tagMessage: 'Version %VERSION%',
                 push: true,
-                pushTo: 'origin',
+                pushTo: 'origin', // origon is the name of this remote repository
                 gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
                 globalReplace: false,
                 prereleaseName: false,

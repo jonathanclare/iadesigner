@@ -1,4 +1,4 @@
-var designer = (function (iad, $, window, document, undefined)
+var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
@@ -22,7 +22,7 @@ var designer = (function (iad, $, window, document, undefined)
 		Handlebars.registerHelper('screenshotPath', function(report) {return options.configPath + '/' + report.path + '/screenshot.png';}); 	// The path to the screenshot.
 
 		// Apply handlebars template for gallery
-		var template = window.designer[options.template];
+		var template = window.iadesigner[options.template];
 		var html = template(options.json);
 		$container.html(html);
 
@@ -77,4 +77,4 @@ var designer = (function (iad, $, window, document, undefined)
 
 	return iad;
 
-})(designer || {}, jQuery, window, document);
+})(iadesigner || {}, jQuery, window, document);

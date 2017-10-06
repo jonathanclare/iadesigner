@@ -1,4 +1,4 @@
-var designer = (function (iad, undefined)
+var iadesigner = (function (iad, undefined)
 {
     'use strict';
 
@@ -545,4 +545,4 @@ var designer = (function (iad, undefined)
 
     return iad;
 
-})(designer || {});
+})(iadesigner || {});

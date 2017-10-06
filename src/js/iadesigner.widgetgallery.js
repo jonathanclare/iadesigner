@@ -1,4 +1,4 @@
-var designer = (function (iad, $, window, document, undefined)
+var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
@@ -139,11 +139,11 @@ var designer = (function (iad, $, window, document, undefined)
 		}
 
 		// Apply handlebars template for gallery.
-		var template = window.designer[options.template];
+		var template = window.iadesigner[options.template];
 		var html = template(json);
 		$(options.container).html(html);
 	};
 
 	return iad;
 
-})(designer || {}, jQuery, window, document);
+})(iadesigner || {}, jQuery, window, document);

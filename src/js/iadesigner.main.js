@@ -1,4 +1,4 @@
-var designer = (function (iad, $, bootbox, window, document, undefined)
+var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 {
     'use strict';
 
@@ -659,7 +659,7 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
     function initCss(options, callback)
     {
         // Apply the handlebars template for the css form.
-        var template = window.designer['forms.handlebars'];
+        var template = window.iadesigner['forms.handlebars'];
         var html = template(options.form);
         $('#iad-form-css-properties').html(html);
 
@@ -1296,4 +1296,4 @@ var designer = (function (iad, $, bootbox, window, document, undefined)
 
     return iad;
 
-})(designer || {}, jQuery, bootbox, window, document);
+})(iadesigner || {}, jQuery, bootbox, window, document);

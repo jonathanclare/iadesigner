@@ -1,6 +1,6 @@
-this["designer"] = this["designer"] || {};
+this["iadesigner"] = this["iadesigner"] || {};
 
-this["designer"]["config-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+this["iadesigner"]["config-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
   "	<div id=\""
     + alias4(((helper = (helper = helpers.galleryId || (depth0 != null ? depth0.galleryId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"galleryId","hash":{},"data":data}) : helper)))
@@ -50,7 +50,7 @@ this["designer"]["config-gallery.handlebars"] = Handlebars.template({"1":functio
   return buffer;
 },"useData":true,"useDepths":true});
 
-this["designer"]["forms.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.escapeExpression, alias3=helpers.helperMissing, alias4="function", buffer = 
   ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.description : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n		<div class=\"panel panel-default\" "
@@ -1035,7 +1035,7 @@ this["designer"]["forms.handlebars"] = Handlebars.template({"1":function(contain
   return buffer + "\r\n</div>";
 },"useData":true,"useDepths":true});
 
-this["designer"]["widget-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+this["iadesigner"]["widget-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.include : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");

@@ -1,4 +1,4 @@
-var designer = (function (iad, $, window, document, undefined)
+var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
@@ -344,7 +344,7 @@ var designer = (function (iad, $, window, document, undefined)
 
         // Apply handlebars template for forms.
         $container.empty();
-		var template = window.designer[options.template];
+		var template = window.iadesigner[options.template];
         var html = template(jsonForm);
         $container.append(html);
 
@@ -1319,4 +1319,4 @@ var designer = (function (iad, $, window, document, undefined)
 
 	return iad;
 
-})(designer || {}, jQuery, window, document);
+})(iadesigner || {}, jQuery, window, document);
