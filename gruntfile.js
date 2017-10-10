@@ -447,7 +447,7 @@ module.exports = function (grunt)
                 tagName: 'v%VERSION%',
                 tagMessage: 'Version %VERSION%',
                 push: true,
-                pushTo: 'origin', // origon is the name of this remote repository
+                pushTo: 'origin', // origin is the name of this remote repository
                 gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
                 globalReplace: false,
                 prereleaseName: false,
