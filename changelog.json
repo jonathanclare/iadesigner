@@ -1,5 +1,16 @@
 [
 {
+	"version":"0.0.116",
+	"date":"2017-10-11",
+	"changes":
+	[
+		{"badge":"improved", "description":"Selection and editing of widgets", "bug":""},
+		{"badge":"improved", "description":"Edit widget button only appears when required", "bug":""},
+		{"badge":"improved", "description":"Selecting a widget displays its properties in the widget editor side bar if it is open", "bug":""},
+		{"badge":"fixed", "description":"Selected widget highlight is removed when template is changed", "bug":""}
+	]
+},
+{
 	"version":"0.0.93",
 	"date":"2017-10-02",
 	"changes":

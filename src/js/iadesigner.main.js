@@ -26,7 +26,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
-    var selectedWidgetId, editedWidgetId, report, configPath, changesSaved = true, userReportLoaded = false;
+    var $editWidgetBtn = $('#iad-btn-widget-edit');
+
+    var selectedWidgetId;
+    var widgetPropertiesAreDisplayed = false;
+    var report;
+    var configPath;
+    var changesSaved = true;
+    var userReportLoaded = false;
 
     // Reference to main window.
     var win = remote.getCurrentWindow();
@@ -372,7 +379,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             e.preventDefault();
             var widgetId = $(this).data('id');
-            editWidgetProperties(widgetId);
+            showWidgetProperties(widgetId);
         });
 
         // Remove widget button.
@@ -403,7 +410,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Edit widget button.
         $('#iad-btn-widget-edit').on('click', function(e)
         {
-            if (selectedWidgetId !== undefined) editWidgetProperties(selectedWidgetId);
+            if (selectedWidgetId !== undefined) showWidgetProperties(selectedWidgetId);
         });
 
         // Send widget to back button.
@@ -575,7 +582,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     }
     function hideSidebar(name)
     {
-        if (name === 'widget') editedWidgetId = undefined;
+        if (name === 'widget') 
+        {
+            widgetPropertiesAreDisplayed = false;
+            if (selectedWidgetId !== undefined) $editWidgetBtn.show();
+        }
         var $panel = getSidebar(name);
         var w = $panel.outerWidth() * -1;
         $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
@@ -583,7 +594,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     }
     function fadeSidebar(name)
     {
-        if (name === 'widget') editedWidgetId = undefined;
+        if (name === 'widget') 
+        {
+            widgetPropertiesAreDisplayed = false;
+            if (selectedWidgetId !== undefined) $editWidgetBtn.show();
+        }
         var $panel = getSidebar(name);
         if ($panel.is(":visible"))
         {
@@ -628,20 +643,32 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editGeneralProperties()
     {
-        editedWidgetId = 'PropertyGroup';
-        var title = iad.report.getDisplayName('PropertyGroup');
-        $sidebarWidgetTitle.text(title);
-        iad.canvas.clearSelection();
-        iad.configforms.showPropertyGroupForm();
+        if (widgetPropertiesAreDisplayed)
+        {
+            var title = iad.report.getDisplayName('PropertyGroup');
+            $sidebarWidgetTitle.text(title);
+            iad.configforms.showPropertyGroupForm();
+        }
     }
 
     function editWidgetProperties(widgetId)
     {
-        editedWidgetId = widgetId;
+        if (widgetPropertiesAreDisplayed)
+        {
+            var title = iad.report.getDisplayName(widgetId);
+            $sidebarWidgetTitle.text(title);
+            iad.configforms.showWidgetForm(widgetId);
+        }
+        else $editWidgetBtn.show();
+    }
 
+    function showWidgetProperties(widgetId)
+    {
+        $editWidgetBtn.hide();
+
+        widgetPropertiesAreDisplayed = true;
         var title = iad.report.getDisplayName(widgetId);
         $sidebarWidgetTitle.text(title);
-
         if (widgetId === 'PropertyGroup')
         {
             iad.canvas.clearSelection();
@@ -652,7 +679,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             iad.canvas.select(widgetId);
             iad.configforms.showWidgetForm(widgetId);
         }
-
         showSidebar('widget');
     }
 
@@ -766,7 +792,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             paths: options.paths,
             preConfigLoaded: function ()
             {                
-                editGeneralProperties();
+                iad.canvas.clearSelection();
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
@@ -822,8 +848,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onWidgetRemoved: function (widgetId)
             {
                 updateDropdownMenus();
-                if (widgetId === selectedWidgetId) iad.canvas.clearSelection();
-                if (widgetId === editedWidgetId) editGeneralProperties();
+                iad.canvas.clearSelection();
                 iad.canvas.update();
             },
             onWidgetAdded: function (widgetId)
@@ -931,13 +956,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         iad.canvas.init(
         {
             report : report,
-            onSelect: function (widgetId)                   // Computational select.
+            onSelect: function (widgetId)
             {
                 $nav.show();
                 if (widgetId !== selectedWidgetId)
                 {
-                    iad.formcontrols.activePanelIndex = 0;
                     selectedWidgetId = widgetId;
+                    iad.formcontrols.activePanelIndex = 0;
+                    editWidgetProperties(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -951,41 +977,15 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {     
                 $nav.hide();
                 selectedWidgetId = undefined;
+                editGeneralProperties();
             },
-            onDragEnd: function (widgetId, x, y)            // Dimensions are % values.
+            onDragEnd: function (widgetId, x, y)
             {
                 iad.report.setWidgetDimensions(widgetId, x, y);
             },
-            onResizeEnd: function (widgetId, x, y, w, h)    // Dimensions are % values.
+            onResizeEnd: function (widgetId, x, y, w, h)
             {
                 iad.report.setWidgetDimensions(widgetId, x, y, w, h);
-            },
-            onRemoveBtnClick: function (widgetId)
-            {
-                bootbox.confirm(
-                {
-                    title: iad.report.getDisplayName(widgetId) + ' - Confirm Removal?',
-                    message: 'Are you sure you want to remove this widget?',
-                    buttons: 
-                    {
-                        cancel: 
-                        {
-                            label: '<i class="fa fa-times"></i> No'
-                        },
-                        confirm: 
-                        {
-                            label: '<i class="fa fa-check"></i> Yes'
-                        }
-                    },
-                    callback: function (result) 
-                    {
-                        if (result === true) iad.report.removeWidget(widgetId);
-                    }
-                });
-            },
-            onEditBtnClick: function (widgetId)
-            {
-                editWidgetProperties(widgetId);
             },
             onActivated: function ()
             {
