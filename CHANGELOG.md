@@ -1,5 +1,11 @@
 # Changelog
 
+### v0.0.119 *2017-10-11*
+* **improved** - Selection and editing of widgets 
+* **improved** - Edit widget button only appears when required 
+* **improved** - Selecting a widget displays its properties in the widget editor side bar if it is open 
+* **fixed** - Selected widget highlight is removed when template is changed 
+
 ### v0.0.93 *2017-10-02*
 * **fixed** - Included code in overview page to prevent page from caching so that people are always downloading the latest version 
 * **improved** - Remove refresh page button from menu - could lead to confusion 
