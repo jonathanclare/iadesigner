@@ -450,7 +450,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		{
 			// Dont need to call onUnselect or onSelect if this is already the active widget.
 			var isNotActiveWidget = true;
-			if (activeWidget && (activeWidget.id === widget.id)) isNotActiveWidget = false;
+			if (activeWidget && (activeWidget.id === widget.id)) isNotActiveWidget = false; 
 
 			if (activeWidget && options && options.onUnselect && isNotActiveWidget) options.onUnselect.call(null, activeWidget.id);
 
