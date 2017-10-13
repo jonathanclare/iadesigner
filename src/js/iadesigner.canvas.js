@@ -135,6 +135,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		var c = hoveredWidget.container;
 	    var pos = c.position();
 	    var l = c.position().left, t = c.position().top, w = c.outerWidth(), h = c.outerHeight(), z = hoveredWidget.zIndex();
+
+		// Account for anchored images.
+		var xAnchor = hoveredWidget.xAnchor();
+		if (xAnchor === "middle" || xAnchor === "center") l = l - (w  / 2);
+
 		if (z === undefined) z = hoveredWidget.container.css('z-index');
 		$dragPanel.css({'left': l, 'top': t, 'width': w, 'height': h, 'z-index': z, 'display': 'inline'});
 	}
@@ -231,8 +236,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 			// Account for anchored images.
 			var xAnchor = activeWidget.xAnchor();
-			if (xAnchor === "end" ||  xAnchor === "right") x = x + draggerDownW;
-			else if (xAnchor === "middle" || xAnchor === "center") x = x + (draggerDownW / 2);
+			if (xAnchor === 'end' ||  xAnchor === 'right') x = x + draggerDownW;
+			else if (xAnchor === 'middle' || xAnchor === 'center') x = x + (draggerDownW / 2);
 
 			// Move the active widget.
 			var xPerc = (x / $parent.width()) * 100;
@@ -253,8 +258,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		if (options && options.onDragEnd) 
 		{
 	        var pos = activeWidget.container.position();
-			var xPerc = (pos.left / $parent.width()) * 100;
-			var yPerc = (pos.top / $parent.height()) * 100;
+			var x = pos.left;
+			var y = pos.top;
+
+			var xAnchor = activeWidget.xAnchor();
+			if (xAnchor === 'end' ||  xAnchor === 'right') x = x + draggerDownW;	
+
+			var xPerc = (x / $parent.width()) * 100;
+			var yPerc = (y / $parent.height()) * 100;
+
 			options.onDragEnd.call(null, activeWidget.id,  xPerc, yPerc); 
 		}
 		if (options && options.onMouseUp) options.onMouseUp.call(null, activeWidget.id);
@@ -356,10 +368,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		// Resize the active widget.
 		var x = $dragPanel.position().left, y = $dragPanel.position().top, w = $dragPanel.outerWidth(), h = $dragPanel.outerHeight();
 
-		// Account for anchored images.
 		var xAnchor = activeWidget.xAnchor();
-		if (xAnchor === "end" ||  xAnchor === "right") x = x + w;
-		else if (xAnchor === "middle" || xAnchor === "center") x = x + (w / 2);
+		if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w;	
+		else if (xAnchor === 'middle' || xAnchor === 'center') x = x + (w / 2);				
 
 		// Calculate percentage dimensions.
 		var xPerc = (x / $parent.width()) * 100;
@@ -377,7 +388,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 		$eventBlocker.css('display', 'none');
 
-		if (options && options.onResizeEnd) options.onResizeEnd.call(null, activeWidget.id,  xPerc, yPerc, wPerc, hPerc); 
+		if (options && options.onResizeEnd) 
+		{
+			if (activeWidget.rescale)
+				options.onResizeEnd.call(null, activeWidget.id,  xPerc, yPerc, wPerc, hPerc); 
+			else
+				options.onResizeEnd.call(null, activeWidget.id,  xPerc, yPerc, w, h); 
+		}
 		if (options && options.onMouseUp) options.onMouseUp.call(null, activeWidget.id);
 	}
 
@@ -425,20 +442,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		var hPerc = (w.container.outerHeight() / $parent.height()) * 100; 
 	    var zIndex = w.zIndex();
 
-		if (w.xAnchor() === 'end' || w.xAnchor() === 'right')
-		{		
-		    xPerc = w.container[0].style.right;
-			$activePanel.css({'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : '', 'right' : xPerc+'%', 'margin-left' : '', 'display' : 'inline', 'z-index': zIndex});
-		}
-		else if (w.xAnchor() === 'middle' || w.xAnchor() === 'center')
-		{
-	    	var marginLeft = w.container.css('margin-left');
-			$activePanel.css({'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'margin-left' : marginLeft, 'display' : 'inline', 'z-index': zIndex});
-		}
-		else  
-		{
-			$activePanel.css({'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'margin-left' : '', 'display' : 'inline', 'z-index': zIndex});
-		}
+		if (w.xAnchor() === 'middle' || w.xAnchor() === 'center') xPerc = xPerc - (wPerc / 2);
+
+		$activePanel.css({'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
 	}
 
 	// Selects the widget with the given id.

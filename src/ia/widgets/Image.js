@@ -40,11 +40,12 @@ ia.Image.prototype.update = function(c)
 	{
 		this.container.empty();
 
+		this.xAnchor(c.anchor);
 		if (c['maintain-aspect-ratio'] == 'true')
 		{
-			if (this._xAnchor == "end" || this._xAnchor == "right")
+			if (this.xAnchor() == "end" || this.xAnchor() == "right")
 				this.container.css({'text-align':'right'});
-			else if (this._xAnchor == "start" || this._xAnchor == "left")
+			else if (this.xAnchor() == "start" || this.xAnchor() == "left")
 				this.container.css({'text-align':'left'});
 			else  		
 				this.container.css({'text-align':'center'});

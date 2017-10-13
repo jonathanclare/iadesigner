@@ -569,6 +569,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (w !== undefined && $xmlWidget.attr('wrap-width') !== undefined) $xmlWidget.attr('wrap-width', Math.round((w / 100) * 800));
             if (h !== undefined && $xmlWidget.attr('height') !== undefined) $xmlWidget.attr('height', Math.round((h / 100) * 600));
 
+            var tagName = $xmlWidget.prop('tagName');
+            if (tagName === 'Image') // Image is a special case cos of weird anchoring in original designer.
+            {
+
+            }
+            else
+            {
+                
+            }
+                
             onWidgetChanged(widgetId); // On widget changed.
         }
     };
@@ -620,6 +630,30 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlWidget = iad.report.getWidgetXml(widgetId);
         if ($xmlWidget.length)
         {
+            var tagName = $xmlWidget.prop('tagName');
+            if (tagName === 'Image' && attribute === 'anchor') // Image is a special case cos of weird anchoring in original designer.
+            {
+                var x = parseFloat($xmlWidget.attr('x')); 
+                var w = parseFloat($xmlWidget.attr('width')); 
+                var anchor = $xmlWidget.attr('anchor');
+                if (anchor === 'center')
+                {
+                    if (value === 'left') x = x - (w  / 2);
+                    else if (value === 'right') x = x + (w  / 2);
+                }
+                else if (anchor === 'right')
+                {
+                    if (value === 'left') x = x - w;
+                    else if (value === 'center') x = x - (w  / 2);
+                }
+                else
+                {
+                    if (value === 'center') x = x + (w  / 2);
+                    else if (value === 'right') x = x + w;
+                }
+                $xmlWidget.attr('x', x);
+            }
+
             if (attribute === 'nodevalue')
             {
                 // Clean up...
@@ -636,7 +670,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 $xmlWidget.text(value); // Text changed.
             }
             else $xmlWidget.attr(attribute, value);
-
             onWidgetChanged(widgetId); // On widget changed.
         }
     };

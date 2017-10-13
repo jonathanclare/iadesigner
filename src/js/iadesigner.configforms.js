@@ -1129,7 +1129,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'type'  : 'boolean',
                     'name'  : 'Rescale?',
                     'value' : $xmlImage.attr('rescale'),
-                    'description' : 'Should this image resize with the report, or should it stay a fixed size?'
+                    'description' : 'Should the image resize with the report, or should it stay a fixed size?'
+                },
+                {
+                    'id'    : controlId + 'maintain-aspect-ratio',
+                    'type'  : 'boolean',
+                    'name'  : 'Maintain Aspect Ratio?',
+                    'value' : $xmlImage.attr('maintain-aspect-ratio'),
+                    'description' : 'Should the image maintain its aspect ratio?'
+                },
+                {
+                    'id'    : controlId + 'anchor',
+                    'type'  : 'select',
+                    'name'  : 'Anchor',
+                    'value' : $xmlImage.attr('anchor'),
+                    'description' : 'Anchor',
+                    'choices'   : [{'label':'left', 'value':'left'},{'label':'center', 'value':'center'},{'label':'right', 'value':'right'}]
                 }
             ]
         };
