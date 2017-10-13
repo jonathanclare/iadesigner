@@ -642,6 +642,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                     // Resize the active widget.
                     var x = $widget.position().left, y = $widget.position().top, w = $widget.outerWidth(), h = $widget.outerHeight();
+                    var xAnchor = widget.xAnchor();
+                    if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w;   
+                    //else if (xAnchor === 'middle' || xAnchor === 'center') x = x + (w / 2);             
 
                     // Calculate percentage dimensions.
                     var xPerc = (x / report.container.width()) * 100;
@@ -658,6 +661,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
                 if (attribute === 'anchor')
                 {
+                    // ---------------When rescale is off this doesnt work-------------
                     var x = parseFloat($xmlWidget.attr('x')); 
                     var w = parseFloat($xmlWidget.attr('width')); 
                     console.log(w);
