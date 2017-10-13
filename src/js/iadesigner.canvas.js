@@ -367,7 +367,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 		// Resize the active widget.
 		var x = $dragPanel.position().left, y = $dragPanel.position().top, w = $dragPanel.outerWidth(), h = $dragPanel.outerHeight();
-
 		var xAnchor = activeWidget.xAnchor();
 		if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w;	
 		else if (xAnchor === 'middle' || xAnchor === 'center') x = x + (w / 2);				
@@ -380,7 +379,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 		if (activeWidget.height() === undefined) hPerc = undefined;
 
-		if (activeWidget.rescale) activeWidget.setDimensions(xPerc, yPerc, wPerc, hPerc);
+		if (activeWidget.rescale === 'true' || activeWidget.rescale === true) activeWidget.setDimensions(xPerc, yPerc, wPerc, hPerc);
 		else activeWidget.setDimensions(xPerc, yPerc, w, h); // Fixed width and height images. 
 
 		// Update the active panel dimensions.
@@ -390,7 +389,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 		if (options && options.onResizeEnd) 
 		{
-			if (activeWidget.rescale)
+			if (activeWidget.rescale === 'true' || activeWidget.rescale === true)
 				options.onResizeEnd.call(null, activeWidget.id,  xPerc, yPerc, wPerc, hPerc); 
 			else
 				options.onResizeEnd.call(null, activeWidget.id,  xPerc, yPerc, w, h); 

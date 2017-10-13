@@ -565,19 +565,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             if (x !== undefined) $xmlWidget.attr('x', Math.round((x / 100) * 800));
             if (y !== undefined) $xmlWidget.attr('y', Math.round((y / 100) * 600));
-            if (w !== undefined && $xmlWidget.attr('width') !== undefined) $xmlWidget.attr('width', Math.round((w / 100) * 800));
-            if (w !== undefined && $xmlWidget.attr('wrap-width') !== undefined) $xmlWidget.attr('wrap-width', Math.round((w / 100) * 800));
-            if (h !== undefined && $xmlWidget.attr('height') !== undefined) $xmlWidget.attr('height', Math.round((h / 100) * 600));
 
             var tagName = $xmlWidget.prop('tagName');
-            if (tagName === 'Image') // Image is a special case cos of weird anchoring in original designer.
+            if (tagName === 'Image' && $xmlWidget.attr('rescale') === 'false' || $xmlWidget.attr('rescale') === false) // Image is a special case cos of weird anchoring in original designer.
             {
-
+                if (w !== undefined && $xmlWidget.attr('width') !== undefined) $xmlWidget.attr('width', w);
+                if (h !== undefined && $xmlWidget.attr('height') !== undefined) $xmlWidget.attr('height', h);
             }
             else
             {
-                
+                if (w !== undefined && $xmlWidget.attr('width') !== undefined) $xmlWidget.attr('width', Math.round((w / 100) * 800));
+                if (h !== undefined && $xmlWidget.attr('height') !== undefined) $xmlWidget.attr('height', Math.round((h / 100) * 600));
             }
+            if (w !== undefined && $xmlWidget.attr('wrap-width') !== undefined) $xmlWidget.attr('wrap-width', Math.round((w / 100) * 800));
                 
             onWidgetChanged(widgetId); // On widget changed.
         }
@@ -631,27 +631,54 @@ var iadesigner = (function (iad, $, window, document, undefined)
         if ($xmlWidget.length)
         {
             var tagName = $xmlWidget.prop('tagName');
-            if (tagName === 'Image' && attribute === 'anchor') // Image is a special case cos of weird anchoring in original designer.
+            if (tagName === 'Image') // Image is a special case cos of weird anchoring in original designer.
             {
-                var x = parseFloat($xmlWidget.attr('x')); 
-                var w = parseFloat($xmlWidget.attr('width')); 
-                var anchor = $xmlWidget.attr('anchor');
-                if (anchor === 'center')
-                {
-                    if (value === 'left') x = x - (w  / 2);
-                    else if (value === 'right') x = x + (w  / 2);
+                if (attribute === 'rescale')
+                { 
+                    $xmlWidget.attr(attribute, value);
+
+                    var widget = report.getWidget(widgetId);
+                    var $widget = widget.container;
+
+                    // Resize the active widget.
+                    var x = $widget.position().left, y = $widget.position().top, w = $widget.outerWidth(), h = $widget.outerHeight();
+
+                    // Calculate percentage dimensions.
+                    var xPerc = (x / report.container.width()) * 100;
+                    var yPerc = (y / report.container.height()) * 100;
+                    var wPerc = (w / report.container.width()) * 100;
+                    var hPerc = (h / report.container.height()) * 100;
+
+                    if (widget.height() === undefined) hPerc = undefined;
+
+                    if (value === true) 
+                        this.setWidgetDimensions(widgetId, xPerc, yPerc, wPerc, hPerc);
+                    else  
+                        this.setWidgetDimensions(widgetId, xPerc, yPerc, w, h); // Fixed width and height images. 
                 }
-                else if (anchor === 'right')
+                if (attribute === 'anchor')
                 {
-                    if (value === 'left') x = x - w;
-                    else if (value === 'center') x = x - (w  / 2);
+                    var x = parseFloat($xmlWidget.attr('x')); 
+                    var w = parseFloat($xmlWidget.attr('width')); 
+                    console.log(w);
+                    var anchor = $xmlWidget.attr('anchor');
+                    if (anchor === 'center')
+                    {
+                        if (value === 'left') x = x - (w  / 2);
+                        else if (value === 'right') x = x + (w  / 2);
+                    }
+                    else if (anchor === 'right')
+                    {
+                        if (value === 'left') x = x - w;
+                        else if (value === 'center') x = x - (w  / 2);
+                    }
+                    else
+                    {
+                        if (value === 'center') x = x + (w  / 2);
+                        else if (value === 'right') x = x + w;
+                    }
+                    $xmlWidget.attr('x', x);
                 }
-                else
-                {
-                    if (value === 'center') x = x + (w  / 2);
-                    else if (value === 'right') x = x + w;
-                }
-                $xmlWidget.attr('x', x);
             }
 
             if (attribute === 'nodevalue')
