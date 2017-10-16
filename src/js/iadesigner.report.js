@@ -662,26 +662,26 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 if (attribute === 'anchor')
                 {
                     // ---------------When rescale is off this doesnt work-------------
-                    var x = parseFloat($xmlWidget.attr('x')); 
-                    var w = parseFloat($xmlWidget.attr('width')); 
-                    console.log(w);
+                    var cx = parseFloat($xmlWidget.attr('x')); 
+                    var cw = parseFloat($xmlWidget.attr('width')); 
+                    console.log(cw);
                     var anchor = $xmlWidget.attr('anchor');
                     if (anchor === 'center')
                     {
-                        if (value === 'left') x = x - (w  / 2);
-                        else if (value === 'right') x = x + (w  / 2);
+                        if (value === 'left') cx = cx - (cw  / 2);
+                        else if (value === 'right') cx = cx + (cw  / 2);
                     }
                     else if (anchor === 'right')
                     {
-                        if (value === 'left') x = x - w;
-                        else if (value === 'center') x = x - (w  / 2);
+                        if (value === 'left') cx = cx - cw;
+                        else if (value === 'center') cx = cx - (cw  / 2);
                     }
                     else
                     {
-                        if (value === 'center') x = x + (w  / 2);
-                        else if (value === 'right') x = x + w;
+                        if (value === 'center') cx = cx + (cw  / 2);
+                        else if (value === 'right') cx = cx + cw;
                     }
-                    $xmlWidget.attr('x', x);
+                    $xmlWidget.attr('x', cx);
                 }
             }
 

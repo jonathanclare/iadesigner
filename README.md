@@ -28,6 +28,8 @@ Run the following commands in a command prompt opened from this directory.
 > npm install
 ```
 
+If errors occur during this process you may need to update your versions of Node and NPM.
+
 # DEVELOPMENT
 
 Run the following commands in a command prompt opened from this directory. 
@@ -101,6 +103,40 @@ Version bumped to 1.1.1
 ```sh
 > npm run dist:major
 ```
+
+### GitHub
+
+When packaging the app you will automatically commit and create a new release on github: 
+
+To switch this off make the folloeing changes to 'bump' in gruntfile.js:
+
+* commit: false,
+* createTag: false,
+* push: false,
+
+When first running this you may get the following error because you have not added git to your PATH variables
+
+```sh
+> Fatal error: Can not create the commit: 'git' is not recognized as an internal or external command, operable program or batch file
+```
+
+see: ['git' is not recognized as an internal or external command](https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command)
+
+* Right-click "My Computer",
+* Select "Properties",
+* Open "Advanced",
+* Click "Environment Variables",
+* Highlight the "Path" variable,
+* Click "Edit",
+* Add your specific path to front of "Variable value" field, separated by a semicolon from the existing entry. Do not add a space between ; and last entry
+* In windows 7 the path could be: ;C:\Program Files (x86)\Git\bin;C:\Program Files (x86)\Git\cmd
+* And Don't Forget to close and reopen your command prompt!! 
+
+A secondary error may also occur relating to git-lfs.
+
+see: [Dealing with annoying git error](https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error)
+
+to fix this open '.git\hooks\pre-push and comment out all the lines in the file.
 
 # CHANGELOG
 

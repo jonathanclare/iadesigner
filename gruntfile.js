@@ -427,7 +427,7 @@ module.exports = function (grunt)
         A secondary error may also occur relating to git-lfs:
         https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error
 
-        to fix this open '.git\hooks\pre-push and comment out all the lines
+        to fix this open '.git\hooks\pre-push and comment out all the lines in the file
 
         to switch this off:
         commit: false,
