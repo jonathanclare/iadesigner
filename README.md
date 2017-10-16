@@ -18,6 +18,9 @@ To make sure Grunt has been properly installed, you can run the following comman
 > grunt --version
 ```
 
+### Install Git
+If you wish to use Git download and install from [Git](https://git-scm.com/downloads)
+
 # INSTALL APP 
 
 Install NPM project dependencies, build and run the app.
