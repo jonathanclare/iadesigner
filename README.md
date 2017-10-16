@@ -120,7 +120,7 @@ To switch this off make the following changes to the 'bump' attributes in gruntf
 > Fatal error: Can not create the commit: 'git' is not recognized as an internal or external command, operable program or batch file
 ```
 
-see: ['git' is not recognized as an internal or external command](https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command)
+see ['git' is not recognized as an internal or external command](https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command)
 
 You need to add git to your list of PATH environment variables.
 
@@ -148,7 +148,7 @@ Try installing [Git](https://git-scm.com/downloads)
 > This repository is configured for Git LFS but 'git-lfs' was not found on your path
 ```
 
-see: [Dealing with annoying git error](https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error)
+see [Dealing with annoying git error](https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error)
 
 * Open '.git\hooks\pre-push and comment out all the lines in the file.
 
