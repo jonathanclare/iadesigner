@@ -107,15 +107,15 @@ Version bumped to 1.1.1
 > npm run dist:major
 ```
 
-### GitHub
+### Handling Git errors during packaging
 
 When packaging the app you will automatically commit and create a new release on github: 
 
 To switch this off make the following changes to the 'bump' attributes in gruntfile.js:
 
-* commit: false,
-* createTag: false,
-* push: false,
+* commit: false
+* createTag: false
+* push: false
 
 #### Error 1
 
