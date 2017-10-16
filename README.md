@@ -108,7 +108,7 @@ Version bumped to 1.1.1
 
 When packaging the app you will automatically commit and create a new release on github: 
 
-To switch this off make the folloeing changes to 'bump' in gruntfile.js:
+To switch this off make the following changes to the 'bump' attributes in gruntfile.js:
 
 * commit: false,
 * createTag: false,
@@ -140,4 +140,4 @@ to fix this open '.git\hooks\pre-push and comment out all the lines in the file.
 
 # CHANGELOG
 
-Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated on 'grunt buildWebsite'
+Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated using 'grunt buildWebsite'
