@@ -171,7 +171,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function saveChanges(callback)
     {
-        /*
         if (userReportLoaded)
         {
             var reportPath = path.parse(configPath).dir;
@@ -201,8 +200,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 ' See <a target="_blank" href="http://www.instantatlas.com/">www.instantatlas.com</a> for further details.',
                 backdrop: true
             });
-        }*/
-        if (callback !== undefined) callback.call(null);  
+        }
     }
 
     function saveChangesBeforeContinuing(callback)
