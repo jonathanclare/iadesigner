@@ -523,7 +523,7 @@ module.exports = function (grunt)
 
     // '>grunt build' 
     // Run this to build the app.
-    grunt.registerTask('build', ['clean:build','build-index-html', 'build-css', 'build-js', 'copy-files', 'build-website']);      
+    grunt.registerTask('build', ['clean:build','build-index-html', 'build-css', 'build-js', 'copy-files']);      
 
     // '>grunt package' 
     // Run this to package as an electron app.
