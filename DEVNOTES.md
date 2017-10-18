@@ -77,5 +77,3 @@ https://www.npmjs.com/package/http-server
 
 When I wanted to check the contents of an asar file (used in packaging the app) I installed asar for opening asar files. asar --help
 Installed asar for opening asar files. asar --help
-
-1n$tantWe8$1&3

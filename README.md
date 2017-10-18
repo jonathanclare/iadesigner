@@ -56,9 +56,9 @@ If errors occur during this process you may need to update your versions of Node
 
 All the following commands will create the 'dist' and 'deploy' folders.
 
-'dist' contains the application files.
+*dist* contains the application files.
 
-'deploy' contains the required application files plus the website files. This is the folder that will be deployed to the web.
+*deploy* contains the required application files plus the website files. This is the folder that will be deployed to the web.
 
 Version change in package.json is automated.
 
