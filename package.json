@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.132",
+  "version": "0.0.133",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -70,7 +70,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "https://online.instantatlas.com/designer/"
+        "url": "https://online.instantatlas.com/designer"
       }
     ],
     "appId": "com.instantatlas.iadesigner",
