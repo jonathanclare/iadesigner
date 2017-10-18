@@ -133,8 +133,8 @@ module.exports = function (grunt)
                     expand: true,
                     cwd: '<%= pkg.dir.src %>/website/',
                     src: ['*.css', '!*.min.css'],
-                    dest: '<%= pkg.dir.package %>',
-                    ext: '.min.css'
+                    dest: '<%= pkg.dir.website %>',
+                    ext: '.css'
                 }]
             }
         },
@@ -143,12 +143,12 @@ module.exports = function (grunt)
         {
             // Deletes build.
             build: {src: ['<%= pkg.dir.build %>']},
-            // Deletes package.
-            package: {src: ['<%= pkg.dir.package %>']},
+            // Deletes dist.
+            dist: {src: ['<%= pkg.dir.dist %>']},
             // Deletes deploy.
             deploy: {src: ['<%= pkg.dir.deploy %>']},
-            // Deletes release-notes.html because compile-handlebars appends rather than overwriting the file.
-            website: {src: ['<%= pkg.dir.src %>/website/release-notes.html', 'CHANGELOG.md']}
+            // Deletes website and CHANGELOG.md because compile-handlebars appends rather than overwriting the file.
+            website: {src: ['<%= pkg.dir.website %>', 'CHANGELOG.md']}
         },
         // Copies files to the build directory.
         copy: 
@@ -169,12 +169,12 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    // Copies latest.yml to the package directory for autoupdates to work.
+                    // Copies latest.yml to the dist directory for autoupdates to work.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.package %>/nsis-web',  
+                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
                         src: '*.yml',
-                        dest: '<%= pkg.dir.package %>'
+                        dest: '<%= pkg.dir.dist %>'
                     }
                 ]
             },
@@ -188,7 +188,7 @@ module.exports = function (grunt)
                         flatten: true, // Flattens results to a single level so directory structure isnt copied.
                         cwd: '<%= pkg.dir.src %>/website/', 
                         src: ['web.config', '*.png'],
-                        dest: '<%= pkg.dir.package %>/'
+                        dest: '<%= pkg.dir.website %>/'
                     }
                 ]
             },
@@ -196,12 +196,12 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    // Copies latest.yml to the package directory for autoupdates to work.
+                    // Copies latest.yml to the dist directory for autoupdates to work.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.package %>/nsis-web',  
+                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
                         src: '*.yml',
-                        dest: '<%= pkg.dir.package %>'
+                        dest: '<%= pkg.dir.dist %>'
                     }
                 ]
             }
@@ -229,13 +229,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_build %>': '<%= file.index_html_src %>', // 'destination': 'source'.
                 }
             },
-            website:  // Processes and copies the website files to the package directory.
+            website:  // Processes and copies the website files to the dist directory.
             {
                 files: 
                 [
-                    {'<%= pkg.dir.package %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
-                    {'<%= pkg.dir.package %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'},
-                    {'<%= pkg.dir.package %>/help/index.src.html': '<%= pkg.dir.src %>/website/help.html'}
+                    {'<%= pkg.dir.website %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
+                    {'<%= pkg.dir.website %>/release-notes/index.src.html': '<%= pkg.dir.website %>/release-notes/index.src.html'},
+                    {'<%= pkg.dir.website %>/help/index.src.html': '<%= pkg.dir.src %>/website/help/index.html'}
                 ]
             }
         }, 
@@ -256,13 +256,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_min %>': '<%= file.index_html_build %>' // 'destination': 'source'.
                 }
             },
-            website:  // Processes and copies the website files to the package directory.
+            website:  // Processes and copies the website files to the dist directory.
             {
                 files: 
                 [     
-                    {'<%= pkg.dir.package %>/index.html': '<%= pkg.dir.package %>/index.src.html'}, // 'destination': 'source'.                   
-                    {'<%= pkg.dir.package %>/release-notes/index.html': '<%= pkg.dir.package %>/release-notes/index.src.html'},                  
-                    {'<%= pkg.dir.package %>/help/index.html': '<%= pkg.dir.package %>/help/index.src.html'},
+                    {'<%= pkg.dir.website %>/index.html': '<%= pkg.dir.website %>/index.src.html'}, // 'destination': 'source'.                   
+                    {'<%= pkg.dir.website %>/release-notes/index.html': '<%= pkg.dir.website %>/release-notes/index.src.html'},                  
+                    {'<%= pkg.dir.website %>/help/index.html': '<%= pkg.dir.website %>/help/index.src.html'},
                 ]
             }
         },
@@ -387,18 +387,18 @@ module.exports = function (grunt)
                 files: 
                 [
                     {
-                        src: '<%= pkg.dir.src %>/website/release-notes.handlebars',
-                        dest: '<%= pkg.dir.src %>/website/release-notes.html'
+                        src: '<%= pkg.dir.src %>/website/release-notes/release-notes.handlebars',
+                        dest: '<%= pkg.dir.website %>/release-notes/index.src.html'
                     },
                     {
-                        src: '<%= pkg.dir.src %>/website/changelog.handlebars',
+                        src: 'changelog.handlebars',
                         dest: 'CHANGELOG.md'
                     }
                 ],
                 templateData: 'changelog.json'
             }
         },
-        // Used this to experiment with deploy package to online.
+        // Used this to experiment with deploy dist to online.
         'ftp-deploy': 
         {
             build: 
@@ -499,32 +499,31 @@ module.exports = function (grunt)
 
     // '>grunt todos' Extracts and lists TODOs and FIXMEs from code.
 
-
     grunt.registerTask('deploy', ['ftp-deploy:build']);
 
-    // '>grunt buildWebsite' 
+    // '>grunt build-website' 
     // Run this to build the release notes.
-    grunt.registerTask('buildWebsite', ['clean:website', 'compile-handlebars:website', 'processhtml:website', 'htmlmin:website', 'copy:website', 'cssmin:website']);
+    grunt.registerTask('build-website', ['clean:website', 'compile-handlebars:website', 'processhtml:website', 'htmlmin:website', 'copy:website', 'cssmin:website']);
 
-    // '>grunt buildIndexHtml' 
+    // '>grunt build-index-html' 
     // Run this to build the html files during development.
-    grunt.registerTask('buildIndexHtml', ['processhtml:build', 'htmlmin:build']);
+    grunt.registerTask('build-index-html', ['processhtml:build', 'htmlmin:build']);
 
-    // '>grunt buildCss' 
+    // '>grunt build-css' 
     // Run this to build the css files during development.
-    grunt.registerTask('buildCss', ['less', 'cssmin:build']);
+    grunt.registerTask('build-css', ['less', 'cssmin:build']);
 
-    // '>grunt buildJs' 
+    // '>grunt build-js' 
     // Run this to build the js files during development.
-    grunt.registerTask('buildJs', ['handlebars', 'jshint', 'concat', /*'groundskeeper',*/ 'uglify']);
+    grunt.registerTask('build-js', ['handlebars', 'jshint', 'concat', 'groundskeeper', 'uglify']);
 
-    // '>grunt copyFiles' 
+    // '>grunt copy-files' 
     // Run this to copy the extra files during development.
-    grunt.registerTask('copyFiles', ['copy:build']);
+    grunt.registerTask('copy-files', ['copy:build']);
 
     // '>grunt build' 
     // Run this to build the app.
-    grunt.registerTask('build', ['clean:build','buildIndexHtml', 'buildCss', 'buildJs', 'copyFiles']);      
+    grunt.registerTask('build', ['clean:build','build-index-html', 'build-css', 'build-js', 'copy-files', 'build-website']);      
 
     // '>grunt package' 
     // Run this to package as an electron app.
