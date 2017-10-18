@@ -165,19 +165,6 @@ module.exports = function (grunt)
                     }
                 ]
             },
-            latest: 
-            {
-                files: 
-                [
-                    // Copies latest.yml to the dist directory for autoupdates to work.
-                    {
-                        expand: true,
-                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
-                        src: '*.yml',
-                        dest: '<%= pkg.dir.dist %>'
-                    }
-                ]
-            },
             website: 
             {
                 files: 
@@ -196,12 +183,26 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    // Copies latest.yml to the dist directory for autoupdates to work.
+                    // Copies latest.yml to the deploy directory for autoupdates to work.
                     {
                         expand: true,
                         cwd: '<%= pkg.dir.dist %>/nsis-web',  
                         src: '*.yml',
-                        dest: '<%= pkg.dir.dist %>'
+                        dest: '<%= pkg.dir.deploy %>'
+                    },
+                    // Copies .7z and .exe files to the deploy directory.
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.dir.dist %>',  
+                        src: ['*.7z', '*.exe'],
+                        dest: '<%= pkg.dir.deploy %>'
+                    },
+                    // Copies website to deploy directory.
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.dir.website %>',  
+                        src: '**/*',
+                        dest: '<%= pkg.dir.deploy %>'
                     }
                 ]
             }
@@ -499,7 +500,11 @@ module.exports = function (grunt)
 
     // '>grunt todos' Extracts and lists TODOs and FIXMEs from code.
 
-    grunt.registerTask('deploy', ['ftp-deploy:build']);
+    // '>grunt ftp-deploy' Run this to ftp the deploy folder.
+
+    // '>grunt build-deploy' 
+    // Run this to build the deploy folder.
+    grunt.registerTask('build-deploy', ['clean:deploy', 'copy:deploy']);
 
     // '>grunt build-website' 
     // Run this to build the release notes.

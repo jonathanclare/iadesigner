@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.133",
+  "version": "0.0.134",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -56,7 +56,7 @@
     "postinstall": "electron-builder install-app-deps && grunt build && npm start",
     "pack": "electron-builder --dir",
     "dist": "grunt build && build --win --ia32 --x64",
-    "dist:web": "grunt build && grunt clean:dist && build --win nsis-web --ia32 --x64 && grunt copy:latest",
+    "dist:web": "grunt build && grunt clean:dist && build --win nsis-web --ia32 --x64 && grunt copy:latest && grunt build-deploy",
     "dist:prerelease": "grunt bump:prerelease && npm run dist:web",
     "dist:prepatch": "grunt bump:prepatch && npm run dist:web",
     "dist:preminor": "grunt bump:preminor && npm run dist:web",
