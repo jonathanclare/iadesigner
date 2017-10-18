@@ -52,7 +52,7 @@ Temporary Items
 
 # build folders
 build
-dist
+package
 deploy
 .ftppass
 
