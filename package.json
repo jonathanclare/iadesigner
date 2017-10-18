@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.127",
+  "version": "0.0.128",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -8,7 +8,8 @@
   "dir": {
     "src": "src",
     "build": "build",
-    "dist": "dist"
+    "package": "package",
+    "deploy": "deploy"
   },
   "keywords": [
     "InstantAtlas",
@@ -53,22 +54,22 @@
     "start": "electron ./src/main.js",
     "postinstall": "electron-builder install-app-deps && grunt build && npm start",
     "pack": "electron-builder --dir",
-    "dist": "grunt build && build --win --ia32 --x64",
-    "dist:web": "grunt build && grunt clean:dist && build --win nsis-web --ia32 --x64 && grunt copy:latest && grunt buildWebsite",
-    "dist:prerelease": "grunt bump:prerelease && npm run dist:web",
-    "dist:prepatch": "grunt bump:prepatch && npm run dist:web",
-    "dist:preminor": "grunt bump:preminor && npm run dist:web",
-    "dist:premajor": "grunt bump:premajor && npm run dist:web",
-    "dist:patch": "grunt bump:patch && npm run dist:web",
-    "dist:minor": "grunt bump:minor && npm run dist:web",
-    "dist:major": "grunt bump:major && npm run dist:web",
-    "dist:version": "grunt bump --setversion=2.0.1 && npm run dist:web"
+    "package": "grunt build && build --win --ia32 --x64",
+    "package:web": "grunt build && grunt clean:package && build --win nsis-web --ia32 --x64 && grunt copy:latest && grunt buildWebsite && grunt copy:deploy ",
+    "package:prerelease": "grunt bump:prerelease && npm run package:web",
+    "package:prepatch": "grunt bump:prepatch && npm run package:web",
+    "package:preminor": "grunt bump:preminor && npm run package:web",
+    "package:premajor": "grunt bump:premajor && npm run package:web",
+    "package:patch": "grunt bump:patch && npm run package:web",
+    "package:minor": "grunt bump:minor && npm run package:web",
+    "package:major": "grunt bump:major && npm run package:web",
+    "package:version": "grunt bump --setversion=2.0.1 && npm run package:web"
   },
   "build": {
     "publish": [
       {
         "provider": "generic",
-        "url": "http://oxygen/ia-designer/"
+        "url": "https://online.instantatlas.com/designer/"
       }
     ],
     "appId": "com.instantatlas.iadesigner",

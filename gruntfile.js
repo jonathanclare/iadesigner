@@ -133,7 +133,7 @@ module.exports = function (grunt)
                     expand: true,
                     cwd: '<%= pkg.dir.src %>/website/',
                     src: ['*.css', '!*.min.css'],
-                    dest: '<%= pkg.dir.dist %>',
+                    dest: '<%= pkg.dir.package %>',
                     ext: '.min.css'
                 }]
             }
@@ -143,8 +143,10 @@ module.exports = function (grunt)
         {
             // Deletes build.
             build: {src: ['<%= pkg.dir.build %>']},
-            // Deletes dist.
-            dist: {src: ['<%= pkg.dir.dist %>']},
+            // Deletes package.
+            package: {src: ['<%= pkg.dir.package %>']},
+            // Deletes deploy.
+            deploy: {src: ['<%= pkg.dir.deploy %>']},
             // Deletes release-notes.html because compile-handlebars appends rather than overwriting the file.
             website: {src: ['<%= pkg.dir.src %>/website/release-notes.html', 'CHANGELOG.md']}
         },
@@ -167,12 +169,12 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    // Copies latest.yml to the dist directory for autoupdates to work.
+                    // Copies latest.yml to the package directory for autoupdates to work.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
+                        cwd: '<%= pkg.dir.package %>/nsis-web',  
                         src: '*.yml',
-                        dest: '<%= pkg.dir.dist %>'
+                        dest: '<%= pkg.dir.package %>'
                     }
                 ]
             },
@@ -186,7 +188,20 @@ module.exports = function (grunt)
                         flatten: true, // Flattens results to a single level so directory structure isnt copied.
                         cwd: '<%= pkg.dir.src %>/website/', 
                         src: ['web.config', '*.png'],
-                        dest: '<%= pkg.dir.dist %>/'
+                        dest: '<%= pkg.dir.package %>/'
+                    }
+                ]
+            },
+            deploy: 
+            {
+                files: 
+                [
+                    // Copies latest.yml to the package directory for autoupdates to work.
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.dir.package %>/nsis-web',  
+                        src: '*.yml',
+                        dest: '<%= pkg.dir.package %>'
                     }
                 ]
             }
@@ -214,13 +229,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_build %>': '<%= file.index_html_src %>', // 'destination': 'source'.
                 }
             },
-            website:  // Processes and copies the website files to the dist directory.
+            website:  // Processes and copies the website files to the package directory.
             {
                 files: 
                 [
-                    {'<%= pkg.dir.dist %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
-                    {'<%= pkg.dir.dist %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'},
-                    {'<%= pkg.dir.dist %>/help/index.src.html': '<%= pkg.dir.src %>/website/help.html'}
+                    {'<%= pkg.dir.package %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
+                    {'<%= pkg.dir.package %>/release-notes/index.src.html': '<%= pkg.dir.src %>/website/release-notes.html'},
+                    {'<%= pkg.dir.package %>/help/index.src.html': '<%= pkg.dir.src %>/website/help.html'}
                 ]
             }
         }, 
@@ -241,13 +256,13 @@ module.exports = function (grunt)
                     '<%= file.index_html_min %>': '<%= file.index_html_build %>' // 'destination': 'source'.
                 }
             },
-            website:  // Processes and copies the website files to the dist directory.
+            website:  // Processes and copies the website files to the package directory.
             {
                 files: 
                 [     
-                    {'<%= pkg.dir.dist %>/index.html': '<%= pkg.dir.dist %>/index.src.html'}, // 'destination': 'source'.                   
-                    {'<%= pkg.dir.dist %>/release-notes/index.html': '<%= pkg.dir.dist %>/release-notes/index.src.html'},                  
-                    {'<%= pkg.dir.dist %>/help/index.html': '<%= pkg.dir.dist %>/help/index.src.html'},
+                    {'<%= pkg.dir.package %>/index.html': '<%= pkg.dir.package %>/index.src.html'}, // 'destination': 'source'.                   
+                    {'<%= pkg.dir.package %>/release-notes/index.html': '<%= pkg.dir.package %>/release-notes/index.src.html'},                  
+                    {'<%= pkg.dir.package %>/help/index.html': '<%= pkg.dir.package %>/help/index.src.html'},
                 ]
             }
         },
@@ -383,19 +398,18 @@ module.exports = function (grunt)
                 templateData: 'changelog.json'
             }
         },
-        // Used this to experiment with deploy dist to online.
+        // Used this to experiment with deploy package to online.
         'ftp-deploy': 
         {
             build: 
             {
                 auth: 
                 {
-                    host: 'instantatlas.com',
-                    port: 21,
+                    host: 'waws-prod-db3-025.ftp.azurewebsites.windows.net',
                     authKey: 'key1'
                 },
-                src: 'package',
-                dest: 'apps/'
+                src: '<%= pkg.dir.deploy %>',
+                dest: 'site/wwwroot/designer/'
             }
         },
         /*
@@ -484,6 +498,9 @@ module.exports = function (grunt)
     // '>grunt watch' Runs the 'build' task if changes are made to the listed file.
 
     // '>grunt todos' Extracts and lists TODOs and FIXMEs from code.
+
+
+    grunt.registerTask('deploy', ['ftp-deploy:build']);
 
     // '>grunt buildWebsite' 
     // Run this to build the release notes.

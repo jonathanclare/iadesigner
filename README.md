@@ -62,49 +62,49 @@ Version change in package.json is automated.
 
 Version remains unchanged 0.0.0
 ```sh
-> npm run dist:web
+> npm run package:web
 ```
 
 Version bumped to 0.0.1-0
 ```sh
-> npm run dist:prepatch
+> npm run package:prepatch
 ```
 
 Version bumped to 0.0.1-1
 
-When prerelease is used ./dist/nsis-web/latest.yml is not generated.
-Instead the prerelease number (ie -1) is used to generate  ./dist/nsis-web/1.yml.
+When prerelease is used ./package/nsis-web/latest.yml is not generated.
+Instead the prerelease number (ie -1) is used to generate  ./package/nsis-web/1.yml.
 This makes sure end users arent accidentally upgraded to a prelease version.
 But you will have to run the .exe file to install and test the app as autoUpdater wont work because latest.yml has not changed.
 We cant just rename 1.yml to latest.yml and hope autoUpdater will work because it will be looking for 1.yml.
 
 ```sh
-> npm run dist:prerelease
+> npm run package:prerelease
 ```
 
 Version bumped to 0.0.1
 ```sh
-> npm run dist:patch
+> npm run package:patch
 ```
 
 Version bumped to 0.1.1-0
 ```sh
-> npm run dist:preminor
+> npm run package:preminor
 ```
 
 Version bumped to 0.1.1
 ```sh
-> npm run dist:minor
+> npm run package:minor
 ```
 
 Version bumped to 1.1.1-0
 ```sh
-> npm run dist:premajor
+> npm run package:premajor
 ```
 
 Version bumped to 1.1.1
 ```sh
-> npm run dist:major
+> npm run package:major
 ```
 
 ### Handling Git errors during packaging
