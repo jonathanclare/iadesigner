@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+	<head>
+        <!-- build:template
+        <title><%= title %> - Release Notes</title>
+        /build -->
+
+        <!-- build:template 
+        <%= banner %> 
+        /build -->
+        
+        <!-- build:template
+        <meta name="description" content="<%= title %>">
+        /build -->
+
+        <!-- build:template
+        <meta name="keywords" content="<%= keywords %>">
+        /build -->
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Prevent caching -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <meta http-equiv="Expires" content="0"/>
+
+        <!-- Icon -->
+        <!-- build:remove --> 
+            <link rel="icon" href="./ia.png">
+        <!-- /build -->
+        <!-- build:template 
+            <link rel="icon" href="../ia.png">
+        /build -->
+
+        <!-- Import webfonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        <!-- Styles -->
+        <link rel="stylesheet" type="text/css" href="../default.css"  />
+	</head>
+	<body>
+        <!-- Header -->
+        <header class="flex-box section header">
+
+            <!-- Logo -->
+            <!-- build:remove --> 
+                <div><div class="logo" style="background-image:url('./ia.png')"></div></div>
+            <!-- /build -->
+            <!-- build:template 
+                    <div><div class="logo" style="background-image:url('../ia.png')"></div></div>
+            /build -->
+
+            <!-- Nav -->
+            <nav role="navigation" class="nav flex-box">   
+                <!-- build:remove --> 
+                    <a class="flex-box nav-link" href="./">Overview</a> 
+                    <a class="flex-box nav-link nav-link-active" href="./release-notes.html">Release Notes</a>
+                    <a class="flex-box nav-link" href="./help.html">Help</a>
+                <!-- /build -->
+                <!-- build:template 
+                    <a class="flex-box nav-link" href="../">Overview</a> 
+                    <a class="flex-box nav-link nav-link-active" href="./">Release Notes</a>
+                    <a class="flex-box nav-link" href="../help/">Help</a></a>
+                /build -->
+            </nav>
+
+            <!-- Title -->
+        </header>
+
+        <!-- Main content -->
+        <main class="main">
+            <section class="flex-box section">
+                <div class="title">Release Notes for InstantAtlas Designer</div>
+            </section>
+
+        	<!-- Handlebars -->
+            {{#each this}}
+            <section class="flex-box section release-section">                
+            	<div class="flex-box release-header">
+                    <div class="flex-box box badge version">{{version}}</div>
+                    <div class="flex-box box badge date">{{date}}</div>
+                </div>
+            	<ul class="list">
+	            	{{#each changes}}
+					<li class="flex-box list-item"">
+                		<div class="flex-box box badge {{badge}}">{{badge}}</div>
+                		<div class="flex-box box description">
+                            {{description}} {{#if bug}} - <a href="http://bugzilla.geowise.co.uk/show_bug.cgi?id={{bug}}">{{bug}}</a>{{/if}}
+                        </div>
+                	</li>
+					{{/each}}
+            	</ul>
+            </section>
+			{{/each}}
+        </main>
+	</body>
+</html>
