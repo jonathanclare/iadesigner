@@ -1,5 +1,7 @@
 # INSTALL DEPENDENCIES
 
+Unless otherwise instructed run all commands from a command prompt opened from the project directory.
+
 ### Install Node
 Check if node has already been installed by opening a command prompt and running the following command: 
 ```sh
@@ -19,13 +21,11 @@ To make sure Grunt has been properly installed, you can run the following comman
 ```
 
 ### Install Git
-If you wish to use Git download and install from [Git](https://git-scm.com/downloads)
+If you wish to use Git, download and install from [Git](https://git-scm.com/downloads)
 
 # INSTALL APP 
 
 Install NPM project dependencies, build and run the app.
-
-Run the following commands in a command prompt opened from this directory. 
 
 ```sh
 > npm install
@@ -35,14 +35,12 @@ If errors occur during this process you may need to update your versions of Node
 
 # DEVELOPMENT
 
-Run the following commands in a command prompt opened from this directory. 
-
 ### Automatically build the app when code changes are made  
 ```sh
 > grunt watch
 ```
 
-### Build the code 
+### Build the code during development
 ```sh
 > grunt build
 ```
@@ -54,9 +52,13 @@ Run the following commands in a command prompt opened from this directory.
 
 # PACKAGE
 
-Run the following command in a command prompt opened from this directory. 
+### Build and package Electron App for web download
 
-### Package and build Electron App for web download
+All the following commands will create the 'dist' and 'deploy' folders.
+
+'dist' contains the application files.
+
+'deploy' contains the required application files plus the website files. This is the folder that will be deployed to the web.
 
 Version change in package.json is automated.
 
@@ -107,7 +109,29 @@ Version bumped to 1.1.1
 > npm run dist:major
 ```
 
-### Handling Git errors during packaging
+# DEPLOYMENT
+
+```sh
+> npm run ftp:deploy
+```
+
+This will ftp the *deploy* directory to [https://online.instantatlas.com/designer/](https://online.instantatlas.com/designer/) using *ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net*
+
+Usernames and passwords for the site should be stored in a json file named .ftppass in the project folder using the following format:
+
+```javascript
+{
+	"key1": 
+	{
+		"username": "username1",
+		"password": "password1"
+	}
+} 
+```
+
+Replace *username1* and *password1* with the correct values found in *O:\InstantAtlas Online (IAO)\Entry Level\AzureConnections.docx*
+
+# Handling Git errors during packaging
 
 When packaging the app you will automatically commit and create a new release on github: 
 
@@ -117,7 +141,7 @@ To switch this off make the following changes to the 'bump' attributes in gruntf
 * createTag: false
 * push: false
 
-#### Error 1
+### Error 1
 
 ```sh
 > Fatal error: Can not create the commit: 'git' is not recognized as an internal or external command, operable program or batch file
@@ -137,7 +161,7 @@ You need to add git to your list of PATH environment variables.
 * In windows 7 the path could be: ;C:\Program Files (x86)\Git\bin;C:\Program Files (x86)\Git\cmd;
 * And Don't Forget to close and reopen your command prompt!! 
 
-#### Error 2
+### Error 2
 
 ```sh
 > github --credentials get: github: command not found
@@ -145,7 +169,7 @@ You need to add git to your list of PATH environment variables.
   
 Try installing [Git](https://git-scm.com/downloads)
 
-#### Error 3
+### Error 3
 
 ```sh
 > This repository is configured for Git LFS but 'git-lfs' was not found on your path
