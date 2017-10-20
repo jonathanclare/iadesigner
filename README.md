@@ -110,7 +110,7 @@ Version bumped to 1.1.1
 # DEPLOYMENT
 
 ```sh
-> npm run ftp:deploy
+> npm run deploy
 ```
 
 This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
