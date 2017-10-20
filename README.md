@@ -179,4 +179,4 @@ see [Dealing with annoying git error](https://stackoverflow.com/questions/368487
 
 # CHANGELOG
 
-Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated using *_grunt build-website_*
+Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated using **_grunt build-website_**
