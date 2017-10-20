@@ -1,6 +1,6 @@
 # INSTALL DEPENDENCIES
 
-Unless otherwise instructed run all commands from a command prompt opened from the project directory.
+Unless otherwise instructed run all commands from a command prompt opened from the project directory (ie this directory).
 
 ### Install Node
 Check if node has already been installed by opening a command prompt and running the following command: 
@@ -54,7 +54,7 @@ If errors occur during this process you may need to update your versions of Node
 
 ### Build and package Electron App for web download
 
-All the following commands will create the 'dist' and 'deploy' folders.
+All the following commands will create the *dist* and *deploy* folders.
 
 *dist* contains the application files.
 
@@ -135,7 +135,7 @@ Replace *username1* and *password1* with the correct values found in *O:\Instant
 
 When packaging the app you will automatically commit and create a new release on github: 
 
-To switch this off make the following changes to the 'bump' attributes in gruntfile.js:
+To switch this off make the following changes to the *bump* attributes in gruntfile.js:
 
 * commit: false
 * createTag: false
@@ -177,7 +177,7 @@ Try installing [Git](https://git-scm.com/downloads)
 
 see [Dealing with annoying git error](https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error)
 
-* Open '.git\hooks\pre-push and comment out all the lines in the file.
+* Open .git\hooks\pre-push and comment out all the lines in the file.
 
 # CHANGELOG
 
