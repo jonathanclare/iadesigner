@@ -113,7 +113,7 @@ Version bumped to 1.1.1
 > npm run ftp:deploy
 ```
 
-This will ftp the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
+This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
 
 Usernames and passwords for the site should be stored in a json file named .ftppass in the project folder using the following format:
 
@@ -179,4 +179,4 @@ see [Dealing with annoying git error](https://stackoverflow.com/questions/368487
 
 # CHANGELOG
 
-Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated using 'grunt build-website'
+Record changes in changelog.json - do not edit CHANGELOG.md or ./website/release-notes.html. These are generated using *_grunt build-website_*
