@@ -35,17 +35,17 @@ If errors occur during this process you may need to update your versions of Node
 
 # DEVELOPMENT
 
-### Automatically build the app when code changes are made  
+Automatically build the app when code changes are made  
 ```sh
 > grunt watch
 ```
 
-### Build the code during development
+Build the code during development
 ```sh
 > grunt build
 ```
 
-### Start the App 
+Start the App 
 ```sh
 > npm start
 ```
