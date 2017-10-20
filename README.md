@@ -52,9 +52,7 @@ Start the App
 
 # PACKAGE
 
-### Build and package Electron App for web download
-
-All the following commands will create the *dist* and *deploy* folders.
+Use the following commands to generate *dist* and *deploy* folders.
 
 *dist* contains the application files.
 
