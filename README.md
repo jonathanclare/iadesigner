@@ -21,7 +21,7 @@ To make sure Grunt has been properly installed, you can run the following comman
 ```
 
 ### Install Git
-If you wish to use Git, download and install from [Git](https://git-scm.com/downloads)
+If you wish to use Git for version control, download and install from [Git](https://git-scm.com/downloads)
 
 # INSTALL APP 
 
