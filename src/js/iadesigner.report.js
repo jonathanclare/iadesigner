@@ -574,6 +574,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
             else
             {
+                var cw = Math.round((w / 100) * 800);
                 if (w !== undefined && $xmlWidget.attr('width') !== undefined) $xmlWidget.attr('width', Math.round((w / 100) * 800));
                 if (h !== undefined && $xmlWidget.attr('height') !== undefined) $xmlWidget.attr('height', Math.round((h / 100) * 600));
             }
@@ -644,7 +645,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     var x = $widget.position().left, y = $widget.position().top, w = $widget.outerWidth(), h = $widget.outerHeight();
                     var xAnchor = widget.xAnchor();
                     if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w;   
-                    //else if (xAnchor === 'middle' || xAnchor === 'center') x = x + (w / 2);             
 
                     // Calculate percentage dimensions.
                     var xPerc = (x / report.container.width()) * 100;
@@ -661,10 +661,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
                 if (attribute === 'anchor')
                 {
-                    // ---------------When rescale is off this doesnt work-------------
                     var cx = parseFloat($xmlWidget.attr('x')); 
                     var cw = parseFloat($xmlWidget.attr('width')); 
-                    console.log(cw);
+                    if ($xmlWidget.attr('rescale') === 'false' || $xmlWidget.attr('rescale') === false) cw = (cw / report.container.width()) * 800;
+
                     var anchor = $xmlWidget.attr('anchor');
                     if (anchor === 'center')
                     {

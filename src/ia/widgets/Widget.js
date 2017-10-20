@@ -208,6 +208,7 @@ ia.Widget.prototype.maximize = function()
  */
 ia.Widget.prototype.setSize = function(width, height)
 {
+	//ia.log(width+" "+height);
 	var units = "%";
 	if (this.rescale == 'false' || this.rescale == false) units = "px";
 	this._width = width;
@@ -228,7 +229,7 @@ ia.Widget.prototype.setSize = function(width, height)
 ia.Widget.prototype._addedResizeListener = false
 ia.Widget.prototype.setPosition = function(x, y, xAnchor, yAnchor)
 {
-	//ia.log(x+" "+y+" "+xAnchor+" "+yAnchor)
+	//ia.log(x+" "+y+" "+xAnchor+" "+yAnchor);
 	this._x = x;
 	this._y = y;
 	this._xAnchor = xAnchor || this._xAnchor;

@@ -12,7 +12,7 @@ ia.Image = function(id, src)
 {		
 	ia.Image.baseConstructor.call(this, id);
 	//this.container = $j('<img>').addClass('ia-widget ia-image').attr('id', 'ia-widget-' + id).attr('src', src);	
-	this.container = $j('<div style="border:5px solid red">').addClass('ia-widget ').attr('id', 'ia-widget-' + id);	
+	this.container = $j('<div>').addClass('ia-widget ').attr('id', 'ia-widget-' + id);	
 };
 ia.extend(ia.Widget, ia.Image);
 	
