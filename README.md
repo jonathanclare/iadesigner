@@ -52,11 +52,11 @@ Start the App
 
 # PACKAGE
 
-Use the following commands to generate *dist* and *deploy* folders.
+Use the following commands to generate **_dist_** and **_deploy_** folders.
 
-*dist* contains the application files.
+**_dist_** contains the application files.
 
-*deploy* contains the required application files plus the website files. This is the folder that will be deployed to the web.
+**_deploy_** contains the required application files plus the website files. This is the folder that will be deployed to the web.
 
 Version change in package.json is automated.
 
@@ -113,7 +113,7 @@ Version bumped to 1.1.1
 > npm run ftp:deploy
 ```
 
-This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
+This will transfer the **_deploy_** directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
 
 Usernames and passwords for the site should be stored in a json file named .ftppass in the project folder using the following format:
 
@@ -127,13 +127,13 @@ Usernames and passwords for the site should be stored in a json file named .ftpp
 } 
 ```
 
-Replace *username1* and *password1* with the correct values found in *O:\InstantAtlas Online (IAO)\Entry Level\AzureConnections.docx*
+Replace **_username1_** and **_password1_** with the correct values found in **_O:\InstantAtlas Online (IAO)\Entry Level\AzureConnections.docx_**
 
 # Handling Git errors during packaging
 
 When packaging the app you will automatically commit and create a new release on github: 
 
-To switch this off make the following changes to the *bump* attributes in gruntfile.js:
+To switch this off make the following changes to the **_bump_** attributes in gruntfile.js:
 
 * commit: false
 * createTag: false
