@@ -433,17 +433,48 @@ var iadesigner = (function (iad, $, window, document, undefined)
 	// Update the dimensions of the active panel.
 	function updateActivePanel()
 	{
-		var w = activeWidget;
+		if (activeWidget !== undefined)
+		{
+			var w = activeWidget;
 
-		var xPerc = (w.container.position().left / $parent.width()) * 100;
-		var yPerc = (w.container.position().top / $parent.height()) * 100; 
-		var wPerc = (w.container.outerWidth() / $parent.width()) * 100;
-		var hPerc = (w.container.outerHeight() / $parent.height()) * 100; 
-	    var zIndex = w.zIndex();
+			var xPerc = (w.container.position().left / $parent.width()) * 100;
+			var yPerc = (w.container.position().top / $parent.height()) * 100; 
+			var wPerc = (w.container.outerWidth() / $parent.width()) * 100;
+			var hPerc = (w.container.outerHeight() / $parent.height()) * 100; 
+		    var zIndex = w.zIndex();
 
-		if (w.xAnchor() === 'middle' || w.xAnchor() === 'center') xPerc = xPerc - (wPerc / 2);
+			var marginLeft;
 
-		$activePanel.css({'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
+			if (w.rescale === 'true' || w.rescale === true)
+			{
+				if (w.xAnchor() == "middle" || w.xAnchor() == "center")
+				{					
+					marginLeft = (w.width() / 2) * -1;
+					$activePanel.css({'margin-left' : marginLeft+'%', 'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
+				}
+				else
+				{
+					$activePanel.css({'margin-left' : '', 'top': yPerc+'%', 'width': wPerc+'%', 'height': hPerc+'%', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
+				}
+			}
+			else
+			{
+				if (w.xAnchor() == "end" || w.xAnchor() == "right")
+				{		
+					xPerc = (($parent.width() - (w.container.position().left + w.container.outerWidth())) / $parent.width()) * 100;
+					$activePanel.css({'margin-left' : '', 'top': yPerc+'%', 'width': w.container.outerWidth()+'px', 'height': w.container.outerHeight()+'px', 'left' : '', 'right' : xPerc+'%', 'display' : 'inline', 'z-index': zIndex});
+				}
+				else if (w.xAnchor() == "middle" || w.xAnchor() == "center")
+				{
+					marginLeft = (w.width() / 2) * -1;
+					$activePanel.css({'margin-left' : marginLeft+'px', 'top': yPerc+'%', 'width': w.container.outerWidth()+'px', 'height': w.container.outerHeight()+'px', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
+				}
+				else
+				{
+					$activePanel.css({'margin-left' : '', 'top': yPerc+'%', 'width': w.container.outerWidth()+'px', 'height': w.container.outerHeight()+'px', 'left' : xPerc+'%', 'right' : '', 'display' : 'inline', 'z-index': zIndex});
+				}
+			}
+		}
 	}
 
 	// Selects the widget with the given id.
@@ -495,6 +526,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 		// Add mouseenter handler to widgets.
 		if (iad.canvas.isActive) iad.canvas.on();
+
+		updateActivePanel();
 	};
 
 	// Switches on the drag canvas.

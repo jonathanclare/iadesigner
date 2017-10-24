@@ -860,6 +860,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 if (widgetId === selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
                 if (type === 'property-added' || type === 'property-removed' || type === 'column-changed') iad.configforms.showWidgetForm(widgetId);
+                iad.canvas.update();
             },
             onZIndexChanged: function (widgetId)
             {

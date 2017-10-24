@@ -644,7 +644,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     // Resize the active widget.
                     var x = $widget.position().left, y = $widget.position().top, w = $widget.outerWidth(), h = $widget.outerHeight();
                     var xAnchor = widget.xAnchor();
-                    if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w;   
+                    if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w; 
 
                     // Calculate percentage dimensions.
                     var xPerc = (x / report.container.width()) * 100;

@@ -261,9 +261,12 @@ ia.Widget.prototype.setPosition = function(x, y, xAnchor, yAnchor)
 				}.bind(this));
 			}
 		}
-
-		var marginLeft = (this.container.width() / 2) * -1;
-		this.container.css({"margin-left" : marginLeft+"px"});
+		
+		var  marginLeft = (this._width / 2) * -1;
+		if (this.rescale == 'false' || this.rescale == false)
+			this.container.css({"margin-left" : marginLeft+"px"});
+		else
+			this.container.css({"margin-left" : marginLeft+"%"});
 	}
 	else  this.container.css({"left" : this._x+"%"});
 

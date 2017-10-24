@@ -1,5 +1,13 @@
 [
 {
+	"version":"0.0.138",
+	"date":"2017-10-24",
+	"changes":
+	[
+		{"badge":"fixed", "description":"Fixed issues with image resizing, anchoring and general manipulation", "bug":""}
+	]
+},
+{
 	"version":"0.0.119",
 	"date":"2017-10-11",
 	"changes":
