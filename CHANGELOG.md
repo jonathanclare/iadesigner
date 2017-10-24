@@ -1,5 +1,12 @@
 # Changelog
 
+### v0.0.139 *2017-10-24*
+* **fixed** - Release notes link changed to https://online.instantatlas.com/designer/release-notes/ 
+* **fixed** - Updated ia-min.js file to fix image issues 
+
+### v0.0.138 *2017-10-24*
+* **fixed** - Fixed issues with image resizing, anchoring and general manipulation 
+
 ### v0.0.119 *2017-10-11*
 * **improved** - Selection and editing of widgets 
 * **improved** - Edit widget button only appears when required 

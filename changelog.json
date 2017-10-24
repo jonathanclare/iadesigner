@@ -1,5 +1,14 @@
 [
 {
+	"version":"0.0.139",
+	"date":"2017-10-24",
+	"changes":
+	[
+		{"badge":"fixed", "description":"Release notes link changed to https://online.instantatlas.com/designer/release-notes/", "bug":""},
+		{"badge":"fixed", "description":"Updated ia-min.js file to fix image issues", "bug":""}
+	]
+},
+{
 	"version":"0.0.138",
 	"date":"2017-10-24",
 	"changes":
