@@ -28,6 +28,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         };
     };
 
+    iad.util.isNumeric = function (n) 
+    {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    };
+
     iad.util.checkInput = function (type)
     {
         var input = document.createElement("input");

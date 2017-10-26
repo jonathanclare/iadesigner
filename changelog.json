@@ -1,5 +1,13 @@
 [
 {
+	"version":"0.0.140",
+	"date":"2017-10-26",
+	"changes":
+	[
+		{"badge":"improved", "description":"Removed bottom navbar", "bug":""}
+	]
+},
+{
 	"version":"0.0.139",
 	"date":"2017-10-24",
 	"changes":
