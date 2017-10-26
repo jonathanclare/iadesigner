@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.0.140 *2017-10-26*
+* **improved** - Removed bottom navbar 
+
 ### v0.0.139 *2017-10-24*
 * **fixed** - Release notes link changed to https://online.instantatlas.com/designer/release-notes/ 
 * **fixed** - Updated ia-min.js file to fix image issues 
