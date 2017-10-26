@@ -27,6 +27,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var $editBtn = $('#iad-btn-widget-edit');
+    var $widgetControls = $('#iad-widget-controls');
 
     var selectedWidgetId;
     var widgetPropertiesAreDisplayed = false;
@@ -641,6 +642,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editGeneralProperties()
     {
+        $widgetControls.hide();
         if (widgetPropertiesAreDisplayed)
         {
             var title = iad.report.getDisplayName('PropertyGroup');
@@ -651,6 +653,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editWidgetProperties(widgetId)
     {
+        $widgetControls.show();
         if (widgetPropertiesAreDisplayed)
         {
             var title = iad.report.getDisplayName(widgetId);
