@@ -158,7 +158,7 @@ Use the following command to generate *dist* and *deploy* folders.
 # DEPLOYMENT
 
 ```sh
-> npm run deploy
+> grunt ftp:deploy
 ```
 
 This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
