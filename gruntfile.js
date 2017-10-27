@@ -433,6 +433,11 @@ module.exports = function (grunt)
 
         grunt bump --setversion=2.0.0
         >> Version bumped to 2.0.0
+
+        To switch off github commits make the following changes:
+        commit: false
+        createTag: false
+        push: false
         */
         'bump': 
         {
