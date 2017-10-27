@@ -96,11 +96,13 @@ This makes sure end users arent accidentally upgraded to a prelease version.
 But you will have to run the .exe file to install and test the app as autoUpdater wont work because latest.yml has not changed.
 We cant just rename 1.yml to latest.yml and hope autoUpdater will work because it will be looking for 1.yml.
 
-To switch this off github commits make the following changes to the *bump* attributes in gruntfile.js:
+To switch off github commits make the following changes to the *bump* attributes in gruntfile.js:
 
 * commit: false
 * createTag: false
 * push: false
+
+## Potential GitHub Errors
 
 ### Error 1
 
