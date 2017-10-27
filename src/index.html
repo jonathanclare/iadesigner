@@ -112,7 +112,7 @@
                     <ul class="nav navbar-nav">
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File&nbsp;<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">File</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open</a></li>
                                 <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save</a></li>
@@ -120,18 +120,18 @@
                                 <li><a id="iad-menuitem-exit" href="#">Exit</a></li>
                             </ul>
                         </li>
-                        <li><a id="iad-menuitem-config-gallery" href="#">Templates</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style&nbsp;<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Style</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
-                                <li><a id="iad-menuitem-open-color-scheme" href="#">Colour Scheme</a></li>
+                                <li><a id="iad-menuitem-config-gallery" href="#">Change Template</a></li>
+                                <li><a id="iad-menuitem-open-color-scheme" href="#">Change Colour Scheme</a></li>
                                 <li><a id="iad-menuitem-open-css" href="#">Edit Styles</a></li>
                                 <!--li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li-->
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Insert&nbsp;<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Insert</a>
                             <ul id="iad-dropdown-insert" class="dropdown-menu">
                                 <li><a id="iad-menuitem-insert-text" href="#">Text</a></li>
                                 <li><a id="iad-menuitem-insert-image" href="#">Image</a></li>
@@ -141,7 +141,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help&nbsp;<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Help</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li>
                                 <!--li><a id="iad-menuitem-settings" href="#">Settings</a></li-->
@@ -152,7 +152,6 @@
                     </ul>
 
                     <form class="navbar-form navbar-right">
-                        <button style="display:none" id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Edit Widget"><i class="fa fa-pencil"></i>&nbsp;Edit</button>
                         <div class="btn-group" data-toggle="buttons"> 
                             <label class="btn btn-default btn-sm active">
                                 <input type="radio" name="iad-radio-report-mode" value="design" />Design View
@@ -161,6 +160,15 @@
                                 <input type="radio" name="iad-radio-report-mode" value="published" />Published View
                             </label>                             
                             <!--button id="iad-menuitem-refresh-report" type="button" class="btn btn-default btn-sm" title="Refresh"><i class="fa fa-refresh"></i></button-->
+                        </div>
+                    </form>
+
+                    <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
+                        <div class="btn-group"> 
+                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Edit Widget"><i class="fa fa-pencil"></i>&nbsp;Edit</button>
+                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
+                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span></button>
+                            <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" style="color:#ff0000" title="Remove Widget"><i class="fa fa-trash-o"></i></button>                    
                         </div>
                     </form>
                 </div> 
@@ -187,15 +195,10 @@
                 </div>
                 <div class="iad-sidebar-footer">
                     <div class="btn-group dropup">  
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;Edit&nbsp;<span class="caret"></span></button>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;Edit</button>
                         <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
                             <!-- populated by designner.main.js updateWidgetPropertiesDropdown() -->
                         </ul>                
-                    </div>
-                    <div id="iad-widget-controls" class="btn-group"> 
-                        <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
-                        <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span></button>
-                        <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" style="color:#ff0000" title="Remove Widget"><i class="fa fa-trash-o"></i></button>
                     </div>
                 </div>
             </div>

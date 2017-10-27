@@ -26,8 +26,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
-    var $editBtn = $('#iad-btn-widget-edit');
-    var $widgetControls = $('#iad-widget-controls');
+    var $editWidgetBtn = $('#iad-btn-widget-edit');
 
     var selectedWidgetId;
     var widgetPropertiesAreDisplayed = false;
@@ -584,7 +583,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         if (name === 'widget') 
         {
             widgetPropertiesAreDisplayed = false;
-            if (selectedWidgetId !== undefined) $editBtn.show();
+            if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
         var $panel = getSidebar(name);
         var w = $panel.outerWidth() * -1;
@@ -596,7 +595,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         if (name === 'widget') 
         {
             widgetPropertiesAreDisplayed = false;
-            if (selectedWidgetId !== undefined) $editBtn.show();
+            if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
         var $panel = getSidebar(name);
         if ($panel.is(":visible"))
@@ -642,7 +641,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editGeneralProperties()
     {
-        $widgetControls.hide();
         if (widgetPropertiesAreDisplayed)
         {
             var title = iad.report.getDisplayName('PropertyGroup');
@@ -653,19 +651,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editWidgetProperties(widgetId)
     {
-        $widgetControls.show();
         if (widgetPropertiesAreDisplayed)
         {
             var title = iad.report.getDisplayName(widgetId);
             $sidebarWidgetTitle.text(title);
             iad.configforms.showWidgetForm(widgetId);
         }
-        else $editBtn.show();
+        else $editWidgetBtn.show();
     }
 
     function showWidgetProperties(widgetId)
     {
-        $editBtn.hide();
+        $editWidgetBtn.hide();
 
         widgetPropertiesAreDisplayed = true;
         var title = iad.report.getDisplayName(widgetId);
@@ -954,12 +951,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initCanvas()
     {
+        var $nav = $('#iad-nav-widgets');
         iad.canvas.init(
         {
             report : report,
             onSelect: function (widgetId)
             {
-                if (!widgetPropertiesAreDisplayed) $editBtn.show();
+                $nav.show();
                 if (widgetId !== selectedWidgetId)
                 {
                     selectedWidgetId = widgetId;
@@ -970,13 +968,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onUnselect: function (widgetId)
             {
+                $nav.hide();
                 iad.report.hideWidget(widgetId);
-                $editBtn.hide();
                 selectedWidgetId = undefined;
             },
             onClearSelection: function ()
             {     
-                $editBtn.hide();
+                $nav.hide();
                 selectedWidgetId = undefined;
                 editGeneralProperties();
             },
@@ -990,11 +988,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onActivated: function ()
             {
-                if (selectedWidgetId !== undefined && !widgetPropertiesAreDisplayed) $editBtn.show();
+                if (selectedWidgetId !== undefined) $nav.show();
             },
             onDeactivated: function ()
             {
-                $editBtn.hide();
+                $nav.hide();
             }
         });
     }
