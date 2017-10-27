@@ -50,90 +50,53 @@ Start the App
 > npm start
 ```
 
-# PACKAGE
+# VERSION CONTROL
 
-Use the following commands to generate *dist* and *deploy* folders.
-
-*dist* contains the application files.
-
-*deploy* contains the required application files plus the website files. This is the folder that will be deployed to the web.
-
-Version change in package.json is automated.
-
-Version remains unchanged 0.0.0
-```sh
-> npm run dist:web
-```
+Increments the version number, commits your changes and creates a new release on github: 
 
 Version bumped to 0.0.1-0
 ```sh
-> npm run dist:prepatch
+> grunt bump:prepatch
 ```
 
 Version bumped to 0.0.1-1
 
-When prerelease is used ./dist/nsis-web/latest.yml is not generated.
-Instead the prerelease number (ie -1) is used to generate  ./dist/nsis-web/1.yml.
-This makes sure end users arent accidentally upgraded to a prelease version.
-But you will have to run the .exe file to install and test the app as autoUpdater wont work because latest.yml has not changed.
-We cant just rename 1.yml to latest.yml and hope autoUpdater will work because it will be looking for 1.yml.
-
 ```sh
-> npm run dist:prerelease
+> grunt bump:prerelease
 ```
 
 Version bumped to 0.0.1
 ```sh
-> npm run dist:patch
+> grunt bump:patch
 ```
 
 Version bumped to 0.1.1-0
 ```sh
-> npm run dist:preminor
+> grunt bump:preminor
 ```
 
 Version bumped to 0.1.1
 ```sh
-> npm run dist:minor
+> grunt bump:minor
 ```
 
 Version bumped to 1.1.1-0
 ```sh
-> npm run dist:premajor
+> grunt bump:premajor
 ```
 
 Version bumped to 1.1.1
 ```sh
-> npm run dist:major
+> grunt bump:major
 ```
 
-# DEPLOYMENT
+When a pre bump is used ./dist/nsis-web/latest.yml is not generated.
+Instead the pre number (ie -1) is used to generate ./dist/nsis-web/1.yml.
+This makes sure end users arent accidentally upgraded to a prelease version.
+But you will have to run the .exe file to install and test the app as autoUpdater wont work because latest.yml has not changed.
+We cant just rename 1.yml to latest.yml and hope autoUpdater will work because it will be looking for 1.yml.
 
-```sh
-> npm run deploy
-```
-
-This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
-
-Usernames and passwords for the site should be stored in a json file named .ftppass in the project folder using the following format:
-
-```javascript
-{
-	"key1": 
-	{
-		"username": "username1",
-		"password": "password1"
-	}
-} 
-```
-
-Replace *username1* and *password1* with the correct values found in *O:\InstantAtlas Online (IAO)\Entry Level\AzureConnections.docx*
-
-# Handling Git errors during packaging
-
-When packaging the app you will automatically commit and create a new release on github: 
-
-To switch this off make the following changes to the *bump* attributes in gruntfile.js:
+To switch this off github commits make the following changes to the *bump* attributes in gruntfile.js:
 
 * commit: false
 * createTag: false
@@ -176,6 +139,41 @@ Try installing [Git](https://git-scm.com/downloads)
 see [Dealing with annoying git error](https://stackoverflow.com/questions/36848741/dealing-with-annoying-git-error)
 
 * Open .git\hooks\pre-push and comment out all the lines in the file.
+
+
+# PACKAGE
+
+Use the following command to generate *dist* and *deploy* folders.
+
+*dist* contains the application files.
+
+*deploy* contains the required application files plus the website files. This is the folder that will be deployed to the web.
+
+```sh
+> npm run dist:web
+```
+
+# DEPLOYMENT
+
+```sh
+> npm run deploy
+```
+
+This will transfer the *deploy* directory to https://online.instantatlas.com/designer/ using ftp://waws-prod-db3-025.ftp.azurewebsites.windows.net
+
+Usernames and passwords for the site should be stored in a json file named .ftppass in the project folder using the following format:
+
+```javascript
+{
+	"key1": 
+	{
+		"username": "username1",
+		"password": "password1"
+	}
+} 
+```
+
+Replace *username1* and *password1* with the correct values found in *O:\InstantAtlas Online (IAO)\Entry Level\AzureConnections.docx*
 
 # CHANGELOG
 
