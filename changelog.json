@@ -1,5 +1,15 @@
 [
 {
+	"version":"0.0.151",
+	"date":"2017-11-01",
+	"changes":
+	[
+		{"badge":"fixed", "description":"Scroll bar position does not go back to zero when switching between widgets properties", "bug":""},
+		{"badge":"fixed", "description":"Expanded panel is maintained when switching between widgets properties", "bug":""},
+		{"badge":"fixed", "description":"Made column properties draggable", "bug":""}
+	]
+},
+{
 	"version":"0.0.140",
 	"date":"2017-10-26",
 	"changes":

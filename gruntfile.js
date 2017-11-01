@@ -14,19 +14,19 @@ module.exports = function (grunt)
         file: 
         {
             // index.html.
-            index_html_src:     '<%= pkg.dir.src %>/index.html',
-            index_html_build:   '<%= pkg.dir.build %>/index.src.html',
-            index_html_min:     '<%= pkg.dir.build %>/index.html',
+            index_html_src:     'src/index.html',
+            index_html_build:   'build/index.src.html',
+            index_html_min:     'build/index.html',
 
             // JavaScript.
-            js_src:             '<%= pkg.dir.src %>/js/**/*.js',
-            js_build:           '<%= pkg.dir.build %>/js/<%= pkg.name %>.js',
-            js_min:             '<%= pkg.dir.build %>/js/<%= pkg.name %>.min.js',
-            js_map:             '<%= pkg.dir.build %>/js/<%= pkg.name %>.map',
+            js_src:             'src/js/**/*.js',
+            js_build:           'build/js/<%= pkg.name %>.js',
+            js_min:             'build/js/<%= pkg.name %>.min.js',
+            js_map:             'build/js/<%= pkg.name %>.map',
 
             // CSS.
-            less_src:           '<%= pkg.dir.src %>/css/**/*.less',
-            css_build:          '<%= pkg.dir.build %>/css/<%= pkg.name %>.css',
+            less_src:           'src/css/**/*.less',
+            css_build:          'build/css/<%= pkg.name %>.css',
         },
         // Detects errors and potential problems in the js source code files and grunt file.
         jshint: 
@@ -35,7 +35,7 @@ module.exports = function (grunt)
             {
                 scripturl:true // Ignore Script Url warnings.
             },
-            all: ['gruntfile.js', 'src/main.js', '<%= pkg.dir.src %>/js/<%= pkg.name %>.*.js']
+            all: ['gruntfile.js', 'src/main.js', 'src/js/<%= pkg.name %>.*.js']
         },
         // Concatenates and bundles the js source code file.
         // Adds a banner displaying the project name, version and date.
@@ -92,7 +92,7 @@ module.exports = function (grunt)
                 files: 
                 {
                     '<%= file.js_min %>': ['<%= file.js_build %>'],  // 'destination': 'sources'.
-                    '<%= pkg.dir.build %>/main.js': ['<%= pkg.dir.src %>/main.js']  // 'destination': 'sources'.
+                    'build/main.js': ['src/main.js']  // 'destination': 'sources'.
                 }
             }
         },
@@ -120,9 +120,9 @@ module.exports = function (grunt)
                 files: [
                 {
                     expand: true,
-                    cwd: '<%= pkg.dir.build %>/css',
+                    cwd: 'build/css',
                     src: ['*.css', '!*.min.css'],
-                    dest: '<%= pkg.dir.build %>/css',
+                    dest: 'build/css',
                     ext: '.min.css'
                 }]
             },
@@ -131,9 +131,9 @@ module.exports = function (grunt)
                 files: [
                 {
                     expand: true,
-                    cwd: '<%= pkg.dir.src %>/website/',
+                    cwd: 'src/website/',
                     src: ['*.css', '!*.min.css'],
-                    dest: '<%= pkg.dir.website %>',
+                    dest: 'build-website',
                     ext: '.css'
                 }]
             }
@@ -142,13 +142,13 @@ module.exports = function (grunt)
         clean: 
         {
             // Deletes build.
-            build: {src: ['<%= pkg.dir.build %>']},
+            build: {src: ['build']},
             // Deletes dist.
-            dist: {src: ['<%= pkg.dir.dist %>']},
+            dist: {src: ['dist']},
             // Deletes deploy.
-            deploy: {src: ['<%= pkg.dir.deploy %>']},
+            deploy: {src: ['deploy']},
             // Deletes website and CHANGELOG.md because compile-handlebars appends rather than overwriting the file.
-            website: {src: ['<%= pkg.dir.website %>', 'CHANGELOG.md']}
+            website: {src: ['build-website', 'CHANGELOG.md']}
         },
         // Copies files to the build directory.
         copy: 
@@ -159,9 +159,9 @@ module.exports = function (grunt)
                 [
                     {
                         expand: true, 
-                        cwd: '<%= pkg.dir.src %>', 
+                        cwd: 'src', 
                         src: ['assets/**','lib/**','img/**','config/**', '*.png', 'help.htm', 'notes.htm', 'snippet.htm'], 
-                        dest: '<%= pkg.dir.build %>'
+                        dest: 'build'
                     }
                 ]
             },
@@ -173,9 +173,9 @@ module.exports = function (grunt)
                     {
                         expand: true, 
                         flatten: true, // Flattens results to a single level so directory structure isnt copied.
-                        cwd: '<%= pkg.dir.src %>/website/', 
+                        cwd: 'src/website/', 
                         src: ['web.config', '*.png'],
-                        dest: '<%= pkg.dir.website %>/'
+                        dest: 'build-website/'
                     }
                 ]
             },
@@ -186,23 +186,23 @@ module.exports = function (grunt)
                     // Copies latest.yml to the deploy directory for autoupdates to work.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.dist %>/nsis-web',  
+                        cwd: 'dist/nsis-web',  
                         src: '*.yml',
-                        dest: '<%= pkg.dir.deploy %>'
+                        dest: 'deploy'
                     },
                     // Copies .7z and .exe files to the deploy directory.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.dist %>',  
+                        cwd: 'dist',  
                         src: ['*.7z', '*.exe'],
-                        dest: '<%= pkg.dir.deploy %>'
+                        dest: 'deploy'
                     },
                     // Copies website to deploy directory.
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.website %>',  
+                        cwd: 'build-website',  
                         src: '**/*',
-                        dest: '<%= pkg.dir.deploy %>'
+                        dest: 'deploy'
                     }
                 ]
             }
@@ -234,9 +234,9 @@ module.exports = function (grunt)
             {
                 files: 
                 [
-                    {'<%= pkg.dir.website %>/index.src.html': '<%= pkg.dir.src %>/website/index.html'}, // 'destination': 'source'.
-                    {'<%= pkg.dir.website %>/release-notes/index.src.html': '<%= pkg.dir.website %>/release-notes/index.src.html'},
-                    {'<%= pkg.dir.website %>/help/index.src.html': '<%= pkg.dir.src %>/website/help/index.html'}
+                    {'build-website/index.src.html': 'src/website/index.html'}, // 'destination': 'source'.
+                    {'build-website/release-notes/index.src.html': 'build-website/release-notes/index.src.html'},
+                    {'build-website/help/index.src.html': 'src/website/help/index.html'}
                 ]
             }
         }, 
@@ -261,9 +261,9 @@ module.exports = function (grunt)
             {
                 files: 
                 [     
-                    {'<%= pkg.dir.website %>/index.html': '<%= pkg.dir.website %>/index.src.html'}, // 'destination': 'source'.                   
-                    {'<%= pkg.dir.website %>/release-notes/index.html': '<%= pkg.dir.website %>/release-notes/index.src.html'},                  
-                    {'<%= pkg.dir.website %>/help/index.html': '<%= pkg.dir.website %>/help/index.src.html'},
+                    {'build-website/index.html': 'build-website/index.src.html'}, // 'destination': 'source'.                   
+                    {'build-website/release-notes/index.html': 'build-website/release-notes/index.src.html'},                  
+                    {'build-website/help/index.html': 'build-website/help/index.src.html'},
                 ]
             }
         },
@@ -304,10 +304,10 @@ module.exports = function (grunt)
             {
                 options: 
                 {
-                    archive: '<%= pkg.dir.build %>/<%= pkg.name %>.zip'
+                    archive: 'build/<%= pkg.name %>.zip'
                 },
                 expand: true,
-                cwd: '<%= pkg.dir.build %>/',
+                cwd: 'build/',
                 src: ['**/*'],
                 dest: ''
             }
@@ -319,7 +319,7 @@ module.exports = function (grunt)
             // livereload reloads any html pages that contain <script src="http://localhost:35729/livereload.js"></script>
             // see http://stackoverflow.com/a/16430183
             options: { livereload: true },
-            files: ['<%= pkg.dir.src %>/**/*.*'],
+            files: ['src/**/*.*'],
             tasks: ['build']
         },
         /*
@@ -334,8 +334,8 @@ module.exports = function (grunt)
                     arch            : 'x64',    // ia32, x64, armv7l, all.
                     dir             : './',
                     out             : '<%= pkg.name %>-<%= pkg.version %>',
-                    icon            : '<%= pkg.dir.build %>/assets/ia.ico',
-                    ignore          : '<%= pkg.dir.src %>',
+                    icon            : 'build/assets/ia.ico',
+                    ignore          : 'src',
                     name            : '<%= pkg.name %>',
                     overwrite : true
                 }
@@ -376,7 +376,7 @@ module.exports = function (grunt)
                 },
                 files: 
                 {
-                    '<%= pkg.dir.src %>/js/handlebars.templates.js': ['<%= pkg.dir.src %>/handlebars/*.handlebars']
+                    'src/js/handlebars.templates.js': ['src/handlebars/*.handlebars']
                 }
             }
         },
@@ -388,8 +388,8 @@ module.exports = function (grunt)
                 files: 
                 [
                     {
-                        src: '<%= pkg.dir.src %>/website/release-notes/release-notes.handlebars',
-                        dest: '<%= pkg.dir.website %>/release-notes/index.src.html'
+                        src: 'src/website/release-notes/release-notes.handlebars',
+                        dest: 'build-website/release-notes/index.src.html'
                     },
                     {
                         src: 'changelog.handlebars',
@@ -409,7 +409,7 @@ module.exports = function (grunt)
                     host: 'waws-prod-db3-025.ftp.azurewebsites.windows.net',
                     authKey: 'key1'
                 },
-                src: '<%= pkg.dir.deploy %>',
+                src: 'deploy',
                 dest: 'site/wwwroot/designer/'
             }
         },

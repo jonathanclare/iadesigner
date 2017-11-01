@@ -7,9 +7,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
-    // The index of the active collapsible panel.
-    iad.formcontrols.activePanelIndex = 0;
-
     // Initialise.
     iad.formcontrols.init = function (o)
     {
@@ -234,86 +231,78 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addColumn(o.widgetId);
+            iad.config.addColumn(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-column', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removeColumn(o.widgetId, o.index);
+            iad.config.removeColumn(o.widgetId, o.index);
         });
         // Add / Remove spine chart symbol.
         $(document).on('click', '.iad-control-add-symbol', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addSymbol(o.widgetId);
+            iad.config.addSymbol(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-symbol', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removeSymbol(o.widgetId, o.index);
+            iad.config.removeSymbol(o.widgetId, o.index);
         });
         // Add / Remove spine chart target.
         $(document).on('click', '.iad-control-add-target', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addTarget(o.widgetId);
+            iad.config.addTarget(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-target', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removeTarget(o.widgetId, o.index);
+            iad.config.removeTarget(o.widgetId, o.index);
         });
         // Add / Remove spine chart break.
         $(document).on('click', '.iad-control-add-break', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addBreak(o.widgetId);
+            iad.config.addBreak(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-break', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removeBreak(o.widgetId, o.index);
+            iad.config.removeBreak(o.widgetId, o.index);
         });
         // Add / Remove Menu item on menu bar.
         $(document).on('click', '.iad-control-add-menu-item', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addMenuItem(o.widgetId);
+            iad.config.addMenuItem(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-menu-item', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removeMenuItem(o.widgetId, o.index);
+            iad.config.removeMenuItem(o.widgetId, o.index);
         });
         // Add / Remove pyramid line.
         $(document).on('click', '.iad-control-add-pyramid-line', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.addPyramidLine(o.widgetId);
+            iad.config.addPyramidLine(o.widgetId);
         });
         $(document).on('click', '.iad-control-remove-pyramid-line', function (e)
         {
             e.preventDefault();
             var o = parseId($(this));
-            iad.report.removePyramidLine(o.widgetId, o.index);
-        });
-
-        // Collapsible panels.
-        $(document).on('shown.bs.collapse', '.iad-collapse', function (e)
-        {
-            var id = e.target.id;
-            var indexPos = id.lastIndexOf('-') + 1;
-            iad.formcontrols.activePanelIndex = id.substring(indexPos);
+            iad.config.removePyramidLine(o.widgetId, o.index);
         });
     }
 

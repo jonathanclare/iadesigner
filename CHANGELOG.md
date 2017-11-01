@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.0.151 *2017-11-01*
+* **fixed** - Scroll bar position does not go back to zero when switching between widgets properties 
+* **fixed** - Expanded panel is maintained when switching between widgets properties 
+* **fixed** - Made column properties draggable 
+
 ### v0.0.140 *2017-10-26*
 * **improved** - Removed bottom navbar 
 

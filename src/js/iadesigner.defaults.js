@@ -19,7 +19,7 @@ var iadesigner = (function (iad, undefined)
         report:
         {
             path:'config/en/db-single-map/config.xml', // Path of default report to load.
-            paths:
+            configPaths:
             [
                 {template:'areaprofiler::flash::html', path:'config/en/db-area-profile/config.xml'},
                 {template:'bubbleplot::flash::html', path:'config/en/db-bubble-plot/config.xml'},

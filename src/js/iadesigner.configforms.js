@@ -10,6 +10,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Container.
     var $container;
 
+    // Form display properties for each widget (scroll position and expanded panel index).
+    var oFormDisplayProperties = {};
+    var doScroll = false;
+
     // Current widget id.
     var activeWidgetId;
 
@@ -162,7 +166,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {'label': 'Toggle Share', 'value': 'javascript:iaToggleShare()'},
             {'label': 'Toggle Legend Editor', 'value': 'javascript:iaToggleLegendEditor()'}
         ];
-        var $xmlWidgets = iad.report.getComponents();
+        var $xmlWidgets = iad.config.getComponents();
         $.each($xmlWidgets, function (i, xmlWidget)
         {
             var $xmlWidget = $(xmlWidget);
@@ -238,12 +242,55 @@ var iadesigner = (function (iad, $, window, document, undefined)
         options = o; 
 
         // Get the container element.
-        if (options && options.container) $container = $(options.container);
+        if (options && options.container) 
+        {
+            $container = $(options.container);
+
+            // Form display properties for each widget (scroll position and expanded panel index).
+            oFormDisplayProperties = {};
+            $container.on('shown.bs.collapse', '.iad-collapse', function (e)
+            {
+                // Do scroll after collapse has expanded to scroll to correct position.
+                if (doScroll)
+                {
+                    doScroll = false;
+                    if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
+                        $container.parent().scrollTop(oFormDisplayProperties[activeWidgetId].scrollPos);
+                }
+                // Store the index of the expanded panel.
+                var panelIndex = $container.find('.iad-collapse').index(this);
+                if (oFormDisplayProperties[activeWidgetId] !== undefined)
+                    oFormDisplayProperties[activeWidgetId].panelIndex = panelIndex;
+                else
+                    oFormDisplayProperties[activeWidgetId] = {scrollPos:0, panelIndex:panelIndex};
+            });
+            $container.on('hidden.bs.collapse', '.iad-collapse', function (e)
+            {
+                // Remove the index of the expanded panel.
+                if (oFormDisplayProperties[activeWidgetId] !== undefined)
+                    oFormDisplayProperties[activeWidgetId].panelIndex = undefined;
+                else
+                    oFormDisplayProperties[activeWidgetId] = {scrollPos:0, panelIndex:undefined};
+            });
+            $container.parent().on('scroll', function (e)
+            {
+                if (doScroll === false)
+                {
+                    // Store the current scroll position so we can go back to it after the form has refreshed.
+                    var scrollPos = $(this).scrollTop();
+                    if (oFormDisplayProperties[activeWidgetId] !== undefined)
+                        oFormDisplayProperties[activeWidgetId].scrollPos = scrollPos;
+                    else
+                        oFormDisplayProperties[activeWidgetId] = {scrollPos:scrollPos, panelIndex:undefined};
+                }
+            });
+        }
     };
 
     // Refreshes the current form.
     iad.configforms.refreshForm = function()
     {
+        oFormDisplayProperties = {};
         if (activeWidgetId !== undefined)
         	iad.configforms.showWidgetForm(activeWidgetId);
         else                                	
@@ -255,11 +302,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         activeWidgetId = undefined;
 
-        //$('#iad-general-properties-apply-btn').removeClass('btn-primary').addClass('btn-default');
-
         var json = {'id': 'generalproperties','forms': []};
 
-        var $xmlPropGroups = iad.report.getGroupProperties();
+        var $xmlPropGroups = iad.config.getGroupProperties();
         $.each($xmlPropGroups, function(i, xmlPropGroup)
         {
             var $xmlPropGroup = $(xmlPropGroup);
@@ -273,9 +318,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        //$('#iad-send-to-back-btn').hide();
-        //$('#iad-bring-to-front-btn').hide();
-
         updateForm(json);
     };
 
@@ -287,7 +329,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         //$('#iad-send-to-back-btn').show();
         //$('#iad-bring-to-front-btn').show();
 
-        var $xmlWidget = iad.report.getWidgetXml(widgetId);
+        var $xmlWidget = iad.config.getWidgetXml(widgetId);
         var tagName = $xmlWidget.prop('tagName');
 
         var json = {'id': 'widget','forms': []};
@@ -334,13 +376,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Updates a form with the passed in json.
-    var scrollPos = 0;
     function updateForm(jsonForm)
     {
         if (jsonForm.forms.length === 1) jsonForm.forms[0].name = undefined;
-
-        // Store the current scroll position so we can go back to it after the form has refreshed
-        scrollPos = $('.iad-form').scrollTop();
 
         // Apply handlebars template for forms.
         $container.empty();
@@ -382,17 +420,26 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     widgetId = arr[1];
                     var colIndex = arr[2];
 
-                    var $column = iad.report.getWidgetXml(widgetId).find('Column').eq(colIndex);
+                    var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
                     columns[columns.length] = $column;
                 });
 
-                iad.report.orderColumns(widgetId, columns);
+                iad.config.orderColumns(widgetId, columns);
             }
         });
-        //$('.draggableList').disableSelection();
 
-        // Scroll to original position
-        $('.iad-form').scrollTop(scrollPos);
+        // Form display properties for each widget (scroll position and expanded panel index).
+        if (oFormDisplayProperties[activeWidgetId] !== undefined)         
+        {
+            if (oFormDisplayProperties[activeWidgetId].panelIndex !== undefined) 
+            {
+                doScroll = true;
+                $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse("show");
+            }
+            else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
+                $container.parent().scrollTop(oFormDisplayProperties[activeWidgetId].scrollPos);
+        }   
+        else $container.parent().scrollTop(0);
     }
 
     // Returns a property group form.
@@ -426,7 +473,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $desc = $xmlComponent.find('Description');
 
         // Adjust the name if its a component not using the first data source.
-        var adjustedName = iad.report.getDisplayName(id);
+        var adjustedName = iad.config.getDisplayName(id);
 
         var form = 
         {
@@ -519,7 +566,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     control.type = 'select';
                     control.choices = [];
 
-                    var $columns = iad.report.getColumns(activeWidgetId);
+                    var $columns = iad.config.getColumns(activeWidgetId);
                     $.each($columns, function(i, xmlColumn)
                     {
                         var alias = options.report.textSubstitution.formatMessage($(xmlColumn).attr('alias'));
@@ -536,7 +583,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     control.type = 'select';
                     control.choices = [];
 
-                    var colorSchemeIds = iad.report.getColourSchemeIds();
+                    var colorSchemeIds = iad.config.getColourSchemeIds();
                     for (var k = 0; k < colorSchemeIds.length; k++)
                     {
                         var colorSchemeId = colorSchemeIds[k];

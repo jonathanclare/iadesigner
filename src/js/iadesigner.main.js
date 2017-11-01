@@ -7,7 +7,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var electron = require('electron');
     var log = require('electron-log');
 
-    var path = require('path');
     var fs = require('fs');
 
     var ipc = electron.ipcRenderer;
@@ -31,9 +30,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var selectedWidgetId;
     var widgetPropertiesAreDisplayed = false;
     var report;
-    var configPath;
     var changesSaved = true;
-    var userReportLoaded = false;
 
     // Reference to main window.
     var win = remote.getCurrentWindow();
@@ -79,19 +76,20 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         checkForUpdate(function()
         {
-            getUserSettings(function(json)
+            getUserSettings(function(userSettings)
             {
                 // Set all user settings here.
-                if (fs.existsSync(json.reportPath)) 
+                if (fs.existsSync(userSettings.reportPath)) 
                 {
-                    userReportLoaded = true;
-                    settings.report.path = json.reportPath;
+                    iad.report.loaded = true;
+                    settings.report.path = userSettings.reportPath;
                 }
 
                 initCss(settings.css, function()
                 {
                     initReport(settings.report, function()
                     {
+                        initConfig();
                         initCanvas();
                         initColorPicker();
                         initColorSchemes();
@@ -166,27 +164,27 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function onChangesMade()
     {
-        if (userReportLoaded) changesSaved = false;
+        if (iad.report.loaded) changesSaved = false;
     }
 
     function saveChanges(callback)
     {
-        if (userReportLoaded)
+        if (iad.report.loaded)
         {
-            var reportPath = path.parse(configPath).dir;
-            var lessPath = reportPath+'/style.json';
-            var stylePath = reportPath+'/default.css';
-
-            saveFile(configPath, iad.report.toString(), function ()
+            saveFile(iad.report.configPath, iad.config.toString(), function ()
             { 
-                saveFile(lessPath, iad.css.getLessVarsAsString(), function ()
+                saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
                 {
                     iad.css.getCssAsString(function (strCss)
                     {
-                        saveFile(stylePath, strCss, function ()
-                        {              
-                            changesSaved = true;
-                            if (callback !== undefined) callback.call(null);  
+                        saveFile(iad.report.stylePath, strCss, function ()
+                        {      
+                            // Copy ia-min.js because they might not have the latest one and the standalone report may break.
+                            copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
+                            {
+                                changesSaved = true;
+                                if (callback !== undefined) callback.call(null);  
+                            });
                         });
                     });
                 });
@@ -212,17 +210,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 title: "Save Changes?",
                 message: "Save changes before continuing?",
-                buttons: 
-                {
-                    cancel: 
-                    {
-                        label: '<i class="fa fa-times"></i> No'
-                    },
-                    confirm: 
-                    {
-                        label: '<i class="fa fa-check"></i> Yes'
-                    }
-                },
                 callback: function (result) 
                 {
                     if (result === true)
@@ -257,7 +244,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     function updateConfigDownloadButton()
     {
         // config.xml
-        var configBlob = new Blob([iad.report.toString()], {type: 'text/xml' }); 
+        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
         $('#iad-btn-download-configxml').attr('href', configUrl);
     }
@@ -311,7 +298,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 openConfigFile(function (filePath)
                 {
-                    userReportLoaded = true;
+                    iad.report.loaded = true;
                     iad.report.loadReport(filePath);
                     setUserSetting('reportPath', filePath);
                 });
@@ -349,27 +336,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             }
         });
 
-        // Refresh report.
-        $('#iad-menuitem-refresh-report').on('click', function(e)
-        {
-            if (userReportLoaded) 
-                iad.report.refreshReport(configPath);
-            else 
-                iad.report.refreshConfig();
-        });
-
         // Insert widgets.
         $(document).on('click', '#iad-menuitem-insert-image', function(e)
         {
-            iad.report.addWidget('Image');
+            iad.config.addWidget('Image');
         });
         $(document).on('click', '#iad-menuitem-insert-text', function(e)
         {
-            iad.report.addWidget('Text');
+            iad.config.addWidget('Text');
         });
         $(document).on('click', '#iad-menuitem-insert-button', function(e)
         {
-            iad.report.addWidget('Button');
+            iad.config.addWidget('Button');
         });
 
         // Edit widget dropdown option.
@@ -385,22 +363,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             bootbox.confirm(
             {
-                title: iad.report.getDisplayName(selectedWidgetId) + ' - Confirm Removal?',
+                title: iad.config.getDisplayName(selectedWidgetId) + ' - Confirm Removal?',
                 message: 'Are you sure you want to remove this widget?',
-                buttons: 
-                {
-                    cancel: 
-                    {
-                        label: '<i class="fa fa-times"></i> No'
-                    },
-                    confirm: 
-                    {
-                        label: '<i class="fa fa-check"></i> Yes'
-                    }
-                },
                 callback: function (result) 
                 {
-                    if (result === true) iad.report.removeWidget(selectedWidgetId);
+                    if (result === true) iad.config.removeWidget(selectedWidgetId);
                 }
             });
         });
@@ -414,13 +381,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Send widget to back button.
         $('#iad-btn-widget-send-to-back').on('click', function(e)
         {
-            if (selectedWidgetId !== undefined) iad.report.sendToBack(selectedWidgetId);
+            if (selectedWidgetId !== undefined) iad.config.sendToBack(selectedWidgetId);
         });
 
         // Bring widget to front button.
         $('#iad-btn-widget-bring-to-front').on('click', function(e)
         {
-            if (selectedWidgetId !== undefined) iad.report.bringToFront(selectedWidgetId);
+            if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
         });
 
         // Close slide panel buttons.
@@ -481,6 +448,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var template = 
         [
             {
+                label: 'Refresh',
+                click: function()  
+                {
+                    if (iad.report.loaded) 
+                        iad.report.refreshReport();
+                    else 
+                        iad.report.refreshConfig();
+                }
+            }
+            /*{
                 label: 'Help',
                 submenu: 
                 [
@@ -497,10 +474,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         role:'about'
                     }
                 ]
-            }
+            }*/
         ];
         var menu = Menu.buildFromTemplate(template);
-        
+
         window.addEventListener('contextmenu', function (e)
         {
             e.preventDefault();
@@ -568,6 +545,24 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
             });
         }
+    }
+    function copyFile(readFile, writeFile, callback)
+    {
+        var wf = fs.createWriteStream(writeFile);
+        wf.on('finish', function() 
+        {
+            if (callback !== undefined) callback.call(null);  
+        });
+        wf.on('error', function(err) 
+        {
+            dialog.showErrorBox('File save error', err.message);
+        });
+        var rf = fs.createReadStream(readFile);
+        rf.on('error', function(err) 
+        {
+            dialog.showErrorBox('File save error', err.message);
+        });
+        rf.pipe(wf);
     }
 
     // Sidebars.
@@ -643,7 +638,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (widgetPropertiesAreDisplayed)
         {
-            var title = iad.report.getDisplayName('PropertyGroup');
+            var title = iad.config.getDisplayName('PropertyGroup');
             $sidebarWidgetTitle.text(title);
             iad.configforms.showPropertyGroupForm();
         }
@@ -653,7 +648,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (widgetPropertiesAreDisplayed)
         {
-            var title = iad.report.getDisplayName(widgetId);
+            var title = iad.config.getDisplayName(widgetId);
             $sidebarWidgetTitle.text(title);
             iad.configforms.showWidgetForm(widgetId);
         }
@@ -665,7 +660,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         $editWidgetBtn.hide();
 
         widgetPropertiesAreDisplayed = true;
-        var title = iad.report.getDisplayName(widgetId);
+        var title = iad.config.getDisplayName(widgetId);
         $sidebarWidgetTitle.text(title);
         if (widgetId === 'PropertyGroup')
         {
@@ -787,10 +782,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             container: 'iad-report',
             path: options.path,
-            paths: options.paths,
-            preConfigLoaded: function ()
-            {                
-                iad.canvas.clearSelection();
+            configPaths: options.configPaths,
+            onReportInit: function (r)
+            {
+                report = r;
+                callback.call(null);
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
@@ -800,44 +796,39 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     backdrop: true
                 });
             },
-            onReportInit: function (r)
-            {
-                report = r;
-                callback.call(null);
-            },
-            onReportLoaded: function (filePath)
+            onReportLoaded: function (configPath)
             {
                 changesSaved = true;
-                configPath = filePath;
-
-                if (userReportLoaded)
+                iad.config.update();
+                if (iad.report.loaded)
                 {
                     // Reset title to show config file path.
                     var title = 'InstantAtlas Designer - ' + configPath;
                     win.setTitle(title);
                     $('#iad-window-title').html(title);
                 }
-                
                 updateConfigDownloadButton();
+            },
+            preConfigLoaded: function ()
+            {                
+                iad.canvas.clearSelection();
             },
             onConfigLoaded: function ()
             {
-                if (userReportLoaded)
-                {
-                    // Fix image paths.
-                    var reportPath = path.parse(configPath).dir;
-                    [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
-                    {
-                        var src = img.getAttribute('src');
-                        img.src = reportPath  + '/' + src;
-                    });
-                }
-
+                iad.config.update();
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
                 iad.canvas.update();
             },
+        });
+    }
+
+    function initConfig(options)
+    {
+        iad.config.init(
+        {
+            report: report,
             onConfigChanged: function ()
             {
                 onChangesMade();
@@ -858,7 +849,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onWidgetChanged: function (widgetId, type)
             {
-                if (widgetId === selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
+                if (widgetId === selectedWidgetId) iad.config.showWidget(widgetId); // Stop popup widgets from disappearing.
                 if (type === 'property-added' || type === 'property-removed' || type === 'column-changed') iad.configforms.showWidgetForm(widgetId);
                 iad.canvas.update();
             },
@@ -866,14 +857,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.canvas.select(widgetId);
             },
-            onGroupPropertyChanged: function (propertyGroupId, propertyId)
+            onGroupPropertyChanged: function (groupId, propertyId)
             {
-                if (propertyGroupId.indexOf('thematics') === -1 &&      // Thematics are now dynamically updated via the legend tab so dont require a full config update.
-                    propertyGroupId.indexOf('pointSymbols') === -1 && 
-                    propertyGroupId.indexOf('lineSymbols') === -1)
-                {
-                    iad.report.refreshConfig();
-                }
+               
             }
         });
     }
@@ -907,24 +893,24 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     if (attribute === 'alias' || attribute === 'name' || attribute === 'symbol' || attribute === 'width' || attribute === 'national')
                     {
-                        iad.report.setColumnProperty(controlId, widgetId, propertyId, attribute, newValue);
+                        iad.config.setColumnProperty(controlId, widgetId, propertyId, attribute, newValue);
                     }
                     else
                     {
-                        iad.report.setWidgetProperty(widgetId, propertyId, newValue); // Special spine chart column properties like min, mid ,max labels.
+                        iad.config.setWidgetProperty(widgetId, propertyId, newValue); // Special spine chart column properties like min, mid ,max labels.
                     }
                 }
                 else if (tagName === 'Component' || tagName === 'Table')
                 {                    
-                    iad.report.setWidgetProperty(widgetId, propertyId, newValue);
+                    iad.config.setWidgetProperty(widgetId, propertyId, newValue);
                 }  
                 else if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text') 
                 {
-                    iad.report.setWidgetAttribute(widgetId, propertyId, newValue);
+                    iad.config.setWidgetAttribute(widgetId, propertyId, newValue);
                 }
                 else if (tagName == 'PropertyGroup')
                 {
-                    iad.report.setGroupProperty(widgetId, propertyId, newValue);
+                    iad.config.setGroupProperty(widgetId, propertyId, newValue);
                 }
                 else if (tagName == 'MapPalettes')
                 {
@@ -961,15 +947,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (widgetId !== selectedWidgetId)
                 {
                     selectedWidgetId = widgetId;
-                    iad.formcontrols.activePanelIndex = 0;
                     editWidgetProperties(widgetId);
-                    iad.report.showWidget(widgetId);
+                    iad.config.showWidget(widgetId);
                 }
             },
             onUnselect: function (widgetId)
             {
                 $nav.hide();
-                iad.report.hideWidget(widgetId);
+                iad.config.hideWidget(widgetId);
                 selectedWidgetId = undefined;
             },
             onClearSelection: function ()
@@ -980,11 +965,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onDragEnd: function (widgetId, x, y)
             {
-                iad.report.setWidgetDimensions(widgetId, x, y);
+                iad.config.setWidgetDimensions(widgetId, x, y);
             },
             onResizeEnd: function (widgetId, x, y, w, h)
             {
-                iad.report.setWidgetDimensions(widgetId, x, y, w, h);
+                iad.config.setWidgetDimensions(widgetId, x, y, w, h);
             },
             onActivated: function ()
             {
@@ -1041,7 +1026,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             if (cPath !== undefined) 
             {
-                if (userReportLoaded)
+                if (iad.report.loaded)
                     iad.report.loadConfig(cPath);
                 else
                     iad.report.loadReport(cPath);
@@ -1050,23 +1035,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         function showWarning(o)
         {
-            if (userReportLoaded) 
+            if (iad.report.loaded) 
             {
                 bootbox.confirm(
                 {
                     title: "Continue?",
                     message: "Any changes to widget properties (including table columns) will be lost if you apply a new template. Do you wish to continue?",
-                    buttons: 
-                    {
-                        cancel: 
-                        {
-                            label: '<i class="fa fa-times"></i> No'
-                        },
-                        confirm: 
-                        {
-                            label: '<i class="fa fa-check"></i> Yes'
-                        }
-                    },
                     callback: function (result) 
                     {
                         if (result === true && o && o.onContinue) o.onContinue.call(null);
@@ -1109,7 +1083,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         });
         $modal.on('hidden.bs.modal', function ()
         {
-            if (widgetId !== undefined) iad.report.addWidget(widgetId);
+            if (widgetId !== undefined) iad.config.addWidget(widgetId);
         });
     }
 
@@ -1135,7 +1109,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     saveChangesBeforeContinuing(function()
                     {
-                        userReportLoaded = true;
+                        iad.report.loaded = true;
                         iad.report.loadReport(f.path);
                         setUserSetting('reportPath', f.path);
                     });
@@ -1186,12 +1160,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             if ((conditional % 2) === 0) return options.fn(this);
             else return options.inverse(this);
         });
-        // For active collapsible panel.
-        Handlebars.registerHelper('isActive', function (index, options)
-        {
-            if (index ===  iad.formcontrols.activePanelIndex) return options.fn(this);
-            return options.inverse(this);
-        });
         // For map palettes.
         Handlebars.registerHelper('noOfColorsGreaterThanTwo', function(items, options) 
         {
@@ -1227,7 +1195,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Update widget properties.
 
         // Sort widgets by name.
-        var $xmlWidgets = iad.report.getComponents();
+        var $xmlWidgets = iad.config.getComponents();
         $xmlWidgets.sort(function(a, b)
         {
             if ($(a).attr('name') < $(b).attr('name')) return -1;
@@ -1284,7 +1252,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     if (vis === 'true')
                     {
                         var id = $xmlWidget.attr('id');
-                        var name = iad.report.getDisplayName(id);
+                        var name = iad.config.getDisplayName(id);
                         options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="'+ id + '" class="iad-dropdown-option-widget-properties">' + name + '</a></li>';
                     }
                 }

@@ -1,17 +1,10 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.150",
+  "version": "0.0.151",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
   "description": "Interactive Mapping and Reporting Services",
-  "dir": {
-    "src": "src",
-    "build": "build",
-    "website": "build-website",
-    "dist": "dist",
-    "deploy": "deploy"
-  },
   "keywords": [
     "InstantAtlas",
     "mapping",
@@ -29,7 +22,7 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
-    "electron": "^1.6.1",
+    "electron": "^1.7.9",
     "electron-builder": "^19.8.0",
     "grunt": "^0.4.5",
     "grunt-bump": "^0.8.0",
@@ -55,8 +48,8 @@
     "start": "electron ./src/main.js",
     "postinstall": "electron-builder install-app-deps && grunt build && npm start",
     "pack": "electron-builder --dir",
-    "dist": "grunt build && build --win --ia32 --x64",
-    "dist:web": "grunt build && grunt clean:dist && build --win nsis-web --ia32 --x64 && grunt build-deploy"
+    "dist": "grunt build && grunt clean:dist && build && grunt build-deploy",
+    "deploy": "grunt ftp-deploy"
   },
   "build": {
     "publish": [
@@ -68,7 +61,15 @@
     "appId": "com.instantatlas.designer",
     "productName": "InstantAtlas Designer",
     "win": {
-      "target": "nsis",
+      "target": [
+        {
+          "target":"nsis-web",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
       "icon": "./build/assets/ia.ico"
     },
     "nsis": {
