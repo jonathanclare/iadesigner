@@ -325,7 +325,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Bring the widget to the front.
     iad.config.bringToFront = function(widgetId)
     {
-        if (iad.config.getWidgetAttribute(widgetId, 'zIndex') !== undefined)
+        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+
+        var tagName = $xmlWidget.prop('tagName');
+        if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text')
             iad.config.setWidgetAttribute(widgetId, 'zIndex', iad.config.getMaxZIndex() + 1);
         else
             iad.config.setWidgetProperty(widgetId, 'zIndex', iad.config.getMaxZIndex() + 1);
@@ -358,14 +361,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             var $xmlWidget = $(xmlWidget);
             var zIndex = $xmlWidget.attr('zIndex');
-            if (zIndex) 
-            {
-                var id = $xmlWidget.attr('id');
-                if (id === widgetId) 
-                    iad.config.setWidgetAttribute(id, 'zIndex', minZIndex);
-                else 
-                    iad.config.setWidgetAttribute(id, 'zIndex', ia.parseInt(zIndex) + 1);
-            }
+            if (zIndex === undefined) zIndex = minZIndex;
+
+            var id = $xmlWidget.attr('id');
+            if (id === widgetId) 
+                iad.config.setWidgetAttribute(id, 'zIndex', minZIndex);
+            else 
+                iad.config.setWidgetAttribute(id, 'zIndex', ia.parseInt(zIndex) + 1);
         });
 
         if (options && options.onZIndexChanged) options.onZIndexChanged.call(null, widgetId); // On widget sent to back.
