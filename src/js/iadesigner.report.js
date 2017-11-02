@@ -236,6 +236,39 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
+    // Show a widget whose visibility is set to hidden.
+    iad.report.showWidget = function(widgetId)
+    {
+        var panel = report.getPanel(widgetId);
+        if (panel !== undefined)
+        {
+            var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
+            var vis = iad.config.getWidgetProperty(widgetId, 'visible');
+            if (popup === 'true' || vis === 'false')
+            {
+                panel.popup(false);
+                if (!panel.visible()) panel.visible(true);
+            }
+        }
+    };
+
+    // Hide a widget whose visibility is set to hidden.
+    iad.report.hideWidget = function(widgetId)
+    {
+        var panel = report.getPanel(widgetId);
+        if (panel !== undefined)
+        {
+            var popup = iad.config.getWidgetProperty(widgetId, 'isPopUp');
+            var vis = iad.config.getWidgetProperty(widgetId, 'visible');
+            if (popup === 'true' || vis === 'false')
+            {
+                var config = report.config.getWidget(widgetId);
+                var widget = report.getWidget(widgetId);
+                widget.update(config);
+            }
+        }
+    };
+
     // Called before loading new config.xml or report.
     function preConfigLoaded()
     {

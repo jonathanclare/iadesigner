@@ -799,7 +799,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onReportLoaded: function (configPath)
             {
                 changesSaved = true;
-                iad.config.update();
+                iad.config.update(report.config.xml);
                 if (iad.report.loaded)
                 {
                     // Reset title to show config file path.
@@ -815,7 +815,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onConfigLoaded: function ()
             {
-                iad.config.update();
+                iad.config.update(report.config.xml);
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configforms.refreshForm();
@@ -828,40 +828,251 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.config.init(
         {
-            report: report,
-            onConfigChanged: function ()
+            xml: report.config.xml,
+            onConfigUpdated: function ()
             {
-                onChangesMade();
-                updateConfigDownloadButton();
+                onConfigChanged();
             },
-            onWidgetRemoved: function (widgetId)
-            {
+            onWidgetRemoved: function (widgetId, $xmlWidget)
+            {  
+                var widget = report.getWidget(widgetId);
+                var tagName = $xmlWidget.prop('tagName');
+                if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text')
+                {
+                    report.config.removeWidget(widgetId);
+                    report.removeWidget(widgetId);
+                }
+                else if (tagName === 'Component' || tagName === 'Table')
+                {
+                    widget.container.hide();
+                }
                 updateDropdownMenus();
                 iad.canvas.clearSelection();
                 iad.canvas.update();
+                onConfigChanged();
             },
-            onWidgetAdded: function (widgetId)
+            onWidgetAdded: function (widgetId, $xmlWidget)
             {
-                updateDropdownMenus();
-                iad.canvas.clearSelection();
-                iad.canvas.update();
-                iad.canvas.select(widgetId);
+                var config, widget;
+                var tagName = $xmlWidget.prop('tagName');
+                if (tagName === 'Button') 
+                {
+                    config = report.config.addButton($xmlWidget.get(0));
+                    widget = new ia.Button(widgetId);
+                    report.addButton(widget, config);
+                    onWidgetAdded(widgetId, $xmlWidget);
+                }
+                else if (tagName === 'Image')
+                {
+                    config = report.config.addImage($xmlWidget.get(0));
+                    widget = new ia.Image(widgetId, "./image_placeholder.png");
+                    report.addImage(widget, config); 
+                    onWidgetAdded(widgetId, $xmlWidget);
+                }
+                else if (tagName === 'Text')
+                {
+                    config = report.config.addText($xmlWidget.get(0));
+                    widget = new ia.Text(widgetId);
+                    report.addText(widget, config);
+                    onWidgetAdded(widgetId, $xmlWidget);
+                }
+                else // Component or Table.
+                {
+                    // Check if its already been built and added.
+                    widget = report.getWidget(widgetId);
+                    if (widget !== undefined)
+                    {
+                        widget.container.show();
+                        onWidgetAdded(widgetId, $xmlWidget);
+                    }
+                    else
+                    {
+                        if (tagName === 'Table') config = report.config.addTable($xmlWidget.get(0));
+                        else config = report.config.addComponent($xmlWidget.get(0));
+
+                        widget = new ia.Panel(widgetId);
+                        report.addPanel(widget, config);
+
+                        // These components require a full update because more data may need to be read in for them to work.
+                        if (widgetId.indexOf('featureCard') !== -1 || 
+                            widgetId.indexOf('pyramidChart') !== -1 || 
+                            widgetId.indexOf('spineChart') !== -1 || 
+                            widgetId.indexOf('radarChart') !== -1 || 
+                            widgetId.indexOf('areaBreakdownBarChart') !== -1 || 
+                            widgetId.indexOf('areaBreakdownPieChart') !== -1)
+                        {
+                            iad.report.refreshConfig(function ()
+                            {
+                                onWidgetAdded(widgetId, $xmlWidget);
+                            });
+                        }
+                        else 
+                        {
+                            // Build.
+                            var factory = report.getComponent('factory');
+                            factory.build(widgetId, function ()
+                            {
+                                onWidgetAdded(widgetId, $xmlWidget);
+                            });
+                        }
+                    }
+                }
             },
-            onWidgetChanged: function (widgetId, type)
+            onWidgetAttributeChanged: function (widgetId, $xmlWidget, attribute, value)
             {
-                if (widgetId === selectedWidgetId) iad.config.showWidget(widgetId); // Stop popup widgets from disappearing.
-                if (type === 'property-added' || type === 'property-removed' || type === 'column-changed') iad.configforms.showWidgetForm(widgetId);
-                iad.canvas.update();
+                onWidgetChanged(widgetId, $xmlWidget);
+            },
+            onWidgetPropertyChanged: function (widgetId, $xmlWidget)
+            {
+                onWidgetChanged(widgetId, $xmlWidget);
+            },
+            onWidgetDimensionsChanged: function (widgetId, $xmlWidget, x, y, w, h)
+            {
+                onWidgetChanged(widgetId, $xmlWidget);
             },
             onZIndexChanged: function (widgetId)
             {
                 iad.canvas.select(widgetId);
+                onConfigChanged();
             },
             onGroupPropertyChanged: function (groupId, propertyId)
             {
-               
+                if (groupId.indexOf('thematics') === -1 &&      // Thematics are now dynamically updated via the legend tab so dont require a full config update.
+                    groupId.indexOf('pointSymbols') === -1 && 
+                    groupId.indexOf('lineSymbols') === -1)
+                {
+                    iad.report.refreshConfig(function ()
+                    {
+                        onConfigChanged();
+                    });
+
+                }
+                else onConfigChanged();
+            },
+            onPropertyAdded: function (widgetId, $xmlWidget)
+            {
+                onWidgetChanged(widgetId, $xmlWidget, function()
+                {
+                    iad.configforms.refreshForm();
+                });
+            },
+            onPropertyRemoved: function (widgetId, $xmlWidget)
+            {
+                onWidgetChanged(widgetId, $xmlWidget, function()
+                {
+                    iad.configforms.refreshForm();
+                });
+            },
+            onColumnsChanged: function (widgetId, $xmlWidget)
+            {
+                onWidgetChanged(widgetId, $xmlWidget, function()
+                {
+                    iad.configforms.refreshForm();
+                });
+            },
+            onImageChanged: function (widgetId, $xmlWidget, attribute, value)
+            {
+                if (attribute === 'rescale')
+                { 
+                    $xmlWidget.attr(attribute, value);
+
+                    var widget = report.getWidget(widgetId);
+                    var $widget = widget.container;
+
+                    // Resize the active widget.
+                    var x = $widget.position().left, y = $widget.position().top, w = $widget.outerWidth(), h = $widget.outerHeight();
+                    var xAnchor = widget.xAnchor();
+                    if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w; 
+
+                    // Calculate percentage dimensions.
+                    var xPerc = (x / report.container.width()) * 100;
+                    var yPerc = (y / report.container.height()) * 100;
+                    var wPerc = (w / report.container.width()) * 100;
+                    var hPerc = (h / report.container.height()) * 100;
+
+                    if (widget.height() === undefined) hPerc = undefined;
+
+                    if (value === true) 
+                        iad.config.setWidgetDimensions(widgetId, xPerc, yPerc, wPerc, hPerc);
+                    else  
+                        iad.config.setWidgetDimensions(widgetId, xPerc, yPerc, w, h); // Fixed width and height images. 
+                }
+                else if (attribute === 'anchor')
+                {
+                    var cx = parseFloat($xmlWidget.attr('x')); 
+                    var cw = parseFloat($xmlWidget.attr('width')); 
+                    if ($xmlWidget.attr('rescale') === 'false' || $xmlWidget.attr('rescale') === false) cw = (cw / report.container.width()) * 800;
+
+                    var anchor = $xmlWidget.attr('anchor');
+                    if (anchor === 'center')
+                    {
+                        if (value === 'left') cx = cx - (cw  / 2);
+                        else if (value === 'right') cx = cx + (cw  / 2);
+                    }
+                    else if (anchor === 'right')
+                    {
+                        if (value === 'left') cx = cx - cw;
+                        else if (value === 'center') cx = cx - (cw  / 2);
+                    }
+                    else
+                    {
+                        if (value === 'center') cx = cx + (cw  / 2);
+                        else if (value === 'right') cx = cx + cw;
+                    }
+                    $xmlWidget.attr('x', cx);
+                }
             }
         });
+
+        function onWidgetAdded(widgetId, $xmlWidget)
+        {
+            updateDropdownMenus();
+            iad.canvas.clearSelection();
+            iad.canvas.update();
+            iad.canvas.select(widgetId);
+            onConfigChanged();
+        }
+        function onWidgetChanged(widgetId, $xmlWidget, callback)
+        {
+            // Update the widget config.
+            var config = report.config.getWidget(widgetId);
+            config.parseXML($xmlWidget.get(0));
+
+            // Update the widget.
+            var widget = report.getWidget(widgetId);
+            widget.update(config);
+
+            // Update any dynamic text that may have changed.
+            report.updateDynamicText(report.textSubstitution);
+
+            // Update and render the widget.
+            var factory = report.getComponent('factory');
+            factory.update(widgetId, function ()
+            {
+                factory.render(widgetId, function ()
+                {
+                    if (iad.report.loaded)
+                    {
+                        var tagName = $xmlWidget.prop('tagName');
+                        if (tagName === 'Image')
+                        {
+                            var img = widget.container.find('img:first');
+                            img.attr('src', iad.report.path  + '/' + img.attr('src'));
+                        }
+                        if (widgetId === selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
+
+                        iad.canvas.update();
+                        if (callback !== undefined) callback.call(null);
+                        onConfigChanged();
+                    }
+                });
+            });
+        }
+        function onConfigChanged()
+        {
+            onChangesMade();
+            updateConfigDownloadButton();
+        }
     }
 
     function initConfigForms()
@@ -948,13 +1159,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     selectedWidgetId = widgetId;
                     editWidgetProperties(widgetId);
-                    iad.config.showWidget(widgetId);
+                    iad.report.showWidget(widgetId);
                 }
             },
             onUnselect: function (widgetId)
             {
                 $nav.hide();
-                iad.config.hideWidget(widgetId);
+                iad.report.hideWidget(widgetId);
                 selectedWidgetId = undefined;
             },
             onClearSelection: function ()

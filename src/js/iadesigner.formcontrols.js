@@ -24,16 +24,41 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Adds the control handlers.
     function addControlHandlers()
     {
-        // Called when a config property has been changed.
-        var onPropertyChanged = iad.util.debounce(function (controlId, newValue)
+        // Called when a widget property has been changed.
+        var dispatchWidgetChange = iad.util.debounce(function (controlId, newValue)
         {
+            dispatchChange(controlId, newValue);
+        }, 250);
+
+        // Called when a group property has been changed.
+        var dispatchGroupPropertyChange = iad.util.debounce(function (controlId, newValue)
+        {
+            dispatchChange(controlId, newValue);
+        }, 1000);
+
+        // Dispatches the change.
+        function dispatchChange(controlId, newValue)
+        { 
             var arr = controlId.split('~');
             var tagName = arr[0];
             var widgetId = arr[1];
             var propertyId = arr[2];
             var attribute = arr[3];
             if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, controlId, tagName, widgetId, propertyId, newValue, attribute); // On property changed.
-        });
+        }
+
+        // Called when a property has been changed.
+        function onPropertyChanged(controlId, newValue)
+        {
+            // We want a greater delay when a group property has changed because the report is refreshed.
+            var arr = controlId.split('~');
+            var tagName = arr[0];
+            if (tagName === 'PropertyGroup') 
+                dispatchGroupPropertyChange(controlId, newValue);
+
+            else
+                dispatchWidgetChange(controlId, newValue);
+        }
 
         // Text dropdown input replace text.
         $(document).on('click', '.iad-dropdown-menu-replace a', function (e)

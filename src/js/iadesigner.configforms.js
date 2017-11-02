@@ -290,17 +290,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Refreshes the current form.
     iad.configforms.refreshForm = function()
     {
-        oFormDisplayProperties = {};
-        if (activeWidgetId !== undefined)
-        	iad.configforms.showWidgetForm(activeWidgetId);
-        else                                	
-        	iad.configforms.showPropertyGroupForm();
+        if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
+            iad.configforms.showPropertyGroupForm();
+        else 
+            iad.configforms.showWidgetForm(activeWidgetId);                               	
     };
 
     // Displays the form for the property groups.
     iad.configforms.showPropertyGroupForm = function()
     {
-        activeWidgetId = undefined;
+        activeWidgetId = 'PropertyGroup';
 
         var json = {'id': 'generalproperties','forms': []};
 

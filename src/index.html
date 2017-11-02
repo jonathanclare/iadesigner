@@ -121,11 +121,13 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Style</a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Design</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
-                                <li><a id="iad-menuitem-config-gallery" href="#">Change Template</a></li>
-                                <li><a id="iad-menuitem-open-color-scheme" href="#">Change Colour Scheme</a></li>
+                                <li><a id="iad-menuitem-config-gallery" href="#">Choose Template</a></li>
+                                <li><a id="iad-menuitem-open-color-scheme" href="#">Choose Colour Scheme</a></li>
                                 <li><a id="iad-menuitem-open-css" href="#">Edit Styles</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li>
                                 <!--li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li-->
                             </ul>
@@ -143,9 +145,6 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Help</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
-                                <li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li>
-                                <!--li><a id="iad-menuitem-settings" href="#">Settings</a></li-->
-                                <li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-about" href="#" data-toggle="modal" data-target="#iad-modal-about">About</a></li>
                             </ul>
                         </li>
@@ -165,9 +164,9 @@
                     <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
                         <div class="btn-group"> 
                             <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Edit Widget"><i class="fa fa-pencil"></i>&nbsp;Edit</button>
-                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
                             <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span></button>
-                            <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" style="color:#ff0000" title="Remove Widget"><i class="fa fa-trash-o"></i></button>                    
+                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
+                            <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" style="color:#ff0000" title="Remove Widget"><i class="fa fa-trash-o"></i></button>    
                         </div>
                     </form>
                 </div> 
