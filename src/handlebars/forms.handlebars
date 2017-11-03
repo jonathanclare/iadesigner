@@ -1008,10 +1008,12 @@
 
 							<!-- Menu Bar -->
 							{{#ifEqualTo type 'menu-bar'}}
-								<div class="well well-sm">
+								<div id="{{id}}" class="well well-sm iad-sortable">
+									
 									<div class="form-group iad-form-group">
-										<div style="text-align:right">
-											<button id="{{id}}" type="button" class="close iad-control-remove-menu-item iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
+										<div class="iad-sort-handle">
+											<i class="fa fa-fw fa-sort"></i>
+											<button id="{{id}}" type="button" class="close iad-control-remove-menu-item iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
 										</div>
 									</div>
 

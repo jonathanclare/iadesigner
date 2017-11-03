@@ -423,21 +423,29 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 // New order.
                 var columns = [];
                 var widgetId;
-
+                var tagName;
                 $('.iad-sortable', $(this)).each(function(index, elem) 
                 {
                     var controlId = $(elem).attr('id');
                     var arr = controlId.split('~');
-
-                    var tagName = arr[0];
+                    tagName = arr[0];
                     widgetId = arr[1];
-                    var colIndex = arr[2];
-
-                    var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
-                    columns[columns.length] = $column;
+                    if (tagName === 'Column') // table columns.
+                    {
+                        var colIndex = arr[2];
+                        var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
+                        columns[columns.length] = $column;
+                    }
+                    else // Menu Items.
+                    {
+                        var id = arr[2];
+                        var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + id);
+                        var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + id);
+                        columns[columns.length] = {menuItem:$menuItem, menuFunc:$menuFunc};
+                    }
                 });
-
-                iad.config.orderColumns(widgetId, columns);
+                if (tagName === 'Column') iad.config.orderColumns(widgetId, columns);
+                else iad.config.orderMenuItems(widgetId, columns);
             }
         });
 

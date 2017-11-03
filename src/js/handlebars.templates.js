@@ -857,9 +857,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"130":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button id=\""
+  return "								<div id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"close iad-control-remove-menu-item iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\""
+    + "\" class=\"well well-sm iad-sortable\">\r\n									\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" type=\"button\" class=\"close iad-control-remove-menu-item iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\""
     + alias4(((helper = (helper = helpers["label-description"] || (depth0 != null ? depth0["label-description"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-description","hash":{},"data":data}) : helper)))
     + "\">Label</span>\r\n										</div>\r\n										<div>\r\n											<input id=\""
     + alias4(((helper = (helper = helpers["label-id"] || (depth0 != null ? depth0["label-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-id","hash":{},"data":data}) : helper)))

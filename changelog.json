@@ -8,6 +8,7 @@
 		{"badge":"new", "description":"Draggable table columns can only move along the y-axis when being dragged", "bug":""},
 		{"badge":"new", "description":"Make full top area of draggable table column draggable and display move cursor on hover", "bug":""},
 		{"badge":"new", "description":"Moved 'New Column' buttons to bottom of form", "bug":""}
+		{"badge":"new", "description":"Yuo can now re-order menubar items using drag and drop", "bug":""}
 	]
 },
 {

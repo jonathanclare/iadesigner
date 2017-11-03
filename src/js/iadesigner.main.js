@@ -965,14 +965,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     iad.configform.refresh();
                 });
             },
-            onColumnsChanged: function (widgetId, $xmlWidget, type)
-            {
-                if (type === 'add') onPropertyAdded = true;
-                onWidgetChanged(widgetId, $xmlWidget, function()
-                {
-                    iad.configform.refresh();
-                });
-            },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
             {
                 if (attribute === 'rescale')

@@ -463,6 +463,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlComponent);
     };
 
+    // Re-orders the menu items.
+    iad.config.orderMenuItems = function (widgetId, items)
+    {
+        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+
+        for (var i = 0; i < items.length; i++)
+        {
+            var item = items[i];
+            var $menuItem = item.menuItem;
+            var $menuFunc = item.menuFunc;
+            $menuItem.appendTo($xmlComponent);
+            $menuFunc.appendTo($xmlComponent);
+        }
+        if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlComponent); // On widget changed.
+    };
+
     // Adds a table column.
     iad.config.addColumn = function (widgetId)
     {
@@ -471,7 +487,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Column');
         $xmlTable.append(xml);
 
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'add');
+        if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
     // Removes a stable column.
@@ -481,7 +497,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
         $column.remove();
 
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'remove');
+        if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
     };
 
     // Re-orders the columns.
@@ -494,7 +510,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $column = columns[i];
             $column.appendTo($xmlTable);
         }
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'order');
+        if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlTable); // On widget changed.
     };
 
     // Returns the table columns.
