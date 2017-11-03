@@ -31,7 +31,7 @@
 							{{#ifEqualTo type 'map-palettes-color-range-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-color-range iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-color-range iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -52,7 +52,7 @@
                             {{#ifEqualTo type 'map-palettes-color-scheme-add'}}
                                 <div class="form-group iad-form-group">
                                     <div style="text-align:right">
-                                        <button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-color-scheme iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
+                                        <button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-color-scheme iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
                                     </div>
                                 </div>
                             {{/ifEqualTo}}
@@ -445,11 +445,9 @@
 								<div id="{{id}}" class="well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
-										<div>
-											<i class="fa fa-fw fa-sort iad-sort-handle"></i>
-										</div>
-										<div>
-											<button id="{{id}}" type="button" class="close iad-control-remove-column iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
+										<div class="iad-sort-handle">
+											<i class="fa fa-fw fa-sort"></i>
+											<button id="{{id}}" type="button" class="close iad-control-remove-column iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
 										</div>
 									</div>
 
@@ -512,7 +510,7 @@
 							{{#ifEqualTo type 'column-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-column iad-tooltip-control" data-toggle="tooltip" title="Add Column"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Column</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-column iad-tooltip-control" data-toggle="tooltip" title="Add Column"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Column</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -522,8 +520,8 @@
 								<div id="{{id}}" class="well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
-										<div>
-											<i class="fa fa-fw fa-sort iad-sort-handle"></i>
+										<div class="iad-sort-handle">
+											<i class="fa fa-fw fa-sort"></i>
 										</div>
 									</div>
 
@@ -750,11 +748,9 @@
 								<div id="{{id}}" class="well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
-										<div>
-											<i class="fa fa-fw fa-sort iad-sort-handle"></i>
-										</div>
-										<div>
-											<button id="{{id}}" type="button" class="close iad-control-remove-column iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
+										<div class="iad-sort-handle">
+											<i class="fa fa-fw fa-sort"></i>
+ 											<button id="{{id}}" type="button" class="close iad-control-remove-column iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
 										</div>
 									</div>
 
@@ -831,21 +827,21 @@
 							{{#ifEqualTo type 'target-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-target iad-tooltip-control" data-toggle="tooltip" title="Add a new target"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Target</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-target iad-tooltip-control" data-toggle="tooltip" title="Add a new target"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Target</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'symbol-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-symbol iad-tooltip-control" data-toggle="tooltip" title="Add a new symbol"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Symbol</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-symbol iad-tooltip-control" data-toggle="tooltip" title="Add a new symbol"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Symbol</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'break-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-break iad-tooltip-control" data-toggle="tooltip" title="Add a new break"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Break</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-break iad-tooltip-control" data-toggle="tooltip" title="Add a new break"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Break</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -1059,7 +1055,7 @@
 							{{#ifEqualTo type 'menu-bar-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-menu-item iad-tooltip-control" data-toggle="tooltip" title="Add a new item"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Item</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-menu-item iad-tooltip-control" data-toggle="tooltip" title="Add a new item"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Item</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -1122,7 +1118,7 @@
 							{{#ifEqualTo type 'open-data-properties-form'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#iad-modal-data-properties">{{this.label}}</button>	
+										<button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#iad-modal-data-properties">{{this.label}}</button>	
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -1156,7 +1152,7 @@
 							{{#ifEqualTo type 'pyramid-line-add'}}
 								<div class="form-group iad-form-group">
 									<div style="text-align:right">
-										<button id="{{id}}" type="button" class="btn btn-sm btn-primary iad-control-add-pyramid-line iad-tooltip-control" data-toggle="tooltip" title="Add a new line"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Line</button>
+										<button id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-pyramid-line iad-tooltip-control" data-toggle="tooltip" title="Add a new line"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Line</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}

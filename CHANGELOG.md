@@ -1,5 +1,11 @@
 # Changelog
 
+### v0.0.153 *2017-11-03*
+* **new** - Scroll to column settings when new column is added to table 
+* **new** - Draggable table columns can only move along the y-axis when being dragged 
+* **new** - Make full top area of draggable table column draggable and display move cursor on hover 
+* **new** - Moved &#x27;New Column&#x27; buttons to bottom of form 
+
 ### v0.0.151 *2017-11-01*
 * **fixed** - Scroll bar position does not go back to zero when switching between widgets properties 
 * **fixed** - Expanded panel is maintained when switching between widgets properties 

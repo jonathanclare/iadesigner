@@ -1,5 +1,16 @@
 [
 {
+	"version":"0.0.153",
+	"date":"2017-11-03",
+	"changes":
+	[
+		{"badge":"new", "description":"Scroll to column settings when new column is added to table", "bug":""},
+		{"badge":"new", "description":"Draggable table columns can only move along the y-axis when being dragged", "bug":""},
+		{"badge":"new", "description":"Make full top area of draggable table column draggable and display move cursor on hover", "bug":""},
+		{"badge":"new", "description":"Moved 'New Column' buttons to bottom of form", "bug":""}
+	]
+},
+{
 	"version":"0.0.151",
 	"date":"2017-11-01",
 	"changes":

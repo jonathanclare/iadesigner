@@ -471,7 +471,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Column');
         $xmlTable.append(xml);
 
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable);
+        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'add');
     };
 
     // Removes a stable column.
@@ -481,7 +481,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
         $column.remove();
 
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable);
+        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'remove');
     };
 
     // Re-orders the columns.
@@ -494,7 +494,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $column = columns[i];
             $column.appendTo($xmlTable);
         }
-        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable);
+        if (options && options.onColumnsChanged) options.onColumnsChanged.call(null, widgetId, $xmlTable, 'order');
     };
 
     // Returns the table columns.

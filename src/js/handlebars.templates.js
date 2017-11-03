@@ -163,7 +163,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-color-range iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new colour\"><i class=\"fa fa-fw fa-plus\"></i></button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-color-range iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new colour\"><i class=\"fa fa-fw fa-plus\"></i></button>\r\n									</div>\r\n								</div>\r\n";
 },"17":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -185,7 +185,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "                                <div class=\"form-group iad-form-group\">\r\n                                    <div style=\"text-align:right\">\r\n                                        <button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-color-scheme iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new colour\"><i class=\"fa fa-fw fa-plus\"></i></button>\r\n                                    </div>\r\n                                </div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-color-scheme iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new colour\"><i class=\"fa fa-fw fa-plus\"></i></button>\r\n                                    </div>\r\n                                </div>\r\n";
 },"22":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -529,9 +529,9 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div>\r\n											<i class=\"fa fa-fw fa-sort iad-sort-handle\"></i>\r\n										</div>\r\n										<div>\r\n											<button id=\""
+    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"close iad-control-remove-column iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input id=\""
+    + "\" type=\"button\" class=\"close iad-control-remove-column iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input id=\""
     + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
     + "\" class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
@@ -561,13 +561,13 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-column iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add Column\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Column</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-column iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add Column\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Column</button>\r\n									</div>\r\n								</div>\r\n";
 },"90":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div>\r\n											<i class=\"fa fa-fw fa-sort iad-sort-handle\"></i>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input id=\""
+    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input id=\""
     + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
     + "\" class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
@@ -699,9 +699,9 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "\r\n								<div id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div>\r\n											<i class=\"fa fa-fw fa-sort iad-sort-handle\"></i>\r\n										</div>\r\n										<div>\r\n											<button id=\""
+    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n 											<button id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"close iad-control-remove-column iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input id=\""
+    + "\" type=\"button\" class=\"close iad-control-remove-column iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input id=\""
     + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
     + "\" class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
@@ -765,19 +765,19 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-target iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new target\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Target</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-target iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new target\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Target</button>\r\n									</div>\r\n								</div>\r\n";
 },"119":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-symbol iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new symbol\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Symbol</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-symbol iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new symbol\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Symbol</button>\r\n									</div>\r\n								</div>\r\n";
 },"121":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-break iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new break\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Break</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-break iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new break\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Break</button>\r\n									</div>\r\n								</div>\r\n";
 },"123":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -879,7 +879,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-menu-item iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new item\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Item</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-menu-item iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new item\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Item</button>\r\n									</div>\r\n								</div>\r\n";
 },"134":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -937,7 +937,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.choices : depth0),{"name":"each","hash":{},"fn":container.program(72, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "												</ul>\r\n											</div>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
 },"143":function(container,depth0,helpers,partials,data) {
-    return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" data-target=\"#iad-modal-data-properties\">"
+    return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default\" data-toggle=\"modal\" data-target=\"#iad-modal-data-properties\">"
     + container.escapeExpression(container.lambda((depth0 != null ? depth0.label : depth0), depth0))
     + "</button>	\r\n									</div>\r\n								</div>\r\n";
 },"145":function(container,depth0,helpers,partials,data) {
@@ -973,7 +973,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div class=\"form-group iad-form-group\">\r\n									<div style=\"text-align:right\">\r\n										<button id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-sm btn-primary iad-control-add-pyramid-line iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new line\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Line</button>\r\n									</div>\r\n								</div>\r\n";
+    + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-add-pyramid-line iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new line\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Line</button>\r\n									</div>\r\n								</div>\r\n";
 },"153":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 

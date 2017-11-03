@@ -2,7 +2,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
-	iad.configforms = iad.configforms || {};
+	iad.configform = iad.configform || {};
 
     // Passed in options.
     var options;
@@ -151,14 +151,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
     ];
 
     // Update data options.
-    iad.configforms.updateDataLists = function ()
+    iad.configform.updateDataLists = function ()
     {
         updateAssociateOptions();
         updatePropertyOptions();
     };
 
     // Update javascript options.
-    iad.configforms.updateJavaScriptOptions = function ()
+    iad.configform.updateJavaScriptOptions = function ()
     {
         arrJavaScriptOptions =
         [
@@ -237,7 +237,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     }
 
     // Initialise.
-    iad.configforms.init = function(o)
+    iad.configform.init = function(o)
     {
         options = o; 
 
@@ -255,7 +255,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 {
                     doScroll = false;
                     if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
-                        $container.parent().scrollTop(oFormDisplayProperties[activeWidgetId].scrollPos);
+                        iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
+
+                    $container.parent().css('visibility','visible');
+                    if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
                 }
                 // Store the index of the expanded panel.
                 var panelIndex = $container.find('.iad-collapse').index(this);
@@ -287,17 +290,29 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
     };
 
+    // Scrolls to position in form.
+    iad.configform.scrollTo = function(scrollPos)
+    {
+        $container.parent().scrollTop(scrollPos);        
+    };
+
+    // Scrolls to position in form.
+    iad.configform.scrollToBottom = function(scrollPos)
+    {
+        iad.configform.scrollTo($container.parent()[0].scrollHeight);        
+    };
+
     // Refreshes the current form.
-    iad.configforms.refreshForm = function()
+    iad.configform.refresh = function()
     {
         if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
-            iad.configforms.showPropertyGroupForm();
+            iad.configform.showPropertyGroupForm();
         else 
-            iad.configforms.showWidgetForm(activeWidgetId);                               	
+            iad.configform.showWidgetForm(activeWidgetId);                               	
     };
 
     // Displays the form for the property groups.
-    iad.configforms.showPropertyGroupForm = function()
+    iad.configform.showPropertyGroupForm = function()
     {
         activeWidgetId = 'PropertyGroup';
 
@@ -312,7 +327,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var id = $xmlPropGroup.attr('id');
             if (id !== 'thematics' && id !== 'pointSymbols' && id !== 'lineSymbols' && id !== 'thematics2' && id !== 'pointSymbols2' && id !== 'lineSymbols2')
             {
-                var jsonForm = iad.configforms.getPropertyGroupForm($xmlPropGroup);
+                var jsonForm = iad.configform.getPropertyGroupForm($xmlPropGroup);
                 if (jsonForm.controls.length > 0) json.forms[json.forms.length] = jsonForm;
             }
         });
@@ -321,12 +336,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Displays the form for the given widget.
-    iad.configforms.showWidgetForm = function(widgetId)
+    iad.configform.showWidgetForm = function(widgetId)
     {
         activeWidgetId = widgetId;
-
-        //$('#iad-send-to-back-btn').show();
-        //$('#iad-bring-to-front-btn').show();
 
         var $xmlWidget = iad.config.getWidgetXml(widgetId);
         var tagName = $xmlWidget.prop('tagName');
@@ -380,6 +392,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         if (jsonForm.forms.length === 1) jsonForm.forms[0].name = undefined;
 
         // Apply handlebars template for forms.
+        $container.parent().css('visibility','hidden');
         $container.empty();
 		var template = window.iadesigner[options.template];
         var html = template(jsonForm);
@@ -404,6 +417,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $('.draggableList').sortable(
         {
             handle: '.iad-sort-handle', 
+            axis:'y',
             update: function()
             {
                 // New order.
@@ -436,13 +450,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse("show");
             }
             else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
-                $container.parent().scrollTop(oFormDisplayProperties[activeWidgetId].scrollPos);
+            {
+                iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
+                $container.parent().css('visibility','visible');
+                if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+            }
         }   
-        else $container.parent().scrollTop(0);
+        else 
+        {
+            iad.configform.scrollTo(0);
+            $container.parent().css('visibility','visible');
+            if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+        }
     }
 
     // Returns a property group form.
-    iad.configforms.getPropertyGroupForm = function($xmlPropGroup)
+    iad.configform.getPropertyGroupForm = function($xmlPropGroup)
     {
         var form = 
         {
@@ -619,13 +642,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : []
         };
 
-        // Menu addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : controlId,
-            'type'  : 'menu-bar-add'
-        };
-
         var $xmlProperties = $xmlComponent.find('Property');
         $.each($xmlProperties, function(i, xmlProperty)
         {
@@ -656,6 +672,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
+        // Menu addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : controlId,
+            'type'  : 'menu-bar-add'
+        };
+
         return form;
     }
 
@@ -676,13 +699,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'type' : 'label',
             'name' : 'Use this section to link symbols to values in the data. The symbol replaces the data value in the column.'
-        };
-
-        // Symbol addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : controlId,
-            'type'  : 'symbol-add'
         };
 
         var $xmlProperties = $xmlTable.find('Property');
@@ -734,6 +750,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
+        // Symbol addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : controlId,
+            'type'  : 'symbol-add'
+        };
+
         return form;
     }
 
@@ -750,18 +773,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : []
         };
 
-        form.controls[form.controls.length] = 
+        /*form.controls[form.controls.length] = 
         {
             'type'  : 'open-data-properties-form',
             'label' : 'Add Custom Indicator Breaks'
-        };
-
-        // Break addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : controlId,
-            'type'  : 'break-add'
-        };
+        };*/
 
         var $xmlProperties = $xmlTable.find('Property');
         $.each($xmlProperties, function(i, xmlProperty)
@@ -790,6 +806,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
+        // Break addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : controlId,
+            'type'  : 'break-add'
+        };
+
         return form;
     }
 
@@ -815,13 +838,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'id'        : widgetId,
             'name'      : 'Chart Column Targets',
             'controls'  : []
-        };
-
-        // Target addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : controlId,
-            'type'  : 'target-add'
         };
 
         var $xmlProperties = $xmlTable.find('Property');
@@ -872,6 +888,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 };
             }
         });
+
+        // Target addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : controlId,
+            'type'  : 'target-add'
+        };
 
         return form;
     }
@@ -933,13 +956,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'id'        : widgetId,
             'name'      : 'Columns',
             'controls'  : []
-        };
-
-        // Column addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : 'Column~' + widgetId,
-            'type'  : 'column-add',
         };
 
         var $xmlColumns = $xmlTable.find('Column');
@@ -1103,6 +1119,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 };
             }
         });
+
+        // Column addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : 'Column~' + widgetId,
+            'type'  : 'column-add',
+        };
 
         return form;
     }
@@ -1337,13 +1360,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'name' : 'Use this section to add data lines to the pyramid chart.'
         };
 
-        // Symbol addition control.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : controlId,
-            'type'  : 'pyramid-line-add'
-        };
-
         var $xmlProperties = $xmlComponent.find('Property');
         $.each($xmlProperties, function(i, xmlProperty)
         {
@@ -1374,6 +1390,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 };
             }
         });
+
+        // Symbol addition control.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : controlId,
+            'type'  : 'pyramid-line-add'
+        };
 
         return form;
     }

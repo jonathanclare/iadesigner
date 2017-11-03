@@ -27,10 +27,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
 
-    var selectedWidgetId;
-    var widgetPropertiesAreDisplayed = false;
     var report;
-    var changesSaved = true;
+    var selectedWidgetId; // The id of the currently selected widget.
+    var changesSaved = true; // Indicates that all changes have been saved.
+    var configFormDisplayed = false; // Indicates that the config form is displayed.
+    var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
 
     // Reference to main window.
     var win = remote.getCurrentWindow();
@@ -577,7 +578,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (name === 'widget') 
         {
-            widgetPropertiesAreDisplayed = false;
+            configFormDisplayed = false;
             if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
         var $panel = getSidebar(name);
@@ -589,7 +590,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (name === 'widget') 
         {
-            widgetPropertiesAreDisplayed = false;
+            configFormDisplayed = false;
             if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
         var $panel = getSidebar(name);
@@ -636,21 +637,21 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editGeneralProperties()
     {
-        if (widgetPropertiesAreDisplayed)
+        if (configFormDisplayed)
         {
             var title = iad.config.getDisplayName('PropertyGroup');
             $sidebarWidgetTitle.text(title);
-            iad.configforms.showPropertyGroupForm();
+            iad.configform.showPropertyGroupForm();
         }
     }
 
     function editWidgetProperties(widgetId)
     {
-        if (widgetPropertiesAreDisplayed)
+        if (configFormDisplayed)
         {
             var title = iad.config.getDisplayName(widgetId);
             $sidebarWidgetTitle.text(title);
-            iad.configforms.showWidgetForm(widgetId);
+            iad.configform.showWidgetForm(widgetId);
         }
         else $editWidgetBtn.show();
     }
@@ -659,18 +660,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         $editWidgetBtn.hide();
 
-        widgetPropertiesAreDisplayed = true;
+        configFormDisplayed = true;
         var title = iad.config.getDisplayName(widgetId);
         $sidebarWidgetTitle.text(title);
         if (widgetId === 'PropertyGroup')
         {
             iad.canvas.clearSelection();
-            iad.configforms.showPropertyGroupForm();
+            iad.configform.showPropertyGroupForm();
         }
         else
         {
             iad.canvas.select(widgetId);
-            iad.configforms.showWidgetForm(widgetId);
+            iad.configform.showWidgetForm(widgetId);
         }
         showSidebar('widget');
     }
@@ -818,7 +819,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 iad.config.update(report.config.xml);
                 updateDropdownMenus();
                 //iad.legendform.update();
-                iad.configforms.refreshForm();
+                iad.configform.refresh();
                 iad.canvas.update();
             },
         });
@@ -951,23 +952,25 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
+                onPropertyAdded = true;
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configforms.refreshForm();
+                    iad.configform.refresh();
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configforms.refreshForm();
+                    iad.configform.refresh();
                 });
             },
-            onColumnsChanged: function (widgetId, $xmlWidget)
+            onColumnsChanged: function (widgetId, $xmlWidget, type)
             {
+                if (type === 'add') onPropertyAdded = true;
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configforms.refreshForm();
+                    iad.configform.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -1062,9 +1065,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         if (widgetId === selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
 
                         iad.canvas.update();
-                        if (callback !== undefined) callback.call(null);
                         onConfigChanged();
                     }
+                    if (callback !== undefined) callback.call(null);
                 });
             });
         }
@@ -1077,11 +1080,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigForms()
     {
-        iad.configforms.init(
+        iad.configform.init(
         {
             report : report,
             container: '#iad-form-widget-properties',
-            template: 'forms.handlebars'
+            template: 'forms.handlebars',
+            onFormChanged: function (widgetId)
+            {
+                if (onPropertyAdded === true) 
+                {
+                    onPropertyAdded = false;
+                    iad.configform.scrollToBottom();
+                }
+            }
         });
     }
 
@@ -1401,7 +1412,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function updateDropdownMenus()
     {
-        iad.configforms.updateJavaScriptOptions();
+        iad.configform.updateJavaScriptOptions();
 
         // Update widget properties.
 
