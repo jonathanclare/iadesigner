@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <AtlasInterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.instantatlas.com/xml/atlas" classes="ia-report ia-selection-color ia-highlight-color ia-panel ia-panel-resize-btn ia-panel-header ia-datatip ia-tooltip button ia-button:hover ia-button:active ia-text ia-title-text ia-image ia-list-item:hover ia-list-item:active" edit-mode="Wireframe" name="IA6 Area Profile - Spine Chart" schema-version="1.6" template="areaprofiler::flash::html" template-version="6.9.0" width="800" xsi:schemaLocation="http://www.instantatlas.com/xml/atlas ../../../xml/atlas-ui-v1.4.xsd">
-<Component classes="ia-panel ia-panel-header ia-explorer-item" editable="true" height="330" icon="$IAICON/48x48/text_code.png" id="dataExplorer" moveable="true" name="Data Explorer" removeable="true" resizeable="true" visible="true" width="176" x="10" y="48">
+<Component classes="ia-panel ia-panel-header ia-explorer-item" editable="true" height="329" icon="$IAICON/48x48/text_code.png" id="dataExplorer" moveable="true" name="Data Explorer" removeable="true" resizeable="true" visible="true" width="168" x="12" y="40">
 	<Description>Allows the end user to select a indicator.</Description>
-	<Property description="The title" id="title" name="Title" type="string" value="" />
-	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(dataExplorer)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false" />
-	<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="101" />
-	<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true" />
-	<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true" />
-	<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true" />
-	<Property description="Should dates be displayed?" id="showDates" name="Show Dates?" type="boolean" value="true" />
+	<Property description="The title" id="title" name="Title" type="string" value=""/>
+	<Property description="Is it visible at start up? Use 'javascript:iaToggle(dataExplorer)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false"/>
+	<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="101"/>
+	<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true"/>
+	<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true"/>
+	<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
+	<Property description="Should dates be displayed?" id="showDates" name="Show Dates?" type="boolean" value="true"/>
         	<Property description="When dates are not displayed load the most recent date on a selection?" id="loadMostRecentDate" name="Load Most Recent Date On Selection?" type="boolean" value="false"/>
-	<Property description="Should dates be reversed?" id="reverseDates" name="Reverse Dates?" type="boolean" value="true" />
+	<Property description="Should dates be reversed?" id="reverseDates" name="Reverse Dates?" type="boolean" value="true"/>
 </Component>
+
+	<Component id="filterExplorer" name="Filter Explorer" editable="true" height="329" width="174" x="252" y="40" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+  		<Description>Allows the end user to select a filter.</Description>
+  		<Property description="The title" id="title" name="Title" type="string" value=""/>
+  		<Property description="Is it visible at start up? Use 'javascript:iaToggle(filterExplorer)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false"/>
+  		<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="102"/>
+		<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true"/>
+		<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true"/>
+		<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
+ 		<Property description="The filter type" id="filterType" name="Filter Type" type="string" value="single" choices="single;combined"/>
+ 	</Component>
+
+  	<Component id="geogExplorer" name="Geography Explorer" editable="true" x="276" y="108" width="144" height="225" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
+   		<Description>Allows the end user to select a geography.</Description>
+   		<Property description="The title" id="title" name="Title" type="string" value=""/>
+   		<Property description="Is it visible at start up? Use 'javascript:iaToggle(geogExplorer)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false"/>
+ 		<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="101"/>
+ 		<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true"/>  		
+   		
+   		<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true"/>
+ 	</Component>
+
  	
- 	<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
+<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
 	      <Description>
 		Dimensions Explorer.
 	      </Description>
@@ -31,27 +53,6 @@
 	      <Property description="The no selection text" id="noSelectionValue" name="No Selection Text" type="string" value="-"/>
 	</Component>
 
-	<Component id="filterExplorer" name="Filter Explorer" editable="true" height="330" width="176" x="238" y="48" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
-  		<Description>Allows the end user to select a filter.</Description>
-  		<Property description="The title" id="title" name="Title" type="string" value=""/>
-  		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(filterExplorer)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false"/>
-  		<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="102"/>
-		<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true"/>
-		<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true"/>
-		<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
- 		<Property description="The filter type" id="filterType" name="Filter Type" type="string" value="single" choices="single;combined"/>
- 	</Component>
-
-  	<Component id="geogExplorer" name="Geography Explorer" editable="true" x="210" y="108" width="150" height="240" visible="true" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-explorer-item">
-   		<Description>Allows the end user to select a geography.</Description>
-   		<Property description="The title" id="title" name="Title" type="string" value=""/>
-   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(geogExplorer)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false"/>
- 		<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="101"/>
- 		<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="true"/>  		
-   		
-   		<Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="true"/>
- 	</Component>
-
 <Component classes="ia-panel ia-panel-header ia-time-control-date-btn ia-time-control-date-btn-active" editable="true" height="25" icon="$IAICON/48x48/form_blue.png" id="timeControl" moveable="true" name="Time Series Control" removeable="true" resizeable="true" visible="false" width="415" x="335" y="20">
   		<Description>Runs an animation that loops through the time series data for the selected indicator.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="" />
@@ -62,7 +63,7 @@
 	<Property description="The text that appears when the time data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
 		<Property description="A list of dates to ignore" id="dropDates" name="List Of Dates To Ignore" type="string-array" value="" />	
 </Component>
-<Component classes="ia-panel ia-panel-header ia-map-toolbar ia-google-map-toolbar ia-map-labels ia-map-copyright ia-map-selection-opacity ia-map-highlight-opacity" editable="true" height="530" icon="$IAICON/48x48/document_earth.png" id="map" moveable="true" name="Map" removeable="true" resizeable="true" visible="true" width="354" x="10" y="55">
+<Component classes="ia-panel ia-panel-header ia-map-toolbar ia-google-map-toolbar ia-map-labels ia-map-copyright ia-map-selection-opacity ia-map-highlight-opacity" editable="true" height="536" icon="$IAICON/48x48/document_earth.png" id="map" moveable="true" name="Map" removeable="true" resizeable="true" visible="true" width="354" x="12" y="49">
 	<Description>Displays a thematic map of the selected indicator alongside any support and background layers.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="${themeName(&apos; &gt;&gt; &apos;)} ${notEmpty(themeName, &apos;&gt;&gt; &apos;)} ${indicatorName} ${notEmpty(date, &apos;(&apos;)}${date}${notEmpty(date, &apos;)&apos;)} ${notEmpty(filterName, &apos;&gt;&gt; &apos;)} ${filterValue} ${notEmpty(filterValues, &apos;&gt;&gt; &apos;)} ${filterValues}" />
 	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(map)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
@@ -437,7 +438,7 @@
 	<Property description="A custom property containing a fixed minimum value for the chart data axis" id="minChartValue" name="Fixed Minimum Axis Value Property" type="string" value="minChartValue" />
 	<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
 </Component>
-<Component classes="ia-panel ia-panel-header ia-layer-list-item ia-legend-item" editable="true" height="120" icon="$IAICON/48x48/form_blue.png" id="legend" moveable="true" name="Map Legend" removeable="true" resizeable="true" visible="true" width="96" x="10" y="465">
+<Component classes="ia-panel ia-panel-header ia-layer-list-item ia-legend-item" editable="true" height="180" icon="$IAICON/48x48/form_blue.png" id="legend" moveable="true" name="Map Legend" removeable="true" resizeable="true" visible="true" width="126" x="12" y="405">
 	<Description>Contains a legend for the map alongside a list of layers.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="" />
 	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(legend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
@@ -446,7 +447,7 @@
    	<Property description="Can it be exported?" id="isExportable" name="Exportable?" type="boolean" value="true"/>  
 	<Property description="Should the legend editor button be displayed." id="showLegendEditorButton" name="Show Legend Editor Button?" type="boolean" value="true" />
 </Component>
-<Component classes="ia-panel ia-panel-header" editable="true" height="41" icon="$IAICON/48x48/form_blue.png" id="featureLegend" moveable="true" name="Selected Features Legend" removeable="true" resizeable="true" visible="true" width="416" x="374" y="544">
+<Component classes="ia-panel ia-panel-header" editable="true" height="45" icon="$IAICON/48x48/form_blue.png" id="featureLegend" moveable="true" name="Selected Features Legend" removeable="true" resizeable="true" visible="true" width="408" x="378" y="540">
 	<Description>Displays the list of selected features.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="" />
 	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(featureLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
@@ -465,7 +466,7 @@
    		<Property description="Can it be exported?" id="isExportable" name="Exportable?" type="boolean" value="true"/>  
 	<Property choices="horizontal;vertical" description="The layout of the legend" id="layout" name="Layout" type="string" value="vertical" />
 </Component>
-<Table classes="ia-panel ia-panel-header ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="530" icon="$IAICON/48x48/table_sql.png" id="table" moveable="true" name="Data Table" removeable="true" resizeable="true" visible="true" width="354" x="10" y="55">
+<Table classes="ia-panel ia-panel-header ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="536" icon="$IAICON/48x48/table_sql.png" id="table" moveable="true" name="Data Table" removeable="true" resizeable="true" visible="true" width="354" x="12" y="49">
 	<Description>Displays the list of features alongside their value for the selected indicator and/or its associates.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="" />
 	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(table)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="false" />
@@ -499,7 +500,7 @@
 	<Column alias="Name" name="name" width="0.5" />
 	<Column alias="${indicatorName} ${notEmpty(date, &apos;(&apos;)}${date}${notEmpty(date, &apos;)&apos;)}" name="value" width="0.5" />
 </Table>
-<Table classes="ia-panel ia-panel-header ia-profile-theme-name-cell ia-profile-indicator-name-cell ia-profile-row:hover ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="490" icon="$IAICON/48x48/table_sql.png" id="spineChart" moveable="true" name="Area Profile" removeable="true" resizeable="true" visible="true" width="417" x="374" y="55">
+<Table classes="ia-panel ia-panel-header ia-profile-theme-name-cell ia-profile-indicator-name-cell ia-profile-row:hover ia-table-toolbar ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd" editable="true" height="495" icon="$IAICON/48x48/table_sql.png" id="spineChart" moveable="true" name="Area Profile" removeable="true" resizeable="true" visible="true" width="408" x="378" y="49">
 	<Description>Provides a profile that compares areas against each other and the national or regional average.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value="Area Profile ${notEmpty(date, &apos;(&apos;)}${date}${notEmpty(date, &apos;)&apos;)}" />
 	<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(spineChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true" />
@@ -541,7 +542,7 @@
 	<Property description="Text" id="text" name="Text" type="string" value="count: ${count} &lt;br/&gt;sum: ${sum} &lt;br/&gt;mean: ${mean} &lt;br/&gt;median: ${median} &lt;br/&gt;&lt;br/&gt;min: ${minValue} &lt;br/&gt;max: ${maxValue} &lt;br/&gt;range: ${range} &lt;br/&gt;&lt;br/&gt;lower quartile: ${lowerQuartile} &lt;br/&gt;upper quartile: ${upperQuartile} &lt;br/&gt;interquartile range: ${interquartileRange} &lt;br/&gt;&lt;br/&gt;variance: ${variance} &lt;br/&gt;standard deviation: ${standardDeviation}" />
 	<Property description="The default number of decimal places to be shown for data values." id="ndecimal" name="Decimal Places For Data Values" type="integer" value="-1" />
 </Component>
-<Component classes="ia-panel ia-panel-header ia-menubar" editable="true" height="28" icon="$IAICON/48x48/note.png" id="menuBar" moveable="true" name="Menu Control" removeable="true" resizeable="true" visible="true" width="137" x="618" y="15">
+<Component classes="ia-panel ia-panel-header ia-menubar" editable="true" height="27" icon="$IAICON/48x48/note.png" id="menuBar" moveable="true" name="Menu Control" removeable="true" resizeable="true" visible="true" width="156" x="600" y="13">
 	<Description>
   			A configurable menu.
   		</Description>
@@ -630,12 +631,12 @@
   	  	<Property description="Include images in scrollable layout?" id="flowLayoutIncludeImages" name="Include Images?" type="boolean" value="true"/>
 		<Property description="The screen width at which the scrollable layout is activated." id="flowLayoutMaxWidth" name="Change Width" type="integer" value="600"/>
 	</PropertyGroup>
-<Button zIndex="100" editable="true" height="28" href="javascript:iaToggle(dataExplorer)" id="dataButton" moveable="true" removeable="true" resizeable="true" text="Data" tooltip="" width="108" x="10" y="15"/>
-<Button zIndex="100" id="filterButton" text="Filter" href="javascript:iaToggle(filterExplorer)" tooltip="" width="108" x="238" y="15" height="28" editable="true" moveable="true" removeable="true" resizeable="true"/>
-<Button zIndex="100" id="geographyButton" text="Geography" href="javascript:iaToggle(geogExplorer)" tooltip="" x="285" y="80" width="75" height="27"  editable="true" moveable="true" removeable="true" resizeable="true"/>
-<Button zIndex="100" editable="true" height="28" href="javascript:iaToggle(map);iaToggle(legend);iaToggle(table)" id="mapTableButton" moveable="true" removeable="true" resizeable="true" text="Map | Tabular" tooltip="" width="108" x="124" y="15"/>
-<Button zIndex="100" editable="true" height="28" href="javascript:iaToggleProfileTree()" id="profileCollapseButton" moveable="true" removeable="true" resizeable="true" text="- / +" tooltip="" width="35" x="374" y="15"/>
-<Image zIndex="100" anchor="left" editable="true" height="28" href="http://www.instantatlas.com" id="iaLogo" maintain-aspect-ratio="true" moveable="true" removeable="true" rescale="true" resizeable="true" src="./logo.png" target="_blank" width="27" x="764" y="15"/>
+<Button zIndex="100" editable="true" height="27" href="javascript:iaToggle(dataExplorer)" id="dataButton" moveable="true" removeable="true" resizeable="true" text="Data" tooltip="" width="114" x="12" y="13"/>
+<Button zIndex="100" id="filterButton" text="Filter" href="javascript:iaToggle(filterExplorer)" tooltip="" width="114" x="252" y="13" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+<Button zIndex="100" id="geographyButton" text="Geography" href="javascript:iaToggle(geogExplorer)" tooltip="" x="276" y="81" width="78" height="27" editable="true" moveable="true" removeable="true" resizeable="true"/>
+<Button zIndex="100" editable="true" height="27" href="javascript:iaToggle(map);iaToggle(legend);iaToggle(table)" id="mapTableButton" moveable="true" removeable="true" resizeable="true" text="Map | Tabular" tooltip="" width="114" x="132" y="13"/>
+<Button zIndex="100" editable="true" height="27" href="javascript:iaToggleProfileTree()" id="profileCollapseButton" moveable="true" removeable="true" resizeable="true" text="- / +" tooltip="" width="36" x="378" y="13"/>
+<Image zIndex="100" anchor="right" editable="true" height="27" href="http://www.instantatlas.com" id="iaLogo" moveable="true" removeable="true" rescale="true" resizeable="true" src="./logo.png" target="_blank" width="36" x="786" y="13" maintain-aspect-ratio="true"/>
 <MapPalettes classes="5" default="Sequential Cyan" maxclasses="10">
 	<ColourRange id="Sequential Red">
 		<Colour>#fee5d9</Colour>
