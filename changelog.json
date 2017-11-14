@@ -1,5 +1,13 @@
 [
 {
+	"version":"0.0.154",
+	"date":"2017-11-14",
+	"changes":
+	[
+		{"badge":"improved", "description":"Moved edit dropdown to sidebar haeder", "bug":""}
+	]
+},
+{
 	"version":"0.0.153",
 	"date":"2017-11-03",
 	"changes":

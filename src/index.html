@@ -166,7 +166,7 @@
                             <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Edit Widget"><i class="fa fa-pencil"></i>&nbsp;Edit</button>
                             <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span></button>
                             <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
-                            <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" title="Remove Widget"><i class="fa fa-trash-o"></i></button>    
+                            <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" title="Remove Widget"><i class="fa fa-trash-o"></i></button>   
                         </div>
                     </form>
                 </div> 
@@ -182,21 +182,18 @@
             <div id="iad-sidebar-widget" class="iad-sidebar">
                 <div class="iad-sidebar-header">
                     <button id="iad-btn-close-widget-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="modal-title"><span class="fa fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"> </span></div>
+                    <div class="btn-group">  
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"></span>&nbsp;&nbsp;<span class="caret"></span></button>
+                        <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
+                            <!-- populated by designner.main.js updateWidgetPropertiesDropdown() -->
+                        </ul>          
+                    </div> 
                 </div>
-                <div class="iad-sidebar-content iad-sidebar-content-with-footer">
+                <div class="iad-sidebar-content iad-sidebar-content">
                     <div class="iad-form">
                         <div id="iad-form-widget-properties">
                         <!-- populated by iadesigner.configforms.js -->
                         </div>
-                    </div>
-                </div>
-                <div class="iad-sidebar-footer">
-                    <div class="btn-group dropup">  
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;Edit</button>
-                        <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
-                            <!-- populated by designner.main.js updateWidgetPropertiesDropdown() -->
-                        </ul>                
                     </div>
                 </div>
             </div>
@@ -205,8 +202,8 @@
             <!-- start css properties slide panel -->
             <div id="iad-sidebar-css" class="iad-sidebar">
                 <div class="iad-sidebar-header">
-                    <button id="iad-btn-close-css-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
+                    <button id="iad-btn-close-css-panel" type="button" class="close iad-sidebar-close" aria-hidden="true">&times;</button>
+                    <div class="iad-sidebar-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
                 </div>
                 <div class="iad-sidebar-content">
                     <div class="iad-form">
@@ -221,8 +218,8 @@
             <!-- start color scheme slide panel -->
             <div id="iad-sidebar-colorscheme" class="iad-sidebar">
                 <div class="iad-sidebar-header">
-                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="modal-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
+                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-sidebar-close" aria-hidden="true">&times;</button>
+                    <div class="iad-sidebar-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
                 </div>
                 <!--div class="iad-sidebar-content iad-sidebar-content-with-footer"-->
                 <div class="iad-sidebar-content">
