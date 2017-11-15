@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.0.155 *2017-11-15*
+* **new** - Added progress spinner 
+* **fixed** - Updated widget positions in all templates to fit to &#x27;snap to grid&#x27; 
+
 ### v0.0.153 *2017-11-03*
 * **new** - Scroll to column settings when new column is added to table 
 * **new** - Draggable table columns can only move along the y-axis when being dragged 

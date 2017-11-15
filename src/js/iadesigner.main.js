@@ -26,6 +26,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
+    var $progress = $('#iad-progress');
 
     var report;
     var selectedWidgetId; // The id of the currently selected widget.
@@ -105,12 +106,27 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initMenuHandlers();
                         renderAboutModal();
                         setPopupMenu();
-                        if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                        endProgress(function()
+                        {
+                            if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
+                        });
                     });
                 });
             });
         });
     };
+
+    function startProgress()
+    {
+        $progress.show();
+    }
+    function endProgress(callback)
+    {
+        $progress.fadeOut(function()
+        {
+            if (callback !== undefined) callback.call(null);
+        });
+    }
 
     function setUserSetting(name, value)
     {
@@ -172,6 +188,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (iad.report.loaded)
         {
+            startProgress();
             saveFile(iad.report.configPath, iad.config.toString(), function ()
             { 
                 saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
@@ -183,8 +200,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                             // Copy ia-min.js because they might not have the latest one and the standalone report may break.
                             copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
                             {
-                                changesSaved = true;
-                                if (callback !== undefined) callback.call(null);  
+                                endProgress(function()
+                                {
+                                    changesSaved = true;
+                                    if (callback !== undefined) callback.call(null);  
+                                });
                             });
                         });
                     });
@@ -211,16 +231,31 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 title: "Save Changes?",
                 message: "Save changes before continuing?",
+                buttons: 
+                {
+                    confirm: 
+                    {
+                        label: 'Yes'
+                    },
+                    cancel: 
+                    {
+                        label: 'No'
+                    }
+                },
                 callback: function (result) 
                 {
-                    if (result === true)
+                    // Use timeout to give message box time to clear.
+                    setTimeout(function()
                     {
-                        saveChanges(function()
+                        if (result === true)
                         {
-                            callback.call(null); 
-                        });
-                    }
-                    else callback.call(null); 
+                            saveChanges(function()
+                            {
+                                callback.call(null); 
+                            });
+                        }
+                        else callback.call(null); 
+                    }, 500);
                 }
             });
         }
@@ -366,6 +401,17 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 title: iad.config.getDisplayName(selectedWidgetId) + ' - Confirm Removal?',
                 message: 'Are you sure you want to remove this widget?',
+                buttons: 
+                {
+                    confirm: 
+                    {
+                        label: 'Yes'
+                    },
+                    cancel: 
+                    {
+                        label: 'No'
+                    }
+                },
                 callback: function (result) 
                 {
                     if (result === true) iad.config.removeWidget(selectedWidgetId);
@@ -442,6 +488,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             ipc.send('quit-and-install');
         });
+
+        /*$(document).on('click', '.dropdown-menu a', function(e)
+        {
+            $(this).closest('.dropdown-menu').prev().dropdown('toggle');
+        });*/
     }
 
     function setPopupMenu() 
@@ -791,10 +842,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
-                bootbox.alert(
+                endProgress(function()
                 {
-                    message: "Could not find file: " +url,
-                    backdrop: true
+                    bootbox.alert(
+                    {
+                        message: "Could not find file: " +url,
+                        backdrop: true
+                    });
+
                 });
             },
             onReportLoaded: function (configPath)
@@ -809,9 +864,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     $('#iad-window-title').html(title);
                 }
                 updateConfigDownloadButton();
+                endProgress();
             },
             preConfigLoaded: function ()
-            {                
+            {      
+                startProgress();          
                 iad.canvas.clearSelection();
             },
             onConfigLoaded: function ()
@@ -821,6 +878,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 //iad.legendform.update();
                 iad.configform.refresh();
                 iad.canvas.update();
+                endProgress();
             },
         });
     }
@@ -1255,6 +1313,17 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     title: "Continue?",
                     message: "Any changes to widget properties (including table columns) will be lost if you apply a new template. Do you wish to continue?",
+                    buttons: 
+                    {
+                        confirm: 
+                        {
+                            label: 'Yes'
+                        },
+                        cancel: 
+                        {
+                            label: 'No'
+                        }
+                    },
                     callback: function (result) 
                     {
                         if (result === true && o && o.onContinue) o.onContinue.call(null);

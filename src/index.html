@@ -112,7 +112,7 @@
                     <ul class="nav navbar-nav">
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">File</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open</a></li>
                                 <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save</a></li>
@@ -236,6 +236,11 @@
             <!-- end color scheme slide panel -->
         </div>
         <!-- end slide panel and report containers -->
+
+        <div id="iad-progress">
+            <div id="iad-progress-mask"></div>
+            <div id="iad-progress-spinner"><i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>
+        </div>
 
         <!-- config gallery modal -->
         <div class="modal fade" id="iad-modal-config-gallery" tabindex="-1" role="dialog">

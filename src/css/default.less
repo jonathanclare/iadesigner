@@ -5,13 +5,23 @@
 @sidebar-header-height: 60px;
 @sidebar-footer-height: 60px;
 
-/* Bootstrap Overrides */
 body
 {
     /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
     user-select: none;
     font-size: 12px;
 }
+
+/* Override the report progress bar because we're gonna use a special dashboard one */
+.ia-report-loading
+{       
+    top:-1% !important;
+    left:-10% !important;
+    width:0% !important;
+    height:0% !important;
+} 
+
+/* Bootstrap Overrides */
 
 /* Navbar */
 .navbar-default
@@ -81,10 +91,6 @@ body
     display: block; 
 
 }
-/*.dropup:hover > ul.dropdown-menu 
-{
-    display: block;    
-}*/
 
 /* Panels */
 .panel 
@@ -177,6 +183,37 @@ body
     right: 0px;
     bottom: 0px;
     overflow: auto;
+}
+#iad-progress
+{     
+    position: absolute;
+    top: calc(@title-bar-height + @navbar-height);
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index:99999999;
+}
+#iad-progress-mask
+{     
+    position: absolute;
+    width:100%;
+    height:100%;
+    opacity:0.3;
+
+}
+#iad-progress-spinner
+{  
+    position: absolute;
+    width:100%;
+    height:100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    cursor:wait;
 }
 
 /* Menu */
