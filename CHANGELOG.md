@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.0.156 *2017-11-16*
+* **improved** - Added load and save spinners 
+* **improved** - Moved &#x27;Advanced&#x27; to popup menu 
+
 ### v0.0.155 *2017-11-15*
 * **new** - Added progress spinner 
 * **fixed** - Updated widget positions in all templates to fit to &#x27;snap to grid&#x27; 

@@ -74,28 +74,30 @@ var iadesigner = (function (iad, $, window, document, undefined)
         iad.report.stylePath = iad.report.path+'/default.css';
         iad.report.customPath = iad.report.path+'/custom.js';
 
-        preConfigLoaded();
-        readXmlFile(configPath, function (xml)
+        preConfigLoaded(function()
         {
-            addMissingComponentsToXml(xml, function()
+            readXmlFile(configPath, function (xml)
             {
-                ia.update(
+                addMissingComponentsToXml(xml, function()
                 {
-                    data:
+                    ia.update(
                     {
-                        config      : {xml:xml},
-                        attribute   : {source:iad.report.path+'/data.js'},
-                        map         : {source:iad.report.path+'/map.js'}
-                    }
-                }, 
-                function() 
-                {
-                    loadStyleFile(function ()
-                    {
-                        loadCustomFile(function ()
+                        data:
                         {
-                            if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
-                            onConfigLoaded(); 
+                            config      : {xml:xml},
+                            attribute   : {source:iad.report.path+'/data.js'},
+                            map         : {source:iad.report.path+'/map.js'}
+                        }
+                    }, 
+                    function() 
+                    {
+                        loadStyleFile(function ()
+                        {
+                            loadCustomFile(function ()
+                            {
+                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                                onConfigLoaded(); 
+                            });
                         });
                     });
                 });
@@ -200,14 +202,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Load a new config file.
     iad.report.loadConfig = function (configPath)
     {
-        preConfigLoaded();
-        readXmlFile(configPath, function (xml)
+        preConfigLoaded(function ()
         {
-            addMissingComponentsToXml(xml, function()
+            readXmlFile(configPath, function (xml)
             {
-                ia.parseConfig(xml, function ()
+                addMissingComponentsToXml(xml, function()
                 {
-                    onConfigLoaded();
+                    ia.parseConfig(xml, function ()
+                    {
+                        onConfigLoaded();
+                    });
                 });
             });
         });
@@ -216,22 +220,26 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Refresh the current config xml.
     iad.report.refreshConfig = function ()
     {
-        preConfigLoaded();
-        ia.parseConfig(xmlConfig, function ()
+        preConfigLoaded(function ()
         {
-            onConfigLoaded();
+            ia.parseConfig(xmlConfig, function ()
+            {
+                onConfigLoaded();
+            });
         });
     };
 
     // Refresh the report.
     iad.report.refreshReport = function ()
     {
-        preConfigLoaded();
-        ia.parseConfig(xmlConfig, function ()
+        preConfigLoaded(function ()
         {
-            loadCustomFile(function ()
+            ia.parseConfig(xmlConfig, function ()
             {
-                onConfigLoaded();
+                loadCustomFile(function ()
+                {
+                    onConfigLoaded();
+                });
             });
         });
     };
@@ -270,9 +278,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Called before loading new config.xml or report.
-    function preConfigLoaded()
+    function preConfigLoaded(callback)
     {
-        if (options && options.preConfigLoaded) options.preConfigLoaded.call(null);
+        if (options && options.preConfigLoaded) 
+        {
+            options.preConfigLoaded.call(null, function()
+            {
+                callback.call(null);
+            });
+        }
     }
 
     // Called when config.xml has finished loading.

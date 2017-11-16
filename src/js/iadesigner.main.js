@@ -26,7 +26,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarCss = $('#iad-sidebar-css');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
-    var $progress = $('#iad-progress');
+    var $progressSave = $('#iad-progress-save');
+    var $progressLoad = $('#iad-progress-load');
 
     var report;
     var selectedWidgetId; // The id of the currently selected widget.
@@ -106,7 +107,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initMenuHandlers();
                         renderAboutModal();
                         setPopupMenu();
-                        endProgress(function()
+                        endLoadProgress(function()
                         {
                             if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
                         });
@@ -116,13 +117,30 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         });
     };
 
-    function startProgress()
+    function startSaveProgress(callback)
     {
-        $progress.show();
+        $progressSave.fadeIn(function()
+        {
+            if (callback !== undefined) callback.call(null);
+        });
     }
-    function endProgress(callback)
+    function endSaveProgress(callback)
     {
-        $progress.fadeOut(function()
+        $progressSave.fadeOut(function()
+        {
+            if (callback !== undefined) callback.call(null);
+        });
+    }
+    function startLoadProgress(callback)
+    {
+        $progressLoad.fadeIn(function()
+        {
+            if (callback !== undefined) callback.call(null);
+        });
+    }
+    function endLoadProgress(callback)
+    {
+        $progressLoad.fadeOut(function()
         {
             if (callback !== undefined) callback.call(null);
         });
@@ -188,22 +206,24 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (iad.report.loaded)
         {
-            startProgress();
-            saveFile(iad.report.configPath, iad.config.toString(), function ()
-            { 
-                saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
-                {
-                    iad.css.getCssAsString(function (strCss)
+            startSaveProgress(function()
+            {
+                saveFile(iad.report.configPath, iad.config.toString(), function ()
+                { 
+                    saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
                     {
-                        saveFile(iad.report.stylePath, strCss, function ()
-                        {      
-                            // Copy ia-min.js because they might not have the latest one and the standalone report may break.
-                            copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
-                            {
-                                endProgress(function()
+                        iad.css.getCssAsString(function (strCss)
+                        {
+                            saveFile(iad.report.stylePath, strCss, function ()
+                            {      
+                                // Copy ia-min.js because they might not have the latest one and the standalone report may break.
+                                copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
                                 {
-                                    changesSaved = true;
-                                    if (callback !== undefined) callback.call(null);  
+                                    endSaveProgress(function()
+                                    {
+                                        changesSaved = true;
+                                        if (callback !== undefined) callback.call(null);  
+                                    });
                                 });
                             });
                         });
@@ -489,10 +509,22 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             ipc.send('quit-and-install');
         });
 
-        /*$(document).on('click', '.dropdown-menu a', function(e)
+        $(document).on('click', '.dropdown-menu a', function(e)
         {
-            $(this).closest('.dropdown-menu').prev().dropdown('toggle');
-        });*/
+console.log($(this).closest('.dropdown-menu').get(0));
+            $(this).closest('.dropdown-menu').removeClass('open');
+        });
+
+
+/*
+$('ul.dropdown a').on('click', function(e) {
+
+  e.preventDefault();
+
+  $(this).closest('ul.dropdown').removeClass('open').addClass('closed');
+  $('section').removeClass('active').filter( $(this).attr('href') ).addClass('active');
+  $('a#product').text( $(this).text() + " selected!");
+});*/
     }
 
     function setPopupMenu() 
@@ -507,6 +539,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         iad.report.refreshReport();
                     else 
                         iad.report.refreshConfig();
+                }
+            },
+            {
+                label: 'Advanced',
+                click: function()  
+                {
+                    $('#iad-modal-advanced').modal('show');
                 }
             }
             /*{
@@ -842,7 +881,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
-                endProgress(function()
+                endLoadProgress(function()
                 {
                     bootbox.alert(
                     {
@@ -864,12 +903,15 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     $('#iad-window-title').html(title);
                 }
                 updateConfigDownloadButton();
-                endProgress();
+                endLoadProgress();
             },
-            preConfigLoaded: function ()
+            preConfigLoaded: function (callback)
             {      
-                startProgress();          
-                iad.canvas.clearSelection();
+                startLoadProgress(function()
+                {
+                    iad.canvas.clearSelection();
+                    callback.call(null);
+                });          
             },
             onConfigLoaded: function ()
             {
@@ -878,7 +920,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 //iad.legendform.update();
                 iad.configform.refresh();
                 iad.canvas.update();
-                endProgress();
+                endLoadProgress();
             },
         });
     }

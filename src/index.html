@@ -112,7 +112,7 @@
                     <ul class="nav navbar-nav">
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File</a>
+                            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">File</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open</a></li>
                                 <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save</a></li>
@@ -126,8 +126,8 @@
                                 <li><a id="iad-menuitem-config-gallery" href="#">Choose Template</a></li>
                                 <li><a id="iad-menuitem-open-color-scheme" href="#">Choose Colour Scheme</a></li>
                                 <li><a id="iad-menuitem-open-css" href="#">Edit Styles</a></li>
-                                <li role="presentation" class="divider"></li>
-                                <li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li>
+                                <!--li role="presentation" class="divider"></li-->
+                                <!--li><a id="iad-menuitem-advanced" href="#" data-toggle="modal" data-target="#iad-modal-advanced">Advanced</a></li-->
                                 <!--li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li-->
                             </ul>
@@ -153,19 +153,30 @@
                     <form class="navbar-form navbar-right">
                         <div class="btn-group" data-toggle="buttons"> 
                             <label class="btn btn-default btn-sm active">
-                                <input type="radio" name="iad-radio-report-mode" value="design" />Design View
+                                <input type="radio" name="iad-radio-report-mode" value="design" />Edit
                             </label> 
                             <label class="btn btn-default btn-sm">
-                                <input type="radio" name="iad-radio-report-mode" value="published" />Published View
+                                <input type="radio" name="iad-radio-report-mode" value="published" />Preview
                             </label>                             
                         </div>
                     </form>
 
                     <form id="iad-nav-widgets" class="navbar-form navbar-right" style="display:none">
                         <div class="btn-group"> 
-                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Edit Widget"><i class="fa fa-pencil"></i>&nbsp;Edit</button>
-                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-stack-1x"></i></span></button>
-                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back"><span class="fa-stack" style="height: 1em; line-height: 1em;"><i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i><i class="fa fa-square fa-inverse fa-stack-1x"></i><i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i></span></button>
+                            <button id="iad-btn-widget-edit" type="button" class="btn btn-default btn-sm" title="Widget Properties"><i class="fa fa-pencil"></i>&nbsp;Properties</button>
+                            <button id="iad-btn-widget-bring-to-front" type="button" class="btn btn-default btn-sm" title="Bring To Front">
+                                <span class="fa-stack" style="height: 1em; line-height: 1em;">
+                                    <i class="fa fa-square-o fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i>
+                                    <i class="fa fa-square fa-stack-1x" style="left: 0.1em;top: 0.1em;"></i>
+                                </span>
+                            </button>
+                            <button id="iad-btn-widget-send-to-back" type="button" class="btn btn-default btn-sm" title="Send To Back">
+                                <span class="fa-stack" style="height: 1em; line-height: 1em;">
+                                    <i class="fa fa-square fa-stack-1x" style="left: -0.15em;top: -0.15em;"></i>
+                                    <i class="fa fa-square fa-inverse fa-stack-1x"></i>
+                                    <i class="fa fa-square-o fa-stack-1x" style="left: 0.1em;top: 0.15em;"></i>
+                                </span>
+                            </button>
                             <button id="iad-btn-widget-remove" type="button" class="btn btn-default btn-sm" title="Remove Widget"><i class="fa fa-trash-o"></i></button>   
                         </div>
                     </form>
@@ -237,9 +248,14 @@
         </div>
         <!-- end slide panel and report containers -->
 
-        <div id="iad-progress">
-            <div id="iad-progress-mask"></div>
-            <div id="iad-progress-spinner"><i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>
+        <div id="iad-progress-save" class="iad-progress" style="display:none">
+            <div class="iad-progress-mask"></div>
+            <div class="iad-progress-spinner"><i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>
+        </div>
+
+        <div id="iad-progress-load" class="iad-progress" >
+            <div class="iad-progress-mask"></div>
+            <div class="iad-progress-spinner"><i class="fa fa-refresh fa-spin fa-5x"></i></div>
         </div>
 
         <!-- config gallery modal -->

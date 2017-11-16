@@ -10,7 +10,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 	var cursor 			= ''; 			// The cursor type.
 	var minSize 		= 30; 			// Minimum size for the dragger.
-	var edgeBuffer 		= 15;			// Buffer size around dragger edges for picking up cursor type.
+	var edgeBuffer 		= 5;			// Buffer size around dragger edges for picking up cursor type.
 	var snapToGrid 		= true; 		// Snap to grid.
 	var snapThreshold 	= 0.75; 		// Percent 0 - 100.
 	var dragging 		= false; 		// Indicates that a drag or resize in progress.
