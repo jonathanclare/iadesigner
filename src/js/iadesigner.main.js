@@ -509,22 +509,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             ipc.send('quit-and-install');
         });
 
-        $(document).on('click', '.dropdown-menu a', function(e)
+        // Hover Menu.
+        $('ul.nav > li.dropdown').on('mouseover', function(e)
         {
-console.log($(this).closest('.dropdown-menu').get(0));
-            $(this).closest('.dropdown-menu').removeClass('open');
+            $(this).find('.dropdown-menu').show();
         });
-
-
-/*
-$('ul.dropdown a').on('click', function(e) {
-
-  e.preventDefault();
-
-  $(this).closest('ul.dropdown').removeClass('open').addClass('closed');
-  $('section').removeClass('active').filter( $(this).attr('href') ).addClass('active');
-  $('a#product').text( $(this).text() + " selected!");
-});*/
+        $('ul.nav > li.dropdown').on('mouseout', function(e)
+        {
+            $(this).find('.dropdown-menu').hide();
+        });
+        $('ul.nav > li.dropdown > ul.dropdown-menu > li > a').on('click', function(e)
+        {
+            $(this).closest('ul.dropdown-menu').fadeOut();
+        });
     }
 
     function setPopupMenu() 
