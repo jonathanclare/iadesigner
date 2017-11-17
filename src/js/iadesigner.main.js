@@ -30,9 +30,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $progressLoad = $('#iad-progress-load');
 
     var report;
+    var storedLessVars; // Stores the less vars so that it can be reset id user wishes.
     var selectedWidgetId; // The id of the currently selected widget.
     var changesSaved = true; // Indicates that all changes have been saved.
-    var configFormDisplayed = false; // Indicates that the config form is displayed.
+    var widgetPropertiesDisplayed = false; // Indicates that the config form is displayed.
     var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
 
     // Reference to main window.
@@ -457,28 +458,34 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
         });
 
-        // Close slide panel buttons.
-        $('#iad-btn-close-widget-panel').on('click', function (e)
+        // Close sidebar buttons.
+        $('.iad-btn-close-widget-sidebar').on('click', function (e)
         {
             hideSidebar('widget');
         });
-        $('#iad-btn-close-css-panel').on('click', function (e)
+        $('.iad-btn-close-css-sidebar').on('click', function (e)
         {
             hideSidebar('css');
         });
-        $('#iad-btn-close-color-scheme-panel').on('click', function (e)
+        $('.iad-btn-close-color-scheme-sidebar').on('click', function (e)
         {
             hideSidebar('colorscheme');
         });
 
-        // Open slide panels.
-        $('#iad-menuitem-open-css').on('click', function (e)
+        // Open sidebars.
+        $('#iad-menuitem-open-css-sidebar').on('click', function (e)
         {
             showSidebar('css');
         });
-        $('#iad-menuitem-open-color-scheme').on('click', function (e)
+        $('#iad-menuitem-open-color-scheme-sidebar').on('click', function (e)
         {
             showSidebar('colorscheme');
+        });
+
+        // Undo sidebar buttons.
+        $('.iad-btn-undo-sidebar').on('click', function (e)
+        {
+            iad.css.setLessVars(storedLessVars);
         });
 
         // Upload config.
@@ -509,7 +516,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             ipc.send('quit-and-install');
         });
 
-        // Hover Menu.
+        // Menu bar hover dropdowns.
         $('ul.nav > li.dropdown').on('mouseover', function(e)
         {
             $(this).find('.dropdown-menu').show();
@@ -665,66 +672,68 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (name === 'widget') 
         {
-            configFormDisplayed = false;
+            widgetPropertiesDisplayed = false;
             if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
-        var $panel = getSidebar(name);
-        var w = $panel.outerWidth() * -1;
-        $panel.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$panel.hide();}});
+        var $sidebar = getSidebar(name);
+        var w = $sidebar.outerWidth() * -1;
+        $sidebar.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$sidebar.hide();}});
         $report.animate({left:'0px'}, {duration: 400, queue: false});
     }
-    function fadeSidebar(name)
+    function fadeOutSidebar(name)
     {
         if (name === 'widget') 
         {
-            configFormDisplayed = false;
+            widgetPropertiesDisplayed = false;
             if (selectedWidgetId !== undefined) $editWidgetBtn.show();
         }
-        var $panel = getSidebar(name);
-        if ($panel.is(":visible"))
+        var $sidebar = getSidebar(name);
+        if ($sidebar.is(":visible"))
         {
-            var l = $panel.outerWidth() * -1;
-            $panel.fadeOut({duration: 400,queue: false, complete: function() {$panel.css('left', l + 'px');}});
+            var l = $sidebar.outerWidth() * -1;
+            $sidebar.fadeOut({duration: 400,queue: false, complete: function() {$sidebar.css('left', l + 'px');}});
         }
     }
     function showSidebar(name)
     {
-        var $panel = getSidebar(name);
+        var $sidebar = getSidebar(name);
 
-        // Check if a panel is already visible.
+        // Check if a sidebar is already visible.
         if ($sidebarCss.is(":visible") || $sidebarColorscheme.is(":visible") || $sidebarWidget.is(":visible"))
         {
-            // Close any other open panels.
+            // Close any other open sidebars.
             if (name === 'widget')
             {
-                fadeSidebar('css');
-                fadeSidebar('colorscheme');
+                fadeOutSidebar('css');
+                fadeOutSidebar('colorscheme');
             }
             else if (name === 'css')
             {
-                fadeSidebar('widget');
-                fadeSidebar('colorscheme');
+                fadeOutSidebar('widget');
+                fadeOutSidebar('colorscheme');
             }
             else if (name === 'colorscheme')
             {
-                fadeSidebar('widget');
-                fadeSidebar('css');
+                fadeOutSidebar('widget');
+                fadeOutSidebar('css');
             }
-            $panel.css('left', '0px');
-            $panel.fadeIn({duration: 400,queue: false});
+            $sidebar.css('left', '0px');
+            $sidebar.fadeIn({duration: 400,queue: false});
         }
         else
         {
-            var w = $panel.outerWidth();
-            $panel.show();
-            $panel.animate({left: '0px'}, {duration: 400,queue: false});
+            var w = $sidebar.outerWidth();
+            $sidebar.show();
+            $sidebar.animate({left: '0px'}, {duration: 400,queue: false});
             $report.animate({left: w + 'px'}, {duration: 400, queue: false});
         }
+
+        if (name === 'css' || name === 'colorscheme') storedLessVars = iad.css.getLessVars();
     }
 
     function editGeneralProperties()
     {
-        if (configFormDisplayed)
+        if (widgetPropertiesDisplayed)
         {
             var title = iad.config.getDisplayName('PropertyGroup');
             $sidebarWidgetTitle.text(title);
@@ -734,7 +743,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function editWidgetProperties(widgetId)
     {
-        if (configFormDisplayed)
+        if (widgetPropertiesDisplayed)
         {
             var title = iad.config.getDisplayName(widgetId);
             $sidebarWidgetTitle.text(title);
@@ -747,7 +756,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         $editWidgetBtn.hide();
 
-        configFormDisplayed = true;
+        widgetPropertiesDisplayed = true;
         var title = iad.config.getDisplayName(widgetId);
         $sidebarWidgetTitle.text(title);
         if (widgetId === 'PropertyGroup')

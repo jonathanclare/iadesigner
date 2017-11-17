@@ -116,6 +116,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         initialised = true;
     };
 
+    iad.css.getLessVars = function()
+    {
+        return $.extend({}, lessVars);
+    };
+
     // Sets a property.
     iad.css.setProperty = function(property, value)
     {

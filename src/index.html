@@ -124,8 +124,8 @@
                             <a href="#" class="dropdown-toggle" role="button">Design</a>
                             <ul id="iad-dropdown-styles" class="dropdown-menu">
                                 <li><a id="iad-menuitem-config-gallery" href="#">Choose Template</a></li>
-                                <li><a id="iad-menuitem-open-color-scheme" href="#">Choose Colour Scheme</a></li>
-                                <li><a id="iad-menuitem-open-css" href="#">Edit Styles</a></li>
+                                <li><a id="iad-menuitem-open-color-scheme-sidebar" href="#">Choose Colour Scheme</a></li>
+                                <li><a id="iad-menuitem-open-css-sidebar" href="#">Edit Styles</a></li>
                                 <!--li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li-->
                             </ul>
@@ -183,14 +183,14 @@
         </nav>
         <!-- end top nav -->
 
-        <!-- slide panel and report containers -->
+        <!-- sidebar and report containers -->
         <div id="iad-main">
             <div id="iad-report"></div>
 
-            <!-- start widget properties slide panel -->
+            <!-- start widget properties sidebar -->
             <div id="iad-sidebar-widget" class="iad-sidebar">
                 <div class="iad-sidebar-header">
-                    <button id="iad-btn-close-widget-panel" type="button" class="close iad-sidebar-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button id="" type="button" class="close iad-sidebar-close iad-btn-close-widget-sidebar">&times;</button>
                     <div class="btn-group">  
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"></span>&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
@@ -206,45 +206,50 @@
                     </div>
                 </div>
             </div>
-            <!-- end widget properties slide panel -->
+            <!-- end widget properties sidebar -->
 
-            <!-- start css properties slide panel -->
+            <!-- start css properties sidebar -->
             <div id="iad-sidebar-css" class="iad-sidebar">
                 <div class="iad-sidebar-header">
-                    <button id="iad-btn-close-css-panel" type="button" class="close iad-sidebar-close" aria-hidden="true">&times;</button>
+                    <button type="button" class="close iad-sidebar-close iad-btn-close-css-sidebar">&times;</button>
                     <div class="iad-sidebar-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
                 </div>
-                <div class="iad-sidebar-content">
+                <div class="iad-sidebar-content iad-sidebar-content-with-footer">
                     <div class="iad-form">
                         <div id="iad-form-css-properties">
                         <!-- populated by initCss() -->
                         </div>
                     </div>
                 </div>
+                <div class="iad-sidebar-footer">
+                    <button type="button" class="btn btn-default iad-btn-undo-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                    <button type="button" class="btn btn-default iad-btn-close-css-sidebar"><i class="fa fa-check"></i>&nbsp;Done</button>
+                </div>
             </div>
-            <!-- end css properties slide panel -->
+            <!-- end css properties sidebar -->
 
-            <!-- start color scheme slide panel -->
+            <!-- start color scheme sidebar -->
             <div id="iad-sidebar-colorscheme" class="iad-sidebar">
                 <div class="iad-sidebar-header">
-                    <button id="iad-btn-close-color-scheme-panel" type="button" class="close iad-sidebar-close" aria-hidden="true">&times;</button>
+                    <button type="button" class="close iad-sidebar-close iad-btn-close-color-scheme-sidebar">&times;</button>
                     <div class="iad-sidebar-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Colour Scheme</span></div>
                 </div>
                 <!--div class="iad-sidebar-content iad-sidebar-content-with-footer"-->
-                <div class="iad-sidebar-content">
+                <div class="iad-sidebar-content iad-sidebar-content-with-footer">
                     <div class="iad-form">
                         <div id="iad-form-color-scheme">
                             <!-- populated by iadesigner.colorscheme.js -->
                         </div>
                     </div>
                 </div>
-                <!--div class="iad-sidebar-footer">
-                    <button id="iad-btn-undo-color-scheme" type="button" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Undo</button>
-                </div-->
+                <div class="iad-sidebar-footer">
+                    <button type="button" class="btn btn-default iad-btn-undo-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                    <button type="button" class="btn btn-default iad-btn-close-color-scheme-sidebar"><i class="fa fa-check"></i>&nbsp;Done</button>
+                </div>
             </div>
-            <!-- end color scheme slide panel -->
+            <!-- end color scheme sidebar -->
         </div>
-        <!-- end slide panel and report containers -->
+        <!-- end sidebar and report containers -->
 
         <div id="iad-progress-save" class="iad-progress" style="display:none">
             <div class="iad-progress-mask"></div>
