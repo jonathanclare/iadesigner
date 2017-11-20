@@ -1,5 +1,11 @@
 # Changelog
 
+### v0.0.158 *2017-11-20*
+* **new** - Added image dropdown menus 
+
+### v0.0.157 *2017-11-17*
+* **new** - Button to undo changes made in colour scheme and css sidebars 
+
 ### v0.0.156 *2017-11-16*
 * **improved** - Added load and save spinners 
 * **improved** - Moved &#x27;Advanced&#x27; to popup menu 

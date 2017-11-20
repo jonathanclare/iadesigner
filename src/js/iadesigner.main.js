@@ -33,7 +33,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var storedLessVars; // Stores the less vars so that it can be reset id user wishes.
     var selectedWidgetId; // The id of the currently selected widget.
     var changesSaved = true; // Indicates that all changes have been saved.
-    var widgetPropertiesDisplayed = false; // Indicates that the config form is displayed.
+    var widgetPropertiesDisplayed = false; // Indicates that the widget form is displayed.
     var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
 
     // Reference to main window.
@@ -248,35 +248,48 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         if (changesSaved) callback.call(null); 
         else
         {
-            bootbox.confirm(
+            bootbox.dialog(
             {
                 title: "Save Changes?",
                 message: "Save changes before continuing?",
                 buttons: 
                 {
-                    confirm: 
-                    {
-                        label: 'Yes'
-                    },
                     cancel: 
                     {
-                        label: 'No'
-                    }
-                },
-                callback: function (result) 
-                {
-                    // Use timeout to give message box time to clear.
-                    setTimeout(function()
-                    {
-                        if (result === true)
+                        label: 'Cancel',
+                        className: 'btn-default',
+                        callback: function ()
                         {
-                            saveChanges(function()
-                            {
-                                callback.call(null); 
-                            });
+                            // Dont return anything.
                         }
-                        else callback.call(null); 
-                    }, 500);
+                    },
+                    no: 
+                    {
+                        label: "No",
+                        className: 'btn-default',
+                        callback: function ()
+                        {
+                            setTimeout(function()
+                            {
+                                callback.call(null);
+                            }, 500);
+                        }
+                    },
+                    ok: 
+                    {
+                        label: "Yes",
+                        className: 'btn-primary',
+                        callback: function ()
+                        {
+                            setTimeout(function()
+                            {
+                                saveChanges(function()
+                                {
+                                    callback.call(null); 
+                                });
+                            }, 500);
+                        }
+                    }
                 }
             });
         }
@@ -528,6 +541,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         $('ul.nav > li.dropdown > ul.dropdown-menu > li > a').on('click', function(e)
         {
             $(this).closest('ul.dropdown-menu').fadeOut();
+        });
+        $('.iad-card').on('click', function(e)
+        {
+            $(this).closest('div.dropdown-menu').fadeOut();
         });
     }
 

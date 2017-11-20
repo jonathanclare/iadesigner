@@ -74,6 +74,10 @@ body
     border-radius: 0px;
     color: #777;
 }
+input[type="checkbox"] 
+{
+    margin: 1px 0 0;
+}
 
 /* Menu bar hover dropdowns */
 .navbar-default .navbar-nav > li > a:hover
@@ -655,4 +659,65 @@ body
 .iad-drag-panel-btn:hover 
 {
     opacity:1;
+}
+
+/* large dropdowns */
+.dropdown-menu-large 
+{
+    padding:0px;
+    width: 500px !important;
+    height: auto !important;
+}
+.flex-box
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.iad-card-container
+{
+    flex-flow: row nowrap;
+    margin:10px;
+}
+.iad-cards
+{
+    flex-flow: column nowrap;
+    flex:1;
+}
+.iad-card
+{
+    border:1px solid #fff;
+    flex-flow: column nowrap;
+    padding:10px;
+}
+.iad-card:hover
+{    
+    cursor: pointer;
+}
+.iad-card-title
+{
+    align-items:center;
+    justify-content: center;
+    padding: 5px;
+}
+.iad-card-image
+{
+    opacity:0.7;
+    border:1px solid #ccc;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    padding-bottom:65%;
+}
+.iad-card:hover .iad-card-image
+{    
+    opacity:1;
+
+}
+.iad-card:hover .iad-card-title
+{    
+    color:#000;
 }

@@ -113,7 +113,7 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">File</a>
-                            <ul id="iad-dropdown-styles" class="dropdown-menu">
+                            <ul class="dropdown-menu">
                                 <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;Open</a></li>
                                 <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;Save</a></li>
                                 <li role="presentation" class="divider"></li>
@@ -122,17 +122,49 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">Design</a>
-                            <ul id="iad-dropdown-styles" class="dropdown-menu">
+                            <div class="dropdown-menu dropdown-menu-large">
+                                <div class="iad-card-container flex-box">
+                                    <div class="iad-cards flex-box">
+                                        <div id="iad-menuitem-config-gallery" class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/template.png')"></div></div>
+                                            <div class="iad-card-title flex-box">Choose Template</div>
+                                        </div>
+                                        <div id="iad-menuitem-open-color-scheme-sidebar" class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/colorscheme.png')"></div></div>
+                                            <div class="iad-card-title flex-box">Colour Scheme</div>
+                                        </div>
+                                        <div id="iad-menuitem-open-css-sidebar" class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/css.png')"></div></div>
+                                            <div class="iad-card-title flex-box">Edit Styles</div>
+                                        </div>
+                                    </div>
+                                    <div class="iad-cards flex-box">
+                                        <div class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/mappalettes.png')"></div></div>
+                                            <div class="iad-card-title flex-box">Map Palette Colours</div>
+                                        </div>
+                                        <div class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/maplayers.png')"></div></div>
+                                            <div class="iad-card-title flex-box">Style Map Layers</div>
+                                        </div>
+                                        <div class="iad-card flex-box">
+                                            <div><div class="iad-card-image" style="background-image:url('./img/gray.jpg')"></div></div>
+                                            <div class="iad-card-title flex-box">Background Layer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--ul class="dropdown-menu">
                                 <li><a id="iad-menuitem-config-gallery" href="#">Choose Template</a></li>
                                 <li><a id="iad-menuitem-open-color-scheme-sidebar" href="#">Choose Colour Scheme</a></li>
                                 <li><a id="iad-menuitem-open-css-sidebar" href="#">Edit Styles</a></li>
-                                <!--li role="presentation" class="divider"></li>
-                                <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li-->
-                            </ul>
+                                <li role="presentation" class="divider"></li>
+                                <li><a id="iad-menuitem-map-palettes" href="#">Edit Map Palettes</a></li>
+                            </ul-->
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">Insert</a>
-                            <ul id="iad-dropdown-insert" class="dropdown-menu">
+                            <ul class="dropdown-menu">
                                 <li><a id="iad-menuitem-insert-text" href="#">Text</a></li>
                                 <li><a id="iad-menuitem-insert-image" href="#">Image</a></li>
                                 <li><a id="iad-menuitem-insert-button" href="#">Button</a></li>
@@ -142,7 +174,7 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">Help</a>
-                            <ul id="iad-dropdown-styles" class="dropdown-menu">
+                            <ul class="dropdown-menu">
                                 <li><a id="iad-menuitem-about" href="#" data-toggle="modal" data-target="#iad-modal-about">About</a></li>
                             </ul>
                         </li>
@@ -253,12 +285,12 @@
 
         <div id="iad-progress-save" class="iad-progress" style="display:none">
             <div class="iad-progress-mask"></div>
-            <div class="iad-progress-spinner"><i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>
+            <div class="iad-progress-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
         </div>
 
         <div id="iad-progress-load" class="iad-progress" >
             <div class="iad-progress-mask"></div>
-            <div class="iad-progress-spinner"><i class="fa fa-refresh fa-spin fa-5x"></i></div>
+            <div class="iad-progress-spinner"><i class="fa fa-refresh fa-spin fa-3x"></i></div>
         </div>
 
         <!-- config gallery modal -->
