@@ -139,7 +139,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function addButton(widgetId)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
-        var strXML = '<Button id="' + widgetId + '" zIndex="' + zIndex + '" text="My Button" href="" tooltip="" x="300" y="275" width="200" height="50" editable="true" moveable="true" removeable="true" resizeable="true"/>';
+        var strXML = '<Button id="' + widgetId + '" zIndex="' + zIndex + '" text="My Button" href="" tooltip="" x="276" y="270" width="204" height="54" editable="true" moveable="true" removeable="true" resizeable="true"/>';
         var $xmlWidget = $($.parseXML(strXML)).find('Button'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append($xmlWidget);
         onWidgetAdded(widgetId, $xmlWidget);
@@ -150,7 +150,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
         var text = 'My Text';
-        var strXML = '<Text id="' + widgetId + '" zIndex="' + zIndex + '" anchor="start" editable="true" fill="#000000" font-family="Arial" font-size="24" font-style="normal" font-weight="bold" href="" moveable="true" removeable="true" resizeable="true" rotate="0" target="_blank" wrap-width="100" x="350" y="288" >' + text + '</Text>';
+        var strXML = '<Text id="' + widgetId + '" zIndex="' + zIndex + '" anchor="start" editable="true" fill="#000000" font-family="Arial" font-size="24" font-style="normal" font-weight="bold" href="" moveable="true" removeable="true" resizeable="true" rotate="0" target="_blank" wrap-width="96" x="330" y="283">' + text + '</Text>';
         var $xmlWidget = $($.parseXML(strXML)).find('Text'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append($xmlWidget);
         onWidgetAdded(widgetId, $xmlWidget);
@@ -160,7 +160,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function addImage(widgetId)
     {
         var zIndex = iad.config.getMaxZIndex() + 1;
-        var strXML = '<Image id="' + widgetId + '" zIndex="' + zIndex + '" rescale="true" anchor="left" src="./image_placeholder.png" href="" target="_blank" x="325" y="225" width="150" height="150" moveable="true" editable="true" removeable="true" resizeable="true"/>';
+        var strXML = '<Image id="' + widgetId + '" zIndex="' + zIndex + '" rescale="true" anchor="left" src="./image_placeholder.png" href="" target="_blank" x="294" y="216" width="156" height="157" moveable="true" editable="true" removeable="true" resizeable="true"/>';
         var $xmlWidget = $($.parseXML(strXML)).find('Image'); // Weird way of inserting xml was required for IE to work.
         $xmlConfig.find('AtlasInterface').append($xmlWidget);
         onWidgetAdded(widgetId, $xmlWidget);

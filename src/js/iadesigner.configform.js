@@ -248,6 +248,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
             // Form display properties for each widget (scroll position and expanded panel index).
             oFormDisplayProperties = {};
+
+            // Initialise with first property panel open for each component.. 
+           /* var $xmlWidgets = iad.config.getComponents();
+            $.each($xmlWidgets, function (i, xmlWidget)
+            {
+                var $xmlWidget = $(xmlWidget);
+                var id = $xmlWidget.attr('id');
+                oFormDisplayProperties[id] = {scrollPos:0, panelIndex:0}; 
+            });*/
+
             $container.on('shown.bs.collapse', '.iad-collapse', function (e)
             {
                 // Do scroll after collapse has expanded to scroll to correct position.

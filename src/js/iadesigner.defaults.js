@@ -82,6 +82,7 @@ var iadesigner = (function (iad, undefined)
                 'forms': [
                 {
                     'name': 'General',
+                    'expand': true,
                     'controls': [
                     {
                         'name'      : 'Font Family',

@@ -101,12 +101,11 @@ input[type="checkbox"]
 }
 .panel-default > .panel-heading:hover
 {
-    background-color: #f4faff;
+    background-color: #eeeeee;
 }
-.panel-heading 
+.panel-default > .panel-heading:hover > span
 {
-    font-size: 12px;
-    background-color: #ffffff;
+    color: #333;
 }
 .panel-body 
 {
@@ -114,9 +113,10 @@ input[type="checkbox"]
 }
 .panel-default > .panel-heading 
 {
-    background-color: #ffffff;
-    color: #777;
-    border-color: #ffffff;
+    font-size: 12px;
+    color: #555;
+    background-color: #f5f5f5;
+    border-radius:0;
 }
 .panel-default > .panel-heading + .panel-collapse .panel-body 
 {
@@ -149,6 +149,12 @@ input[type="checkbox"]
 .iad-sort-handle
 {
     cursor:move;
+}
+.panel-accordion
+{
+    margin-bottom: 20px !important;
+    border: 1px solid #e5e5e5 !important;
+    border-radius:0 !important;
 }
 
 /* Wells */
@@ -665,7 +671,7 @@ input[type="checkbox"]
 .dropdown-menu-large 
 {
     padding:0px;
-    width: 500px !important;
+    width: 700px !important;
     height: auto !important;
 }
 .flex-box
@@ -677,25 +683,17 @@ input[type="checkbox"]
     display: flex;
     flex-flow: row nowrap;
 }
-.iad-card-container
-{
-    flex-flow: row nowrap;
-    margin:10px;
-}
 .iad-cards
 {
-    flex-flow: column nowrap;
-    flex:1;
+    flex-flow: row wrap;
 }
 .iad-card
 {
-    border:1px solid #fff;
-    flex-flow: column nowrap;
-    padding:10px;
-}
-.iad-card:hover
-{    
     cursor: pointer;
+    flex-grow: 1;
+    width: 33%;
+    flex-flow: column nowrap;
+    padding:15px;
 }
 .iad-card-title
 {
@@ -705,7 +703,7 @@ input[type="checkbox"]
 }
 .iad-card-image
 {
-    opacity:0.7;
+    opacity:0.8;
     border:1px solid #ccc;
     background-size: cover;
     background-repeat: no-repeat;
@@ -715,7 +713,7 @@ input[type="checkbox"]
 .iad-card:hover .iad-card-image
 {    
     opacity:1;
-
+    border:1px solid #aaa;
 }
 .iad-card:hover .iad-card-title
 {    

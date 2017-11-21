@@ -15,7 +15,7 @@
   		<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
  	</Component>
  	
- 	<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
+ 	<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
 	      <Description>
 		Dimensions Explorer.
 	      </Description>
@@ -66,7 +66,7 @@
 		<Property description="A list of dates to ignore" id="dropDates" name="List Of Dates To Ignore" type="string-array" value="" />	
  	</Component>
 
-	<Component id="radarChart" name="Radar Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
+	<Component id="radarChart" name="Radar Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
   		<Description>
   			Displays multivariate data in the form of a two-dimensional chart of three or more indicators represented on axes starting from the same point.
   			Use in conjunction with the 'Selected Features Legend'.
@@ -103,7 +103,7 @@
 		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
  	</Component>
  	
-	<Component id="featureCard" name="Feature Card" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-feature-card ia-feature-card-header ia-feature-card-sub-header ia-feature-card-content">
+	<Component id="featureCard" name="Feature Card" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-feature-card ia-feature-card-header ia-feature-card-sub-header ia-feature-card-content">
   		<Description>The feature card component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value="Feature profile for ${date}"/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(featureCard)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -147,7 +147,7 @@
 		<Property description="Zoom to areas when filter is applied" id="zoomOnFilter" name="Zoom On Filter?" type="boolean" value="true"/>  
  	</Component>
  	
-	<Component id="boxAndWhisker" name="Box And Whisker" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+	<Component id="boxAndWhisker" name="Box And Whisker" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
 		<Description>The box chart component of the report.</Description>
 		<Property description="The title" id="title" name="Title" type="string" value=""/>
  		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(boxAndWhisker)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -182,7 +182,7 @@
 		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
   	</Component>
  	
-	<Component id="barChart" name="Bar Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-limits">
+	<Component id="barChart" name="Bar Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart ia-chart-limits">
 		<Description>The bar chart component of the report.</Description>
 		<Property description="The title" id="title" name="Title" type="string" value=""/>
 		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(barChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -213,7 +213,7 @@
 		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
 	</Component>
 
-	<Component id="timeSeries" name="Time Series - Line Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/line-chart.png" classes="ia-panel ia-panel-header ia-chart">
+	<Component id="timeSeries" name="Time Series - Line Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/line-chart.png" classes="ia-panel ia-panel-header ia-chart">
 		<Description>The time series component of the report.</Description>
 		<Property description="The title" id="title" name="Title" type="string" value=""/>
 		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(timeSeries)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -257,7 +257,7 @@
 		<Property description="Box and whisker data tip" id="boxAndWhiskerTip" name="Box And Whisker Tip" type="string" value="Max-Min (range): ${range} &lt;br/&gt;95th-5th percentile: ${range_95_5} &lt;br/&gt;75th-25th percentile: ${interquartileRange} &lt;br/&gt;Median: ${median}" /> 
 	</Component>
   	
-	<Component id="timeSeriesLineLegend" name="Time Series - Line Legend" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+	<Component id="timeSeriesLineLegend" name="Time Series - Line Legend" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
   		<Description>The time series line legend component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(timeSeriesLineLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -268,7 +268,7 @@
  	  	<Property description="The layout of the legend" id="layout" name="Layout" type="string" value="vertical" choices="horizontal;vertical"/>
  	</Component>
  
- 	<Component id="discreteTimeSeries" name="Time Series - Bar Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+ 	<Component id="discreteTimeSeries" name="Time Series - Bar Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
  		<Description>The time bar chart component of the report.</Description>
  		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(discreteTimeSeries)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -304,7 +304,7 @@
    	</Component>
  
    
-    <Component id="stackedFeaturesTimeSeries" name="Time Series - Stacked Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+    <Component id="stackedFeaturesTimeSeries" name="Time Series - Stacked Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
       <Description>The stacked features time series component of the report.</Description>
         <Property description="The title" id="title" name="Title" type="string" value=""/>
         <Property description="Is it visible at start up? Use &apos;javascript:iaToggle(stackedFeaturesTimeSeries)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -334,7 +334,7 @@
       <Property description="A fixed maximum value for the chart data axis" id="fixedMaxValue" name="Fixed Maximum Value" type="float" value="0" />
       <Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
     </Component>
- 	<Component id="stackedTimeSeries" name="Stacked Associates - Time Series" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+ 	<Component id="stackedTimeSeries" name="Stacked Associates - Time Series" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
  		<Description>The stacked time series component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(stackedTimeSeries)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -366,7 +366,7 @@
  		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
    	</Component>
  
- 	<Component id="stackedBarChart" name="Stacked Associates" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
+ 	<Component id="stackedBarChart" name="Stacked Associates" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header ia-chart">
  		<Description>The stacked bar chart component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(stackedBarChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -396,7 +396,7 @@
  		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue" />
    	</Component>
   	
-	<Component id="stackedLegend" name="Stacked Associates - Legend" x="200" y="449" width="400" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+	<Component id="stackedLegend" name="Stacked Associates - Legend" x="200" y="449" width="366" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
   		<Description>The stacked time series legend component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(stackedLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -407,7 +407,7 @@
  	  	<Property description="The layout of the legend" id="layout" name="Layout" type="string" value="horizontal" choices="horizontal;vertical"/>
  	</Component>
   	
-	<Component id="pieChart" name="Pie Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
+	<Component id="pieChart" name="Pie Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
   		<Description>The pie chart component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(pieChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -420,7 +420,7 @@
  	   	<Property description="The data tip" id="tip" name="Tip" type="string" value="${name}: ${percentage}% (${value})" />
  	</Component>
  	
-	<Component id="areaBreakdownPieChart" name="Area Breakdown - Pie Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
+	<Component id="areaBreakdownPieChart" name="Area Breakdown - Pie Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
 		<Description>The Area Breakdown - Pie Chart component of the report.</Description>
 		<Property description="The title" id="title" name="Title" type="string" value=""/>
 		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(areaBreakdownPieChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -442,7 +442,7 @@
 		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available" />
 	</Component>
 
-	<Component id="areaBreakdownPieLegend" name="Area Breakdown - Pie Chart Legend" x="200" y="449" width="400" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+	<Component id="areaBreakdownPieLegend" name="Area Breakdown - Pie Chart Legend" x="200" y="449" width="366" height="35" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
 		<Description>The area breakdown pie legend component of the report.</Description>
 		<Property description="The title" id="title" name="Title" type="string" value=""/>
 		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(areaBreakdownPieLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -453,7 +453,7 @@
 		<Property description="The layout of the legend" id="layout" name="Layout" type="string" value="horizontal" choices="horizontal;vertical"/>
  	</Component>
  	
-	<Component id="areaBreakdownBarChart" name="Area Breakdown - Bar Chart" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
+	<Component id="areaBreakdownBarChart" name="Area Breakdown - Bar Chart" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/column-chart.png" classes="ia-panel ia-panel-header">
 		<Description>The Area Breakdown Chart component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(areaBreakdownBarChart)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -500,7 +500,7 @@
   	  	<Property description="Should the legend editor button be displayed." id="showLegendEditorButton" name="Show Legend Editor Button?" type="boolean" value="true"/>
   	</Component>
    	
-	<Component id="featureLegend" name="Selected Features Legend" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
+	<Component id="featureLegend" name="Selected Features Legend" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/form_blue.png" classes="ia-panel ia-panel-header">
   		<Description>The feature legend component of the report.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value="Selected Features"/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(featureLegend)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -535,7 +535,7 @@
   		<Column alias="Y {associate - yValue}" name="yValue" width="0.2" />
  	</Table>
 	
-	<Table id="comparisonTable" name="Comparison Table" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd">
+	<Table id="comparisonTable" name="Comparison Table" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/table_sql.png" classes="ia-panel ia-panel-header ia-table-header ia-table-cell ia-table-cell-numeric ia-table-cell-categoric ia-table-row-even ia-table-row-odd">
   		<Description>The comparison that shows the user information about comparison data.</Description>
   		<Property description="The title" id="title" name="Title" type="string" value=""/>
   		<Property description="Is it visible at start up? Use &apos;javascript:iaToggle(comparisonTable)&apos; to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
@@ -558,7 +558,7 @@
   		<Column alias="Y {associate - yValue}" name="yValue" width="0.2" />
  	</Table>
   
-	<Component id="metadata" name="Metadata" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
+	<Component id="metadata" name="Metadata" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
 		<Description>
 			Metadata box.
 		</Description>
@@ -570,7 +570,7 @@
 		<Property description="The custom property containing the metadata. The metadata may be plain text, html text or an actual link to a &apos;.html&apos; file containing a fragment of html" id="metadataKey" name="Metadata Custom Property Id" value="metatext" />
 	</Component>
   
-	<Component id="statsbox" name="Statistics Box" editable="true" x="200" y="150" width="400" height="300" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
+	<Component id="statsbox" name="Statistics Box" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/note.png" classes="ia-panel ia-panel-header ia-metadata">
 		<Description>
 			Statistics box.
 		</Description>

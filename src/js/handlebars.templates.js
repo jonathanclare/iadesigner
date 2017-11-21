@@ -53,15 +53,15 @@ this["iadesigner"]["config-gallery.handlebars"] = Handlebars.template({"1":funct
 this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.escapeExpression, alias3=helpers.helperMissing, alias4="function", buffer = 
   ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.description : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n		<div class=\"panel panel-default\" "
-    + ((stack1 = helpers["if"].call(alias1,(data && data.last),{"name":"if","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ">\r\n"
+    + "\r\n		<div class=\"panel panel-default "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n    		<div id=\"collapse-"
     + alias2(container.lambda((depths[1] != null ? depths[1].id : depths[1]), depth0))
     + "-"
     + alias2(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\" class=\"panel-collapse collapse "
+    + "\" class=\"panel-collapse collapse  "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams, depths),"inverse":container.program(10, data, 0, blockParams, depths),"data":data})) != null ? stack1 : "")
     + " iad-collapse\">\r\n\r\n				<div class=\"panel-body\">\r\n					<form class=\"draggableList\" role=\"form\" onsubmit=\"return false;\">\r\n\r\n";
   stack1 = ((helper = (helper = helpers.controls || (depth0 != null ? depth0.controls : depth0)) != null ? helper : alias3),(options={"name":"controls","hash":{},"fn":container.program(12, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === alias4 ? helper.call(alias1,options) : helper));
@@ -75,7 +75,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + ((stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</div>\r\n        </div>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "style=\"border-bottom-width:0px\"";
+    return "panel-accordion";
 },"6":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=helpers.helperMissing, alias5="function";
 
@@ -85,7 +85,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + alias2(alias1((depths[1] != null ? depths[1].id : depths[1]), depth0))
     + "-"
     + alias2(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\"><span>&nbsp;"
+    + "\"><span>&nbsp;&nbsp;"
     + ((stack1 = ((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"name","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</span></div>\r\n";
 },"8":function(container,depth0,helpers,partials,data) {
