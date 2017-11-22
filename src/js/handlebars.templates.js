@@ -61,7 +61,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + alias2(container.lambda((depths[1] != null ? depths[1].id : depths[1]), depth0))
     + "-"
     + alias2(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\" class=\"panel-collapse collapse  "
+    + "\" class=\"panel-collapse collapse "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams, depths),"inverse":container.program(10, data, 0, blockParams, depths),"data":data})) != null ? stack1 : "")
     + " iad-collapse\">\r\n\r\n				<div class=\"panel-body\">\r\n					<form class=\"draggableList\" role=\"form\" onsubmit=\"return false;\">\r\n\r\n";
   stack1 = ((helper = (helper = helpers.controls || (depth0 != null ? depth0.controls : depth0)) != null ? helper : alias3),(options={"name":"controls","hash":{},"fn":container.program(12, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === alias4 ? helper.call(alias1,options) : helper));

@@ -24,6 +24,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $sidebarWidget = $('#iad-sidebar-widget');
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $sidebarCss = $('#iad-sidebar-css');
+    var $sidebarTemplate = $('#iad-sidebar-template');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
     var $progressSave = $('#iad-progress-save');
@@ -431,7 +432,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Remove widget button.
         $('#iad-btn-widget-remove').on('click', function(e)
         {
-            bootbox.confirm(
+            iad.config.removeWidget(selectedWidgetId);
+            /*bootbox.confirm(
             {
                 title: iad.config.getDisplayName(selectedWidgetId) + ' - Confirm Removal?',
                 message: 'Are you sure you want to remove this widget?',
@@ -450,7 +452,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     if (result === true) iad.config.removeWidget(selectedWidgetId);
                 }
-            });
+            });*/
         });
 
         // Edit widget button.
@@ -682,6 +684,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         if (name === 'widget') return $sidebarWidget;
         else if (name === 'css') return $sidebarCss;
+        else if (name === 'template') return $sidebarTemplate;
         else if (name === 'colorscheme') return $sidebarColorscheme;
         return undefined;
     }
@@ -1327,7 +1330,35 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         $menuitem.on('click', function(e)
         {
-            $modal.modal({show: true});
+            showSidebar('template');
+            /*$modal.modal({show: true});*/
+            cPath = undefined;
+            if (!iad.configgallery.initialised)
+            {
+                iad.configgallery.init(
+                {
+                    template: 'config-gallery.handlebars',
+                    container: '#iad-config-gallery',
+                    reportPath: options.reportPath,
+                    configPath: options.configPath,
+                    json: options.json,
+                    onApply: function (filePath, name)
+                    {
+                        showWarning(
+                        {
+                            onContinue: function ()
+                            {
+                                cPath = filePath;
+                                $modal.modal('hide');
+                            }
+                        });
+                    },
+                    onPreview: function (filePath, name)
+                    {
+                        openWin('file://' + __dirname + '/' + filePath);
+                    }
+                });
+            }
         });
         $modal.on('shown.bs.modal', function ()
         {
@@ -1372,7 +1403,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         function showWarning(o)
         {
-            if (iad.report.loaded) 
+            o.onContinue.call(null);
+            /*if (iad.report.loaded) 
             {
                 bootbox.confirm(
                 {
@@ -1396,7 +1428,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     }
                 });
             }
-            else o.onContinue.call(null);
+            else o.onContinue.call(null);*/
         }
     }
 
