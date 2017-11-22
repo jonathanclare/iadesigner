@@ -1,5 +1,13 @@
 [
 {
+	"version":"0.0.158",
+	"date":"2017-11-22",
+	"changes":
+	[
+		{"badge":"improved", "description":"Moved templates to sidebar to enable undo rather than warning message", "bug":""}
+	]
+},
+{
 	"version":"0.0.157",
 	"date":"2017-11-20",
 	"changes":

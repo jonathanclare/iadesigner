@@ -217,6 +217,21 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
+    // Parse a new config.
+    iad.report.parseConfig = function (configXml)
+    {
+        preConfigLoaded(function ()
+        {
+            addMissingComponentsToXml(configXml, function()
+            {
+                ia.parseConfig(configXml, function ()
+                {
+                    onConfigLoaded();
+                });
+            });
+        });
+    };
+
     // Refresh the current config xml.
     iad.report.refreshConfig = function ()
     {

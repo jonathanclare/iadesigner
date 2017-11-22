@@ -14,13 +14,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.init = function (o)
     {
         options = o;
-        this.update(options.xml);
+        this.setXml(options.xml);
     };
 
-    // Update the config with new xml.
-    iad.config.update = function (xml)
+    // Return a copy of the xml.
+    iad.config.getXml = function (o)
     {
-        xmlConfig = xml;
+        return xmlConfig.cloneNode(true);
+    };
+
+    // Set the xml.
+    iad.config.setXml = function (xml)
+    {
+        xmlConfig = xml.cloneNode(true);
         $xmlConfig = $(xmlConfig);
         if (options && options.onConfigUpdated) options.onConfigUpdated.call(null);
     };
@@ -818,7 +824,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Updates a ColourRange with new colors.
-    iad.config.updateConfigColourRange = function (paletteId, arrColors)
+    iad.config.setXmlConfigColourRange = function (paletteId, arrColors)
     {
         var $xmlColorRange  = iad.config.getColourRange(paletteId);
         var $xmlColors      = $xmlColorRange.find("Colour");

@@ -39,109 +39,112 @@ var iadesigner = (function (iad, $, window, document, undefined)
 	// Update gallery.
 	iad.widgetgallery.update = function()
 	{
-		var json = JSON.parse(JSON.stringify(options.json));
-
-		// Get widgets and sort into alphabetical order so that galleries 
-		// will look similar across config files no matter what order widgets appear in config file.
-		var $xmlWidgets = iad.config.getComponents();
-
-		// Split components up by data source.
-		var dataSources = new Array([], [], [], []);
-		var moreThanOneDataSource = false;
-		var arr;
-		$.each($xmlWidgets, function(i, xmlWidget)
+		if (options !== undefined && options.json !== undefined)
 		{
-			var $xmlWidget = $(xmlWidget);
-			var id = $xmlWidget.attr('id');
+			var json = JSON.parse(JSON.stringify(options.json));
 
-			// If theres a number on the end of the id it means theres more than one data source.
-			// eg. barChart2.
-			var match = id.match(/\d+/);
-			if (match)
+			// Get widgets and sort into alphabetical order so that galleries 
+			// will look similar across config files no matter what order widgets appear in config file.
+			var $xmlWidgets = iad.config.getComponents();
+
+			// Split components up by data source.
+			var dataSources = new Array([], [], [], []);
+			var moreThanOneDataSource = false;
+			var arr;
+			$.each($xmlWidgets, function(i, xmlWidget)
 			{
-				moreThanOneDataSource = true;
-				var index = parseInt(match[0], 10);
-				arr = dataSources[index-1];
-				arr[arr.length] = $xmlWidget;
+				var $xmlWidget = $(xmlWidget);
+				var id = $xmlWidget.attr('id');
+
+				// If theres a number on the end of the id it means theres more than one data source.
+				// eg. barChart2.
+				var match = id.match(/\d+/);
+				if (match)
+				{
+					moreThanOneDataSource = true;
+					var index = parseInt(match[0], 10);
+					arr = dataSources[index-1];
+					arr[arr.length] = $xmlWidget;
+				}
+				else
+				{
+					arr = dataSources[0];
+					arr[arr.length] = $xmlWidget;
+				}
+			});
+
+			if (moreThanOneDataSource === true) 
+			{
+				json.header.include = true;
 			}
 			else
 			{
-				arr = dataSources[0];
-				arr[arr.length] = $xmlWidget;
+				json.header.include = false;
+				dataSourceIndex = 0;
 			}
-		});
+			json.dataSourceIndex = dataSourceIndex;
 
-		if (moreThanOneDataSource === true) 
-		{
-			json.header.include = true;
-		}
-		else
-		{
-			json.header.include = false;
-			dataSourceIndex = 0;
-		}
-		json.dataSourceIndex = dataSourceIndex;
-
-		if (parseInt(dataSourceIndex) === 0)
-		{
-			json.header.buttons.datasource1.active = 'active';
-			json.header.buttons.datasource2.active = '';
-		}
-		else
-		{
-			json.header.buttons.datasource1.active = '';
-			json.header.buttons.datasource2.active = 'active';
-		}
-
-		var arrDataSources = dataSources[dataSourceIndex];
-		for (var i = 0; i < arrDataSources.length; i++)
-		{
-			var $xmlWidget 	= arrDataSources[i];
-			var vis 		= $xmlWidget.attr('visible');
-
-			if (vis != 'true')
+			if (parseInt(dataSourceIndex) === 0)
 			{
-				// Get config info.
-				var id 			= $xmlWidget.attr('id');
-				var adjustedId 	= iad.config.getIdWithoutSuffix(id);
-				var name 		= iad.config.getDisplayName(id);
-				var description = $xmlWidget.find('Description').text();
+				json.header.buttons.datasource1.active = 'active';
+				json.header.buttons.datasource2.active = '';
+			}
+			else
+			{
+				json.header.buttons.datasource1.active = '';
+				json.header.buttons.datasource2.active = 'active';
+			}
 
-				// Find the widget in the gallery
-				for (var j = 0; j < json.galleries.length; j++)
+			var arrDataSources = dataSources[dataSourceIndex];
+			for (var i = 0; i < arrDataSources.length; i++)
+			{
+				var $xmlWidget 	= arrDataSources[i];
+				var vis 		= $xmlWidget.attr('visible');
+
+				if (vis != 'true')
 				{
-					var gallery = json.galleries[j];
-					for (var k = 0; k < gallery.widgets.length; k++)
+					// Get config info.
+					var id 			= $xmlWidget.attr('id');
+					var adjustedId 	= iad.config.getIdWithoutSuffix(id);
+					var name 		= iad.config.getDisplayName(id);
+					var description = $xmlWidget.find('Description').text();
+
+					// Find the widget in the gallery
+					for (var j = 0; j < json.galleries.length; j++)
 					{
-						var widget = gallery.widgets[k];
-						if (widget.id == adjustedId)
+						var gallery = json.galleries[j];
+						for (var k = 0; k < gallery.widgets.length; k++)
 						{
-							gallery.include = true; // Include the gallery if it has at least one widget.
-							widget.include = true;
-							widget.id = id;
-							widget.name = name;
-							widget.description = description;
-							break;
+							var widget = gallery.widgets[k];
+							if (widget.id == adjustedId)
+							{
+								gallery.include = true; // Include the gallery if it has at least one widget.
+								widget.include = true;
+								widget.id = id;
+								widget.name = name;
+								widget.description = description;
+								break;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		// Find first gallery.
-		for (var m = 0; m < json.galleries.length; m++)
-		{
-			if (json.galleries[m].include === true) 
+			// Find first gallery.
+			for (var m = 0; m < json.galleries.length; m++)
 			{
-				json.galleries[m].first = true;
-				break;
+				if (json.galleries[m].include === true) 
+				{
+					json.galleries[m].first = true;
+					break;
+				}
 			}
-		}
 
-		// Apply handlebars template for gallery.
-		var template = window.iadesigner[options.template];
-		var html = template(json);
-		$(options.container).html(html);
+			// Apply handlebars template for gallery.
+			var template = window.iadesigner[options.template];
+			var html = template(json);
+			$(options.container).html(html);
+		}
 	};
 
 	return iad;

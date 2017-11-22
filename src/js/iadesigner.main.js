@@ -21,17 +21,21 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var $main = $('#iad-main');
     var $report = $('#iad-report');
     var $updateBar = $('#iad-update-bar');
+
     var $sidebarWidget = $('#iad-sidebar-widget');
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $sidebarCss = $('#iad-sidebar-css');
-    var $sidebarTemplate = $('#iad-sidebar-template');
     var $sidebarColorscheme = $('#iad-sidebar-colorscheme');
+    var $sidebarTemplate = $('#iad-sidebar-template');
+    var $sidebarWidgetGallery = $('#iad-sidebar-widgetgallery');
+
     var $editWidgetBtn = $('#iad-btn-widget-edit');
     var $progressSave = $('#iad-progress-save');
     var $progressLoad = $('#iad-progress-load');
 
     var report;
-    var storedLessVars; // Stores the less vars so that it can be reset id user wishes.
+    var storedLessVars; // Stores the less vars so that any css changes can be undone.
+    var storedConfig; // Stores the config so that any changes can be undone.
     var selectedWidgetId; // The id of the currently selected widget.
     var changesSaved = true; // Indicates that all changes have been saved.
     var widgetPropertiesDisplayed = false; // Indicates that the widget form is displayed.
@@ -486,6 +490,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             hideSidebar('colorscheme');
         });
+        $('.iad-btn-close-template-sidebar').on('click', function (e)
+        {
+            hideSidebar('template');
+        });
+        $('.iad-btn-close-widgetgallery-sidebar').on('click', function (e)
+        {
+            hideSidebar('widgetgallery');
+        });
 
         // Open sidebars.
         $('#iad-menuitem-open-css-sidebar').on('click', function (e)
@@ -498,9 +510,17 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         });
 
         // Undo sidebar buttons.
-        $('.iad-btn-undo-sidebar').on('click', function (e)
+        $('.iad-btn-undo-css-sidebar').on('click', function (e)
         {
             iad.css.setLessVars(storedLessVars);
+        });
+        $('.iad-btn-undo-template-sidebar').on('click', function (e)
+        {
+            iad.report.parseConfig(storedConfig);
+        });
+        $('.iad-btn-undo-widgetgallery-sidebar').on('click', function (e)
+        {
+            iad.report.parseConfig(storedConfig);
         });
 
         // Upload config.
@@ -685,6 +705,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         if (name === 'widget') return $sidebarWidget;
         else if (name === 'css') return $sidebarCss;
         else if (name === 'template') return $sidebarTemplate;
+        else if (name === 'widgetgallery') return $sidebarWidgetGallery;
         else if (name === 'colorscheme') return $sidebarColorscheme;
         return undefined;
     }
@@ -719,23 +740,47 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var $sidebar = getSidebar(name);
 
         // Check if a sidebar is already visible.
-        if ($sidebarCss.is(":visible") || $sidebarColorscheme.is(":visible") || $sidebarWidget.is(":visible"))
+        if ($sidebarCss.is(":visible") || 
+            $sidebarColorscheme.is(":visible") || 
+            $sidebarWidget.is(":visible") || 
+            $sidebarTemplate.is(":visible") || 
+            $sidebarWidgetGallery.is(":visible"))
         {
             // Close any other open sidebars.
             if (name === 'widget')
             {
                 fadeOutSidebar('css');
                 fadeOutSidebar('colorscheme');
+                fadeOutSidebar('template');
+                fadeOutSidebar('widgetgallery');
             }
             else if (name === 'css')
             {
                 fadeOutSidebar('widget');
                 fadeOutSidebar('colorscheme');
+                fadeOutSidebar('template');
+                fadeOutSidebar('widgetgallery');
+            }
+            else if (name === 'template')
+            {
+                fadeOutSidebar('widget');
+                fadeOutSidebar('colorscheme');
+                fadeOutSidebar('css');
+                fadeOutSidebar('widgetgallery');
+            }
+            else if (name === 'widgetgallery')
+            {
+                fadeOutSidebar('widget');
+                fadeOutSidebar('colorscheme');
+                fadeOutSidebar('css');
+                fadeOutSidebar('template');
             }
             else if (name === 'colorscheme')
             {
                 fadeOutSidebar('widget');
                 fadeOutSidebar('css');
+                fadeOutSidebar('template');
+                fadeOutSidebar('widgetgallery');
             }
             $sidebar.css('left', '0px');
             $sidebar.fadeIn({duration: 400,queue: false});
@@ -749,6 +794,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
 
         if (name === 'css' || name === 'colorscheme') storedLessVars = iad.css.getLessVars();
+        else if (name === 'template' || name === 'widgetgallery') storedConfig = iad.config.getXml();
     }
 
     function editGeneralProperties()
@@ -920,7 +966,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onReportLoaded: function (configPath)
             {
                 changesSaved = true;
-                iad.config.update(report.config.xml);
+                iad.config.setXml(report.config.xml);
                 if (iad.report.loaded)
                 {
                     // Reset title to show config file path.
@@ -941,7 +987,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onConfigLoaded: function ()
             {
-                iad.config.update(report.config.xml);
+                iad.config.setXml(report.config.xml);
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.configform.refresh();
@@ -976,6 +1022,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 updateDropdownMenus();
                 iad.canvas.clearSelection();
                 iad.canvas.update();
+                iad.widgetgallery.update();
                 onConfigChanged();
             },
             onWidgetAdded: function (widgetId, $xmlWidget)
@@ -1044,6 +1091,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         }
                     }
                 }
+                iad.widgetgallery.update();
             },
             onWidgetAttributeChanged: function (widgetId, $xmlWidget, attribute, value)
             {
@@ -1324,15 +1372,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigGallery(options)
     {
-        var cPath;
-        var $menuitem = $('#iad-menuitem-config-gallery');
-        var $modal = $('#iad-modal-config-gallery');
-
-        $menuitem.on('click', function(e)
+        $('#iad-menuitem-config-gallery').on('click', function(e)
         {
             showSidebar('template');
-            /*$modal.modal({show: true});*/
-            cPath = undefined;
             if (!iad.configgallery.initialised)
             {
                 iad.configgallery.init(
@@ -1344,14 +1386,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     json: options.json,
                     onApply: function (filePath, name)
                     {
-                        showWarning(
-                        {
-                            onContinue: function ()
-                            {
-                                cPath = filePath;
-                                $modal.modal('hide');
-                            }
-                        });
+                        if (iad.report.loaded)
+                            iad.report.loadConfig(filePath);
+                        else
+                            iad.report.loadReport(filePath);
                     },
                     onPreview: function (filePath, name)
                     {
@@ -1360,91 +1398,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 });
             }
         });
-        $modal.on('shown.bs.modal', function ()
-        {
-            cPath = undefined;
-            if (!iad.configgallery.initialised)
-            {
-                iad.configgallery.init(
-                {
-                    template: 'config-gallery.handlebars',
-                    container: '#iad-config-gallery',
-                    reportPath: options.reportPath,
-                    configPath: options.configPath,
-                    json: options.json,
-                    onApply: function (filePath, name)
-                    {
-                        showWarning(
-                        {
-                            onContinue: function ()
-                            {
-                                cPath = filePath;
-                                $modal.modal('hide');
-                            }
-                        });
-                    },
-                    onPreview: function (filePath, name)
-                    {
-                        openWin('file://' + __dirname + '/' + filePath);
-                    }
-                });
-            }
-        });
-        $modal.on('hidden.bs.modal', function ()
-        {
-            if (cPath !== undefined) 
-            {
-                if (iad.report.loaded)
-                    iad.report.loadConfig(cPath);
-                else
-                    iad.report.loadReport(cPath);
-            }
-        });
-
-        function showWarning(o)
-        {
-            o.onContinue.call(null);
-            /*if (iad.report.loaded) 
-            {
-                bootbox.confirm(
-                {
-                    title: "Continue?",
-                    message: "Any changes to widget properties (including table columns) will be lost if you apply a new template. Do you wish to continue?",
-                    buttons: 
-                    {
-                        confirm: 
-                        {
-                            label: 'Yes'
-                        },
-                        cancel: 
-                        {
-                            label: 'No'
-                        }
-                    },
-                    callback: function (result) 
-                    {
-                        if (result === true && o && o.onContinue) o.onContinue.call(null);
-                        else if (options && o.onCancel) o.onCancel.call(null);
-                    }
-                });
-            }
-            else o.onContinue.call(null);*/
-        }
     }
 
     function initWidgetGallery(options)
     {
-        var widgetId;
-        var $menuitem = $('#iad-menuitem-insert-widget');
-        var $modal = $('#iad-modal-widget-gallery');
-
-        $menuitem.on('click', function(e)
+        $('#iad-menuitem-insert-widget').on('click', function(e)
         {
-            $modal.modal({show: true});
-        });
-        $modal.on('shown.bs.modal', function ()
-        {
-            widgetId = undefined;
+            showSidebar('widgetgallery');
             if (!iad.widgetgallery.initialised)
             {
                 iad.widgetgallery.init(
@@ -1452,18 +1412,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     template: 'widget-gallery.handlebars',
                     container: '#iad-widget-gallery',
                     json: options.json,
-                    onAdd: function (id)
+                    onAdd: function (widgetId)
                     {
-                        widgetId = id;
-                        $modal.modal('hide');
+                        iad.config.addWidget(widgetId);
                     }
                 });
             }
             iad.widgetgallery.update();
-        });
-        $modal.on('hidden.bs.modal', function ()
-        {
-            if (widgetId !== undefined) iad.config.addWidget(widgetId);
         });
     }
 
