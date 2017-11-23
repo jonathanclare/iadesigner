@@ -38,7 +38,7 @@ this["iadesigner"]["config-gallery.handlebars"] = Handlebars.template({"1":funct
 
   return "									<button type=\"button\" class=\"iad-config-gallery-preview-btn btn btn-xs btn-default\" ><span class=\"fa fa-fw fa-search\"></span>&nbsp;&nbsp;"
     + alias4(((helper = (helper = helpers.preview || (depth0 != null ? depth0.preview : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview","hash":{},"data":data}) : helper)))
-    + "</button>\r\n									<button type=\"button\" class=\"iad-config-gallery-apply-btn btn btn-xs btn-default\"><span class=\"fa fa-fw fa-check\"></span>&nbsp;&nbsp;"
+    + "</button>\r\n									<button type=\"button\" class=\"iad-config-gallery-apply-btn btn btn-xs btn-info\"><span class=\"fa fa-fw fa-check\"></span>&nbsp;&nbsp;"
     + alias4(((helper = (helper = helpers.apply || (depth0 != null ? depth0.apply : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"apply","hash":{},"data":data}) : helper)))
     + "</button>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
@@ -343,7 +343,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"49":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"form-group iad-form-group\">\r\n										<div class=\"checkbox\">\r\n											<label>\r\n												<input id=\""
+  return "								<div class=\"form-group iad-form-group\">\r\n										<div class=\"checkbox iad-checkbox\">\r\n											<label>\r\n												<input id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" type=\"checkbox\" "
     + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(50, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -917,7 +917,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"139":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"form-group iad-form-group\">\r\n									<div class=\"checkbox\">\r\n										<label>\r\n											<input id=\""
+  return "								<div class=\"form-group iad-form-group\">\r\n									<div class=\"checkbox iad-checkbox\">\r\n										<label>\r\n											<input id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" type=\"checkbox\" "
     + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depths[1] != null ? depths[1].value : depths[1]),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(50, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")

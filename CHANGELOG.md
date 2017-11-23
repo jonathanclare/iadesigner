@@ -2,6 +2,8 @@
 
 ### v0.0.158 *2017-11-22*
 * **improved** - Moved templates to sidebar to enable undo rather than warning message 
+* **improved** - Moved widgets to sidebar to enable undo rather than warning message 
+* **fixed** - Removed duplicate Radar Chart 2 from config files 
 
 ### v0.0.157 *2017-11-20*
 * **new** - Button to undo changes made in colour scheme and css sidebars 

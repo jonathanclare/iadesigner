@@ -218,13 +218,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Parse a new config.
-    iad.report.parseConfig = function (configXml)
+    iad.report.parseConfig = function (xml)
     {
         preConfigLoaded(function ()
         {
-            addMissingComponentsToXml(configXml, function()
+            addMissingComponentsToXml(xml, function()
             {
-                ia.parseConfig(configXml, function ()
+                ia.parseConfig(xml, function ()
                 {
                     onConfigLoaded();
                 });

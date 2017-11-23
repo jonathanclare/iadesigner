@@ -136,7 +136,7 @@
                                         <div><div class="iad-card-image" style="background-image:url('./img/css.png')"></div></div>
                                         <div class="iad-card-title flex-box">Style</div>
                                     </div>
-                                    <div class="iad-card flex-box">
+                                    <!--div class="iad-card flex-box">
                                         <div><div class="iad-card-image" style="background-image:url('./img/mappalettes.png')"></div></div>
                                         <div class="iad-card-title flex-box">Map Legend Colours</div>
                                     </div>
@@ -147,7 +147,7 @@
                                     <div class="iad-card flex-box">
                                         <div><div class="iad-card-image" style="background-image:url('./img/gray.jpg')"></div></div>
                                         <div class="iad-card-title flex-box">Background Mapping</div>
-                                    </div>
+                                    </div-->
                                 </div>
                             </div>
                             <!--ul class="dropdown-menu">
@@ -215,27 +215,6 @@
         <div id="iad-main">
             <div id="iad-report"></div>
 
-            <!-- start widget properties sidebar -->
-            <div id="iad-sidebar-widget" class="iad-sidebar">
-                <div class="iad-sidebar-header">
-                    <button id="" type="button" class="close iad-sidebar-close iad-btn-close-widget-sidebar">&times;</button>
-                    <div class="btn-group">  
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"></span>&nbsp;&nbsp;<span class="caret"></span></button>
-                        <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
-                            <!-- populated by designer.main.js updateWidgetPropertiesDropdown() -->
-                        </ul>          
-                    </div> 
-                </div>
-                <div class="iad-sidebar-content iad-sidebar-content">
-                    <div class="iad-form">
-                        <div id="iad-form-widget-properties">
-                        <!-- populated by iadesigner.configforms.js -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end widget properties sidebar -->
-
             <!-- start css properties sidebar -->
             <div id="iad-sidebar-css" class="iad-sidebar">
                 <div class="iad-sidebar-header">
@@ -277,6 +256,31 @@
             </div>
             <!-- end color scheme sidebar -->
 
+            <!-- start widget properties sidebar -->
+            <div id="iad-sidebar-widget" class="iad-sidebar">
+                <div class="iad-sidebar-header">
+                    <button id="" type="button" class="close iad-sidebar-close iad-btn-close-widget-sidebar">&times;</button>
+                    <div class="btn-group">  
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-pencil"></span>&nbsp;&nbsp;<span id="iad-sidebar-widget-title"></span>&nbsp;&nbsp;<span class="caret"></span></button>
+                        <ul id="iad-dropdown-widget-properties" class="dropdown-menu">
+                            <!-- populated by designer.main.js updateWidgetPropertiesDropdown() -->
+                        </ul>          
+                    </div> 
+                </div>
+                <div class="iad-sidebar-content iad-sidebar-content iad-sidebar-content-with-footer">
+                    <div class="iad-form">
+                        <div id="iad-form-widget-properties">
+                        <!-- populated by iadesigner.configforms.js -->
+                        </div>
+                    </div>
+                </div>
+                <div class="iad-sidebar-footer">
+                    <button type="button" class="btn btn-default iad-btn-undo-template-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                    <button type="button" class="btn btn-default iad-btn-close-widget-sidebar"><i class="fa fa-check"></i>&nbsp;Done</button>
+                </div>
+            </div>
+            <!-- end widget properties sidebar -->
+
             <!-- start template sidebar -->
             <div id="iad-sidebar-template" class="iad-sidebar">
                 <div class="iad-sidebar-header">
@@ -297,7 +301,7 @@
             </div>
             <!-- end templates sidebar -->
 
-            <!-- start widget sidebar -->
+            <!-- start widget gallery sidebar -->
             <div id="iad-sidebar-widgetgallery" class="iad-sidebar">
                 <div class="iad-sidebar-header">
                     <button type="button" class="close iad-sidebar-close iad-btn-close-widgetgallery-sidebar">&times;</button>
@@ -311,11 +315,11 @@
                     </div>
                 </div>
                 <div class="iad-sidebar-footer">
-                    <button type="button" class="btn btn-default iad-btn-undo-widgetgallery-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                    <button type="button" class="btn btn-default iad-btn-undo-template-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
                     <button type="button" class="btn btn-default iad-btn-close-widgetgallery-sidebar"><i class="fa fa-check"></i>&nbsp;Done</button>
                 </div>
             </div>
-            <!-- end widget sidebar -->
+            <!-- end widget gallery sidebar -->
         </div>
         <!-- end sidebar and report containers -->
 

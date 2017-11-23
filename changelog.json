@@ -4,7 +4,9 @@
 	"date":"2017-11-22",
 	"changes":
 	[
-		{"badge":"improved", "description":"Moved templates to sidebar to enable undo rather than warning message", "bug":""}
+		{"badge":"improved", "description":"Moved templates to sidebar to enable undo rather than warning message", "bug":""},
+		{"badge":"improved", "description":"Moved widgets to sidebar to enable undo rather than warning message", "bug":""},
+		{"badge":"fixed", "description":"Removed duplicate Radar Chart 2 from config files", "bug":""},
 	]
 },
 {

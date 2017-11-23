@@ -335,11 +335,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
             // These ones go in the legend tab.
             var id = $xmlPropGroup.attr('id');
-            if (id !== 'thematics' && id !== 'pointSymbols' && id !== 'lineSymbols' && id !== 'thematics2' && id !== 'pointSymbols2' && id !== 'lineSymbols2')
-            {
+            //if (id !== 'thematics' && id !== 'pointSymbols' && id !== 'lineSymbols' && id !== 'thematics2' && id !== 'pointSymbols2' && id !== 'lineSymbols2')
+            //{
                 var jsonForm = iad.configform.getPropertyGroupForm($xmlPropGroup);
                 if (jsonForm.controls.length > 0) json.forms[json.forms.length] = jsonForm;
-            }
+            //}
         });
 
         updateForm(json);

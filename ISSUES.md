@@ -14,5 +14,4 @@
 - How to copy and move referenced images.
 
 ## Code
-- When editing widget properties open panels must remain open.
 - Cant delete radarChart2.

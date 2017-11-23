@@ -26,7 +26,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Set the xml.
     iad.config.setXml = function (xml)
     {
-        xmlConfig = xml.cloneNode(true);
+        xmlConfig = xml;
         $xmlConfig = $(xmlConfig);
         if (options && options.onConfigUpdated) options.onConfigUpdated.call(null);
     };

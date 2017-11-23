@@ -518,10 +518,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             iad.report.parseConfig(storedConfig);
         });
-        $('.iad-btn-undo-widgetgallery-sidebar').on('click', function (e)
-        {
-            iad.report.parseConfig(storedConfig);
-        });
 
         // Upload config.
         $('#iad-btn-upload-configxml').on('click', function(e)
@@ -794,7 +790,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
 
         if (name === 'css' || name === 'colorscheme') storedLessVars = iad.css.getLessVars();
-        else if (name === 'template' || name === 'widgetgallery') storedConfig = iad.config.getXml();
+        else if (name === 'template' || name === 'widgetgallery' || name === 'widget') storedConfig = iad.config.getXml();
     }
 
     function editGeneralProperties()
@@ -1112,17 +1108,17 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onGroupPropertyChanged: function (groupId, propertyId)
             {
-                if (groupId.indexOf('thematics') === -1 &&      // Thematics are now dynamically updated via the legend tab so dont require a full config update.
+                /*if (groupId.indexOf('thematics') === -1 &&      // Thematics are now dynamically updated via the legend tab so dont require a full config update.
                     groupId.indexOf('pointSymbols') === -1 && 
                     groupId.indexOf('lineSymbols') === -1)
-                {
+                {*/
                     iad.report.refreshConfig(function ()
                     {
                         onConfigChanged();
                     });
 
-                }
-                else onConfigChanged();
+                //}
+               // else onConfigChanged();
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
@@ -1486,6 +1482,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Checks what kind of control it is.
         Handlebars.registerHelper('ifEqualTo', function (val1, val2, options)
         {
+            val1 = val1 + '';
+            val2 = val2 + '';
             if (val1 === val2) return options.fn(this);
             return options.inverse(this);
         });

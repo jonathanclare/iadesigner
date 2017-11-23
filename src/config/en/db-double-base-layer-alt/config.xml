@@ -661,42 +661,6 @@
 	<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue"/>
 </Component>
   	
-	<Component id="radarChart2" name="Radar Chart 2" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" editable="true" icon="$IAICON/48x48/pie-chart.png" classes="ia-panel ia-panel-header">
-  		<Description>
-  			Displays multivariate data in the form of a two-dimensional chart of three or more indicators represented on axes starting from the same point.
-  			Use in conjunction with the 'Selected Features Legend'.
-  		</Description>
-  		<Property description="The title" id="title" name="Title" type="string" value="${themeName} ${notEmpty(date, '(')}${date}${notEmpty(date, ')')}"/>
-  		<Property description="Is it visible at start up? Use 'javascript:iaToggle(radarChart2)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
-  		<Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="5"/>
-		<Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false"/>  
-   		<Property description="Can it be exported to an image?" id="isExportable" name="Exportable?" type="boolean" value="true"/>  
-
-		<!-- chart data -->
-  		<Property description="The chart type" id="chartType" name="Chart Type" type="string" value="radar" choices="radar;rose"/>
-		<Property description="The data for the chart" id="data" name="Data" type="string" value="value"/>			
-		<Property description="Which data should be displayed" id="displayMode" name="Display Mode" type="string" value="All themes" choices="All themes;Selected theme only"/>
-		<Property description="Should the comparison data be displayed if available?" id="showComparison" name="Always Show Comparison Data" type="boolean" value="false"/>
-		<Property description="The data tip" id="tip" name="Tip" type="string" value="${themeName} &gt;&gt; ${indicatorName} &lt;br/&gt; ${featureName}: ${value}"/>
-		
-		<!-- chart formatting -->
-		<Property description="The text for the chart labels" id="chartLabels" name="Chart Labels" type="string" value="${indicatorName}"/>
-		<Property description="The text that appears when the chart data is unavailable" id="notAvailableText" name="Not Available Text" type="string" value="Not Available"/>
-		<Property description="The size of the data point markers" id="markerSize" name="Marker Size" type="integer" value="0"/>
-		<Property description="The space around the radar reserved for the labels" id="radarPadding" name="Padding" type="integer" value="60"/>
-
-		<!-- chart axis formatting -->
-		<Property description="Should the chart data be constrained to the current data range?" id="useTightLabels" name="Match Axis to Data?" type="boolean" value="false"/>
-		<Property description="Should the chart data be constrained to the selected features?" id="matchAxisToSelectedData" name="Match Axis to Selected Features?" type="boolean" value="false"/>
-   		<Property description="Should the chart axis start from zero?" id="startAxisFromZero" name="Start Axis From Zero?" type="boolean" value="false"/>
-
-		<!-- chart axis fixed values -->
-		<Property description="Use the fixed values for the chart data axis?" id="useFixedValues" name="Use Fixed Values?" type="boolean" value="false"/>  		
-		<Property description="A fixed minimum value for the chart data axis" id="fixedMinValue" name="Fixed Minimum Value" type="float" value="0"/>
-		<Property description="A fixed maximum value for the chart data axis" id="fixedMaxValue" name="Fixed Maximum Value" type="float" value="0"/>
-		<Property description="A custom property containing a fixed minimum value for the chart data axis" id="minChartValue" name="Fixed Minimum Axis Value Property" type="string" value="minChartValue"/>
-		<Property description="A custom property containing a fixed maximum value for the chart data axis" id="maxChartValue" name="Fixed Maximum Axis Value Property" type="string" value="maxChartValue"/>
- 	</Component>
 <Component classes="ia-panel ia-panel-header ia-chart ia-chart-limits" editable="true" height="122" icon="$IAICON/48x48/column-chart.png" id="barChart2" moveable="true" name="Bar Chart 2" removeable="true" resizeable="true" visible="true" width="300" x="486" y="324">
 	<Description>For numeric indicators displays a bar for each feature in ascending or descending order. For categoric indicators each bar represents the number of features in each of the map legend classes.</Description>
 	<Property description="The title" id="title" name="Title" type="string" value=""/>
