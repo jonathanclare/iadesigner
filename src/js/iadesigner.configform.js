@@ -249,15 +249,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
             // Form display properties for each widget (scroll position and expanded panel index).
             oFormDisplayProperties = {};
 
-            // Initialise with first property panel open for each component.. 
-           /* var $xmlWidgets = iad.config.getComponents();
-            $.each($xmlWidgets, function (i, xmlWidget)
+            // Fix for accordion collapse bug https://github.com/openam/bootstrap-responsive-tabs/issues/45
+            $container.on('show.bs.collapse', '.iad-collapse', function (e) 
             {
-                var $xmlWidget = $(xmlWidget);
-                var id = $xmlWidget.attr('id');
-                oFormDisplayProperties[id] = {scrollPos:0, panelIndex:0}; 
-            });*/
 
+                $(e.target).closest('.panel').siblings().find('.panel-collapse').collapse('hide');
+            });
             $container.on('shown.bs.collapse', '.iad-collapse', function (e)
             {
                 // Do scroll after collapse has expanded to scroll to correct position.
@@ -465,7 +462,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (oFormDisplayProperties[activeWidgetId].panelIndex !== undefined) 
             {
                 doScroll = true;
-                $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse("show");
+                $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse('show');
             }
             else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
             {
@@ -476,9 +473,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }   
         else 
         {
-            iad.configform.scrollTo(0);
-            $container.parent().css('visibility','visible');
-            if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+            if ($container.find('.iad-collapse').length > 1)
+            {
+                doScroll = true;
+                oFormDisplayProperties[activeWidgetId] = {scrollPos:0, panelIndex:0};
+                $container.find('.iad-collapse:eq(0)').collapse('show');
+            }        
+            else
+            {
+                iad.configform.scrollTo(0);
+                $container.parent().css('visibility','visible');
+                if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+            }    
         }
     }
 

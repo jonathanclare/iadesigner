@@ -28,7 +28,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         xmlConfig = xml;
         $xmlConfig = $(xmlConfig);
-        if (options && options.onConfigUpdated) options.onConfigUpdated.call(null);
+        if (options && options.onNewConfig) options.onNewConfig.call(null);
     };
 
     // Converts xml to string.
