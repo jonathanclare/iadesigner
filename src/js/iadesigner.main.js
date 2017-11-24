@@ -363,15 +363,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Open.
         $('#iad-menuitem-open').on('click', function(e)
         {
-            saveChangesBeforeContinuing(function()
-            {
-                openConfigFile(function (filePath)
-                {
-                    iad.report.loaded = true;
-                    iad.report.loadReport(filePath);
-                    setUserSetting('reportPath', filePath);
-                });
-            });
+            openReport();
         });
 
         // Save.
@@ -543,6 +535,42 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             $(this).closest('div.dropdown-menu').fadeOut();
         });
+
+        // Key press.
+        $(window).on('keydown', function(e) 
+        {
+            if (event.ctrlKey || e.metaKey) 
+            {
+                switch (String.fromCharCode(e.which).toLowerCase()) 
+                {
+                    case 's':
+                        e.preventDefault();
+                        saveChanges();
+                        break;
+                    case 'o':
+                        e.preventDefault();
+                        openReport();
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
+                        break;
+                    case 'b':
+                        e.preventDefault();
+                        if (selectedWidgetId !== undefined) iad.config.sendToBack(selectedWidgetId);
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.which) 
+                {
+                    case 46: // Delete.
+                        if (selectedWidgetId !== undefined) iad.config.removeWidget(selectedWidgetId);
+                        break;
+                }
+            }
+        });
     }
 
     function setPopupMenu() 
@@ -599,6 +627,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var childWin = new remote.BrowserWindow({ width: 1000, height: 800});
         childWin.loadURL(url);
         childWin.on('closed', function() {childWin = null;});
+    }
+
+    function openReport()
+    {
+        saveChangesBeforeContinuing(function()
+        {
+            openConfigFile(function (filePath)
+            {
+                iad.report.loaded = true;
+                iad.report.loadReport(filePath);
+                setUserSetting('reportPath', filePath);
+            });
+        });
     }
 
     // File handling.

@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.0.159 *2017-11-24*
+* **new** - Added key shortcuts: ctrl-s save, ctrl-o open, ctrl-f bring to front, ctrl-b, send to back, delete 
+
 ### v0.0.158 *2017-11-22*
 * **improved** - Moved templates to sidebar to enable undo rather than warning message 
 * **improved** - Moved widgets to sidebar to enable undo rather than warning message 
