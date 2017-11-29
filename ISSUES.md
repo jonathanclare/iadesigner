@@ -13,5 +13,10 @@
 ## Images
 - How to copy and move referenced images.
 
-## Code
-- Cant delete radarChart2.
+## Text
+- Text bugs.
+
+## General
+- Dont select canvas when in preview mode
+- Save As
+- Undo / Redo

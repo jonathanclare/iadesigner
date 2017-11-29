@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.0.160 *2017-11-24*
+* **improved** - Updated screenshots for templates 
+
 ### v0.0.159 *2017-11-24*
 * **new** - Added key shortcuts: ctrl-s save, ctrl-o open, ctrl-f bring to front, ctrl-b, send to back, delete 
 

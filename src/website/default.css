@@ -206,3 +206,25 @@ a:hover
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
+
+/* cards */
+.cards
+{
+    flex-flow: row nowrap;
+}
+.card
+{
+    flex: 1;
+    flex-flow: column nowrap;
+    margin:10px;
+}
+.card-img
+{
+    align-items:center;
+    justify-content: center;
+}
+.card-title
+{
+    align-items:center;
+    justify-content: center;
+}

@@ -4,6 +4,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.util = iad.util || {};
 
+    var electron = require('electron');
+    var remote = electron.remote;
+
     iad.util.isUndefined = function (v)
     {
         if ((v === 'null') || (v === null) || (v === 'NaN') || (v === '') || (v === undefined)|| (v === 'undefined')) return true;
@@ -104,6 +107,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
         return arrFilter[0];
     };
+
+    iad.util.openWin = function (url, w, h)
+    {  
+        var childWin = new remote.BrowserWindow({ width: w || 1000, height: h || 800});
+        childWin.loadURL(url);
+        childWin.on('closed', function() {childWin = null;});
+    }
 
     return iad;
 

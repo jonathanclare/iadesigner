@@ -136,18 +136,18 @@
                                         <div><div class="iad-card-image" style="background-image:url('./img/css.png')"></div></div>
                                         <div class="iad-card-title flex-box">Style</div>
                                     </div>
-                                    <!--div class="iad-card flex-box">
+                                    <div class="iad-card flex-box">
                                         <div><div class="iad-card-image" style="background-image:url('./img/mappalettes.png')"></div></div>
                                         <div class="iad-card-title flex-box">Map Legend Colours</div>
                                     </div>
-                                    <div class="iad-card flex-box">
+                                    <div id="iad-menuitem-open-layer-sidebar" class="iad-card flex-box">
                                         <div><div class="iad-card-image" style="background-image:url('./img/maplayers.png')"></div></div>
                                         <div class="iad-card-title flex-box">Map Layer Style</div>
                                     </div>
                                     <div class="iad-card flex-box">
                                         <div><div class="iad-card-image" style="background-image:url('./img/gray.jpg')"></div></div>
                                         <div class="iad-card-title flex-box">Background Mapping</div>
-                                    </div-->
+                                    </div>
                                 </div>
                             </div>
                             <!--ul class="dropdown-menu">
@@ -214,6 +214,26 @@
         <!-- sidebar and report containers -->
         <div id="iad-main">
             <div id="iad-report"></div>
+
+            <!-- start layer properties sidebar -->
+            <div id="iad-sidebar-layer" class="iad-sidebar">
+                <div class="iad-sidebar-header">
+                    <button type="button" class="close iad-sidebar-close iad-btn-close-sidebar">&times;</button>
+                    <div class="iad-sidebar-title"><span class="fa fa-paint-brush"></span>&nbsp;&nbsp;<span>Styles</span></div>
+                </div>
+                <div class="iad-sidebar-content iad-sidebar-content-with-footer">
+                    <div class="iad-form">
+                        <div id="iad-form-layer-properties">
+                        <!-- populated by initCss() -->
+                        </div>
+                    </div>
+                </div>
+                <div class="iad-sidebar-footer">
+                    <button type="button" class="btn btn-default iad-btn-undo-layer-sidebar"><i class="fa fa-undo"></i>&nbsp;Undo</button>
+                    <button type="button" class="btn btn-default iad-btn-close-sidebar"><i class="fa fa-check"></i>&nbsp;Done</button>
+                </div>
+            </div>
+            <!-- end layer properties sidebar -->
 
             <!-- start css properties sidebar -->
             <div id="iad-sidebar-css" class="iad-sidebar">
@@ -662,6 +682,9 @@
         <script src="./js/iadesigner.colorpicker.js"></script>
         <script src="./js/iadesigner.colorscheme.js"></script>
         <script src="./js/iadesigner.util.js"></script>
+        <script src="./js/iadesigner.file.js"></script>
+        <script src="./js/iadesigner.progress.js"></script>
+        <script src="./js/iadesigner.win.js"></script>
         <!-- /build -->
 
         <!-- build:template 
