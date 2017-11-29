@@ -166,6 +166,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             iad.sidebar.show('iad-sidebar-colorscheme');
         });
+        $('#iad-menuitem-open-maplayer-sidebar').on('click', function (e)
+        {
+            iad.sidebar.show('iad-sidebar-maplayer');
+        });
 
         // Insert widgets.
         $('#iad-menuitem-insert-image').on('click', function(e)
