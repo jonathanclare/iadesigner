@@ -12,6 +12,57 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     var changesSaved = true;
 
+    iad.file.init = function(o)
+    {
+        if (o !== undefined)
+        {
+            if (o.dragAndDrop !== undefined) addDragAndDrop(o.dragAndDrop);
+        }
+    };
+
+    function addDragAndDrop(id)
+    {
+        var $container = $(id);
+
+        // File upload drag and drop.
+        $container.on('drop', function (e) 
+        {
+            e.stopPropagation();
+            e.preventDefault();
+
+            if (e.originalEvent.dataTransfer.files.length > 0)
+            {
+                var f = e.originalEvent.dataTransfer.files[0];
+                var fileName = escape(f.name);
+                var fileType = f.type;
+                var fileSize = f.size + ' bytes';
+                var filePath = f.path;
+                var lastModified = 'last modified: '+f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a';
+                //ia.log(fileName+' '+fileType+' '+fileSize+' '+lastModified);
+
+                if (fileType.match('text/xml')) // config.xml
+                {
+                    iad.file.saveChangesBeforeContinuing(function()
+                    {
+                        iad.report.loaded = true;
+                        iad.report.loadReport(f.path);
+                        iad.usersettings.set('reportPath', f.path);
+                    });
+                }
+                else if (fileName.indexOf('.json') != -1) // styles.json - file type doesnt seem to work for json.
+                {
+                    iad.css.readLessVarsFile(f.path, function () {});
+                }
+            }
+        });
+        $container.on('dragover', function (e) 
+        {
+            e.stopPropagation();
+            e.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        });
+    }
+
     iad.file.fileExists = function(filePath)
     {
         return fs.existsSync(filePath);

@@ -15,7 +15,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var Menu = remote.Menu;
     var app = remote.app;
 
-    var $main = $('#iad-main');
     var $report = $('#iad-report');
 
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
@@ -54,7 +53,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         iad.updates.check(function()
         {
-            getUserSettings(function(userSettings)
+            iad.usersettings.get(function(userSettings)
             {
                 // Set all user settings here.
                 if (iad.file.fileExists(userSettings.reportPath)) 
@@ -75,7 +74,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initConfigForms();
                         initConfigGallery(settings.configGallery);
                         initWidgetGallery(settings.widgetGallery);
-                        initFileDragAndDrop();
+                        iad.file.init({dragAndDrop: '#iad-report'});
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
                         updateConfigDownloadButton();
@@ -91,20 +90,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             });
         });
     };
-
-    function setUserSetting(name, value)
-    {
-        ipc.send('set-user-setting', name, value);
-    }
-    // Call once.
-    function getUserSettings(callback)
-    {
-        ipc.on('got-user-settings', function(event, json) 
-        { 
-            callback.call(null, json);
-        });
-        ipc.send('get-user-settings');
-    }
 
     function updateStyleDownloadButtons()
     {
@@ -166,7 +151,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Exit.
         $('#iad-menuitem-exit').on('click', function(e)
         {
-            iad.file.iad.file.saveChangesBeforeContinuing(function()
+            iad.file.saveChangesBeforeContinuing(function()
             {
                 iad.win.close();
             });
@@ -385,13 +370,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function openReport()
     {
-        iad.file.iad.file.saveChangesBeforeContinuing(function()
+        iad.file.saveChangesBeforeContinuing(function()
         {
             iad.file.openConfigFile(function (filePath)
             {
                 iad.report.loaded = true;
                 iad.report.loadReport(filePath);
-                setUserSetting('reportPath', filePath);
+                iad.usersettings.set('reportPath', filePath);
             });
         });
     }
@@ -1081,47 +1066,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             }
             iad.widgetgallery.update();
         });
-    }
-
-    function initFileDragAndDrop()
-    {
-		// File upload drag and drop.
-		$report.on('drop', function (e) 
-		{
-			e.stopPropagation();
-			e.preventDefault();
-
-            if (e.originalEvent.dataTransfer.files.length > 0)
-            {
-                var f = e.originalEvent.dataTransfer.files[0];
-                var fileName = escape(f.name);
-                var fileType = f.type;
-                var fileSize = f.size + ' bytes';
-                var filePath = f.path;
-                var lastModified = 'last modified: '+f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a';
-                //ia.log(fileName+' '+fileType+' '+fileSize+' '+lastModified);
-
-                if (fileType.match('text/xml')) // config.xml
-                {
-                    iad.file.iad.file.saveChangesBeforeContinuing(function()
-                    {
-                        iad.report.loaded = true;
-                        iad.report.loadReport(f.path);
-                        setUserSetting('reportPath', f.path);
-                    });
-                }
-                else if (fileName.indexOf('.json') != -1) // styles.json - file type doesnt seem to work for json.
-                {
-                    iad.css.readLessVarsFile(f.path, function () {});
-                }
-            }
-		});
-		$report.on('dragover', function (e) 
-		{
-			e.stopPropagation();
-			e.preventDefault();
-			e.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-		});
     }
 
     function registerHandlebarsHelperFunctions()
