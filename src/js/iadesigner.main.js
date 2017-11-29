@@ -170,6 +170,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             iad.sidebar.show('iad-sidebar-maplayer');
         });
+        $('#iad-menuitem-open-mappalette-sidebar').on('click', function (e)
+        {
+            iad.sidebar.show('iad-sidebar-mappalette');
+        });
+        $('#iad-menuitem-open-backgroundmapping-sidebar').on('click', function (e)
+        {
+            iad.sidebar.show('iad-sidebar-backgroundmapping');
+        });
 
         // Insert widgets.
         $('#iad-menuitem-insert-image').on('click', function(e)
