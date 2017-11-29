@@ -17,7 +17,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     var $main = $('#iad-main');
     var $report = $('#iad-report');
-    var $updateBar = $('#iad-update-bar');
 
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
@@ -53,7 +52,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         registerHandlebarsHelperFunctions();
 
-        checkForUpdate(function()
+        iad.updates.check(function()
         {
             getUserSettings(function(userSettings)
             {
@@ -105,43 +104,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             callback.call(null, json);
         });
         ipc.send('get-user-settings');
-    }
-
-    // Call once.
-    function checkForUpdate(callback)
-    {
-        ipc.on('update-downloaded', function(event) 
-        {
-            showUpdateBar(function()
-            {
-                callback.call(null);
-            });
-        });
-        ipc.on('update-not-available', function(event) 
-        { 
-            $updateBar.hide();
-            callback.call(null);
-        });
-        ipc.send('check-for-update');
-    }
-    function showUpdateBar(callback)
-    {
-        var h = $updateBar.outerHeight();
-        $main.animate({top:'+='+h+'px'}, {duration: 400, queue: false});
-        $updateBar.animate({top: '+='+h+'px'}, {duration: 400,queue: false, complete: function() 
-        {
-            if (callback !== undefined) callback.call(null);
-        }});
-    }
-    function closeUpdateBar(callback)
-    {
-        var h = $updateBar.outerHeight();
-        $main.animate({top:'-='+h+'px'}, {duration: 400, queue: false});
-        $updateBar.animate({top: '-='+h+'px'}, {duration: 400,queue: false, complete: function() 
-        {
-            $updateBar.hide();
-            if (callback !== undefined) callback.call(null);
-        }});
     }
 
     function updateStyleDownloadButtons()
@@ -315,16 +277,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.css.readLessVarsFile(filePath, function () {});
             });
-        });
-
-        // Updates.
-        $('#iad-update-close').on('click', function (e)
-        {
-            closeUpdateBar();
-        });
-        $('#iad-restart-now').on('click', function (e)
-        {
-            ipc.send('quit-and-install');
         });
 
         // Menu bar hover dropdowns.
