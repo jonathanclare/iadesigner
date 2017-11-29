@@ -35,7 +35,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             callback.call(null);
         });
         ipc.send('check-for-update');
-    }
+    };
 
     function showUpdateBar(callback)
     {

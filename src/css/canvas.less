@@ -1,0 +1,65 @@
+@import "variables.less";
+
+.iad-event-blocker 
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999999;
+    display: none;
+    background-color: #ffffff;
+    opacity: 0.01;
+}
+.iad-active-panel 
+{
+    position: absolute;
+    border: 2px solid #000000;
+    pointer-events: none;
+    display: none;
+}
+.iad-drag-panel 
+{
+    position: absolute;
+    border: 2px solid #000000;
+    display: none;
+}
+.iad-drag-panel-fill 
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.1;
+    background-color: #000000;
+}
+.iad-drag-panel-btn-bar 
+{
+    display:none;
+    position: absolute;
+    white-space: nowrap;
+    top: -30px;
+    right: -2px;
+    padding: 3px;
+    background-color: #000000;
+    border-radius: 5px 5px 0 0;
+}
+.iad-drag-panel-btn 
+{
+    width: 25px;
+    height: 20px;
+    background-position:center center;  
+    background-repeat: no-repeat;
+    font-size: 18.0px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px 3px 0px 3px;
+    opacity:0.6;
+    color:#ffffff;
+}
+.iad-drag-panel-btn:hover 
+{
+    opacity:1;
+}

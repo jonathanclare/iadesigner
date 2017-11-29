@@ -6,6 +6,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     var electron = require('electron');
     var remote = electron.remote;
+    var shell = electron.shell;
 
     iad.util.isUndefined = function (v)
     {
@@ -108,12 +109,30 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return arrFilter[0];
     };
 
+    // Electron.
+
+    // Force links to open in default browser window.
+    iad.util.forceLinksToOpenInBrowserWindow = function ()
+    {  
+        $(document).on('click', 'a[href^="http"]', function(event) 
+        {
+            event.preventDefault();
+            shell.openExternal(this.href);
+        });
+        $(document).on('click', '.nav li.disabled a', function(event) 
+        {
+            event.preventDefault();
+            shell.openExternal(this.href);
+        });
+    };
+
+    // Open a new window.
     iad.util.openWin = function (url, w, h)
     {  
         var childWin = new remote.BrowserWindow({ width: w || 1000, height: h || 800});
         childWin.loadURL(url);
         childWin.on('closed', function() {childWin = null;});
-    }
+    };
 
     return iad;
 

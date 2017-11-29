@@ -219,7 +219,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         {
                             iad.file.saveFile(iad.report.stylePath, strCss, function ()
                             {      
-                                // Copy ia-min.js because they might not have the latest one and the standalone report may break.
+                                // Copy ia-min.js because they might not have the latest version and a standalone report might break without it.
                                 iad.file.copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
                                 {
                                     iad.progress.end('save', function()
@@ -243,7 +243,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 backdrop: true
             });
         }
-    }
+    };
 
     return iad;
 
