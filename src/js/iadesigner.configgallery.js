@@ -4,8 +4,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 	iad.configgallery = iad.configgallery || {};
 
-	iad.configgallery.initialised = false;
-
 	// Initialise thumbnail gallery.
 	iad.configgallery.init = function(options)
 	{
@@ -71,8 +69,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 			var path = options.configPath + '/' + report.path + '/config.xml';
 			if (options && options.onApply) options.onApply.call(null, path, report.header);
 		});
-
-		this.initialised = true;
 	};
 
 	return iad;

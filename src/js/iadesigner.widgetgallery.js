@@ -4,8 +4,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
 	iad.widgetgallery = iad.widgetgallery || {};
 
-	iad.widgetgallery.initialised = false;
-
 	var options;
 	var dataSourceIndex = 0;
 
@@ -33,7 +31,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             dataSourceIndex = $(this).val();
             iad.widgetgallery.update();
         });
-		this.initialised = true;
 	};
 
 	// Update gallery.

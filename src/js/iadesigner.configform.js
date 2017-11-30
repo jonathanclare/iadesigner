@@ -300,22 +300,25 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Scrolls to position in form.
     iad.configform.scrollTo = function(scrollPos)
     {
-        $container.parent().scrollTop(scrollPos);        
+        if (options && options.container) $container.parent().scrollTop(scrollPos);        
     };
 
     // Scrolls to position in form.
     iad.configform.scrollToBottom = function(scrollPos)
     {
-        iad.configform.scrollTo($container.parent()[0].scrollHeight);        
+        if (options && options.container) iad.configform.scrollTo($container.parent()[0].scrollHeight);        
     };
 
     // Refreshes the current form.
     iad.configform.refresh = function()
     {
-        if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
-            iad.configform.showPropertyGroupForm();
-        else 
-            iad.configform.showWidgetForm(activeWidgetId);                               	
+        if (options && options.container) 
+        {
+            if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
+                iad.configform.showPropertyGroupForm();
+            else 
+                iad.configform.showWidgetForm(activeWidgetId);                        
+        }       	
     };
 
     // Displays the form for the property groups.
@@ -396,95 +399,98 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Updates a form with the passed in json.
     function updateForm(jsonForm)
     {
-        if (jsonForm.forms.length === 1) jsonForm.forms[0].name = undefined;
-
-        // Apply handlebars template for forms.
-        $container.parent().css('visibility','hidden');
-        $container.empty();
-		var template = window.iadesigner[options.template];
-        var html = template(jsonForm);
-        $container.append(html);
-
-        // Enable control tooltips.
-        $('.iad-tooltip-control').tooltip(
+        if (options && options.container) 
         {
-            placement: 'bottom',
-            trigger: 'hover'
-        });
+            if (jsonForm.forms.length === 1) jsonForm.forms[0].name = undefined;
 
-        $('.iad-popover').popover();
+            // Apply handlebars template for forms.
+            $container.parent().css('visibility','hidden');
+            $container.empty();
+            var template = window.iadesigner[options.template];
+            var html = template(jsonForm);
+            $container.append(html);
 
-        // Apply auto size to text areas.
-        var $textarea = $('.iad-control-textarea');
-        $textarea.autosize({append: '\n'});
-        $textarea.trigger('autosize.resize');
-        $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
-
-        // Make columns sortable.
-        $('.draggableList').sortable(
-        {
-            handle: '.iad-sort-handle', 
-            axis:'y',
-            update: function()
+            // Enable control tooltips.
+            $('.iad-tooltip-control').tooltip(
             {
-                // New order.
-                var columns = [];
-                var widgetId;
-                var tagName;
-                $('.iad-sortable', $(this)).each(function(index, elem) 
+                placement: 'bottom',
+                trigger: 'hover'
+            });
+
+            $('.iad-popover').popover();
+
+            // Apply auto size to text areas.
+            var $textarea = $('.iad-control-textarea');
+            $textarea.autosize({append: '\n'});
+            $textarea.trigger('autosize.resize');
+            $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
+
+            // Make columns sortable.
+            $('.draggableList').sortable(
+            {
+                handle: '.iad-sort-handle', 
+                axis:'y',
+                update: function()
                 {
-                    var controlId = $(elem).attr('id');
-                    var arr = controlId.split('~');
-                    tagName = arr[0];
-                    widgetId = arr[1];
-                    if (tagName === 'Column') // table columns.
+                    // New order.
+                    var columns = [];
+                    var widgetId;
+                    var tagName;
+                    $('.iad-sortable', $(this)).each(function(index, elem) 
                     {
-                        var colIndex = arr[2];
-                        var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
-                        columns[columns.length] = $column;
-                    }
-                    else // Menu Items.
-                    {
-                        var id = arr[2];
-                        var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + id);
-                        var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + id);
-                        columns[columns.length] = {menuItem:$menuItem, menuFunc:$menuFunc};
-                    }
-                });
-                if (tagName === 'Column') iad.config.orderColumns(widgetId, columns);
-                else iad.config.orderMenuItems(widgetId, columns);
-            }
-        });
+                        var controlId = $(elem).attr('id');
+                        var arr = controlId.split('~');
+                        tagName = arr[0];
+                        widgetId = arr[1];
+                        if (tagName === 'Column') // table columns.
+                        {
+                            var colIndex = arr[2];
+                            var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
+                            columns[columns.length] = $column;
+                        }
+                        else // Menu Items.
+                        {
+                            var id = arr[2];
+                            var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + id);
+                            var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + id);
+                            columns[columns.length] = {menuItem:$menuItem, menuFunc:$menuFunc};
+                        }
+                    });
+                    if (tagName === 'Column') iad.config.orderColumns(widgetId, columns);
+                    else iad.config.orderMenuItems(widgetId, columns);
+                }
+            });
 
-        // Form display properties for each widget (scroll position and expanded panel index).
-        if (oFormDisplayProperties[activeWidgetId] !== undefined)         
-        {
-            if (oFormDisplayProperties[activeWidgetId].panelIndex !== undefined) 
+            // Form display properties for each widget (scroll position and expanded panel index).
+            if (oFormDisplayProperties[activeWidgetId] !== undefined)         
             {
-                doScroll = true;
-                $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse('show');
+                if (oFormDisplayProperties[activeWidgetId].panelIndex !== undefined) 
+                {
+                    doScroll = true;
+                    $container.find('.iad-collapse:eq('+oFormDisplayProperties[activeWidgetId].panelIndex+')').collapse('show');
+                }
+                else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
+                {
+                    iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
+                    $container.parent().css('visibility','visible');
+                    if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+                }
+            }   
+            else 
+            {
+                if ($container.find('.iad-collapse').length > 1)
+                {
+                    doScroll = true;
+                    oFormDisplayProperties[activeWidgetId] = {scrollPos:0, panelIndex:0};
+                    $container.find('.iad-collapse:eq(0)').collapse('show');
+                }        
+                else
+                {
+                    iad.configform.scrollTo(0);
+                    $container.parent().css('visibility','visible');
+                    if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
+                }    
             }
-            else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
-            {
-                iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
-                $container.parent().css('visibility','visible');
-                if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
-            }
-        }   
-        else 
-        {
-            if ($container.find('.iad-collapse').length > 1)
-            {
-                doScroll = true;
-                oFormDisplayProperties[activeWidgetId] = {scrollPos:0, panelIndex:0};
-                $container.find('.iad-collapse:eq(0)').collapse('show');
-            }        
-            else
-            {
-                iad.configform.scrollTo(0);
-                $container.parent().css('visibility','visible');
-                if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
-            }    
         }
     }
 

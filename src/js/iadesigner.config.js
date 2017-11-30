@@ -10,6 +10,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
+    // The id of the selected widget.
+    iad.config.selectedWidgetId = undefined;
+
     // Initialise.
     iad.config.init = function (o)
     {

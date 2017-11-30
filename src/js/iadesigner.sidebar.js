@@ -12,22 +12,28 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.sidebar.init = function(o)
     {
-        options = o; 
+        options = o;
 
         if (options && options.container)  $container = $(options.container);
 
-        // Close sidebar button.
-        $('.iad-btn-close-sidebar').on('click', function (e)
+        // Launch sidebars from elements with data-sidebar attribute 
+        // with value being the id of the sidebar its associated with.
+        $('[data-sidebar]').on('click', function (e)
         {
-            var id = $(this).closest('.iad-sidebar').prop('id');
-            iad.sidebar.hide(id);
+            var id = $(this).data('sidebar');
+            iad.sidebar.show(id);
+        });
+
+        // Close sidebar button.
+        $('.iad-sidebar-close-btn').on('click', function (e)
+        {
+            iad.sidebar.hide(getSidebarId($(this)));
         });
 
         // Undo sidebar button.
-        $('.iad-btn-undo-sidebar').on('click', function (e)
+        $('.iad-sidebar-undo-btn').on('click', function (e)
         {
-            var id = $(this).closest('.iad-sidebar').prop('id');
-            if (options && options.onUndo) options.onUndo.call(null, id); 
+            iad.sidebar.undo(getSidebarId($(this)));
         });
     };
 
@@ -36,6 +42,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
+            if ($sidebar.data('initialised') !== true)
+            {
+                if (options && options.onFirstShow) options.onFirstShow.call(null, id); 
+                $sidebar.data('initialised', true);
+            }
+
             var sidebarIsVisible = false;
             $('.iad-sidebar:visible').each(function()
             {
@@ -62,6 +74,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
     };
 
+    iad.sidebar.isVisible = function(id)
+    {
+        var $sidebar = $('#'+id);
+        if ($sidebar.length) return $sidebar.is(":visible");
+        else return false;
+    };
+
     iad.sidebar.hide = function(id)
     {
         var $sidebar = $('#'+id);
@@ -73,6 +92,20 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (options && options.onHide) options.onHide.call(null, id); 
         }
     };
+
+    iad.sidebar.undo = function(id)
+    {
+        var $sidebar = $('#'+id);
+        if ($sidebar.length)
+        {
+            if (options && options.onUndo) options.onUndo.call(null, id); 
+        }
+    };
+
+    function getSidebarId($element)
+    {
+        return $element.closest('.iad-sidebar').prop('id');
+    }
 
     function fadeOut(id)
     {

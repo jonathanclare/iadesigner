@@ -13,12 +13,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var Menu = remote.Menu;
     var app = remote.app;
 
-    var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
-    var $editWidgetBtn = $('#iad-btn-widget-edit');
-
-    var report; // The IA report object.
-    var selectedWidgetId; // The id of the currently selected widget.
-    var widgetPropertiesDisplayed = false; // Indicates that the widget form is displayed.
+    var iaReport; // The IA report object.
     var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
 
     // Listen for log messages from main process for debugging purposes.
@@ -49,20 +44,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     initReport(settings.report, function()
                     {
                         iad.util.forceLinksToOpenInBrowserWindow();
-                        initSidebar();
+                        initSidebar(settings);
                         initConfig();
                         initCanvas();
                         initColorPicker();
-                        initColorSchemes();
                         initFormControls();
                         initConfigForms();
-                        initConfigGallery(settings.configGallery);
-                        initWidgetGallery(settings.widgetGallery);
                         initFile();
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
                         updateConfigDownloadButton();
                         initMenuHandlers();
+                        initKeyStrokes();
                         renderAboutModal();
                         setPopupMenu();
                         iad.progress.end('load', function()
@@ -120,182 +113,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initMenuHandlers()
     {
-        // Open.
-        $('#iad-menuitem-open').on('click', function(e)
-        {
-            openReport();
-        });
 
-        // Save.
-        $('#iad-menuitem-save').on('click', function(e)
-        {
-            iad.file.saveChanges();
-        });
+    }
 
-        // Exit.
-        $('#iad-menuitem-exit').on('click', function(e)
-        {
-            iad.file.saveChangesBeforeContinuing(function()
-            {
-                iad.win.close();
-            });
-        });
-
-        // Design / Published mode.
-        $('input[name="iad-radio-report-mode"]').on('click change', function(e)
-        {
-            var designMode = $(this).val().toLowerCase() !== 'published';
-            if (!designMode)
-            {
-                // Edit off.
-                iad.canvas.off();
-            }
-            else
-            {
-                // Edit on.
-                iad.canvas.on();
-            }
-        });
-
-        // Launch sidebars.
-        $('#iad-menuitem-open-css-sidebar').on('click', function (e)
-        {
-            iad.sidebar.show('iad-sidebar-css');
-        });
-        $('#iad-menuitem-open-color-scheme-sidebar').on('click', function (e)
-        {
-            iad.sidebar.show('iad-sidebar-colorscheme');
-        });
-        $('#iad-menuitem-open-maplayer-sidebar').on('click', function (e)
-        {
-            iad.sidebar.show('iad-sidebar-maplayer');
-        });
-        $('#iad-menuitem-open-mappalette-sidebar').on('click', function (e)
-        {
-            iad.sidebar.show('iad-sidebar-mappalette');
-        });
-        $('#iad-menuitem-open-backgroundmapping-sidebar').on('click', function (e)
-        {
-            iad.sidebar.show('iad-sidebar-backgroundmapping');
-        });
-
-        // Insert widgets.
-        $('#iad-menuitem-insert-image').on('click', function(e)
-        {
-            iad.config.addWidget('Image');
-        });
-        $('#iad-menuitem-insert-text').on('click', function(e)
-        {
-            iad.config.addWidget('Text');
-        });
-        $('#iad-menuitem-insert-button').on('click', function(e)
-        {
-            iad.config.addWidget('Button');
-        });
-
-        // Edit widget dropdown option.
-        $(document).on('click', '.iad-dropdown-option-widget-properties', function(e)
-        {
-            e.preventDefault();
-            var widgetId = $(this).data('id');
-            showWidgetPropertiesSidebar(widgetId);
-        });
-
-        // Remove widget button.
-        $('#iad-btn-widget-remove').on('click', function(e)
-        {
-            iad.config.removeWidget(selectedWidgetId);
-        });
-
-        // Edit widget button.
-        $('#iad-btn-widget-edit').on('click', function(e)
-        {
-            if (selectedWidgetId !== undefined) showWidgetPropertiesSidebar(selectedWidgetId);
-        });
-
-        // Send widget to back button.
-        $('#iad-btn-widget-send-to-back').on('click', function(e)
-        {
-            if (selectedWidgetId !== undefined) iad.config.sendToBack(selectedWidgetId);
-        });
-
-        // Bring widget to front button.
-        $('#iad-btn-widget-bring-to-front').on('click', function(e)
-        {
-            if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
-        });
-
-        // Upload config.
-        $('#iad-btn-upload-configxml').on('click', function(e)
-        {
-            iad.file.openConfigFile(function (filePath)
-            {
-                iad.report.loadConfig(filePath);
-            });
-        });
-
-        // Upload style.json.
-        $('#iad-btn-upload-stylejson').on('click', function (e)
-        {
-            iad.file.openStyleFile(function (filePath)
-            {
-                iad.css.readLessVarsFile(filePath, function () {});
-            });
-        });
-
-        // Menu bar hover dropdowns.
-        $('ul.nav > li.dropdown').on('mouseover', function(e)
-        {
-            $(this).find('.dropdown-menu').show();
-        });
-        $('ul.nav > li.dropdown').on('mouseout', function(e)
-        {
-            $(this).find('.dropdown-menu').hide();
-        });
-        $('ul.nav > li.dropdown > ul.dropdown-menu > li > a').on('click', function(e)
-        {
-            $(this).closest('ul.dropdown-menu').fadeOut();
-        });
-        $('.iad-card').on('click', function(e)
-        {
-            $(this).closest('div.dropdown-menu').fadeOut();
-        });
-
-        // Key press.
-        $(window).on('keydown', function(e) 
-        {
-            if (event.ctrlKey || e.metaKey) 
-            {
-                switch (String.fromCharCode(e.which).toLowerCase()) 
-                {
-                    case 's':
-                        e.preventDefault();
-                        iad.file.saveChanges();
-                        break;
-                    case 'o':
-                        e.preventDefault();
-                        openReport();
-                        break;
-                    case 'f':
-                        e.preventDefault();
-                        if (selectedWidgetId !== undefined) iad.config.bringToFront(selectedWidgetId);
-                        break;
-                    case 'b':
-                        e.preventDefault();
-                        if (selectedWidgetId !== undefined) iad.config.sendToBack(selectedWidgetId);
-                        break;
-                }
-            }
-            else
-            {
-                switch (e.which) 
-                {
-                    case 46: // Delete.
-                        if (selectedWidgetId !== undefined) iad.config.removeWidget(selectedWidgetId);
-                        break;
-                }
-            }
-        });
+    function initKeyStrokes()
+    {
     }
 
     function setPopupMenu() 
@@ -347,22 +169,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }, false);
     }
 
-    function openReport()
-    {
-        iad.file.saveChangesBeforeContinuing(function()
-        {
-            iad.file.openConfigFile(function (filePath)
-            {
-                iad.report.loaded = true;
-                iad.report.loadReport(filePath);
-                iad.usersettings.set('reportPath', filePath);
-            });
-        });
-    }
-
-    function initSidebar()
+    function initSidebar(options)
     {
         var storedData; // Stores the data so that any changes can be undone.
+        var $editWidgetBtn = $('#iad-btn-widget-edit');
+
         iad.sidebar.init(
         {
             container: '#iad-report',
@@ -370,62 +181,26 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 if (id === 'iad-sidebar-widget') 
                 {
-                    widgetPropertiesDisplayed = false;
-                    if (selectedWidgetId !== undefined) $editWidgetBtn.show();
+                    if (iad.config.selectedWidgetId !== undefined) $editWidgetBtn.show();
                 }
+            },
+            onFirstShow: function(id)
+            {
+                if (id === 'iad-sidebar-templategallery') initConfigGallery(options.configGallery);
+                else if (id === 'iad-sidebar-widgetgallery') initWidgetGallery(options.widgetGallery);
+                else if (id === 'iad-sidebar-colorscheme') initColorScheme();
             },
             onShow: function(id)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
-                else if (id === 'iad-sidebar-template' || id === 'iad-sidebar-widgetgallery') storedData = iad.config.getXml();
+                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery') storedData = iad.config.getXml();
             },
             onUndo: function(id)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                else if (id === 'iad-sidebar-template' || id === 'iad-sidebar-widgetgallery') iad.report.parseConfig(storedData);
+                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery') iad.report.parseConfig(storedData);
             }
         });
-    }
-
-    function editGeneralProperties()
-    {
-        if (widgetPropertiesDisplayed)
-        {
-            var title = iad.config.getDisplayName('PropertyGroup');
-            $sidebarWidgetTitle.text(title);
-            iad.configform.showPropertyGroupForm();
-        }
-    }
-
-    function editWidgetProperties(widgetId)
-    {
-        if (widgetPropertiesDisplayed)
-        {
-            var title = iad.config.getDisplayName(widgetId);
-            $sidebarWidgetTitle.text(title);
-            iad.configform.showWidgetForm(widgetId);
-        }
-        else $editWidgetBtn.show();
-    }
-
-    function showWidgetPropertiesSidebar(widgetId)
-    {
-        $editWidgetBtn.hide();
-
-        widgetPropertiesDisplayed = true;
-        var title = iad.config.getDisplayName(widgetId);
-        $sidebarWidgetTitle.text(title);
-        if (widgetId === 'PropertyGroup')
-        {
-            iad.canvas.clearSelection();
-            iad.configform.showPropertyGroupForm();
-        }
-        else
-        {
-            iad.canvas.select(widgetId);
-            iad.configform.showWidgetForm(widgetId);
-        }
-        iad.sidebar.show('iad-sidebar-widget');
     }
 
     function initCss(options, callback)
@@ -456,12 +231,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     }       
                 }
 
-                // Highlight/selection and chart color changes need report refresh.
-                if (report !== undefined)
+                // Highlight/selection and chart color changes need iaReport refresh.
+                if (iaReport !== undefined)
                 {
-                    var factory = report.getComponent('factory');
-                    report.highlightColor = lessVars['@highlight-color'];
-                    report.selectionColor = lessVars['@selection-color'];
+                    var factory = iaReport.getComponent('factory');
+                    iaReport.highlightColor = lessVars['@highlight-color'];
+                    iaReport.selectionColor = lessVars['@selection-color'];
                     factory.updateComponents(function ()
                     {
                         factory.renderComponents(function () 
@@ -473,14 +248,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onPropertyChanged: function(property, value)
             {
-                // Refresh report if necessary when the user has changed a property in the css form.
-                if (report !== undefined)
+                // Refresh iaReport if necessary when the user has changed a property in the css form.
+                if (iaReport !== undefined)
                 {
-                    var factory = report.getComponent('factory');
+                    var factory = iaReport.getComponent('factory');
                     if ((property === '@highlight-color' || property === '@selection-color') || property === undefined) 
                     {
-                        if (property === '@highlight-color') report.highlightColor = value;
-                        if (property === '@selection-color') report.selectionColor = value;
+                        if (property === '@highlight-color') iaReport.highlightColor = value;
+                        if (property === '@selection-color') iaReport.selectionColor = value;
                         factory.updateComponents(function ()
                         {
                             factory.renderComponents(function () 
@@ -522,7 +297,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         iad.file.init({dragAndDrop: '#iad-report'});
     }
 
-    function initColorSchemes()
+    function initColorScheme()
     {
         iad.colorscheme.init(
         {
@@ -544,7 +319,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             configPaths: options.configPaths,
             onReportInit: function (r)
             {
-                report = r;
+                iaReport = r;
                 callback.call(null);
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
@@ -562,7 +337,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onReportLoaded: function (configPath)
             {
                 iad.file.onChangesSaved();
-                iad.config.setXml(report.config.xml);
+                iad.config.setXml(iaReport.config.xml);
                 if (iad.report.loaded)
                 {
                     // Reset title to show config file path.
@@ -577,14 +352,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {      
                 iad.progress.start('load', function()
                 {
-                    storeSelectedWidgetId = selectedWidgetId;
+                    storeSelectedWidgetId = iad.config.selectedWidgetId;
                     iad.canvas.clearSelection();
                     callback.call(null);
                 });          
             },
             onConfigLoaded: function ()
             {
-                iad.config.setXml(report.config.xml);
+                iad.config.setXml(iaReport.config.xml);
                 updateDropdownMenus();
                 //iad.legendform.update();
                 iad.widgetgallery.update();
@@ -605,19 +380,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.config.init(
         {
-            xml: report.config.xml,
+            xml: iaReport.config.xml,
             onNewConfig: function ()
             {
                 onConfigChanged();
             },
             onWidgetRemoved: function (widgetId, $xmlWidget)
             {  
-                var widget = report.getWidget(widgetId);
+                var widget = iaReport.getWidget(widgetId);
                 var tagName = $xmlWidget.prop('tagName');
                 if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text')
                 {
-                    report.config.removeWidget(widgetId);
-                    report.removeWidget(widgetId);
+                    iaReport.config.removeWidget(widgetId);
+                    iaReport.removeWidget(widgetId);
                 }
                 else if (tagName === 'Component' || tagName === 'Table')
                 {
@@ -635,29 +410,29 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 var tagName = $xmlWidget.prop('tagName');
                 if (tagName === 'Button') 
                 {
-                    config = report.config.addButton($xmlWidget.get(0));
+                    config = iaReport.config.addButton($xmlWidget.get(0));
                     widget = new ia.Button(widgetId);
-                    report.addButton(widget, config);
+                    iaReport.addButton(widget, config);
                     onWidgetAdded(widgetId, $xmlWidget);
                 }
                 else if (tagName === 'Image')
                 {
-                    config = report.config.addImage($xmlWidget.get(0));
+                    config = iaReport.config.addImage($xmlWidget.get(0));
                     widget = new ia.Image(widgetId, "./image_placeholder.png");
-                    report.addImage(widget, config); 
+                    iaReport.addImage(widget, config); 
                     onWidgetAdded(widgetId, $xmlWidget);
                 }
                 else if (tagName === 'Text')
                 {
-                    config = report.config.addText($xmlWidget.get(0));
+                    config = iaReport.config.addText($xmlWidget.get(0));
                     widget = new ia.Text(widgetId);
-                    report.addText(widget, config);
+                    iaReport.addText(widget, config);
                     onWidgetAdded(widgetId, $xmlWidget);
                 }
                 else // Component or Table.
                 {
                     // Check if its already been built and added.
-                    widget = report.getWidget(widgetId);
+                    widget = iaReport.getWidget(widgetId);
                     if (widget !== undefined)
                     {
                         widget.container.show();
@@ -665,11 +440,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     }
                     else
                     {
-                        if (tagName === 'Table') config = report.config.addTable($xmlWidget.get(0));
-                        else config = report.config.addComponent($xmlWidget.get(0));
+                        if (tagName === 'Table') config = iaReport.config.addTable($xmlWidget.get(0));
+                        else config = iaReport.config.addComponent($xmlWidget.get(0));
 
                         widget = new ia.Panel(widgetId);
-                        report.addPanel(widget, config);
+                        iaReport.addPanel(widget, config);
 
                         // These components require a full update because more data may need to be read in for them to work.
                         if (widgetId.indexOf('featureCard') !== -1 || 
@@ -679,13 +454,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                             widgetId.indexOf('areaBreakdownBarChart') !== -1 || 
                             widgetId.indexOf('areaBreakdownPieChart') !== -1)
                         {
-                            selectedWidgetId = widgetId;
+                            iad.config.selectedWidgetId = widgetId;
                             iad.report.refreshConfig();
                         }
                         else 
                         {
                             // Build.
-                            var factory = report.getComponent('factory');
+                            var factory = iaReport.getComponent('factory');
                             factory.build(widgetId, function ()
                             {
                                 onWidgetAdded(widgetId, $xmlWidget);
@@ -744,7 +519,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 { 
                     $xmlWidget.attr(attribute, value);
 
-                    var widget = report.getWidget(widgetId);
+                    var widget = iaReport.getWidget(widgetId);
                     var $widget = widget.container;
 
                     // Resize the active widget.
@@ -753,10 +528,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     if (xAnchor === 'end' ||  xAnchor === 'right') x = x + w; 
 
                     // Calculate percentage dimensions.
-                    var xPerc = (x / report.container.width()) * 100;
-                    var yPerc = (y / report.container.height()) * 100;
-                    var wPerc = (w / report.container.width()) * 100;
-                    var hPerc = (h / report.container.height()) * 100;
+                    var xPerc = (x / iaReport.container.width()) * 100;
+                    var yPerc = (y / iaReport.container.height()) * 100;
+                    var wPerc = (w / iaReport.container.width()) * 100;
+                    var hPerc = (h / iaReport.container.height()) * 100;
 
                     if (widget.height() === undefined) hPerc = undefined;
 
@@ -769,7 +544,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     var cx = parseFloat($xmlWidget.attr('x')); 
                     var cw = parseFloat($xmlWidget.attr('width')); 
-                    if ($xmlWidget.attr('rescale') === 'false' || $xmlWidget.attr('rescale') === false) cw = (cw / report.container.width()) * 800;
+                    if ($xmlWidget.attr('rescale') === 'false' || $xmlWidget.attr('rescale') === false) cw = (cw / iaReport.container.width()) * 800;
 
                     var anchor = $xmlWidget.attr('anchor');
                     if (anchor === 'center')
@@ -803,18 +578,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         function onWidgetChanged(widgetId, $xmlWidget, callback)
         {
             // Update the widget config.
-            var config = report.config.getWidget(widgetId);
+            var config = iaReport.config.getWidget(widgetId);
             config.parseXML($xmlWidget.get(0));
 
             // Update the widget.
-            var widget = report.getWidget(widgetId);
+            var widget = iaReport.getWidget(widgetId);
             widget.update(config);
 
             // Update any dynamic text that may have changed.
-            report.updateDynamicText(report.textSubstitution);
+            iaReport.updateDynamicText(iaReport.textSubstitution);
 
             // Update and render the widget.
-            var factory = report.getComponent('factory');
+            var factory = iaReport.getComponent('factory');
             factory.update(widgetId, function ()
             {
                 factory.render(widgetId, function ()
@@ -827,7 +602,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                             var img = widget.container.find('img:first');
                             img.attr('src', iad.report.path  + '/' + img.attr('src'));
                         }
-                        if (widgetId === selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
+                        if (widgetId === iad.config.selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
 
                         iad.canvas.update();
                         onConfigChanged();
@@ -847,7 +622,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.configform.init(
         {
-            report : report,
+            report : iaReport,
             container: '#iad-form-widget-properties',
             template: 'forms.handlebars',
             onFormChanged: function (widgetId)
@@ -927,14 +702,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var $nav = $('#iad-nav-widgets');
         iad.canvas.init(
         {
-            report : report,
+            report : iaReport,
             onSelect: function (widgetId)
             {
                 $nav.show();
-                if (widgetId !== selectedWidgetId)
+                if (widgetId !== iad.config.selectedWidgetId)
                 {
-                    selectedWidgetId = widgetId;
-                    editWidgetProperties(widgetId);
+                    iad.config.selectedWidgetId = widgetId;
+                    iad.widgetsidebar.edit(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -942,13 +717,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 $nav.hide();
                 iad.report.hideWidget(widgetId);
-                selectedWidgetId = undefined;
+                iad.config.selectedWidgetId = undefined;
             },
             onClearSelection: function ()
             {     
                 $nav.hide();
-                selectedWidgetId = undefined;
-                editGeneralProperties();
+                iad.config.selectedWidgetId = undefined;
+                iad.widgetsidebar.edit('PropertyGroup');
             },
             onDragEnd: function (widgetId, x, y)
             {
@@ -960,7 +735,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onActivated: function ()
             {
-                if (selectedWidgetId !== undefined) $nav.show();
+                if (iad.config.selectedWidgetId !== undefined) $nav.show();
             },
             onDeactivated: function ()
             {
@@ -971,54 +746,40 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigGallery(options)
     {
-        $('#iad-menuitem-config-gallery').on('click', function(e)
+        iad.configgallery.init(
         {
-            iad.sidebar.show('iad-sidebar-template');
-            if (!iad.configgallery.initialised)
+            template: 'config-gallery.handlebars',
+            container: '#iad-config-gallery',
+            reportPath: options.reportPath,
+            configPath: options.configPath,
+            json: options.json,
+            onApply: function (filePath, name)
             {
-                iad.configgallery.init(
-                {
-                    template: 'config-gallery.handlebars',
-                    container: '#iad-config-gallery',
-                    reportPath: options.reportPath,
-                    configPath: options.configPath,
-                    json: options.json,
-                    onApply: function (filePath, name)
-                    {
-                        if (iad.report.loaded)
-                            iad.report.loadConfig(filePath);
-                        else
-                            iad.report.loadReport(filePath);
-                    },
-                    onPreview: function (filePath, name)
-                    {
-                        iad.util.openWin('file://' + __dirname + '/' + filePath);
-                    }
-                });
+                if (iad.report.loaded)
+                    iad.report.loadConfig(filePath);
+                else
+                    iad.report.loadReport(filePath);
+            },
+            onPreview: function (filePath, name)
+            {
+                iad.util.openWin('file://' + __dirname + '/' + filePath);
             }
         });
     }
 
     function initWidgetGallery(options)
     {
-        $('#iad-menuitem-insert-widget').on('click', function(e)
+        iad.widgetgallery.init(
         {
-            iad.sidebar.show('iad-sidebar-widgetgallery');
-            if (!iad.widgetgallery.initialised)
+            template: 'widget-gallery.handlebars',
+            container: '#iad-widget-gallery',
+            json: options.json,
+            onAdd: function (widgetId)
             {
-                iad.widgetgallery.init(
-                {
-                    template: 'widget-gallery.handlebars',
-                    container: '#iad-widget-gallery',
-                    json: options.json,
-                    onAdd: function (widgetId)
-                    {
-                        iad.config.addWidget(widgetId);
-                    }
-                });
+                iad.config.addWidget(widgetId);
             }
-            iad.widgetgallery.update();
         });
+        iad.widgetgallery.update();
     }
 
     function registerHandlebarsHelperFunctions()
