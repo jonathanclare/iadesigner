@@ -4,7 +4,36 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.handlers = iad.handlers || {};
 
-    // Manu items.
+    var electron = require('electron');
+    var log = require('electron-log');
+    var remote = electron.remote;
+    var Menu = remote.Menu;
+    var ipc = electron.ipcRenderer;
+
+    // Listen for log messages from main process for debugging purposes.
+    ipc.on('log', function(event, text) 
+    {
+        console.log(text);
+    });
+
+    // About modal.
+    ipc.on('got-app-info', function (event, arrAppInfo) 
+    {
+        var str = '<table class="table table-striped">';
+            for (var i = 0; i < arrAppInfo.length; i++)
+            {
+                var o = arrAppInfo[i];
+                str += '<tr>';
+                    str += '<td>'+o.name+'</td>';
+                    str += '<td>'+o.value+'</td>';                    
+                str += '</tr>';
+            }
+        str += '</table>';
+        $('#iad-app-info').html(str);
+    });
+    ipc.send('get-app-info');
+
+    // Menu items.
     $('#iad-menuitem-open').on('click', function(e) {open();}); // Open.
     $('#iad-menuitem-save').on('click', function(e) {save();}); // Save.
     $('#iad-menuitem-exit').on('click', function(e) {exit();}); // Exit.
@@ -25,6 +54,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $(this).closest('div.dropdown-menu').fadeOut();
     });
 
+    // Key strokes.
     $(window).on('keydown', function(e) 
     {
         if (event.ctrlKey || e.metaKey) 
@@ -60,6 +90,62 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         }
     });
+
+    // Pop up menu.
+    var template = 
+    [
+        {
+            label: 'Refresh',
+            click: function()  
+            {
+                refresh();
+            }
+        },
+        {
+            label: 'Advanced',
+            click: function()  
+            {
+                about();
+            }
+        }
+        /*{
+            label: 'Help',
+            submenu: 
+            [
+                {
+                    label: 'Help on Designer',
+                    click: function()  
+                    {
+                        console.log('Help on Designer');
+                    }
+                },
+                {type: 'separator'},
+                {
+                    label: 'About',
+                    role:'about'
+                }
+            ]
+        }*/
+    ];
+    var menu = Menu.buildFromTemplate(template);
+    window.addEventListener('contextmenu', function (e)
+    {
+        e.preventDefault();
+        menu.popup(remote.getCurrentWindow());
+    }, false);
+
+    function about()
+    {
+        $('#iad-modal-advanced').modal('show');
+    }
+
+    function refresh()
+    {
+        if (iad.report.loaded) 
+            iad.report.refreshReport();
+        else 
+            iad.report.refreshConfig();
+    }
 
     function open()
     {

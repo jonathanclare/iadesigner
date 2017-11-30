@@ -5,22 +5,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     iad = iad || {};
 
     var electron = require('electron');
-    var log = require('electron-log');
-    var ipc = electron.ipcRenderer;
 
     // Access modules in the main process.
     var remote = electron.remote;
-    var Menu = remote.Menu;
     var app = remote.app;
 
     var iaReport; // The IA report object.
     var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
-
-    // Listen for log messages from main process for debugging purposes.
-    ipc.on('log', function(event, text) 
-    {
-        console.log(text);
-    });
 
     iad.init = function(options)
     {
@@ -54,10 +45,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
                         updateConfigDownloadButton();
-                        initMenuHandlers();
-                        initKeyStrokes();
-                        renderAboutModal();
-                        setPopupMenu();
                         iad.progress.end('load', function()
                         {
                             if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
@@ -90,83 +77,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
         var configUrl = URL.createObjectURL(configBlob);
         $('#iad-btn-download-configxml').attr('href', configUrl);
-    }
-
-    function renderAboutModal()
-    {
-        ipc.on('got-app-info', function (event, arrAppInfo) 
-        {
-            var str = '<table class="table table-striped">';
-                for (var i = 0; i < arrAppInfo.length; i++)
-                {
-                    var o = arrAppInfo[i];
-                    str += '<tr>';
-                        str += '<td>'+o.name+'</td>';
-                        str += '<td>'+o.value+'</td>';                    
-                    str += '</tr>';
-                }
-            str += '</table>';
-            $('#iad-app-info').html(str);
-        });
-        ipc.send('get-app-info');
-    }
-
-    function initMenuHandlers()
-    {
-
-    }
-
-    function initKeyStrokes()
-    {
-    }
-
-    function setPopupMenu() 
-    {   
-        var template = 
-        [
-            {
-                label: 'Refresh',
-                click: function()  
-                {
-                    if (iad.report.loaded) 
-                        iad.report.refreshReport();
-                    else 
-                        iad.report.refreshConfig();
-                }
-            },
-            {
-                label: 'Advanced',
-                click: function()  
-                {
-                    $('#iad-modal-advanced').modal('show');
-                }
-            }
-            /*{
-                label: 'Help',
-                submenu: 
-                [
-                    {
-                        label: 'Help on Designer',
-                        click: function()  
-                        {
-                            console.log('Help on Designer');
-                        }
-                    },
-                    {type: 'separator'},
-                    {
-                        label: 'About',
-                        role:'about'
-                    }
-                ]
-            }*/
-        ];
-        var menu = Menu.buildFromTemplate(template);
-
-        window.addEventListener('contextmenu', function (e)
-        {
-            e.preventDefault();
-            menu.popup(win);
-        }, false);
     }
 
     function initSidebar(options)
