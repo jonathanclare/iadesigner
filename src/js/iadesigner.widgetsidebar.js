@@ -9,14 +9,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.widgetsidebar.edit = function(widgetId)
     {
-        var title = iad.config.getDisplayName(widgetId);
-        $sidebarWidgetTitle.text(title);
-
-        if (widgetId === 'PropertyGroup')  iad.configform.showPropertyGroupForm();
-        else
+        if (iad.sidebar.isVisible('iad-sidebar-widget'))
         {
-            if (iad.sidebar.isVisible('iad-sidebar-widget')) iad.configform.showWidgetForm(widgetId);
-            else $editWidgetBtn.show();
+            var title = iad.config.getDisplayName(widgetId);
+            $sidebarWidgetTitle.text(title);
+
+            if (widgetId === 'PropertyGroup')  iad.configform.showPropertyGroupForm();
+            else
+            {
+                if (iad.sidebar.isVisible('iad-sidebar-widget')) iad.configform.showWidgetForm(widgetId);
+                else $editWidgetBtn.show();
+            }
         }
     };
 
@@ -26,7 +29,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         var title = iad.config.getDisplayName(widgetId);
         $sidebarWidgetTitle.text(title);
-        
+
         if (widgetId === 'PropertyGroup')
         {
             iad.canvas.clearSelection();

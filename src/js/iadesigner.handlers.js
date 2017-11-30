@@ -4,6 +4,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.handlers = iad.handlers || {};
 
+    // Manu items.
     $('#iad-menuitem-open').on('click', function(e) {open();}); // Open.
     $('#iad-menuitem-save').on('click', function(e) {save();}); // Save.
     $('#iad-menuitem-exit').on('click', function(e) {exit();}); // Exit.
@@ -14,10 +15,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     $('#iad-btn-widget-remove').on('click', function(e) {removeWidget();}); // Remove widget.
     $('#iad-btn-widget-send-to-back').on('click', function(e) {sendToBack();}); // Send widget to back.
     $('#iad-btn-widget-bring-to-front').on('click', function(e) {bringToFront();}); // Bring widget to front.
-    $('#iad-btn-upload-configxml').on('click', function(e){uploadConfig();}); // Upload config.xml.
-    $('#iad-btn-upload-stylejson').on('click', function (e) {uploadStyle();}); // Upload style.json.
     $('#iad-btn-widget-edit').on('click', function(e) {editWidget(iad.config.selectedWidgetId);}); // Edit widget button.
     $(document).on('click', '.iad-dropdown-option-widget-properties', function(e) {editWidget($(this).data('id'));}); // Edit widget dropdown option.
+    $('#iad-btn-upload-configxml').on('click', function(e){uploadConfig();}); // Upload config.xml.
+    $('#iad-btn-upload-stylejson').on('click', function (e) {uploadStyle();}); // Upload style.json.
 
     $('.iad-card').on('click', function(e)
     {
