@@ -25,3 +25,4 @@
 - Dropdown showing palette colours whenever a palette needs to be selected for a config property
 - iasdesigner.formcontrols.js - use data to store json object rather than using the id
 - iadesigner.forms.js - refactor
+- split out configforms
