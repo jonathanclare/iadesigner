@@ -32,6 +32,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
                 initCss(settings.css, function()
                 {
+                    initMapJson();
                     initReport(settings.report, function()
                     {
                         iad.util.forceLinksToOpenInBrowserWindow();
@@ -96,7 +97,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onFirstShow: function(id)
             {
-                if (id === 'iad-sidebar-templategallery') initConfigGallery(options.configGallery);
+                if (id === 'iad-sidebar-templategallery') initTemplateGallery(options.templateGallery);
                 else if (id === 'iad-sidebar-widgetgallery') initWidgetGallery(options.widgetGallery);
                 else if (id === 'iad-sidebar-colorscheme') initColorScheme();
             },
@@ -197,6 +198,28 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
+    function initMapJson()
+    {
+        iad.mapjson.init(
+        {
+            onJsonChanged: function(jsonMap)
+            {
+                var mapForm = iad.mapform.getForm(jsonMap);
+                var template = window.iadesigner['forms.handlebars'];
+                var html = template(mapForm);
+                $('#iad-form-layer-properties').html(template(mapForm));
+            },
+            onPropertyChanged: function(property, value)
+            {
+
+            },
+            onLayerPropertyChanged: function(layerId, property, value)
+            {
+                
+            }
+        });
+    }
+
     function initColorPicker()
     {
         iad.colorpicker.init({});
@@ -278,7 +301,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (storeSelectedWidgetId !== undefined) 
                     iad.canvas.select(storeSelectedWidgetId);
                 else 
-                    iad.configform.refresh();
+                    iad.forms.refresh();
                 storeSelectedWidgetId = undefined;
 
                 iad.progress.end('load');
@@ -413,14 +436,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 onPropertyAdded = true;
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configform.refresh();
+                    iad.forms.refresh();
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configform.refresh();
+                    iad.forms.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -530,7 +553,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigForms()
     {
-        iad.configform.init(
+        iad.forms.init(
         {
             report : iaReport,
             container: '#iad-form-widget-properties',
@@ -540,7 +563,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (onPropertyAdded === true) 
                 {
                     onPropertyAdded = false;
-                    iad.configform.scrollToBottom();
+                    iad.forms.scrollToBottom();
                 }
             }
         });
@@ -654,12 +677,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         });
     }
 
-    function initConfigGallery(options)
+    function initTemplateGallery(options)
     {
-        iad.configgallery.init(
+        iad.templategallery.init(
         {
-            template: 'config-gallery.handlebars',
-            container: '#iad-config-gallery',
+            template: 'template-gallery.handlebars',
+            container: '#iad-template-gallery',
             reportPath: options.reportPath,
             configPath: options.configPath,
             json: options.json,
@@ -756,7 +779,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function updateDropdownMenus()
     {
-        iad.configform.updateJavaScriptOptions();
+        iad.forms.updateJavaScriptOptions();
 
         // Update widget properties.
 

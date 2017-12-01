@@ -290,8 +290,8 @@ var iadesigner = (function (iad, undefined)
             }
         },
 
-        // Config gallery.
-        configGallery:
+        // Template gallery.
+        templateGallery:
         {
             reportPath : 'lib/ia',
             configPath : 'config/en',

@@ -20,18 +20,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
         this.setXml(options.xml);
     };
 
-    // Return a copy of the xml.
-    iad.config.getXml = function (o)
-    {
-        return xmlConfig.cloneNode(true);
-    };
-
     // Set the xml.
     iad.config.setXml = function (xml)
     {
         xmlConfig = xml;
         $xmlConfig = $(xmlConfig);
         if (options && options.onNewConfig) options.onNewConfig.call(null);
+    };
+
+    // Return a copy of the xml.
+    iad.config.getXml = function ()
+    {
+        return xmlConfig.cloneNode(true);
     };
 
     // Converts xml to string.
@@ -458,7 +458,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var index = s4();
         appendProperty(widgetId, '<Property id="menuItem' + index + '" description="The label for the menu item" name="Menu Item" type="string" value="New Item" />');
         appendProperty(widgetId, '<Property id="menuFunc' + index + '" description="The function or url for the menu item" name="Menu Function" type="string" value="" />');
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
     };
 
@@ -468,7 +467,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlComponent = iad.config.getWidgetXml(widgetId);
         $xmlComponent.find('Property#' + 'menuItem' + index).remove();
         $xmlComponent.find('Property#' + 'menuFunc' + index).remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlComponent);
     };
 
@@ -495,7 +493,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var strXML = '<Column alias="My Column" name="value" width="0.25" />';
         var xml = $($.parseXML(strXML)).find('Column');
         $xmlTable.append(xml);
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -505,7 +502,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
         $column.remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
     };
 
@@ -513,7 +509,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.orderColumns = function (widgetId, columns)
     {
         var $xmlTable = iad.config.getWidgetXml(widgetId);
-
         for (var i = 0; i < columns.length; i++)
         {
             var $column = columns[i];
@@ -539,7 +534,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         appendProperty(widgetId, '<Property id="symbol_size_' + index + '" description="Size that will be used for symbol" name="Symbol Size" type="integer" value="14" />');
         appendProperty(widgetId, '<Property id="symbol_label_' + index + '" description="Label that will be associated with symbol" name="Symbol Label" type="string" value="Symbol Label" />');
         appendProperty(widgetId, '<Property id="symbol_value_' + index + '" description="Value that will be associated with symbol" name="Symbol Value" type="string" value="--" />');
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -552,7 +546,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlTable.find('Property#' + 'symbol_size_' + index).remove();
         $xmlTable.find('Property#' + 'symbol_label_' + index).remove();
         $xmlTable.find('Property#' + 'symbol_value_' + index).remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
     };
 
@@ -566,7 +559,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         appendProperty(widgetId, '<Property id="target_size_' + index + '" description="Size that will be used for target" name="Target Size" type="integer" value="14" />');
         appendProperty(widgetId, '<Property id="target_label_' + index + '" description="Label that will be associated with target" name="Target Label" type="string" value="Target Label" />');
         appendProperty(widgetId, '<Property id="target_data_' + index + '" description="The data for target" name="Target 1 Data" type="string" value="value" />');
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -579,7 +571,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlTable.find('Property#' + 'target_size_' + index).remove();
         $xmlTable.find('Property#' + 'target_label_' + index).remove();
         $xmlTable.find('Property#' + 'target_data_' + index).remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
     };
 
@@ -590,7 +581,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var index = s4();
         appendProperty(widgetId, '<Property id="break_color_' + index + '" description="Colour that will be used for break" name="Break Colour" type="colour" value="#e7e7e7" />');
         appendProperty(widgetId, '<Property id="break_label_' + index + '" description="Label that will be associated with break" name="Break Label" type="string" value="Break Label" />');
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -600,7 +590,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         $xmlTable.find('Property#' + 'break_color_' + index).remove();
         $xmlTable.find('Property#' + 'break_label_' + index).remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
     };
 
@@ -612,7 +601,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         appendProperty(widgetId, '<Property id="line_color_' + index + '" description="Colour that will be used for the line" name="Line Colour" type="colour" value="#999999" />');
         appendProperty(widgetId, '<Property id="line_label_' + index + '" description="Label that will be associated with the line" name="Line Label" type="string" value="Line Label" />');
         appendProperty(widgetId, '<Property id="line_value_' + index + '" description="Value that will be associated with the line" name="Line Value" type="string" value="value" />');
-
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
     };
 
@@ -623,7 +611,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlComponent.find('Property#' + 'line_color_' + index).remove();
         $xmlComponent.find('Property#' + 'line_label_' + index).remove();
         $xmlComponent.find('Property#' + 'line_value_' + index).remove();
-
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlComponent);
     };
 

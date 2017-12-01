@@ -106,7 +106,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             return o[prop] == value;
         });
-        return arrFilter[0];
+        if (arrFilter.length === 0) return undefined;
+        else return arrFilter[0];
     };
 
     // Electron.

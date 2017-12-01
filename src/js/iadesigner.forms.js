@@ -2,7 +2,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
-	iad.configform = iad.configform || {};
+	iad.forms = iad.forms || {};
 
     // Passed in options.
     var options;
@@ -151,14 +151,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
     ];
 
     // Update data options.
-    iad.configform.updateDataLists = function ()
+    iad.forms.updateDataLists = function ()
     {
         updateAssociateOptions();
         updatePropertyOptions();
     };
 
     // Update javascript options.
-    iad.configform.updateJavaScriptOptions = function ()
+    iad.forms.updateJavaScriptOptions = function ()
     {
         arrJavaScriptOptions =
         [
@@ -237,7 +237,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     }
 
     // Initialise.
-    iad.configform.init = function(o)
+    iad.forms.init = function(o)
     {
         options = o; 
 
@@ -252,7 +252,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             // Fix for accordion collapse bug https://github.com/openam/bootstrap-responsive-tabs/issues/45
             $container.on('show.bs.collapse', '.iad-collapse', function (e) 
             {
-
                 $(e.target).closest('.panel').siblings().find('.panel-collapse').collapse('hide');
             });
             $container.on('shown.bs.collapse', '.iad-collapse', function (e)
@@ -262,7 +261,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 {
                     doScroll = false;
                     if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
-                        iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
+                        iad.forms.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
 
                     $container.parent().css('visibility','visible');
                     if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
@@ -298,31 +297,31 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Scrolls to position in form.
-    iad.configform.scrollTo = function(scrollPos)
+    iad.forms.scrollTo = function(scrollPos)
     {
         if (options && options.container) $container.parent().scrollTop(scrollPos);        
     };
 
     // Scrolls to position in form.
-    iad.configform.scrollToBottom = function(scrollPos)
+    iad.forms.scrollToBottom = function(scrollPos)
     {
-        if (options && options.container) iad.configform.scrollTo($container.parent()[0].scrollHeight);        
+        if (options && options.container) iad.forms.scrollTo($container.parent()[0].scrollHeight);        
     };
 
     // Refreshes the current form.
-    iad.configform.refresh = function()
+    iad.forms.refresh = function()
     {
         if (options && options.container) 
         {
             if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
-                iad.configform.showPropertyGroupForm();
+                iad.forms.showPropertyGroupForm();
             else 
-                iad.configform.showWidgetForm(activeWidgetId);                        
+                iad.forms.showWidgetForm(activeWidgetId);                        
         }       	
     };
 
     // Displays the form for the property groups.
-    iad.configform.showPropertyGroupForm = function()
+    iad.forms.showPropertyGroupForm = function()
     {
         activeWidgetId = 'PropertyGroup';
 
@@ -337,7 +336,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var id = $xmlPropGroup.attr('id');
             //if (id !== 'thematics' && id !== 'pointSymbols' && id !== 'lineSymbols' && id !== 'thematics2' && id !== 'pointSymbols2' && id !== 'lineSymbols2')
             //{
-                var jsonForm = iad.configform.getPropertyGroupForm($xmlPropGroup);
+                var jsonForm = iad.forms.getPropertyGroupForm($xmlPropGroup);
                 if (jsonForm.controls.length > 0) json.forms[json.forms.length] = jsonForm;
             //}
         });
@@ -346,7 +345,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Displays the form for the given widget.
-    iad.configform.showWidgetForm = function(widgetId)
+    iad.forms.showWidgetForm = function(widgetId)
     {
         activeWidgetId = widgetId;
 
@@ -471,7 +470,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
                 else if (oFormDisplayProperties[activeWidgetId].scrollPos !== undefined) 
                 {
-                    iad.configform.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
+                    iad.forms.scrollTo(oFormDisplayProperties[activeWidgetId].scrollPos);
                     $container.parent().css('visibility','visible');
                     if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
                 }
@@ -486,7 +485,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }        
                 else
                 {
-                    iad.configform.scrollTo(0);
+                    iad.forms.scrollTo(0);
                     $container.parent().css('visibility','visible');
                     if (options && options.onFormChanged) options.onFormChanged.call(null, activeWidgetId);
                 }    
@@ -495,7 +494,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     }
 
     // Returns a property group form.
-    iad.configform.getPropertyGroupForm = function($xmlPropGroup)
+    iad.forms.getPropertyGroupForm = function($xmlPropGroup)
     {
         var form = 
         {

@@ -29,37 +29,43 @@ var iadesigner = (function (iad, $, window, document, undefined)
         iad.report.lessPath = iad.report.path+'/style.json';
         iad.report.stylePath = iad.report.path+'/default.css';
         iad.report.customPath = iad.report.path+'/custom.js';
+        iad.report.mapPath = iad.report.path+'/map.js';
+        iad.report.mapPath = iad.report.path+'/map.js';
+        iad.report.dataPath = iad.report.path+'/data.js';
 
-        readXmlFile(options.path, function (xml)
+        iad.mapjson.read(iad.report.mapPath, function (jsonMap)
         {
-            addMissingComponentsToXml(xml, function()
+            readXmlFile(options.path, function (xml)
             {
-                ia.init(
+                addMissingComponentsToXml(xml, function()
                 {
-                    container: options.container,
-                    onSuccess: function (r)
+                    ia.init(
                     {
-                        report = r;
-                        loadStyleFile(function ()
+                        container: options.container,
+                        onSuccess: function (r)
                         {
-                            loadCustomFile(function ()
+                            report = r;
+                            loadStyleFile(function ()
                             {
-                                if (options && options.onReportInit) options.onReportInit.call(null, report);
-                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
-                                onConfigLoaded();
+                                loadCustomFile(function ()
+                                {
+                                    if (options && options.onReportInit) options.onReportInit.call(null, report);
+                                    if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
+                                    onConfigLoaded();
+                                });
                             });
-                        });
-                    },
-                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                    {
-                        if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
-                    },
-                    data:
-                    {
-                        config      : {xml:xml},
-                        attribute   : {source:iad.report.path+'/data.js'},
-                        map         : {source:iad.report.path+'/map.js'}
-                    }
+                        },
+                        onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
+                        },
+                        data:
+                        {
+                            config      : {xml:xml},
+                            attribute   : {source:iad.report.dataPath},
+                            map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
+                        }
+                    });
                 });
             });
         });
@@ -73,30 +79,35 @@ var iadesigner = (function (iad, $, window, document, undefined)
         iad.report.lessPath = iad.report.path+'/style.json';
         iad.report.stylePath = iad.report.path+'/default.css';
         iad.report.customPath = iad.report.path+'/custom.js';
+        iad.report.mapPath = iad.report.path+'/map.js';
+        iad.report.dataPath = iad.report.path+'/data.js';
 
         preConfigLoaded(function()
         {
-            readXmlFile(configPath, function (xml)
+            iad.mapjson.read(iad.report.mapPath, function (jsonMap)
             {
-                addMissingComponentsToXml(xml, function()
+                readXmlFile(configPath, function (xml)
                 {
-                    ia.update(
+                    addMissingComponentsToXml(xml, function()
                     {
-                        data:
+                        ia.update(
                         {
-                            config      : {xml:xml},
-                            attribute   : {source:iad.report.path+'/data.js'},
-                            map         : {source:iad.report.path+'/map.js'}
-                        }
-                    }, 
-                    function() 
-                    {
-                        loadStyleFile(function ()
-                        {
-                            loadCustomFile(function ()
+                            data:
                             {
-                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
-                                onConfigLoaded(); 
+                                config      : {xml:xml},
+                                attribute   : {source:iad.report.dataPath},
+                                map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
+                            }
+                        }, 
+                        function() 
+                        {
+                            loadStyleFile(function ()
+                            {
+                                loadCustomFile(function ()
+                                {
+                                    if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                                    onConfigLoaded(); 
+                                });
                             });
                         });
                     });
@@ -151,10 +162,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         fs.stat(iad.report.lessPath, function(err, stat) 
         {
-            if (err === null)  iad.css.readLessVarsFile(iad.report.lessPath, function()
+            if (err === null)  
             {
-                callback.call(null);
-            });
+                iad.css.readLessVarsFile(iad.report.lessPath, function()
+                {
+                    callback.call(null);
+                });
+            }
             else callback.call(null);
         });
     }

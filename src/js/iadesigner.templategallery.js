@@ -2,10 +2,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
 {
     'use strict';
 
-	iad.configgallery = iad.configgallery || {};
+	iad.templategallery = iad.templategallery || {};
 
 	// Initialise thumbnail gallery.
-	iad.configgallery.init = function(options)
+	iad.templategallery.init = function(options)
 	{
 		var $container = $(options.container);
 
@@ -53,7 +53,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		});
 
 		// Preview click.
-		$('.iad-config-gallery-preview-btn')
+		$('.iad-template-gallery-preview-btn')
 		.on('click', function(e) // Open the a live report preview in a new tab.
 		{
 			var report = reportHash[reportId];
@@ -62,7 +62,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 		});
 
 		// Apply click.
-		$('.iad-config-gallery-apply-btn')
+		$('.iad-template-gallery-apply-btn')
 		.on('click', function(e) // Apply the selected config file.
 		{
 			var report = reportHash[reportId];

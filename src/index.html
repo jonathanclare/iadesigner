@@ -274,8 +274,8 @@
                     <div class="iad-sidebar-title"><span class="fa fa-bar-chart"></span>&nbsp;&nbsp;<span>Templates</span></div>
                 </div>
                 <div class="iad-sidebar-content iad-sidebar-content-with-footer">
-                    <div id="iad-config-gallery">
-                        <!-- populated by config-gallery.handlebars -->
+                    <div id="iad-template-gallery">
+                        <!-- populated by template-gallery.handlebars -->
                     </div>
                 </div>
                 <div class="iad-sidebar-footer">
@@ -310,7 +310,9 @@
                     <div class="iad-sidebar-title"><span class="fa fa-map-o"></span>&nbsp;&nbsp;<span>Map Layers</span></div>
                 </div>
                 <div class="iad-sidebar-content iad-sidebar-content-with-footer">
-
+                    <div id="iad-form-layer-properties">
+                        <!-- populated by iadesigner.mapform.js -->
+                    </div>
                 </div>
                 <div class="iad-sidebar-footer">
                     <button type="button" class="btn btn-default iad-sidebar-undo-btn"><i class="fa fa-undo"></i>&nbsp;Undo</button>
@@ -682,13 +684,13 @@
         <script src="./js/handlebars.templates.js"></script>
         <script src="./js/iadesigner.defaults.js"></script>
         <script src="./js/iadesigner.main.js"></script>
-        <script src="./js/iadesigner.configgallery.js"></script>
+        <script src="./js/iadesigner.templategallery.js"></script>
         <script src="./js/iadesigner.widgetgallery.js"></script>
         <script src="./js/iadesigner.canvas.js"></script>
         <script src="./js/iadesigner.report.js"></script>
         <script src="./js/iadesigner.config.js"></script>
         <script src="./js/iadesigner.css.js"></script>
-        <script src="./js/iadesigner.configform.js"></script>
+        <script src="./js/iadesigner.forms.js"></script>
         <script src="./js/iadesigner.formcontrols.js"></script>
         <script src="./js/iadesigner.colorpicker.js"></script>
         <script src="./js/iadesigner.colorscheme.js"></script>
@@ -702,6 +704,8 @@
         <script src="./js/iadesigner.widgetsidebar.js"></script>
         <script src="./js/iadesigner.bootstrap.js"></script>
         <script src="./js/iadesigner.handlers.js"></script>
+        <script src="./js/iadesigner.mapjson.js"></script>
+        <script src="./js/iadesigner.mapform.js"></script>
         <!-- /build -->
 
         <!-- build:template 

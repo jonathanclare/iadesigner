@@ -83,7 +83,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Load in a less variables file.
     iad.css.readLessVarsFile = function(srcLessVars, callback)
     {
-        // Read in less variables from AGOL on initial page load.
         $.getJSON(srcLessVars)
         .done(function(jsonLessVars)
         {

@@ -1,55 +1,5 @@
 this["iadesigner"] = this["iadesigner"] || {};
 
-this["iadesigner"]["config-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
-  "	<div id=\""
-    + alias4(((helper = (helper = helpers.galleryId || (depth0 != null ? depth0.galleryId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"galleryId","hash":{},"data":data}) : helper)))
-    + "\" class=\"iad-gallery\" "
-    + ((stack1 = helpers["if"].call(alias1,(data && data.first),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ">\r\n		<div class=\"iad-gallery-header\">"
-    + alias4(((helper = (helper = helpers.header || (depth0 != null ? depth0.header : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"header","hash":{},"data":data}) : helper)))
-    + "</div>\r\n		<div class=\"iad-gallery-description\">"
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\r\n\r\n		<div class=\"row\">\r\n\r\n";
-  stack1 = ((helper = (helper = helpers.reports || (depth0 != null ? depth0.reports : depth0)) != null ? helper : alias2),(options={"name":"reports","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
-  if (!helpers.reports) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\r\n		</div>\r\n	</div>\r\n";
-},"2":function(container,depth0,helpers,partials,data) {
-    return "style=\"border-width:0px\"";
-},"4":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "				<!--div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\"-->\r\n					<div class=\"iad-thumbnail-header\">"
-    + alias4(((helper = (helper = helpers.header || (depth0 != null ? depth0.header : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"header","hash":{},"data":data}) : helper)))
-    + "</div>\r\n					<div id=\""
-    + alias4(((helper = (helper = helpers.reportId || (depth0 != null ? depth0.reportId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"reportId","hash":{},"data":data}) : helper)))
-    + "\" class=\"thumbnail iad-thumbnail\">\r\n						<img src=\""
-    + alias4((helpers.screenshotPath || (depth0 && depth0.screenshotPath) || alias2).call(alias1,depth0,{"name":"screenshotPath","hash":{},"data":data}))
-    + "\" alt=\""
-    + alias4((helpers.screenshotPath || (depth0 && depth0.screenshotPath) || alias2).call(alias1,depth0,{"name":"screenshotPath","hash":{},"data":data}))
-    + "\"></img>\r\n						<div class=\"iad-thumbnail-hover\">\r\n							<div class=\"iad-thumbnail-info\">\r\n								<div class=\"iad-thumbnail-description\">"
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\r\n							</div>\r\n							<div class=\"iad-thumbnail-btns\">\r\n"
-    + ((stack1 = helpers["with"].call(alias1,((stack1 = (depths[2] != null ? depths[2].thumbnail : depths[2])) != null ? stack1.buttons : stack1),{"name":"with","hash":{},"fn":container.program(5, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "							</div>\r\n						</div>\r\n					</div>\r\n				<!--/div-->\r\n";
-},"5":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "									<button type=\"button\" class=\"iad-config-gallery-preview-btn btn btn-xs btn-default\" ><span class=\"fa fa-fw fa-search\"></span>&nbsp;&nbsp;"
-    + alias4(((helper = (helper = helpers.preview || (depth0 != null ? depth0.preview : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview","hash":{},"data":data}) : helper)))
-    + "</button>\r\n									<button type=\"button\" class=\"iad-config-gallery-apply-btn btn btn-xs btn-info\"><span class=\"fa fa-fw fa-check\"></span>&nbsp;&nbsp;"
-    + alias4(((helper = (helper = helpers.apply || (depth0 != null ? depth0.apply : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"apply","hash":{},"data":data}) : helper)))
-    + "</button>\r\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, options, buffer = "";
-
-  stack1 = ((helper = (helper = helpers.galleries || (depth0 != null ? depth0.galleries : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"galleries","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),options) : helper));
-  if (!helpers.galleries) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
-  if (stack1 != null) { buffer += stack1; }
-  return buffer;
-},"useData":true,"useDepths":true});
-
 this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.escapeExpression, alias3=helpers.helperMissing, alias4="function", buffer = 
   ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.description : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -1003,6 +953,56 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
   if (!helpers.forms) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\r\n</div>";
+},"useData":true,"useDepths":true});
+
+this["iadesigner"]["template-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
+  "	<div id=\""
+    + alias4(((helper = (helper = helpers.galleryId || (depth0 != null ? depth0.galleryId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"galleryId","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-gallery\" "
+    + ((stack1 = helpers["if"].call(alias1,(data && data.first),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ">\r\n		<div class=\"iad-gallery-header\">"
+    + alias4(((helper = (helper = helpers.header || (depth0 != null ? depth0.header : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"header","hash":{},"data":data}) : helper)))
+    + "</div>\r\n		<div class=\"iad-gallery-description\">"
+    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\r\n\r\n		<div class=\"row\">\r\n\r\n";
+  stack1 = ((helper = (helper = helpers.reports || (depth0 != null ? depth0.reports : depth0)) != null ? helper : alias2),(options={"name":"reports","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
+  if (!helpers.reports) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\r\n		</div>\r\n	</div>\r\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    return "style=\"border-width:0px\"";
+},"4":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "				<!--div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\"-->\r\n					<div class=\"iad-thumbnail-header\">"
+    + alias4(((helper = (helper = helpers.header || (depth0 != null ? depth0.header : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"header","hash":{},"data":data}) : helper)))
+    + "</div>\r\n					<div id=\""
+    + alias4(((helper = (helper = helpers.reportId || (depth0 != null ? depth0.reportId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"reportId","hash":{},"data":data}) : helper)))
+    + "\" class=\"thumbnail iad-thumbnail\">\r\n						<img src=\""
+    + alias4((helpers.screenshotPath || (depth0 && depth0.screenshotPath) || alias2).call(alias1,depth0,{"name":"screenshotPath","hash":{},"data":data}))
+    + "\" alt=\""
+    + alias4((helpers.screenshotPath || (depth0 && depth0.screenshotPath) || alias2).call(alias1,depth0,{"name":"screenshotPath","hash":{},"data":data}))
+    + "\"></img>\r\n						<div class=\"iad-thumbnail-hover\">\r\n							<div class=\"iad-thumbnail-info\">\r\n								<div class=\"iad-thumbnail-description\">"
+    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\r\n							</div>\r\n							<div class=\"iad-thumbnail-btns\">\r\n"
+    + ((stack1 = helpers["with"].call(alias1,((stack1 = (depths[2] != null ? depths[2].thumbnail : depths[2])) != null ? stack1.buttons : stack1),{"name":"with","hash":{},"fn":container.program(5, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "							</div>\r\n						</div>\r\n					</div>\r\n				<!--/div-->\r\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "									<button type=\"button\" class=\"iad-template-gallery-preview-btn btn btn-xs btn-default\" ><span class=\"fa fa-fw fa-search\"></span>&nbsp;&nbsp;"
+    + alias4(((helper = (helper = helpers.preview || (depth0 != null ? depth0.preview : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview","hash":{},"data":data}) : helper)))
+    + "</button>\r\n									<button type=\"button\" class=\"iad-template-gallery-apply-btn btn btn-xs btn-info\"><span class=\"fa fa-fw fa-check\"></span>&nbsp;&nbsp;"
+    + alias4(((helper = (helper = helpers.apply || (depth0 != null ? depth0.apply : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"apply","hash":{},"data":data}) : helper)))
+    + "</button>\r\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, options, buffer = "";
+
+  stack1 = ((helper = (helper = helpers.galleries || (depth0 != null ? depth0.galleries : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"galleries","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),options) : helper));
+  if (!helpers.galleries) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true,"useDepths":true});
 
 this["iadesigner"]["widget-gallery.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
