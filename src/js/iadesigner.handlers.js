@@ -182,7 +182,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     function editWidget(id)
     {
-        if (id !== undefined) iad.widgetsidebar.show(id);
+        if (id !== undefined) iad.widgetproperties.show(id);
     }
 
     function addWidget(type)

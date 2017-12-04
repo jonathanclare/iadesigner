@@ -11,7 +11,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     var app = remote.app;
 
     var iaReport; // The IA report object.
-    var onPropertyAdded = true; // Indicates a column, target, symbol, menu item etc. has been added to a table.
 
     iad.init = function(options)
     {
@@ -41,7 +40,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initCanvas();
                         initColorPicker();
                         initFormControls();
-                        initConfigForms();
+                        initConfigForms(settings.configForms);
                         initFile();
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
@@ -301,7 +300,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (storeSelectedWidgetId !== undefined) 
                     iad.canvas.select(storeSelectedWidgetId);
                 else 
-                    iad.forms.refresh();
+                    iad.widgetproperties.refresh();
                 storeSelectedWidgetId = undefined;
 
                 iad.progress.end('load');
@@ -433,17 +432,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
-                onPropertyAdded = true;
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.forms.refresh();
+                    iad.widgetproperties.refresh(true);
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.forms.refresh();
+                    iad.widgetproperties.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -551,22 +549,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function initConfigForms()
+    function initConfigForms(options)
     {
-        iad.forms.init(
+        iad.widgetproperties.init(
         {
-            report : iaReport,
             container: '#iad-form-widget-properties',
-            template: 'forms.handlebars',
-            onFormChanged: function (widgetId)
-            {
-                if (onPropertyAdded === true) 
-                {
-                    onPropertyAdded = false;
-                    iad.forms.scrollToBottom();
-                }
-            }
+            template: 'forms.handlebars'
         });
+
+        var cOptions = $.extend({}, options, {report : iaReport}); 
+        iad.configforms.init(cOptions);
     }
 
     function initFormControls()
@@ -642,7 +634,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (widgetId !== iad.config.selectedWidgetId)
                 {
                     iad.config.selectedWidgetId = widgetId;
-                    iad.widgetsidebar.edit(widgetId);
+                    iad.widgetproperties.edit(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -656,7 +648,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {     
                 $nav.hide();
                 iad.config.selectedWidgetId = undefined;
-                iad.widgetsidebar.edit('PropertyGroup');
+                iad.widgetproperties.edit('PropertyGroup');
             },
             onDragEnd: function (widgetId, x, y)
             {
@@ -779,10 +771,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function updateDropdownMenus()
     {
-        iad.forms.updateJavaScriptOptions();
-
-        // Update widget properties.
-
         // Sort widgets by name.
         var $xmlWidgets = iad.config.getComponents();
         $xmlWidgets.sort(function(a, b)

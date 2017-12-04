@@ -1,4 +1,4 @@
-var iadesigner = (function (iad, undefined)
+iadesigner = (function (iad, undefined)
 {
     'use strict';
 
@@ -15,7 +15,138 @@ var iadesigner = (function (iad, undefined)
         // Locale
         locale:'en',
 
-        // Config.
+        configForms:
+        {
+            // Lists the config properties that should use a text area for long text.
+            useTextArea:             
+            [
+                'title', 'tip', 'tip2', 'xAxisTitle', 'yAxisTitle', 'text'
+            ],
+            // Lists the config properties to exclude.
+            excludeProperties:
+            [
+                'minChartValue', 'maxChartValue', 'minChartValueX', 'minChartValueY', 'maxChartValueX', 'maxChartValueY', 'metadataKey',
+                'customClassifierKey', 'customColoursKey', 'customBreaksKey', 'customLabelsKey', 'customPaletteKey',
+                'customClassifierKey2', 'customColoursKey2', 'customBreaksKey2', 'customLabelsKey2', 'customPaletteKey2',
+                'breakData', 'breakFlipData', 'useMouseClick', 'expandedThemeIds',
+                'googleGreyscaleText', 'googleOffText', 'includeSearchTool', 'backgroundMappingPath', 'clearButtonText', 'filterButtonText',
+                'sd1', 'sd2', 'sd3', 'sd4', 'sd5', 'sd6', 'sdSize',
+                'equalInterval', 'quantile', 'natural', 'continuous', 'standardDeviation',
+                'legendBreaks', 'legendLabels', 'legendBreaks2', 'legendLabels2', 'mapPalette2',
+                'saveImageText', 'emailReportText', 'embedReportText',
+                'showLegendTypePanel', 'showLegendTools', 'showPalettePanel', 'showSizePanel',
+                'zIndex', 'isExportable', 'notAvailableText', 'allowUserSorting',
+                'barData', 'barHeight', 'barColor',
+                'minValue', 'midValue', 'maxValue',
+                'ignoreThemeIds', 'ignoreIndicatorIds',
+                'syncDates',
+                'target_','symbol_','break_','line_'
+            ],
+            // Lists the config properties that require a data dropdown menu.
+            requireDataDropdown:                
+            [
+                'data', 'data2', 'xData', 'yData', 'sizeData',
+                'largestObservationField', 'upperQuartileField', 'medianField', 'lowerQuartileField', 'smallestObservationField',
+                'target_data_1', 'target_data_2', 'target_data_3', 'target_data_4', 'barData'
+            ],
+            // Lists the config properties that require a substitution variable dropdown menu. 
+            requireSubVarDropdown:              
+            [
+                'title', 'xAxisTitle', 'yAxisTitle', 'text'
+            ],
+            // Lists the config properties that require a tootltip dropdown menu. 
+            requireTipDropdown:           
+            [
+                'tip', 'tip2'
+            ],
+            // Lists the config properties that require a data properties dropdown menu.
+            requirePropertiesDropdown:             
+            [
+                'minChartValue', 'maxChartValue', 'minChartValueX', 'minChartValueY', 'maxChartValueX', 'maxChartValueY', 'metadataKey',
+                'customClassifierKey', 'customColoursKey', 'customBreaksKey', 'customLabelsKey', 'customPaletteKey',
+                'customClassifierKey2', 'customColoursKey2', 'customBreaksKey2', 'customLabelsKey2', 'customPaletteKey2',
+                'breakData', 'breakFlipData'
+            ],
+            // Lists the config properties that require a javascript functions dropdown menu.
+            requireJavaScriptDropdown:           
+            [
+                'menuFunc1', 'menuFunc2', 'menuFunc3', 'menuFunc4', 'menuFunc5', 'menuFunc6', 'menuFunc7'
+            ],
+            // Lists the available substitution variables for tooltips for data source 1.
+            tooltipOptions:            
+            [
+                { 'header': 'Substitution variables' },
+                { 'label': 'Feature name', 'value': '${featureName}' },
+                { 'label': 'Indicator value', 'value': '${indicatorValue}' }
+            ],
+             // Lists the available substitution variables for tooltips for data source 2.
+            tooltipOptions2:          
+            [
+                { 'header': 'Substitution variables' },
+                { 'label': 'Feature name', 'value': '${featureName2}' },
+                { 'label': 'Indicator value', 'value': '${indicatorValue2}' }
+            ],
+            // Lists the available substitution variables for data source 1.
+            subVarOptions:    
+            [
+                { 'header': 'Substitution variables' },
+                { 'divider': 'true', 'header': 'Updated when the data changes' },
+                { 'label': 'Geography name', 'value': '${geogName}' },
+                { 'label': 'Theme name', 'value': '${themeName}' },
+                { 'label': 'Indicator name', 'value': '${indicatorName}' },
+                { 'label': 'Date', 'value': '${date}' },
+                { 'divider': 'true', 'header': 'Updated when the legend type changes' },
+                { 'label': 'Legend type', 'value': '${legendType}' },
+                { 'divider': 'true', 'header': 'Updated when the selected feature changes' },
+                { 'label': 'Selected feature', 'value': '${selectedFeature}' },
+                { 'divider': 'true', 'header': 'Stats - updated when the data changes' },
+                { 'label': 'Mean', 'value': '${mean}' },
+                { 'label': 'Median', 'value': '${median}' },
+                { 'label': 'Sum', 'value': '${sum}' },
+                { 'label': 'Min value', 'value': '${minValue}' },
+                { 'label': 'Max value', 'value': '${maxValue}' },
+                { 'label': 'Range', 'value': '${range}' },
+                { 'label': 'Lower quartile', 'value': '${lowerQuartile}' },
+                { 'label': 'Upper quartile', 'value': '${upperQuartile}' },
+                { 'label': 'Interquartile range', 'value': '${interquartileRange}' },
+                { 'label': 'Variance', 'value': '${variance}' },
+                { 'label': 'Standard deviation', 'value': '${standardDeviation}' }
+            ],
+            // Lists the available substitution variables for data source 2.
+            subVarOptions2:   
+            [
+                { 'header': 'Substitution variables' },
+                { 'divider': 'true', 'header': 'Updated when the data changes' },
+                { 'label': 'Geography name', 'value': '${geogName2}' },
+                { 'label': 'Theme name', 'value': '${themeName2}' },
+                { 'label': 'Indicator name', 'value': '${indicatorName2}' },
+                { 'label': 'Date', 'value': '${date2}' },
+                { 'divider': 'true', 'header': 'Updated when the legend type changes' },
+                { 'label': 'Legend type', 'value': '${legendType2}' },
+                { 'divider': 'true', 'header': 'Updated when the selected feature changes' },
+                { 'label': 'Selected feature', 'value': '${selectedFeature2}' },
+                { 'divider': 'true', 'header': 'Stats - updated when the data changes' },
+                { 'label': 'Mean', 'value': '${mean2}' },
+                { 'label': 'Median', 'value': '${median2}' },
+                { 'label': 'Sum', 'value': '${sum2}' },
+                { 'label': 'Min value', 'value': '${minValue2}' },
+                { 'label': 'Max value', 'value': '${maxValue2}' },
+                { 'label': 'Range', 'value': '${range2}' },
+                { 'label': 'Lower quartile', 'value': '${lowerQuartile2}' },
+                { 'label': 'Upper quartile', 'value': '${upperQuartile2}' },
+                { 'label': 'Interquartile range', 'value': '${interquartileRange2}' },
+                { 'label': 'Variance', 'value': '${variance2}' },
+                { 'label': 'Standard deviation', 'value': '${standardDeviation2}' }
+            ],
+            javaScriptOptions:
+            [
+                {'label': 'Print Preview', 'value': 'javascript:iaOpenPrintPreview()'},
+                {'label': 'Toggle Share', 'value': 'javascript:iaToggleShare()'},
+                {'label': 'Toggle Legend Editor', 'value': 'javascript:iaToggleLegendEditor()'}
+            ]
+        },
+
+        // Report.
         report:
         {
             path:'config/en/db-single-map/config.xml', // Path of default report to load.
