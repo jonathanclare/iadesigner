@@ -565,58 +565,50 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.formcontrols.init(
         {
-            onPropertyChanged: function (controlId, tagName, widgetId, propertyId, newValue, attribute)
+            onPropertyChanged: function (formType, formId, propId, propValue)
             {
                 /*
-                console.log('controlId: '+controlId);
-                console.log('tagName: '+tagName);
-                console.log('widgetId: '+widgetId);
-                console.log('propertyId: '+propertyId);
-                console.log('newValue: '+newValue);
-                console.log('attribute: '+attribute);
+                console.log('formType: '+formType);
+                console.log('formId: '+formId);
+                console.log('propId: '+propId);
+                console.log('propValue: '+propValue);
                 */
 
-                if (tagName === 'Column')
+                if (formType === 'Column')
                 {
-                    if (attribute === 'alias' || attribute === 'name' || attribute === 'symbol' || attribute === 'width' || attribute === 'national')
-                    {
-                        iad.config.setColumnProperty(controlId, widgetId, propertyId, attribute, newValue);
-                    }
+                    if (propId === 'alias' || propId === 'name' || propId === 'symbol' || propId === 'width' || propId === 'national')
+                        iad.config.setColumnProperty(propId, formId, data.columnIndex, propId, propValue);
                     else
-                    {
-                        iad.config.setWidgetProperty(widgetId, propertyId, newValue); // Special spine chart column properties like min, mid ,max labels.
-                    }
+                        iad.config.setWidgetProperty(formId, propId, propValue); // Special spine chart column properties like min, mid ,max labels.
                 }
-                else if (tagName === 'Component' || tagName === 'Table')
-                {                    
-                    iad.config.setWidgetProperty(widgetId, propertyId, newValue);
+                else if (formType === 'Component' || formType === 'Table')
+                {          
+                    iad.config.setWidgetProperty(formId, propId, propValue);
                 }  
-                else if (tagName === 'Button' || tagName === 'Image' || tagName === 'Text') 
+                else if (formType === 'Button' || formType === 'Image' || formType === 'Text') 
                 {
-                    iad.config.setWidgetAttribute(widgetId, propertyId, newValue);
+                    iad.config.setWidgetAttribute(formId, propId, propValue);
                 }
-                else if (tagName == 'PropertyGroup')
+                else if (formType == 'PropertyGroup')
                 {
-                    iad.config.setGroupProperty(widgetId, propertyId, newValue);
+                    iad.config.setGroupProperty(formId, propId, propValue);
                 }
-                else if (tagName == 'MapPalettes')
+                else if (formType == 'MapPalettes')
                 {
 
                 }
-                else // Css control.    
+                else if (formType == 'MapLayers')
                 {
-                    if (iad.util.isNumeric(newValue))
+
+                }
+                else if (formType == 'CSS')    
+                {
+                    if (iad.util.isNumeric(propValue))
                     {
-                        if (newValue < 0) newValue = 0;
-                        newValue = newValue + 'px';
+                        if (propValue < 0) propValue = 0;
+                        propValue = propValue + 'px';
                     }
-                    iad.css.setProperty(tagName, newValue);
-                }
-
-                // Dynamically update thematics.
-                if (widgetId && (widgetId.indexOf('thematics') !== -1 || widgetId.indexOf('pointSymbols') !== -1 || widgetId.indexOf('lineSymbols') !== -1))
-                {
-                    //iad.legendform.updateProperty(propertyId, attribute, newValue);
+                    iad.css.setProperty(propId, propValue);
                 }
             }
         });

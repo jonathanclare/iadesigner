@@ -22,80 +22,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         options = o; 
     };
 
-    // Update javascript options.
-    function updateJavaScriptOptions()
-    {
-        arrJavaScriptOptions = options.javaScriptOptions.concat();
-        var $xmlWidgets = iad.config.getComponents();
-        $.each($xmlWidgets, function (i, xmlWidget)
-        {
-            var $xmlWidget = $(xmlWidget);
-            var id = $xmlWidget.attr('id');
-            var name = $xmlWidget.attr('name');
-            var vis = $xmlWidget.attr('visible');
-            if (vis == 'true') arrJavaScriptOptions[arrJavaScriptOptions.length] = { 'label': 'Toggle ' + name, 'value': 'javascript:iaToggle(' + id + ')' };
-        });
-    }
-
-    // Update the associate options.
-    function updateAssociateOptions()
-    {
-        var arr = [];
-        var arrAssociateOptions = [];
-
-        var geos = options.report.data.getGeographies();
-        for (var g = 0; g < geos.length; g++)
-        {
-            var themes = geos[g].getThemes();
-            for (var i = 0; i < themes.length; i++)
-            {
-                var indicators = themes[i].getIndicators();
-                for (var j = 0; j < indicators.length; j++)
-                {
-                    var associates = indicators[j].getAssociates();
-                    for (var k = 0; k < associates.length; k++)
-                    {
-                        var ass = associates[k];
-                        if (arr.indexOf(ass.id) == -1)
-                        {
-                            arr[arr.length] = ass.id;
-                            arrAssociateOptions[arrAssociateOptions.length] = { 'label': ass.id, 'value': ass.id };
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Update the property options.
-    function updatePropertyOptions()
-    {
-        var arr = [];
-        var arrPropertyOptions = [];
-
-        var geos = options.report.data.getGeographies();
-        for (var g = 0; g < geos.length; g++)
-        {
-            var themes = geos[g].getThemes();
-            for (var i = 0; i < themes.length; i++)
-            {
-                var indicators = themes[i].getIndicators();
-                for (var j = 0; j < indicators.length; j++)
-                {
-                    var properties = indicators[j].getProperties();
-                    for (var propName in properties)
-                    {
-                        if (arr.indexOf(propName) == -1 && propName != 'undefined')
-                        {
-                            arr[arr.length] = propName;
-                            arrPropertyOptions[arrPropertyOptions.length] = { 'label': propName, 'value': propName };
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // Returns the form for the property groups.
     iad.configforms.getPropertyGroupsForm = function()
     {
@@ -169,6 +95,80 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return json;
     };
 
+    // Update javascript dropdown options.
+    function updateJavaScriptOptions()
+    {
+        arrJavaScriptOptions = options.javaScriptOptions.concat();
+        var $xmlWidgets = iad.config.getComponents();
+        $.each($xmlWidgets, function (i, xmlWidget)
+        {
+            var $xmlWidget = $(xmlWidget);
+            var id = $xmlWidget.attr('id');
+            var name = $xmlWidget.attr('name');
+            var vis = $xmlWidget.attr('visible');
+            if (vis == 'true') arrJavaScriptOptions[arrJavaScriptOptions.length] = { 'label': 'Toggle ' + name, 'value': 'javascript:iaToggle(' + id + ')' };
+        });
+    }
+
+    // Update the associate dropdown options.
+    function updateAssociateOptions()
+    {
+        var arr = [];
+        var arrAssociateOptions = [];
+
+        var geos = options.report.data.getGeographies();
+        for (var g = 0; g < geos.length; g++)
+        {
+            var themes = geos[g].getThemes();
+            for (var i = 0; i < themes.length; i++)
+            {
+                var indicators = themes[i].getIndicators();
+                for (var j = 0; j < indicators.length; j++)
+                {
+                    var associates = indicators[j].getAssociates();
+                    for (var k = 0; k < associates.length; k++)
+                    {
+                        var ass = associates[k];
+                        if (arr.indexOf(ass.id) == -1)
+                        {
+                            arr[arr.length] = ass.id;
+                            arrAssociateOptions[arrAssociateOptions.length] = { 'label': ass.id, 'value': ass.id };
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Update the property dropdown options.
+    function updatePropertyOptions()
+    {
+        var arr = [];
+        var arrPropertyOptions = [];
+
+        var geos = options.report.data.getGeographies();
+        for (var g = 0; g < geos.length; g++)
+        {
+            var themes = geos[g].getThemes();
+            for (var i = 0; i < themes.length; i++)
+            {
+                var indicators = themes[i].getIndicators();
+                for (var j = 0; j < indicators.length; j++)
+                {
+                    var properties = indicators[j].getProperties();
+                    for (var propName in properties)
+                    {
+                        if (arr.indexOf(propName) == -1 && propName != 'undefined')
+                        {
+                            arr[arr.length] = propName;
+                            arrPropertyOptions[arrPropertyOptions.length] = { 'label': propName, 'value': propName };
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Returns a property group form.
     function getPropertyGroupForm($xmlPropGroup)
     {
@@ -234,25 +234,20 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Returns a property form.
     function getPropertyControl($xmlWidget, $xmlProperty)
     {
+        var propId = $xmlProperty.attr('id');
         var widgetId = $xmlWidget.attr('id');
-
-        var controlPrefix;
         var tagName = $xmlWidget.prop('tagName');
-        if (tagName === 'PropertyGroup')
-            controlPrefix = 'PropertyGroup~' + $xmlWidget.attr('id');
-        else
-            controlPrefix = 'Component~' + $xmlWidget.attr('id');
+        var componentIndex = widgetId.slice(-1);
 
-        var componentIndex = controlPrefix.slice(-1);
-
-        var id = $xmlProperty.attr('id');
         var control = 
         {
-            'id'            : controlPrefix + '~' + id,
+            'id'            : propId,
             'type'          : $xmlProperty.attr('type'),
             'name'          : $xmlProperty.attr('name'),
             'value'         : $xmlProperty.attr('value'),
-            'description'   : $xmlProperty.attr('description')
+            'description'   : $xmlProperty.attr('description'),
+            'form'          : tagName,
+            'widgetId'      : widgetId
         };
         if ($xmlProperty.attr('choices'))
         {
@@ -270,7 +265,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 };
             }
         }
-        else if (options.requireDataDropdown.indexOf(id) !== -1)
+        else if (options.requireDataDropdown.indexOf(propId) !== -1)
         {
             control.type = 'select';
             control.choices = [
@@ -280,30 +275,30 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }];
             if (arrAssociateOptions.length > 0) control.choices = control.choices.concat(arrAssociateOptions);
         }
-        else if (options.requirePropertiesDropdown.indexOf(id) !== -1)
+        else if (options.requirePropertiesDropdown.indexOf(propId) !== -1)
         {
             control.choices = arrPropertyOptions.concat();
             control.type = 'select';
         }
-        else if (options.requireSubVarDropdown.indexOf(id) !== -1)
+        else if (options.requireSubVarDropdown.indexOf(propId) !== -1)
         {
             if (componentIndex === '2')         control.choices = options.subVarOptions2.concat();
             else                                control.choices = options.subVarOptions.concat();
             control.type = 'text-dropdown-append';
         }
-        else if (options.requireTipDropdown.indexOf(id) !== -1)
+        else if (options.requireTipDropdown.indexOf(propId) !== -1)
         {  
-            if (id === 'tip2')                  control.choices = options.tooltipOptions2.concat();
+            if (propId === 'tip2')                  control.choices = options.tooltipOptions2.concat();
             else if (componentIndex === '2')    control.choices = options.tooltipOptions2.concat();
             else                                control.choices = options.tooltipOptions.concat();
             control.type = 'text-dropdown-append';
         }
-        else if (options.requireJavaScriptDropdown.indexOf(id) !== -1)
+        else if (options.requireJavaScriptDropdown.indexOf(propId) !== -1)
         {
             control.choices = arrJavaScriptOptions.concat();
             control.type = 'text-dropdown-replace';
         }
-        else if (id === 'sortColumnName')
+        else if (propId === 'sortColumnName')
         {
             control.type = 'select';
             control.choices = [];
@@ -320,7 +315,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 });
             });
         }
-        else if (id === 'colorSchemeId')
+        else if (propId === 'colorSchemeId')
         {
             control.type = 'select';
             control.choices = [];
@@ -338,12 +333,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
 
         // Special cases.
-        if (options.useTextArea.indexOf(id) !== -1)
+        if (options.useTextArea.indexOf(propId) !== -1)
         {
             control.type = 'textarea-dropdown-append';
         }
-        if (id === 'snippet') control.type = 'textarea-large';
-        if (id === 'ndecimal' || id === 'legendPrecision') control.type = 'integer-select';
+        if (propId === 'snippet') control.type = 'textarea-large';
+        if (propId === 'ndecimal' || propId === 'legendPrecision') control.type = 'integer-select';
 
         return control;
     }
@@ -352,30 +347,35 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getButtonForm($xmlButton)
     {
         var widgetId = $xmlButton.attr('id');
-        var controlId = 'Button~' + widgetId + '~';
         var form = 
         {
             'id': widgetId,
             'name': 'Button',
             'controls': [
             {
-                'id'        : controlId + 'text',
+                'id'        : 'text',
                 'type'      : 'string',
                 'name'      : 'Text',
-                'value'     : $xmlButton.attr('text')
+                'value'     : $xmlButton.attr('text'),
+                'form'          : 'Button',
+                'widgetId'      : widgetId
             },
             {
-                'id'        : controlId + 'href',
+                'id'        : 'href',
                 'type'      : 'text-dropdown-replace',
                 'name'      : 'Hyperlink',
                 'value'     : $xmlButton.attr('href'),
-                'choices'   : arrJavaScriptOptions
+                'choices'   : arrJavaScriptOptions,
+                'form'          : 'Button',
+                'widgetId'      : widgetId
             },
             {
-                'id'        : controlId + 'tooltip',
+                'id'        : 'tooltip',
                 'type'      : 'string',
                 'name'      : 'Tooltip',
-                'value'     : $xmlButton.attr('tooltip')
+                'value'     : $xmlButton.attr('tooltip'),
+                'form'          : 'Button',
+                'widgetId'      : widgetId
             }]
         };
         return form;
@@ -385,7 +385,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getImageForm($xmlImage)
     {
         var widgetId = $xmlImage.attr('id');
-        var controlId = 'Image~' + widgetId + '~';
         var form = 
         {
             'id'        : widgetId,
@@ -393,45 +392,57 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : 
             [
                 {
-                    'id'    : controlId + 'src',
+                    'id'    : 'src',
                     'type'  : 'string',
                     'name'  : 'Source',
-                    'value' : $xmlImage.attr('src')
+                    'value' : $xmlImage.attr('src'),
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'    : controlId + 'href',
+                    'id'    : 'href',
                     'type'  : 'string',
                     'name'  : 'Hyperlink',
-                    'value' : $xmlImage.attr('href')
+                    'value' : $xmlImage.attr('href'),
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 },
                 /*{
-                    'id'        : controlId + 'target', 
+                    'id'        : 'target', 
                     'type'      : 'select', 
                     'name'      : 'Target', 
                     'value'     : $xmlImage.attr('target'),
-                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}]
+                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}],
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 },*/
                 {
-                    'id'    : controlId + 'rescale',
+                    'id'    : 'rescale',
                     'type'  : 'boolean',
                     'name'  : 'Rescale?',
                     'value' : $xmlImage.attr('rescale'),
-                    'description' : 'Should the image resize with the report, or should it stay a fixed size?'
+                    'description' : 'Should the image resize with the report, or should it stay a fixed size?',
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'    : controlId + 'maintain-aspect-ratio',
+                    'id'    : 'maintain-aspect-ratio',
                     'type'  : 'boolean',
                     'name'  : 'Maintain Aspect Ratio?',
                     'value' : $xmlImage.attr('maintain-aspect-ratio'),
-                    'description' : 'Should the image maintain its aspect ratio?'
+                    'description' : 'Should the image maintain its aspect ratio?',
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'    : controlId + 'anchor',
+                    'id'    : 'anchor',
                     'type'  : 'select',
                     'name'  : 'Anchor',
                     'value' : $xmlImage.attr('anchor'),
                     'description' : 'Anchor',
-                    'choices'   : [{'label':'left', 'value':'left'},{'label':'center', 'value':'center'},{'label':'right', 'value':'right'}]
+                    'choices'   : [{'label':'left', 'value':'left'},{'label':'center', 'value':'center'},{'label':'right', 'value':'right'}],
+                    'form'          : 'Image',
+                    'widgetId'      : widgetId
                 }
             ]
         };
@@ -442,7 +453,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getTextForm($xmlText)
     {
         var widgetId = $xmlText.attr('id');
-        var controlId = 'Text~' + widgetId + '~';
         var form = 
         {
             'id'        : widgetId,
@@ -450,26 +460,32 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : 
             [
                 {
-                    'id'        : controlId + 'nodevalue',
+                    'id'        : 'nodevalue',
                     'type'      : 'textarea-dropdown-append',
                     'name'      : 'Text',
                     'value'     : $xmlText.text(),
-                    'choices'   : options.subVarOptions
+                    'choices'   : options.subVarOptions,
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'href',
+                    'id'        : 'href',
                     'type'      : 'string',
                     'name'      : 'Hyperlink',
-                    'value'     : $xmlText.attr('href')
+                    'value'     : $xmlText.attr('href'),
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'fill',
+                    'id'        : 'fill',
                     'type'      : 'colour',
                     'name'      : 'Font Color',
-                    'value'     : $xmlText.attr('fill')
+                    'value'     : $xmlText.attr('fill'),
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'font-family',
+                    'id'        : 'font-family',
                     'type'      : 'select',
                     'name'      : 'Font Family',
                     'value'     : $xmlText.attr('font-family'),
@@ -494,16 +510,20 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         { 'label': 'Bitter', 'value': 'Bitter, Helvetica, sans-serif' },
                         { 'label': 'Droid Serif', 'value': '"Droid Serif", Helvetica, sans-serif' },
                         { 'label': 'Roboto Slab', 'value': '"Roboto Slab", Helvetica, sans-serif' }
-                    ]
+                    ],
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'font-size',
+                    'id'        : 'font-size',
                     'type'      : 'integer',
                     'name'      : 'Font Size',
-                    'value'     : $xmlText.attr('font-size')
+                    'value'     : $xmlText.attr('font-size'),
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'font-style',
+                    'id'        : 'font-style',
                     'type'      : 'select',
                     'name'      : 'Font Style',
                     'value'     : $xmlText.attr('font-style'),
@@ -517,10 +537,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
                             'label' : 'italic',
                             'value' : 'italic'
                         }
-                    ]
+                    ],
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },
                 {
-                    'id'        : controlId + 'font-weight',
+                    'id'        : 'font-weight',
                     'type'      : 'select',
                     'name'      : 'Font Weight',
                     'value'     : $xmlText.attr('font-weight'),
@@ -534,14 +556,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
                             'label' : 'bold',
                             'value' : 'bold'
                         }
-                    ]
+                    ],
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 }
                 /*{
-                    'id'        : 'controlId + 'href', 
+                    'id'        : 'href', 
                     'type'      : 'select', 
                     'name'      : 'Target', 
                     'value'     : $xmlText.attr('target'),
-                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}]
+                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}],
+                    'form'          : 'Text',
+                    'widgetId'      : widgetId
                 },*/
             ]
         };
@@ -552,8 +578,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getMenuBarForm($xmlComponent)
     {
         var widgetId = $xmlComponent.attr('id');
-        var controlId = 'Component~' + widgetId + '~';
-
         var form = 
         {
             'id'        : widgetId,
@@ -578,15 +602,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'                : controlId + index,
+                    'id'                : widgetId + index,
                     'type'              : 'menu-bar',
-                    'label-id'          : controlId + $menuItem.attr('id'),
+                    'label-id'          : $menuItem.attr('id'),
                     'label-value'       : $menuItem.attr('value'),
                     'label-description' : $menuItem.attr('description'),
-                    'func-id'           : controlId + $menuFunc.attr('id'),
+                    'func-id'           : $menuFunc.attr('id'),
                     'func-value'        : $menuFunc.attr('value'),
                     'func-choices'      : arrJavaScriptOptions,
-                    'func-description'  : $menuFunc.attr('description')
+                    'func-description'  : $menuFunc.attr('description'),
+                    'form'          : 'Component',
+                    'widgetId'      : widgetId
                 };
             }
         });
@@ -594,7 +620,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Menu addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : controlId,
+            'id'    : widgetId,
             'type'  : 'menu-bar-add'
         };
 
@@ -605,7 +631,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getSymbolForm($xmlTable)
     {
         var widgetId = $xmlTable.attr('id');
-        var controlId = 'Table~' + widgetId + '~';
 
         var form = 
         {
@@ -652,19 +677,21 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : controlId + index,
+                    'id'            : widgetId + index,
                     'type'          : 'profile-symbol',
-                    'shape-id'      : controlId + $shape.attr('id'),
+                    'shape-id'      : $shape.attr('id'),
                     'shape-value'   : $shape.attr('value'),
                     'shape-choices' : shapeChoices,
-                    'color-id'      : controlId + $color.attr('id'),
+                    'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
-                    'size-id'       : controlId + $size.attr('id'),
+                    'size-id'       : $size.attr('id'),
                     'size-value'    : $size.attr('value'),
-                    'label-id'      : controlId + $label.attr('id'),
+                    'label-id'      : $label.attr('id'),
                     'label-value'   : $label.attr('value'),
-                    'data-id'       : controlId + $value.attr('id'),
+                    'data-id'       : $value.attr('id'),
                     'data-value'    : $value.attr('value'),
+                    'form'          : 'Table',
+                    'widgetId'      : widgetId
                 };
             }
         });
@@ -672,7 +699,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Symbol addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : controlId,
+            'id'    : widgetId,
             'type'  : 'symbol-add'
         };
 
@@ -683,7 +710,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getBreaksForm($xmlTable)
     {
         var widgetId = $xmlTable.attr('id');
-        var controlId = 'Table~' + widgetId + '~';
 
         var form = 
         {
@@ -715,12 +741,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : controlId + index,
+                    'id'            : widgetId + index,
                     'type'          : 'profile-break',
-                    'color-id'      : controlId + $color.attr('id'),
+                    'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
-                    'label-id'      : controlId + $label.attr('id'),
+                    'label-id'      : $label.attr('id'),
                     'label-value'   : $label.attr('value'),
+                    'form'          : 'Table',
+                    'widgetId'      : widgetId
                 };
             }
         });
@@ -728,7 +756,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Break addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : controlId,
+            'id'    : widgetId,
             'type'  : 'break-add'
         };
 
@@ -739,7 +767,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getTargetForm($xmlTable)
     {
         var widgetId = $xmlTable.attr('id');
-        var controlId = 'Table~' + widgetId + '~';
 
         var dataChoices = [
         {
@@ -790,20 +817,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : controlId + index,
+                    'id'            : widgetId + index,
                     'type'          : 'profile-target',
-                    'shape-id'      : controlId + $shape.attr('id'),
+                    'shape-id'      : $shape.attr('id'),
                     'shape-value'   : $shape.attr('value'),
                     'shape-choices' : shapeChoices,
-                    'color-id'      : controlId + $color.attr('id'),
+                    'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
-                    'size-id'       : controlId + $size.attr('id'),
+                    'size-id'       : $size.attr('id'),
                     'size-value'    : $size.attr('value'),
-                    'label-id'      : controlId + $label.attr('id'),
+                    'label-id'      : $label.attr('id'),
                     'label-value'   : $label.attr('value'),
-                    'data-id'       : controlId + $data.attr('id'),
+                    'data-id'       : $data.attr('id'),
                     'data-value'    : $data.attr('value'),
-                    'data-choices'  : dataChoices
+                    'data-choices'  : dataChoices,
+                    'form'          : 'Table',
+                    'widgetId'      : widgetId
                 };
             }
         });
@@ -811,7 +840,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Target addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : controlId,
+            'id'    : widgetId,
             'type'  : 'target-add'
         };
 
@@ -822,7 +851,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getColumnForm($xmlTable)
     {
         var widgetId = $xmlTable.attr('id');
-        var controlId = 'Column~' + widgetId + '~';
 
         var columnDataChoices;
         if (widgetId.indexOf('table') !== -1) // Table.
@@ -927,26 +955,29 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 var control = 
                 {
-                    'id'            : controlId + i,
+                    'id'            : widgetId + i,
                     'type'          : type,
-                    'alias-id'      : controlId + i + '~alias',
+                    'alias-id'      : 'alias',
                     'alias-value'   : alias,
                     'alias-choices' : options.subVarOptions,
-                    'data-id'       : controlId + i + '~name',
+                    'data-id'       : 'name',
                     'data-value'    : name,
                     'data-choices'  : columnDataChoices,
-                    'width-id'      : controlId + i + '~width',
+                    'width-id'      : 'width',
                     'width-value'   : width,
-                    'symbol-id'     : controlId + i + '~symbol',
+                    'symbol-id'     : 'symbol',
                     'symbol-value'  : symbolValue,
-                    'symbol-choices': symbolDataChoices
+                    'symbol-choices': symbolDataChoices,
+                    'form'          : 'Column',
+                    'widgetId'      : widgetId,
+                    'columnIndex'   : i
                 };
 
                 if (nationalValue !== undefined)
                 {
                     $.extend(control, 
                     {
-                        'national-id'       : controlId + i + '~national',
+                        'national-id'       : 'national',
                         'national-value'    : nationalValue,
                         'national-choices'  : symbolDataChoices,
                         'data-choices'      : symbolDataChoices
@@ -962,13 +993,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                     $.extend(control, 
                     {
-                        'health-min-id'             : controlId + $min.attr('id'),
+                        'health-min-id'             : $min.attr('id'),
                         'health-min-value'          : $min.attr('value'),
                         'health-min-description'    : $min.attr('description'),
-                        'health-mid-id'             : controlId + $mid.attr('id'),
+                        'health-mid-id'             : $mid.attr('id'),
                         'health-mid-value'          : $mid.attr('value'),
                         'health-mid-description'    : $mid.attr('description'),
-                        'health-max-id'             : controlId + $max.attr('id'),
+                        'health-max-id'             : $max.attr('id'),
                         'health-max-value'          : $max.attr('value'),
                         'health-max-description'    : $max.attr('description')
                     });
@@ -979,7 +1010,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         $color  = $xmlTable.find('Property#barColor');
                         $.extend(control, 
                         {
-                            'health-symbol-color-id'        : controlId + $color.attr('id'),
+                            'health-symbol-color-id'        : $color.attr('id'),
                             'health-symbol-color-value'     : $color.attr('value')
                         });
                     }
@@ -992,10 +1023,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                     $.extend(control, 
                     {
-                        'profile-min-id'            : controlId + $min.attr('id'),
+                        'profile-min-id'            : $min.attr('id'),
                         'profile-min-value'         : $min.attr('value'),
                         'profile-min-description'   : $min.attr('description'),
-                        'profile-max-id'            : controlId + $max.attr('id'),
+                        'profile-max-id'            : $max.attr('id'),
                         'profile-max-value'         : $max.attr('value'),
                         'profile-max-description'   : $max.attr('description')
                     });
@@ -1009,11 +1040,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                     $.extend(control, 
                     {
-                        'profile-color-id'      : controlId + $color.attr('id'),
+                        'profile-color-id'      : $color.attr('id'),
                         'profile-color-value'   : $color.attr('value'),
-                        'profile-height-id'     : controlId + $height.attr('id'),
+                        'profile-height-id'     : $height.attr('id'),
                         'profile-height-value'  : $height.attr('value'),
-                        'profile-data-id'       : controlId + $data.attr('id'),
+                        'profile-data-id'       : $data.attr('id'),
                         'profile-data-value'    : $data.attr('value'),
                         'profile-data-choices'  : symbolDataChoices
                     });
@@ -1025,16 +1056,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : controlId + i,
+                    'id'            : widgetId + i,
                     'type'          : 'column',
-                    'alias-id'      : controlId + i + '~alias',
+                    'alias-id'      : 'alias',
                     'alias-value'   : alias,
                     'alias-choices' : options.subVarOptions,
-                    'data-id'       : controlId + i + '~name',
+                    'data-id'       : 'name',
                     'data-value'    : name,
                     'data-choices'  : columnDataChoices,
-                    'width-id'      : controlId + i + '~width',
-                    'width-value'   : width
+                    'width-id'      : 'width',
+                    'width-value'   : width,
+                    'form'          : 'Column',
+                    'widgetId'      : widgetId,
+                    'columnIndex'   : i
                 };
             }
         });
@@ -1053,7 +1087,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function getPyramidLineForm($xmlComponent)
     {
         var widgetId = $xmlComponent.attr('id');
-        var controlId = 'Component~' + widgetId + '~';
 
         var dataChoices = [
         {
@@ -1097,15 +1130,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : controlId + index,
+                    'id'            : widgetId + index,
                     'type'          : 'pyramid-line',
-                    'color-id'      : controlId + $color.attr('id'),
+                    'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
-                    'label-id'      : controlId + $label.attr('id'),
+                    'label-id'      : $label.attr('id'),
                     'label-value'   : $label.attr('value'),
-                    'data-id'       : controlId + $value.attr('id'),
+                    'data-id'       : $value.attr('id'),
                     'data-value'    : $value.attr('value'),
-                    'data-choices'  : dataChoices
+                    'data-choices'  : dataChoices,
+                    'form'          : 'Component',
+                    'widgetId'      : widgetId
                 };
             }
         });
@@ -1113,7 +1148,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Symbol addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : controlId,
+            'id'    : widgetId,
             'type'  : 'pyramid-line-add'
         };
 
