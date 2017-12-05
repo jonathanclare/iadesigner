@@ -213,6 +213,8 @@ iadesigner = (function (iad, undefined)
                 'forms': [
                 {
                     'name': 'General',
+                    'id': 'css',
+                    'type': 'CSS',
                     'expand': true,
                     'controls': [
                     {
@@ -267,6 +269,8 @@ iadesigner = (function (iad, undefined)
                 },
                 {
                     'name': 'Widgets',
+                    'id': 'css',
+                    'type': 'CSS',
                     'controls': [
                     {
                         'name'      : 'Title Font Color',
@@ -320,6 +324,8 @@ iadesigner = (function (iad, undefined)
                 },
                 {
                     'name': 'Buttons',
+                    'id': 'css',
+                    'type': 'CSS',
                     'controls': [
                     {
                         'name'      : 'Font Color',
@@ -367,6 +373,8 @@ iadesigner = (function (iad, undefined)
                 },
                 {
                     'name': 'Charts',
+                    'id': 'css',
+                    'type': 'CSS',
                     'controls': [
                     {
                         'name'      : 'Font Size',
@@ -404,6 +412,8 @@ iadesigner = (function (iad, undefined)
                 }/*,
                 {
                     'name': 'Minimum Page Size',
+                    'id': 'css',
+                    'type': 'CSS',
                     'controls': [
                     {
                         'name'      : 'Width',

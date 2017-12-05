@@ -39,7 +39,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         for (var i = 0; i < jsonMap.layers.length; i++)
         {
             var jsonLayer = jsonMap.layers[i];
-            var layerForm = {'name': jsonLayer.name, 'controls':[]};
+            var layerForm = {'name': jsonLayer.name, 'type':'MapLayers', 'controls':[]};
             mapForm.forms.push(layerForm);
 
             for (var j = 0; j < controls.length; j++)

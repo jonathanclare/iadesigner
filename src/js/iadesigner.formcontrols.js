@@ -14,51 +14,71 @@ var iadesigner = (function (iad, $, window, document, undefined)
         addControlHandlers();
     };
 
-    // For add / remove below.
-    function parseId($btn)
-    {
-        var info = $btn.attr('id').split('~');
-        return { widgetId: info[1], index: info[2] };
-    }
-
     // Adds the control handlers.
     function addControlHandlers()
     {
         // Called when a widget property has been changed.
-        var dispatchWidgetChange = iad.util.debounce(function (controlId, newValue)
+        var dispatchWidgetChange = iad.util.debounce(function (formId, formType, controlId, newValue)
         {
-            dispatchChange(controlId, newValue);
+            dispatchChange(formId, formType, controlId, newValue);
         }, 250);
 
         // Called when a group property has been changed.
-        var dispatchGroupPropertyChange = iad.util.debounce(function (controlId, newValue)
+        var dispatchGroupPropertyChange = iad.util.debounce(function (formId, formType, controlId, newValue)
         {
-            dispatchChange(controlId, newValue);
+            dispatchChange(formId, formType, controlId, newValue);
         }, 1000);
 
         // Dispatches the change.
-        function dispatchChange(controlId, newValue)
+        function dispatchChange(formId, formType, controlId, newValue)
         { 
-            var arr = controlId.split('~');
-            var tagName = arr[0];
-            var widgetId = arr[1];
-            var propertyId = arr[2];
-            var attribute = arr[3];
-            if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, controlId, tagName, widgetId, propertyId, newValue, attribute); // On property changed.
+            if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, formId, formType, controlId, newValue); // On property changed.
         }
 
         // Called when a property has been changed.
-        function onPropertyChanged(controlId, newValue)
+        function onPropertyChanged($control, controlId, newValue)
         {
-            // We want a greater delay when a group property has changed because the report is refreshed.
-            var arr = controlId.split('~');
-            var tagName = arr[0];
-            if (tagName === 'PropertyGroup') 
-                dispatchGroupPropertyChange(controlId, newValue);
+            var $form = $control.closest('.iad-form');
+            var formId = $form.data('id');
+            var formType = $form.data('type');
 
+            if (formType === 'PropertyGroup') 
+                dispatchGroupPropertyChange(formId, formType, controlId, newValue);
             else
-                dispatchWidgetChange(controlId, newValue);
+                dispatchWidgetChange(formId, formType, controlId, newValue);
         }
+
+        // Handle key entry.
+        $(document).on('keyup', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
+        {
+            onPropertyChanged($(this), $(this).data('id'), $(this).val());
+        });
+
+        // Handle pasted text.
+        $(document).on('paste', '.iad-control-text, iad-control-integer, iad-control-float', function (e) 
+        {
+            onPropertyChanged($(this), $(this).data('id'), $(this).val());
+        });
+
+        // Handle dropdowns.
+        $(document).on('change', '.iad-control-select, .iad-control-integer-select', function (e)  
+        {
+            onPropertyChanged($(this), $(this).data('id'), $(this).val());}
+        );
+
+        // Handle checkbox.
+        $(document).on('change', '.iad-control-checkbox', function (e)  
+        {
+            onPropertyChanged($(this), $(this).data('id'), $(this).is(':checked'));
+        });
+
+        // Range input
+        $(document).on('change', '.iad-control-range', function (e) 
+        {
+            var value = $(this).val();
+            $(this).next().html(value);
+            onPropertyChanged($(this), $(this).data('id'), value);
+        });
 
         // Text dropdown input replace text.
         $(document).on('click', '.iad-dropdown-menu-replace a', function (e)
@@ -70,9 +90,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $input = $(this).parents('.input-group').find('.iad-control-text');
             $input.val(selText);
 
-            var id = $input.attr('id');
-            var value = $input.val();
-            onPropertyChanged(id, value);
+            onPropertyChanged($input, $input.data('id'), $input.val());
         });
 
         // Text dropdown input append text.
@@ -88,94 +106,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (inputValue === '') $input.val(selText);
             else $input.val($input.val() + ' ' + selText);
 
-            var id = $input.attr('id');
-            var value = $input.val();
-            onPropertyChanged(id, value);
-        });
-
-        // Color dropdown input replace text.
-        $(document).on('click', '.iad-dropdown-menu-colorpalette a', function (e)
-        {
-            e.preventDefault();
-
-            var id = $(this).parents('.input-group').find('.dropdown-toggle').attr('id');
-            var value = $(this).attr('data-value');
-            onPropertyChanged(id, value);
-        });
-
-        // Open color scheme modal.
-        $(document).on('click', '#iad-color-scheme-btn, #iad-quick-link-color-schemes', function (e)
-        {
-            e.preventDefault();
-            $('#iad-modal-color-schemes').modal(
-            {
-                show: true
-            });
-        });
-
-        // Text.
-        $(document).on('keyup', '.iad-control-text', function (e) // Handle key entry.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-        $(document).on('paste', '.iad-control-text', function (e) // Handle pasted text.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-
-        // Integer.
-        $(document).on('keyup', '.iad-control-integer', function (e) // Handle key entry.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-        $(document).on('paste', '.iad-control-integer', function (e) // Handle pasted text.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-
-        // Float.
-        $(document).on('keyup', '.iad-control-float', function (e) // Handle key entry.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-        $(document).on('paste', '.iad-control-float', function (e) // Handle pasted text.
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-
-        // Choice.
-        $(document).on('change', '.iad-control-select', function (e)
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-        $(document).on('change', '.iad-control-integer-select', function (e)
-        {
-            onPropertyChanged($(this).attr('id'), $(this).val());
-        });
-
-        // Boolean.
-        $(document).on('change', '.iad-control-checkbox', function (e)
-        {
-            onPropertyChanged($(this).attr('id'), $(this).is(':checked'));
-        });
-
-        // Color.
-        $(document).on('click', '.iad-control-color-swatch', function (e)
-        {
-            // Prevent color picker from closing when clicked.
-            e.stopPropagation();
-            e.preventDefault();
-
-            // Get the color swatch that was clicked.
-            var $colorSwatch = $(this);
-
-            // Open the color picker
-            var inColor = $colorSwatch.css('background-color');
-            iad.colorpicker.open($colorSwatch, inColor, function (outColor)
-            {
-                $colorSwatch.css('background-color', outColor); // Update the color swatch.
-                onPropertyChanged($colorSwatch.attr('id'), outColor);
-            });
+            onPropertyChanged($input, $input.data('id'), $input.val());
         });
 
         // Integer counter buttons.
@@ -190,8 +121,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value - 1;
             $input.val(value);
 
-            var id = $input.attr('id');
-            onPropertyChanged(id, value);
+            onPropertyChanged($input, $input.data('id'), value);
         });
         $(document).on('click', '.iad-control-integer-plus', function (e)
         {
@@ -205,8 +135,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value + 1;
             $input.val(value);
 
-            var id = $input.attr('id');
-            onPropertyChanged(id, value);
+            onPropertyChanged($input, $input.data('id'), value);
         });
 
         // Float counter buttons.
@@ -222,8 +151,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value.toFixed(2);
             $input.val(value);
 
-            var id = $input.attr('id');
-            onPropertyChanged(id, value);
+            onPropertyChanged($input, $input.data('id'), value);
         });
         $(document).on('click', '.iad-control-float-plus', function (e)
         {
@@ -238,96 +166,120 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value.toFixed(2);
             $input.val(value);
 
-            var id = $input.attr('id');
-            onPropertyChanged(id, value);
+            onPropertyChanged($input, $input.data('id'), value);
         });
 
-        // Range input
-        $(document).on('change', '.iad-control-range', function (e)
+        // Color dropdown input replace text.
+        $(document).on('click', '.iad-dropdown-menu-colorpalette a', function (e)
         {
-            var id = $(this).attr('id');
-            var value = $(this).val();
-            $(this).next().html(value);
-            onPropertyChanged(id, value);
+            e.preventDefault();
+
+            var id = $(this).parents('.input-group').find('.dropdown-toggle').data('id');
+            var value = $(this).attr('data-value');
+            onPropertyChanged($(this), id, value);
+        });
+
+        // Open color scheme modal.
+        $(document).on('click', '#iad-color-scheme-btn, #iad-quick-link-color-schemes', function (e)
+        {
+            e.preventDefault();
+            $('#iad-modal-color-schemes').modal(
+            {
+                show: true
+            });
+        });
+        
+        // Color.
+        $(document).on('click', '.iad-control-color-swatch', function (e)
+        {
+            // Prevent color picker from closing when clicked.
+            e.stopPropagation();
+            e.preventDefault();
+
+            // Get the color swatch that was clicked.
+            var $colorSwatch = $(this);
+
+            // Open the color picker
+            var inColor = $colorSwatch.css('background-color');
+            iad.colorpicker.open($colorSwatch, inColor, function (outColor)
+            {
+                $colorSwatch.css('background-color', outColor); // Update the color swatch.
+                onPropertyChanged($colorSwatch, $colorSwatch.data('id'), outColor);
+            });
         });
 
         // Add / Remove table columns.
         $(document).on('click', '.iad-control-add-column', function (e)
         {
-            e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addColumn(o.widgetId);
+            console.log($(this).data('id'));
+            iad.config.addColumn($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-column', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removeColumn(o.widgetId, o.index);
+            console.log($(this).data('id'));
+            console.log($(this).data('index'));
+            iad.config.removeColumn($(this).data('id'), $(this).data('index'));
         });
+
         // Add / Remove spine chart symbol.
         $(document).on('click', '.iad-control-add-symbol', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addSymbol(o.widgetId);
+            iad.config.addSymbol($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-symbol', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removeSymbol(o.widgetId, o.index);
+            iad.config.removeSymbol($(this).data('id'), $(this).data('index'));
         });
+
         // Add / Remove spine chart target.
         $(document).on('click', '.iad-control-add-target', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addTarget(o.widgetId);
+            iad.config.addTarget($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-target', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removeTarget(o.widgetId, o.index);
+            iad.config.removeTarget($(this).data('id'), $(this).data('index'));
         });
+
         // Add / Remove spine chart break.
         $(document).on('click', '.iad-control-add-break', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addBreak(o.widgetId);
+            iad.config.addBreak($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-break', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removeBreak(o.widgetId, o.index);
+            iad.config.removeBreak($(this).data('id'), $(this).data('index'));
         });
+
         // Add / Remove Menu item on menu bar.
         $(document).on('click', '.iad-control-add-menu-item', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addMenuItem(o.widgetId);
+            iad.config.addMenuItem($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-menu-item', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removeMenuItem(o.widgetId, o.index);
+            iad.config.removeMenuItem($(this).data('id'), $(this).data('index'));
         });
+
         // Add / Remove pyramid line.
         $(document).on('click', '.iad-control-add-pyramid-line', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.addPyramidLine(o.widgetId);
+            iad.config.addPyramidLine($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-pyramid-line', function (e)
         {
             e.preventDefault();
-            var o = parseId($(this));
-            iad.config.removePyramidLine(o.widgetId, o.index);
+            iad.config.removePyramidLine($(this).data('id'), $(this).data('index'));
         });
     }
 

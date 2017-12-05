@@ -176,6 +176,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : $xmlPropGroup.attr('id'),
             'name'      : $xmlPropGroup.attr('name'),
+            'type'      : 'PropertyGroup',
             'controls'  : []
         };
         
@@ -210,6 +211,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'            : id,
             'name'          : adjustedName,
+            'type'          : 'Component',
             'description'   : ($desc && ($desc.length > 0) ? $desc.text() : ''),
             'title'         : ($desc && ($desc.length > 0) ? adjustedName : ''),
             'controls'      : []
@@ -236,18 +238,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var propId = $xmlProperty.attr('id');
         var widgetId = $xmlWidget.attr('id');
-        var tagName = $xmlWidget.prop('tagName');
         var componentIndex = widgetId.slice(-1);
 
         var control = 
         {
             'id'            : propId,
-            'type'          : $xmlProperty.attr('type'),
             'name'          : $xmlProperty.attr('name'),
+            'type'          : $xmlProperty.attr('type'),
             'value'         : $xmlProperty.attr('value'),
-            'description'   : $xmlProperty.attr('description'),
-            'form'          : tagName,
-            'widgetId'      : widgetId
+            'description'   : $xmlProperty.attr('description')
         };
         if ($xmlProperty.attr('choices'))
         {
@@ -351,31 +350,26 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id': widgetId,
             'name': 'Button',
+            'type': 'Button',
             'controls': [
             {
                 'id'        : 'text',
                 'type'      : 'string',
                 'name'      : 'Text',
-                'value'     : $xmlButton.attr('text'),
-                'form'          : 'Button',
-                'widgetId'      : widgetId
+                'value'     : $xmlButton.attr('text')
             },
             {
                 'id'        : 'href',
                 'type'      : 'text-dropdown-replace',
                 'name'      : 'Hyperlink',
                 'value'     : $xmlButton.attr('href'),
-                'choices'   : arrJavaScriptOptions,
-                'form'          : 'Button',
-                'widgetId'      : widgetId
+                'choices'   : arrJavaScriptOptions
             },
             {
                 'id'        : 'tooltip',
                 'type'      : 'string',
                 'name'      : 'Tooltip',
-                'value'     : $xmlButton.attr('tooltip'),
-                'form'          : 'Button',
-                'widgetId'      : widgetId
+                'value'     : $xmlButton.attr('tooltip')
             }]
         };
         return form;
@@ -389,50 +383,41 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Image',
+            'type'      : 'Image',
             'controls'  : 
             [
                 {
                     'id'    : 'src',
                     'type'  : 'string',
                     'name'  : 'Source',
-                    'value' : $xmlImage.attr('src'),
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'value' : $xmlImage.attr('src')
                 },
                 {
                     'id'    : 'href',
                     'type'  : 'string',
                     'name'  : 'Hyperlink',
-                    'value' : $xmlImage.attr('href'),
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'value' : $xmlImage.attr('href')
                 },
                 /*{
                     'id'        : 'target', 
                     'type'      : 'select', 
                     'name'      : 'Target', 
                     'value'     : $xmlImage.attr('target'),
-                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}],
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}]
                 },*/
                 {
                     'id'    : 'rescale',
                     'type'  : 'boolean',
                     'name'  : 'Rescale?',
                     'value' : $xmlImage.attr('rescale'),
-                    'description' : 'Should the image resize with the report, or should it stay a fixed size?',
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'description' : 'Should the image resize with the report, or should it stay a fixed size?'
                 },
                 {
                     'id'    : 'maintain-aspect-ratio',
                     'type'  : 'boolean',
                     'name'  : 'Maintain Aspect Ratio?',
                     'value' : $xmlImage.attr('maintain-aspect-ratio'),
-                    'description' : 'Should the image maintain its aspect ratio?',
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'description' : 'Should the image maintain its aspect ratio?'
                 },
                 {
                     'id'    : 'anchor',
@@ -440,9 +425,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'name'  : 'Anchor',
                     'value' : $xmlImage.attr('anchor'),
                     'description' : 'Anchor',
-                    'choices'   : [{'label':'left', 'value':'left'},{'label':'center', 'value':'center'},{'label':'right', 'value':'right'}],
-                    'form'          : 'Image',
-                    'widgetId'      : widgetId
+                    'choices'   : [{'label':'left', 'value':'left'},{'label':'center', 'value':'center'},{'label':'right', 'value':'right'}]
                 }
             ]
         };
@@ -457,6 +440,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Text',
+            'type'      : 'Text',
             'controls'  : 
             [
                 {
@@ -464,25 +448,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'type'      : 'textarea-dropdown-append',
                     'name'      : 'Text',
                     'value'     : $xmlText.text(),
-                    'choices'   : options.subVarOptions,
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    'choices'   : options.subVarOptions
                 },
                 {
                     'id'        : 'href',
                     'type'      : 'string',
                     'name'      : 'Hyperlink',
-                    'value'     : $xmlText.attr('href'),
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    'value'     : $xmlText.attr('href')
                 },
                 {
                     'id'        : 'fill',
                     'type'      : 'colour',
                     'name'      : 'Font Color',
-                    'value'     : $xmlText.attr('fill'),
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    'value'     : $xmlText.attr('fill')
                 },
                 {
                     'id'        : 'font-family',
@@ -510,17 +488,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         { 'label': 'Bitter', 'value': 'Bitter, Helvetica, sans-serif' },
                         { 'label': 'Droid Serif', 'value': '"Droid Serif", Helvetica, sans-serif' },
                         { 'label': 'Roboto Slab', 'value': '"Roboto Slab", Helvetica, sans-serif' }
-                    ],
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    ]
                 },
                 {
                     'id'        : 'font-size',
                     'type'      : 'integer',
                     'name'      : 'Font Size',
-                    'value'     : $xmlText.attr('font-size'),
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    'value'     : $xmlText.attr('font-size')
                 },
                 {
                     'id'        : 'font-style',
@@ -537,9 +511,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                             'label' : 'italic',
                             'value' : 'italic'
                         }
-                    ],
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    ]
                 },
                 {
                     'id'        : 'font-weight',
@@ -556,18 +528,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
                             'label' : 'bold',
                             'value' : 'bold'
                         }
-                    ],
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    ]
                 }
                 /*{
                     'id'        : 'href', 
                     'type'      : 'select', 
                     'name'      : 'Target', 
                     'value'     : $xmlText.attr('target'),
-                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}],
-                    'form'          : 'Text',
-                    'widgetId'      : widgetId
+                    'choices'   : [{'label':'_blank', 'value':'_blank'},{'label':'_self', 'value':'_self'},{'label':'_parent', 'value':'_parent'},{'label':'_top', 'value':'_top'}]
                 },*/
             ]
         };
@@ -581,6 +549,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var form = 
         {
             'id'        : widgetId,
+            'type'      : 'Component',
             'name'      : $xmlComponent.attr('name'),
             'controls'  : []
         };
@@ -602,7 +571,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'                : widgetId + index,
+                    'id'                : widgetId,
+                    'index'             : index,
                     'type'              : 'menu-bar',
                     'label-id'          : $menuItem.attr('id'),
                     'label-value'       : $menuItem.attr('value'),
@@ -610,9 +580,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'func-id'           : $menuFunc.attr('id'),
                     'func-value'        : $menuFunc.attr('value'),
                     'func-choices'      : arrJavaScriptOptions,
-                    'func-description'  : $menuFunc.attr('description'),
-                    'form'          : 'Component',
-                    'widgetId'      : widgetId
+                    'func-description'  : $menuFunc.attr('description')
                 };
             }
         });
@@ -636,6 +604,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Symbols',
+            'type'      : 'Table',
             'controls'  : []
         };
 
@@ -677,7 +646,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : widgetId + index,
+                    'id'            : widgetId,
+                    'index'         : index,
                     'type'          : 'profile-symbol',
                     'shape-id'      : $shape.attr('id'),
                     'shape-value'   : $shape.attr('value'),
@@ -689,9 +659,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'label-id'      : $label.attr('id'),
                     'label-value'   : $label.attr('value'),
                     'data-id'       : $value.attr('id'),
-                    'data-value'    : $value.attr('value'),
-                    'form'          : 'Table',
-                    'widgetId'      : widgetId
+                    'data-value'    : $value.attr('value')
                 };
             }
         });
@@ -715,6 +683,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Chart Column Breaks',
+            'type'      : 'Table',
             'controls'  : []
         };
 
@@ -741,14 +710,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : widgetId + index,
+                    'id'            : widgetId,
+                    'index'         : index,
                     'type'          : 'profile-break',
                     'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
                     'label-id'      : $label.attr('id'),
-                    'label-value'   : $label.attr('value'),
-                    'form'          : 'Table',
-                    'widgetId'      : widgetId
+                    'label-value'   : $label.attr('value')
                 };
             }
         });
@@ -783,6 +751,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Chart Column Targets',
+            'type'      : 'Table',
             'controls'  : []
         };
 
@@ -817,7 +786,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : widgetId + index,
+                    'id'            : widgetId,
+                    'index'         : index,
                     'type'          : 'profile-target',
                     'shape-id'      : $shape.attr('id'),
                     'shape-value'   : $shape.attr('value'),
@@ -830,9 +800,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'label-value'   : $label.attr('value'),
                     'data-id'       : $data.attr('id'),
                     'data-value'    : $data.attr('value'),
-                    'data-choices'  : dataChoices,
-                    'form'          : 'Table',
-                    'widgetId'      : widgetId
+                    'data-choices'  : dataChoices
                 };
             }
         });
@@ -902,6 +870,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Columns',
+            'type'      : 'Column',
             'controls'  : []
         };
 
@@ -909,8 +878,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $.each($xmlColumns, function(i, xmlColumn)
         {
             var $xmlColumn = $(xmlColumn);
-            var columnIndex = i + 1;
-
             var alias   = $xmlColumn.attr('alias');
             var name    = $xmlColumn.attr('name');
             var width   = $xmlColumn.attr('width');
@@ -955,7 +922,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 var control = 
                 {
-                    'id'            : widgetId + i,
+                    'id'            : widgetId,
                     'type'          : type,
                     'alias-id'      : 'alias',
                     'alias-value'   : alias,
@@ -968,9 +935,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'symbol-id'     : 'symbol',
                     'symbol-value'  : symbolValue,
                     'symbol-choices': symbolDataChoices,
-                    'form'          : 'Column',
-                    'widgetId'      : widgetId,
-                    'columnIndex'   : i
+                    'index'         : i
                 };
 
                 if (nationalValue !== undefined)
@@ -1056,7 +1021,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : widgetId + i,
+                    'id'            : widgetId,
                     'type'          : 'column',
                     'alias-id'      : 'alias',
                     'alias-value'   : alias,
@@ -1066,9 +1031,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'data-choices'  : columnDataChoices,
                     'width-id'      : 'width',
                     'width-value'   : width,
-                    'form'          : 'Column',
-                    'widgetId'      : widgetId,
-                    'columnIndex'   : i
+                    'index'         : i
                 };
             }
         });
@@ -1076,7 +1039,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Column addition control.
         form.controls[form.controls.length] = 
         {
-            'id'    : 'Column~' + widgetId,
+            'id'    : widgetId,
             'type'  : 'column-add',
         };
 
@@ -1103,6 +1066,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Additional Data Lines',
+            'type'      : 'Component',
             'controls'  : []
         };
 
@@ -1130,7 +1094,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'            : widgetId + index,
+                    'id'            : widgetId,
+                    'index'         : index,
                     'type'          : 'pyramid-line',
                     'color-id'      : $color.attr('id'),
                     'color-value'   : $color.attr('value'),
@@ -1138,9 +1103,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     'label-value'   : $label.attr('value'),
                     'data-id'       : $value.attr('id'),
                     'data-value'    : $value.attr('value'),
-                    'data-choices'  : dataChoices,
-                    'form'          : 'Component',
-                    'widgetId'      : widgetId
+                    'data-choices'  : dataChoices
                 };
             }
         });
