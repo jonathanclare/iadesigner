@@ -39,8 +39,7 @@ iadesigner = (function (iad, undefined)
                 'barData', 'barHeight', 'barColor',
                 'minValue', 'midValue', 'maxValue',
                 'ignoreThemeIds', 'ignoreIndicatorIds',
-                'syncDates',
-                'target_','symbol_','break_','line_'
+                'syncDates'
             ],
             // Lists the config properties that require a data dropdown menu.
             requireDataDropdown:                

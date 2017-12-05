@@ -18,21 +18,21 @@ var iadesigner = (function (iad, $, window, document, undefined)
     function addControlHandlers()
     {
         // Called when a widget property has been changed.
-        var dispatchWidgetChange = iad.util.debounce(function (formId, formType, controlId, newValue)
+        var dispatchWidgetChange = iad.util.debounce(function (formId, formType, controlId, newValue, controlIndex)
         {
-            dispatchChange(formId, formType, controlId, newValue);
+            dispatchChange(formId, formType, controlId, newValue, controlIndex);
         }, 250);
 
         // Called when a group property has been changed.
-        var dispatchGroupPropertyChange = iad.util.debounce(function (formId, formType, controlId, newValue)
+        var dispatchGroupPropertyChange = iad.util.debounce(function (formId, formType, controlId, newValue, controlIndex)
         {
-            dispatchChange(formId, formType, controlId, newValue);
+            dispatchChange(formId, formType, controlId, newValue, controlIndex);
         }, 1000);
 
         // Dispatches the change.
-        function dispatchChange(formId, formType, controlId, newValue)
+        function dispatchChange(formId, formType, controlId, newValue, controlIndex)
         { 
-            if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, formId, formType, controlId, newValue); // On property changed.
+            if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, formId, formType, controlId, newValue, controlIndex); // On property changed.
         }
 
         // Called when a property has been changed.
@@ -42,10 +42,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var formId = $form.data('id');
             var formType = $form.data('type');
 
+            var controlIndex;
+            var $controlGroup = $control.closest('.iad-control-group');
+            if ($controlGroup.length) controlIndex = $controlGroup.data('index');
+
             if (formType === 'PropertyGroup') 
-                dispatchGroupPropertyChange(formId, formType, controlId, newValue);
+                dispatchGroupPropertyChange(formId, formType, controlId, newValue, controlIndex);
             else
-                dispatchWidgetChange(formId, formType, controlId, newValue);
+                dispatchWidgetChange(formId, formType, controlId, newValue, controlIndex);
         }
 
         // Handle key entry.

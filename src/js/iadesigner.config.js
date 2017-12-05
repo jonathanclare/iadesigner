@@ -622,78 +622,77 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlComponent.append(xml);
     }
 
-    // Set a column attribute.
-    iad.config.setColumnProperty = function (controlId, widgetId, colIndex, attribute, newValue)
+    function updateColumnName(columnName, attr, newValue)
     {
-        // Check for symbol values in profiles.
+        var arrColumnName = columnName.split(',');
+        var arrTxt;
+        var index;
+        for (var i = 0; i < arrColumnName.length; i++)
+        {
+            var txt = arrColumnName[i];
+            if (txt.indexOf(attr) !== -1)
+            {
+                arrTxt = txt.split(':')
+                arrTxt[1] = newValue;
+                index = i;
+                break;
+            }
+        }
+        if (arrTxt !== undefined)
+        {
+            arrColumnName[index] = arrTxt.join(':');
+            var outColumnName = arrColumnName.join(',');
+            // Check bracket is at the end.
+            if (outColumnName.slice(-1) !== ')') outColumnName += ')';
+            return outColumnName;
+        }
+        else return columnName;
+    }
+
+    // Set a column attribute.
+    iad.config.setColumnAttribute = function (widgetId, colIndex, attribute, newValue)
+    {
+        // Check for special values.
         // symbol(symbolValue:state,textValue:value,symbolAlign:right)
         // symbol(symbolValue:trend,symbolAlign:center)
         // health(symbolValue:significance,areaValue:value,nationalValue:national)
 
-        var symbolId, symbolValue, nameId, nameValue, nationalId, nationalValue;
+        var $xmlWidget = iad.config.getWidgetXml(widgetId);
+        var $column = $xmlWidget.find('Column').eq(colIndex);
+        var columnName = $column.attr('name');
 
         if (attribute === 'name')
         {
-            nameValue = newValue;
-            symbolId = controlId.replace("~name", "~symbol");
-            symbolValue = $('*[id="' + symbolId + '"]').val();
-
-            if (symbolValue !== undefined) // This will filter out normal tables.
+            if (columnName.indexOf('health(') !== -1)
             {
-                nationalId = controlId.replace("~name", "~national");
-                nationalValue = $('*[id="' + nationalId + '"]').val();
-
-                if (nationalValue !== undefined) // health.
-                {
-                    newValue = 'health(symbolValue:' + symbolValue + ',areaValue:' + nameValue + ',nationalValue:' + nationalValue + ')';
-                }
-                else
-                {
-                    if (nameValue !== '' && symbolValue !== '') newValue = 'symbol(symbolValue:' + symbolValue + ',textValue:' + nameValue + ',symbolAlign:right)';
-                    else if (symbolValue !== '') newValue = 'symbol(symbolValue:' + symbolValue + ',symbolAlign:center)';
-                    else newValue = nameValue;
-                }
+                // health(symbolValue:significance,areaValue:value,nationalValue:national)
+                // Replace areaValue with the newValue.
+                newValue = updateColumnName(columnName, 'areaValue', newValue);
+            }
+            else if (columnName.indexOf('symbol(') !== -1) 
+            {
+                // symbol(symbolValue:state,textValue:value,symbolAlign:right)
+                // Replace textValue with the newValue.
+                newValue = updateColumnName(columnName, 'textValue', newValue);
             }
         }
+
         else if (attribute === 'symbol')
         {
             attribute = 'name';
-            symbolValue = newValue;
-
-            nameId = controlId.replace("~symbol", "~name");
-            nameValue = $('*[id="' + nameId + '"]').val();
-            nationalId = controlId.replace("~symbol", "~national");
-            nationalValue = $('*[id="' + nationalId + '"]').val();
-
-            if (nationalValue !== undefined) // health.
-            {
-                newValue = 'health(symbolValue:' + symbolValue + ',areaValue:' + nameValue + ',nationalValue:' + nationalValue + ')';
-            }
-            else
-            {
-                if (nameValue !== '' && symbolValue !== '') newValue = 'symbol(symbolValue:' + symbolValue + ',textValue:' + nameValue + ',symbolAlign:right)';
-                else if (symbolValue !== '') newValue = 'symbol(symbolValue:' + symbolValue + ',symbolAlign:center)';
-                else newValue = nameValue;
-            }
+            // Replace symbolValue with the newValue.
+            newValue = updateColumnName(columnName, 'symbolValue', newValue);
         }
         else if (attribute === 'national') // health.
         {
             attribute = 'name';
-            nationalValue = newValue;
-
-            nameId = controlId.replace("~national", "~name");
-            nameValue = $('*[id="' + nameId + '"]').val();
-            symbolId = controlId.replace("~national", "~symbol");
-            symbolValue = $('*[id="' + symbolId + '"]').val();
-
-
-            newValue = 'health(symbolValue:' + symbolValue + ',areaValue:' + nameValue + ',nationalValue:' + nationalValue + ')';
+            // Replace nationalValue with the newValue.
+            newValue = updateColumnName(columnName, 'nationalValue', newValue);
         }
 
-        var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
+        // Set the new value;
         $column.attr(attribute, newValue);
 
-        var $xmlWidget = iad.config.getWidgetXml(widgetId);
         if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlWidget); // On widget changed.
     };
 

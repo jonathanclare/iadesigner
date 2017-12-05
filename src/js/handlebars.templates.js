@@ -464,7 +464,9 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n									\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button data-id=\""
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n									\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -518,7 +520,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"97":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
+  return "								<div data-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -550,7 +556,9 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button data-id=\""
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -590,7 +598,9 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 
   return "								<div data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input data-id=\""
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input data-id=\""
     + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
     + "\" class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
@@ -720,9 +730,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"120":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "\r\n								<div data-id=\""
+  return "								<div data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n 											<button data-id=\""
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n 											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -776,7 +788,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"129":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
+  return "								<div data-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -814,7 +830,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"132":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"well well-sm\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
+  return "								<div data-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm\">\r\n\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
@@ -842,7 +862,11 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
 },"134":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "								<div class=\"well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
+  return "								<div data-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" class=\"iad-control-group well well-sm\">\r\n									<div class=\"form-group iad-form-group\">\r\n										<div style=\"text-align:right\">\r\n											<button data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))

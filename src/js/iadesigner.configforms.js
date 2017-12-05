@@ -223,7 +223,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             var $xmlProperty = $(xmlProperty);
             var id = $xmlProperty.attr('id');
-            if (options.excludeProperties.indexOf(id) === -1)
+            if (options.excludeProperties.indexOf(id) === -1 &&
+                id.indexOf('target_') == -1 &&
+                id.indexOf('symbol_') == -1 &&
+                id.indexOf('break_') == -1 &&
+                id.indexOf('line_') == -1)
             {
                 var control = getPropertyControl($xmlComponent, $xmlProperty);
                 form.controls[form.controls.length] = control;
@@ -604,7 +608,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Symbols',
-            'type'      : 'Table',
+            'type'      : 'Column',
             'controls'  : []
         };
 
@@ -683,7 +687,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Chart Column Breaks',
-            'type'      : 'Table',
+            'type'      : 'Column',
             'controls'  : []
         };
 
@@ -704,7 +708,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (id.indexOf(testId) !== -1)
             {
                 var index = id.substring(id.lastIndexOf("_") + 1, id.length);
-
                 var $color = $xmlTable.find('Property#' + 'break_color_' + index);
                 var $label = $xmlTable.find('Property#' + 'break_label_' + index);
 
@@ -751,7 +754,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'id'        : widgetId,
             'name'      : 'Chart Column Targets',
-            'type'      : 'Table',
+            'type'      : 'Column',
             'controls'  : []
         };
 
@@ -765,7 +768,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (id.indexOf(testId) !== -1)
             {
                 var index = id.substring(id.lastIndexOf("_") + 1, id.length);
-
                 var $shape  = $xmlTable.find('Property#' + 'target_shape_' + index);
                 var $color  = $xmlTable.find('Property#' + 'target_color_' + index);
                 var $size   = $xmlTable.find('Property#' + 'target_size_' + index);

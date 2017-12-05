@@ -58,6 +58,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 else $editWidgetBtn.show();
             }
         }
+        else $editWidgetBtn.show();
     };
 
     iad.widgetproperties.show = function(widgetId)
@@ -149,31 +150,29 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 update: function()
                 {
                     // New order.
-                    var columns = [];
                     var widgetId;
-                    var tagName;
-                    $('.iad-sortable', $(this)).each(function(index, elem) 
+                    var columns = [];
+                    $('.iad-sortable', $(this)).each(function(i, elem) 
                     {
-                        var controlId = $(elem).attr('id');
-                        var arr = controlId.split('~');
-                        tagName = arr[0];
-                        widgetId = arr[1];
-                        if (tagName === 'Column') // table columns.
+                        widgetId = $(elem).data('id');
+                        var index = $(elem).data('index');
+                        if (widgetId.indexOf('menuBar') !== -1)
                         {
-                            var colIndex = arr[2];
-                            var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(colIndex);
-                            columns[columns.length] = $column;
-                        }
-                        else // Menu Items.
-                        {
-                            var id = arr[2];
-                            var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + id);
-                            var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + id);
+                            var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + index);
+                            var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + index);
                             columns[columns.length] = {menuItem:$menuItem, menuFunc:$menuFunc};
                         }
+                        else
+                        {
+                            var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
+                            columns[columns.length] = $column;
+                        }
                     });
-                    if (tagName === 'Column') iad.config.orderColumns(widgetId, columns);
-                    else iad.config.orderMenuItems(widgetId, columns);
+
+                    if (widgetId.indexOf('menuBar') !== -1)
+                        iad.config.orderMenuItems(widgetId, columns);
+                    else
+                        iad.config.orderColumns(widgetId, columns);
                 }
             });
 

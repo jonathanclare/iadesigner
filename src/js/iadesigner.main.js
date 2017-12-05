@@ -129,7 +129,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 // Update css form when color scheme has been changed.
                 for (var property in lessVars)
                 {
-                    var $control = $('#' + property.substring(1)); // Substring to remove'@'.
+                    var $control = $('#iad-form-css-properties').find("[data-id='" + property.substring(1) + "']"); // Substring to remove'@'.
                     var value = lessVars[property];
                     if (ia.Color.isHex(value))  $control.css('background-color', value); // Color.
                     else                
@@ -141,7 +141,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     }       
                 }
 
-                // Highlight/selection and chart color changes need iaReport refresh.
+                // Highlight/selection and chart color changes need iaReport update.
                 if (iaReport !== undefined)
                 {
                     var factory = iaReport.getComponent('factory');
@@ -565,17 +565,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.formcontrols.init(
         {
-            onPropertyChanged: function (formId, formType, propId, propValue)
+            onPropertyChanged: function (formId, formType, propId, propValue, index)
             {
-                console.log('formId: '+formId);
+                /*console.log('formId: '+formId);
                 console.log('formType: '+formType);
                 console.log('propId: '+propId);
                 console.log('propValue: '+propValue);
+                console.log('index: '+index);*/
 
                 if (formType === 'Column')
                 {
                     if (propId === 'alias' || propId === 'name' || propId === 'symbol' || propId === 'width' || propId === 'national')
-                        iad.config.setColumnProperty(propId, formId, data.columnIndex, propId, propValue);
+                        iad.config.setColumnAttribute(formId, index, propId, propValue);
                     else
                         iad.config.setWidgetProperty(formId, propId, propValue); // Special spine chart column properties like min, mid ,max labels.
                 }

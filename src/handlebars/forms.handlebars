@@ -433,7 +433,7 @@
 
 							<!-- Menu Bar -->
 							{{#ifEqualTo type 'menu-bar'}}
-								<div data-id="{{id}}" class="well well-sm iad-sortable">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 									
 									<div class="form-group iad-form-group">
 										<div class="iad-sort-handle">
@@ -496,7 +496,7 @@
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'pyramid-line'}}
-								<div class="well well-sm">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm">
 									<div class="form-group iad-form-group">
 										<div style="text-align:right">
 											<button data-id="{{id}}" data-index="{{index}}" type="button" class="close iad-control-remove-pyramid-line iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
@@ -538,7 +538,7 @@
 
 							<!-- Tables -->
 							{{#ifEqualTo type 'column'}}
-								<div data-id="{{id}}" class="well well-sm iad-sortable">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
 										<div class="iad-sort-handle">
@@ -613,7 +613,7 @@
 
 							<!-- Area Profile -->				
 							{{#ifEqualTo type 'chart-column'}}
-								<div data-id="{{id}}" class="well well-sm iad-sortable">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
 										<div class="iad-sort-handle">
@@ -840,8 +840,7 @@
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'symbol-column'}}
-
-								<div data-id="{{id}}" class="well well-sm iad-sortable">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group">
 										<div class="iad-sort-handle">
@@ -942,7 +941,7 @@
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'profile-symbol'}}
-								<div class="well well-sm">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm">
 									<div class="form-group iad-form-group">
 										<div style="text-align:right">
 											<button data-id="{{id}}" data-index="{{index}}" type="button" class="close iad-control-remove-symbol iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
@@ -1006,7 +1005,7 @@
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'profile-target'}}
-								<div class="well well-sm">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm">
 
 									<div class="form-group iad-form-group">
 										<div style="text-align:right">
@@ -1075,7 +1074,7 @@
 								</div>
 							{{/ifEqualTo}}
 							{{#ifEqualTo type 'profile-break'}}
-								<div class="well well-sm">
+								<div data-id="{{id}}" data-index="{{index}}" class="iad-control-group well well-sm">
 									<div class="form-group iad-form-group">
 										<div style="text-align:right">
 											<button data-id="{{id}}" data-index="{{index}}" type="button" class="close iad-control-remove-break iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
