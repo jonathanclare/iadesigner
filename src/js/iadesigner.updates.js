@@ -8,6 +8,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     var ipc = electron.ipcRenderer;
 
     var $updateBar = $('#iad-update-bar');
+    var $main = $('#iad-main');
 
     // Click handlers.
     $('#iad-update-close').on('click', function (e)

@@ -632,7 +632,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var txt = arrColumnName[i];
             if (txt.indexOf(attr) !== -1)
             {
-                arrTxt = txt.split(':')
+                arrTxt = txt.split(':');
                 arrTxt[1] = newValue;
                 index = i;
                 break;
