@@ -124,6 +124,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Sets a property.
     iad.css.setProperty = function(property, value)
     {
+        if (iad.util.isNumeric(value))
+        {
+            if (value < 0) value = 0;
+            value = value + 'px';
+        }
+                    
         // Modify the less variable if a property and value have been supplied.
         if (property !== undefined && value !== undefined)
         {

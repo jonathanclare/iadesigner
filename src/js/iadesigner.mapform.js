@@ -35,11 +35,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.mapform.getForm = function(jsonMap)
     {
-        var mapForm =  {'id':'map', 'forms':[]};
+        var mapForm =  {'id':'MapLayers', 'forms':[]};
         for (var i = 0; i < jsonMap.layers.length; i++)
         {
             var jsonLayer = jsonMap.layers[i];
-            var layerForm = {'name': jsonLayer.name, 'type':'MapLayers', 'controls':[]};
+            var layerForm = {'name': jsonLayer.name, 'type':'MapLayers', 'id': jsonLayer.id, 'controls':[]};
             mapForm.forms.push(layerForm);
 
             for (var j = 0; j < controls.length; j++)

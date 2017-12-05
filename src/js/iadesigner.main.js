@@ -565,14 +565,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.formcontrols.init(
         {
-            onPropertyChanged: function (formType, formId, propId, propValue)
+            onPropertyChanged: function (formId, formType, propId, propValue)
             {
-                console.log('formType: '+formId);
-                console.log('formId: '+formType);
+                console.log('formId: '+formId);
+                console.log('formType: '+formType);
                 console.log('propId: '+propId);
                 console.log('propValue: '+propValue);
 
-                /*
                 if (formType === 'Column')
                 {
                     if (propId === 'alias' || propId === 'name' || propId === 'symbol' || propId === 'width' || propId === 'national')
@@ -602,13 +601,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
                 else if (formType == 'CSS')    
                 {
-                    if (iad.util.isNumeric(propValue))
-                    {
-                        if (propValue < 0) propValue = 0;
-                        propValue = propValue + 'px';
-                    }
                     iad.css.setProperty(propId, propValue);
-                }*/
+                }
             }
         });
     }
