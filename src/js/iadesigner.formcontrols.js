@@ -36,13 +36,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
 
         // Called when a property has been changed.
-        function onPropertyChanged($control, controlId, newValue)
+        function onPropertyChanged($control, newValue)
         {
             var $form = $control.closest('.iad-form');
-            var formId = $form.data('id');
-            var formType = $form.data('type');
+            var formId = $form.data('form-id');
+            var formType = $form.data('form-type');
 
-            var controlIndex;
+            var $formGroup = $control.closest('.iad-form-group');
+            var controlId = $formGroup.data('control-id');
+            var controlIndex = $formGroup.data('control-index');
+
             var $controlGroup = $control.closest('.iad-control-group');
             if ($controlGroup.length) controlIndex = $controlGroup.data('index');
 
@@ -52,28 +55,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 dispatchWidgetChange(formId, formType, controlId, newValue, controlIndex);
         }
 
-        // Handle key entry.
-        $(document).on('keyup', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
+        // Handle key entry / paste.
+        $(document).on('keyup paste', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
         {
-            onPropertyChanged($(this), $(this).data('id'), $(this).val());
-        });
-
-        // Handle pasted text.
-        $(document).on('paste', '.iad-control-text, iad-control-integer, iad-control-float', function (e) 
-        {
-            onPropertyChanged($(this), $(this).data('id'), $(this).val());
+            onPropertyChanged($(this), $(this).val());
         });
 
         // Handle dropdowns.
         $(document).on('change', '.iad-control-select, .iad-control-integer-select', function (e)  
         {
-            onPropertyChanged($(this), $(this).data('id'), $(this).val());}
+            onPropertyChanged($(this), $(this).val());}
         );
 
         // Handle checkbox.
         $(document).on('change', '.iad-control-checkbox', function (e)  
         {
-            onPropertyChanged($(this), $(this).data('id'), $(this).is(':checked'));
+            onPropertyChanged($(this), $(this).is(':checked'));
         });
 
         // Range input
@@ -81,7 +78,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             var value = $(this).val();
             $(this).next().html(value);
-            onPropertyChanged($(this), $(this).data('id'), value);
+            onPropertyChanged($(this), value);
         });
 
         // Text dropdown input replace text.
@@ -94,7 +91,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $input = $(this).parents('.input-group').find('.iad-control-text');
             $input.val(selText);
 
-            onPropertyChanged($input, $input.data('id'), $input.val());
+            onPropertyChanged($input, $input.val());
         });
 
         // Text dropdown input append text.
@@ -110,7 +107,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (inputValue === '') $input.val(selText);
             else $input.val($input.val() + ' ' + selText);
 
-            onPropertyChanged($input, $input.data('id'), $input.val());
+            onPropertyChanged($input, $input.val());
         });
 
         // Integer counter buttons.
@@ -125,7 +122,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value - 1;
             $input.val(value);
 
-            onPropertyChanged($input, $input.data('id'), value);
+            onPropertyChanged($input, value);
         });
         $(document).on('click', '.iad-control-integer-plus', function (e)
         {
@@ -139,7 +136,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value + 1;
             $input.val(value);
 
-            onPropertyChanged($input, $input.data('id'), value);
+            onPropertyChanged($input, value);
         });
 
         // Float counter buttons.
@@ -155,7 +152,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value.toFixed(2);
             $input.val(value);
 
-            onPropertyChanged($input, $input.data('id'), value);
+            onPropertyChanged($input, value);
         });
         $(document).on('click', '.iad-control-float-plus', function (e)
         {
@@ -170,17 +167,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
             value = value.toFixed(2);
             $input.val(value);
 
-            onPropertyChanged($input, $input.data('id'), value);
+            onPropertyChanged($input, value);
         });
 
         // Color dropdown input replace text.
         $(document).on('click', '.iad-dropdown-menu-colorpalette a', function (e)
         {
             e.preventDefault();
-
-            var id = $(this).parents('.input-group').find('.dropdown-toggle').data('id');
             var value = $(this).attr('data-value');
-            onPropertyChanged($(this), id, value);
+            onPropertyChanged($(this), value);
         });
 
         // Open color scheme modal.
@@ -208,21 +203,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
             iad.colorpicker.open($colorSwatch, inColor, function (outColor)
             {
                 $colorSwatch.css('background-color', outColor); // Update the color swatch.
-                onPropertyChanged($colorSwatch, $colorSwatch.data('id'), outColor);
+                //onPropertyChanged($colorSwatch, $colorSwatch.data('id'), outColor);
+                onPropertyChanged($colorSwatch, outColor);
             });
         });
 
         // Add / Remove table columns.
         $(document).on('click', '.iad-control-add-column', function (e)
         {
-            console.log($(this).data('id'));
             iad.config.addColumn($(this).data('id'));
         });
         $(document).on('click', '.iad-control-remove-column', function (e)
         {
             e.preventDefault();
-            console.log($(this).data('id'));
-            console.log($(this).data('index'));
             iad.config.removeColumn($(this).data('id'), $(this).data('index'));
         });
 

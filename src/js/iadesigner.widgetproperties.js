@@ -156,6 +156,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     {
                         widgetId = $(elem).data('id');
                         var index = $(elem).data('index');
+                        $(elem).data('index', i); // Update the column index.
                         if (widgetId.indexOf('menuBar') !== -1)
                         {
                             var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + index);

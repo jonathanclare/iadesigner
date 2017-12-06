@@ -117,8 +117,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         // Apply the handlebars template for the css form.
         var template = window.iadesigner['forms.handlebars'];
-        var html = template(options.form);
-        $('#iad-form-css-properties').html(html);
 
         iad.css.init(
         {
@@ -129,17 +127,26 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 // Update css form when color scheme has been changed.
                 for (var property in lessVars)
                 {
-                    var $control = $('#iad-form-css-properties').find("[data-id='" + property.substring(1) + "']"); // Substring to remove'@'.
+                    var id = property.substring(1); // Remove @
                     var value = lessVars[property];
-                    if (ia.Color.isHex(value))  $control.css('background-color', value); // Color.
-                    else                
+                    var pos = value.indexOf('px');
+                    if (pos != -1) value = value.substring(0, pos);
+                    for (var i = 0; i < options.form.forms.length; i++)
                     {
-                        var pos = value.indexOf('px');
-                        if (pos != -1) value = value.substring(0, pos);
-                        if ($control.hasClass('iad-control-range'))  $control.next().html(value);
-                        $control.val(value); // Numeric / Select.
-                    }       
+                        var form = options.form.forms[i];
+                        for (var j = 0; j < form.controls.length; j++)
+                        {
+                            var ctrl = form.controls[j];
+                            if (ctrl.id === id)
+                            {
+                                console.log(ctrl);
+                                ctrl.value = value;
+                                break;
+                            }
+                        }
+                    }
                 }
+                $('#iad-form-css-properties').html(template(options.form));
 
                 // Highlight/selection and chart color changes need iaReport update.
                 if (iaReport !== undefined)
@@ -567,11 +574,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onPropertyChanged: function (formId, formType, propId, propValue, index)
             {
-                /*console.log('formId: '+formId);
+                console.log('formId: '+formId);
                 console.log('formType: '+formType);
                 console.log('propId: '+propId);
                 console.log('propValue: '+propValue);
-                console.log('index: '+index);*/
+                console.log('index: '+index);
 
                 if (formType === 'Column')
                 {
