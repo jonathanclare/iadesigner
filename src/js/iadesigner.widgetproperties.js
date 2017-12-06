@@ -154,9 +154,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     var columns = [];
                     $('.iad-sortable', $(this)).each(function(i, elem) 
                     {
-                        widgetId = $(elem).data('id');
-                        var index = $(elem).data('index');
-                        $(elem).data('index', i); // Update the column index.
+                        var $control = $(elem);
+                        widgetId = $control.data('control-id');
+                        var index = $control.data('control-index');
+                        $control.data('control-index', i); // Update the column index.
+                        
                         if (widgetId.indexOf('menuBar') !== -1)
                         {
                             var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + index);

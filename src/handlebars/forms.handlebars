@@ -21,7 +21,7 @@
 							{{!-- Standard --}}
 
 							{{#ifTextControl type}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -36,7 +36,7 @@
 							{{/ifTextControl}}
 
 							{{#ifEqualTo type 'textarea'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
                                         {{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -51,7 +51,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'textarea-large'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">
 										<textarea class="form-control input-sm iad-control-textarea iad-control-text">{{value}}</textarea>
 									</div>
@@ -71,7 +71,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'integer'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -92,7 +92,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'float'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -113,7 +113,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'integer-counter'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -134,7 +134,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'integer-select'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -162,7 +162,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'float-counter'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -183,7 +183,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'boolean'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="checkbox iad-checkbox">
 										<label>
 											<input type="checkbox" {{#ifEqualTo this.value 'true'}}checked{{/ifEqualTo}} {{#ifEqualTo this.value true}}checked{{/ifEqualTo}} class="iad-control-checkbox"><span class="control-label iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
@@ -193,7 +193,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'select'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -218,7 +218,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'colour'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -233,7 +233,7 @@
 							{{/ifEqualTo}}
 
                             {{#ifEqualTo type 'colour-dropdown'}}
-                                <div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+                                <div class="form-group iad-form-group" data-control-id="{{id}}">
                                     <div>
                                         <div class="input-group">
                                             <div class="input-group-btn" style="vertical-align:bottom">
@@ -255,7 +255,7 @@
                             {{/ifEqualTo}}
 
 							{{#ifEqualTo type 'text'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
                                         {{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -270,7 +270,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'range'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
                                         {{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -288,7 +288,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'text-dropdown-replace'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -321,7 +321,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'text-dropdown-append'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div class="control-label">
 										{{#ifStartsWith description 'popover:'}}
                                         <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
@@ -361,7 +361,7 @@
 
 							{{!-- Map Palettes --}}
 							{{#ifEqualTo type 'map-palettes-legend-editor'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div id="map-palettes-legend-editor">
 
 									</div>
@@ -369,7 +369,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'map-palettes-color-range-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-color-range iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
 									</div>
@@ -377,7 +377,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'map-palettes-color-range'}}
-								<div class="form-group iad-form-group" data-control-id="{{color-id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{color-id}}">
 									<div class="input-group">
 										<span class="btn-group">
 											<button class="btn btn-sm btn-default iad-control-color-swatch" type="button" style="background-color:{{color-value}}">&nbsp;&nbsp;</button>
@@ -390,7 +390,7 @@
 							{{/ifEqualTo}}
 
                             {{#ifEqualTo type 'map-palettes-color-scheme-add'}}
-                                <div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+                                <div class="form-group iad-form-group" data-control-id="{{id}}">
                                     <div style="text-align:right">
                                         <button data-control-id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add-color-scheme iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
                                     </div>
@@ -398,7 +398,7 @@
                             {{/ifEqualTo}}
 
 							{{#ifEqualTo type 'map-palettes-color-scheme'}}
-								<div class="form-group iad-form-group" data-control-id="{{color-id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{color-id}}">
 									<div class="input-group">
 		      							<span class="input-group-btn">
 											<button data-control-id="{{color-id}}" class="btn btn-sm btn-default iad-control-color-swatch" type="button" style="background-color:{{color-value}}">&nbsp;&nbsp;</button>
@@ -416,7 +416,7 @@
 							{{!-- Menu Bar --}}
 
 							{{#ifEqualTo type 'menu-bar'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm iad-sortable">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 									
 									<div class="form-group iad-form-group" data-control-id="{{id}}"">
 										<div class="iad-sort-handle">
@@ -464,7 +464,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'menu-bar-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-menu-item iad-tooltip-control" data-toggle="tooltip" title="Add a new item"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Item</button>
 									</div>
@@ -474,7 +474,7 @@
 							{{!-- Pyramid --}}
 
 							{{#ifEqualTo type 'pyramid-line-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-pyramid-line iad-tooltip-control" data-toggle="tooltip" title="Add a new line"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Line</button>
 									</div>
@@ -482,14 +482,14 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'pyramid-line'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm">
-									<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm">
+									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div style="text-align:right">
 											<button type="button" class="close iad-control-remove-pyramid-line iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{data-control-id}}" data-control-index="{{@index}}">
+									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Data to be associated with the target">Data</span>
 										</div>
@@ -502,7 +502,7 @@
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{label-id}}" data-control-index="{{@index}}">
+									<div class="form-group iad-form-group" data-control-id="{{label-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Line label">Label</span>
 										</div>
@@ -511,7 +511,7 @@
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{color-id}}" data-control-index="{{@index}}">
+									<div class="form-group iad-form-group" data-control-id="{{color-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Line colour">Colour</span>
 										</div>
@@ -525,7 +525,7 @@
 							{{!-- Tables --}}
 
 							{{#ifEqualTo type 'column'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm iad-sortable">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div class="iad-sort-handle">
@@ -559,7 +559,7 @@
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{data-control-id}}">
+									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column data source">Source</span>
 										</div>
@@ -592,7 +592,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'column-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-column iad-tooltip-control" data-toggle="tooltip" title="Add Column"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Column</button>
 									</div>
@@ -601,7 +601,7 @@
 
 							{{!-- Area Profile --}}				
 							{{#ifEqualTo type 'chart-column'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm iad-sortable">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div class="iad-sort-handle">
@@ -687,7 +687,7 @@
 												<div class="iad-form-label"><b>Area Symbol</b></div>
 											</div>
 
-											<div class="form-group iad-form-group" data-control-id="{{data-control-id}}">
+											<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 												<div class="control-label">
 													<span class="iad-tooltip-control" data-toggle="tooltip" title="The data source containing the values that define the position of the symbol.">Position Source</span>
 												</div>
@@ -829,7 +829,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'symbol-column'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm iad-sortable">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div class="iad-sort-handle">
@@ -865,7 +865,7 @@
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{data-control-id}}">
+									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column data source">Data Source</span>
 										</div>
@@ -910,7 +910,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'target-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-target iad-tooltip-control" data-toggle="tooltip" title="Add a new target"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Target</button>
 									</div>
@@ -918,7 +918,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'symbol-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-symbol iad-tooltip-control" data-toggle="tooltip" title="Add a new symbol"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Symbol</button>
 									</div>
@@ -926,7 +926,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'break-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}" data-control-index="{{@index}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add-break iad-tooltip-control" data-toggle="tooltip" title="Add a new break"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Break</button>
 									</div>
@@ -934,14 +934,14 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'profile-symbol'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm">
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div style="text-align:right">
 											<button type="button" class="close iad-control-remove-symbol iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{data-control-id}}">
+									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="The data value to be associated with the symbol">Data Value</span>
 										</div>
@@ -999,7 +999,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'profile-target'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm">
 
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div style="text-align:right">
@@ -1007,7 +1007,7 @@
 										</div>
 									</div>
 
-									<div class="form-group iad-form-group" data-control-id="{{data-control-id}}">
+									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
 										<div class="control-label">
 											<span class="iad-tooltip-control" data-toggle="tooltip" title="Data to be associated with the target">Data</span>
 										</div>
@@ -1069,7 +1069,7 @@
 							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'profile-break'}}
-								<div data-control-id="{{id}}" data-control-index="{{@index}}" class="iad-control-group well well-sm">
+								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm">
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div style="text-align:right">
 											<button type="button" class="close iad-control-remove-break iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>

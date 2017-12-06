@@ -139,7 +139,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                             var ctrl = form.controls[j];
                             if (ctrl.id === id)
                             {
-                                console.log(ctrl);
                                 ctrl.value = value;
                                 break;
                             }
@@ -428,14 +427,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onGroupPropertyChanged: function (groupId, propertyId)
             {
-                /*if (groupId.indexOf('thematics') === -1 &&      // Thematics are now dynamically updated via the legend tab so dont require a full config update.
-                    groupId.indexOf('pointSymbols') === -1 && 
-                    groupId.indexOf('lineSymbols') === -1)
-                {*/
-                    iad.report.refreshConfig();
-
-                //}
-               // else onConfigChanged();
+                iad.report.refreshConfig();
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
@@ -572,44 +564,40 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.formcontrols.init(
         {
-            onPropertyChanged: function (formId, formType, propId, propValue, index)
+            onDataChanged: function (data)
             {
-                console.log('formId: '+formId);
-                console.log('formType: '+formType);
-                console.log('propId: '+propId);
-                console.log('propValue: '+propValue);
-                console.log('index: '+index);
+                console.log(data);
 
-                if (formType === 'Column')
+                if (data.formType === 'Column')
                 {
-                    if (propId === 'alias' || propId === 'name' || propId === 'symbol' || propId === 'width' || propId === 'national')
-                        iad.config.setColumnAttribute(formId, index, propId, propValue);
+                    if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
+                        iad.config.setColumnAttribute(data.formId, data.controlIndex, data.controlId, data.controlValue);
                     else
-                        iad.config.setWidgetProperty(formId, propId, propValue); // Special spine chart column properties like min, mid ,max labels.
+                        iad.config.setWidgetProperty(data.formId, data.controlId, data.controlValue); // Special spine chart column properties like min, mid ,max labels.
                 }
-                else if (formType === 'Component' || formType === 'Table')
+                else if (data.formType === 'Component' || data.formType === 'Table')
                 {          
-                    iad.config.setWidgetProperty(formId, propId, propValue);
+                    iad.config.setWidgetProperty(data.formId, data.controlId, data.controlValue);
                 }  
-                else if (formType === 'Button' || formType === 'Image' || formType === 'Text') 
+                else if (data.formType === 'Button' || data.formType === 'Image' || data.formType === 'Text') 
                 {
-                    iad.config.setWidgetAttribute(formId, propId, propValue);
+                    iad.config.setWidgetAttribute(data.formId, data.controlId, data.controlValue);
                 }
-                else if (formType == 'PropertyGroup')
+                else if (data.formType == 'PropertyGroup')
                 {
-                    iad.config.setGroupProperty(formId, propId, propValue);
+                    iad.config.setGroupProperty(data.formId, data.controlId, data.controlValue);
                 }
-                else if (formType == 'MapPalettes')
+                else if (data.formType == 'MapPalettes')
                 {
 
                 }
-                else if (formType == 'MapLayers')
+                else if (data.formType == 'MapLayers')
                 {
 
                 }
-                else if (formType == 'CSS')    
+                else if (data.formType == 'CSS')    
                 {
-                    iad.css.setProperty(propId, propValue);
+                    iad.css.setProperty(data.controlId, data.controlValue);
                 }
             }
         });
