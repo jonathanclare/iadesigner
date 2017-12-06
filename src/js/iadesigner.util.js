@@ -110,6 +110,25 @@ var iadesigner = (function (iad, $, window, document, undefined)
         else return arrFilter[0];
     };
 
+    iad.util.download = function (filename, content, type)
+    {
+        if (window.navigator.msSaveOrOpenBlob)
+        {
+            var blob = new Blob([content], { type: type });
+            window.navigator.msSaveBlob(blob, filename);
+        }
+        else
+        {
+            var encodedUri = encodeURI('data:'+type+';charset=utf-8,' + content);
+            var link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    };
+
     // Electron.
 
     // Force links to open in default browser window.

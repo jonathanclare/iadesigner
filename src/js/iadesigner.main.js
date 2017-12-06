@@ -31,7 +31,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
                 initCss(settings.css, function()
                 {
-                    initMapJson();
+                    initMapJson(settings.map);
                     initReport(settings.report, function()
                     {
                         iad.util.forceLinksToOpenInBrowserWindow();
@@ -115,9 +115,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initCss(options, callback)
     {
-        // Apply the handlebars template for the css form.
-        var template = window.iadesigner['forms.handlebars'];
-
         iad.css.init(
         {
             lessFile: options.lessFile,
@@ -125,27 +122,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onLessVarsChanged: function(lessVars)
             {
                 // Update css form when color scheme has been changed.
-                for (var property in lessVars)
-                {
-                    var id = property.substring(1); // Remove @
-                    var value = lessVars[property];
-                    var pos = value.indexOf('px');
-                    if (pos != -1) value = value.substring(0, pos);
-                    for (var i = 0; i < options.form.forms.length; i++)
-                    {
-                        var form = options.form.forms[i];
-                        for (var j = 0; j < form.controls.length; j++)
-                        {
-                            var ctrl = form.controls[j];
-                            if (ctrl.id === id)
-                            {
-                                ctrl.value = value;
-                                break;
-                            }
-                        }
-                    }
-                }
-                $('#iad-form-css-properties').html(template(options.form));
+                iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
 
                 // Highlight/selection and chart color changes need iaReport update.
                 if (iaReport !== undefined)
@@ -203,16 +180,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function initMapJson()
+    function initMapJson(options)
     {
         iad.mapjson.init(
         {
             onJsonChanged: function(jsonMap)
             {
-                var mapForm = iad.mapform.getForm(jsonMap);
-                var template = window.iadesigner['forms.handlebars'];
-                var html = template(mapForm);
-                $('#iad-form-layer-properties').html(template(mapForm));
+                iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
             },
             onPropertyChanged: function(property, value)
             {
@@ -220,9 +194,78 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onLayerPropertyChanged: function(layerId, property, value)
             {
-                
+                console.log(layerId+" "+property+" "+value);
+
+                var dataGroup = iad.report.getComponent('dataGroup');
+                var dataGroup2 = iad.report.getComponent('dataGroup2');
+
+                // Validate input.
+                if (property == 'fillOpacity')          // 0 - 1.
+                {
+                    value = Math.max(value, 0);
+                    value = Math.min(value, 1);
+                }
+                else if (property == 'borderThickness') // > 0.
+                {
+                    value = Math.max(value, 0);
+                }
+
+                // Dynamic update of the map layer.
+                updateLayer(layerId, dataGroup, property, value);
+                updateLayer(layerId, dataGroup2, property, value);
+
+                if (property == 'symbolSize')
+                {
+                    // Update the categoric classifier if its a base layer.
+                    onSymbolSizeChanged(layerId, dataGroup, value);
+                    onSymbolSizeChanged(layerId, dataGroup2, value);
+                }
+                else if (property == 'showDataTips' || property == 'showLabels')
+                {
+                    onLabellingChanged(layerId, dataGroup, value);
+                    onLabellingChanged(layerId, dataGroup2);
+                }
             }
         });
+
+        function updateLayer(layerId, dataGroup, property, newValue)
+        {
+            if (dataGroup)
+            {
+                var mapData = dataGroup.mapData;
+
+                // Update the property in the JSON for the layer.
+                var jsonLayer = mapData.getLayerJson(layerId);
+                if (property != undefined) jsonLayer[property] = newValue;
+
+                // Update the JSON for the layer.
+                var layer = mapData.getLayer(activeLayerId);
+                mapData.setLayerJson(jsonLayer, layer, true);
+
+                // Update thematics.
+                dataGroup.thematic.commitChanges();
+            }
+        }
+
+        function onSymbolSizeChanged(layerId, dataGroup, newValue)
+        {
+            if (dataGroup)
+            {
+                if (layerId == dataGroup.mapData.baseLayer.id)
+                    dataGroup.thematic.categoricClassifier.symbolSize = newValue;
+            }
+        }
+
+        function onLabellingChanged(layerId, dataGroup, newValue)
+        {
+            if (dataGroup)
+            {
+                // Need to call commitChanges() so correct canvases and event listeners 
+                // are added to layer for labelling and data tip functionality to work.
+                var layer = dataGroup.mapData.getLayer(layerId);
+                layer.commitChanges();
+            }
+        }
     }
 
     function initColorPicker()
@@ -566,8 +609,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
-                console.log(data);
-
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -593,7 +634,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
                 else if (data.formType == 'MapLayers')
                 {
-
+                    iad.mapjson.setLayerProperty(data.formId, data.controlId, data.controlValue);
                 }
                 else if (data.formType == 'CSS')    
                 {
