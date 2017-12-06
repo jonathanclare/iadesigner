@@ -28,7 +28,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
         var template = window.iadesigner[templateName];
         $(container).html(template(jsonForm));
-    }
+    };
 
     return iad;
 

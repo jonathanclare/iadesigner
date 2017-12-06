@@ -31,4 +31,5 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - Update form when name has changed
 - maintainlayer order - make layers sortable - override
 - refresh happening too quickly on colour
+- undo
 

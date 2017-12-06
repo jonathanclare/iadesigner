@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.0.166 *2017-12-06*
+* **new** - Edit and save map layers 
+
 ### v0.0.160 *2017-11-24*
 * **improved** - Updated screenshots for templates 
 
