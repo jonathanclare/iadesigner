@@ -188,84 +188,21 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
             },
-            onPropertyChanged: function(property, value)
+            onMapPropertyChanged: function(property, value)
             {
 
             },
             onLayerPropertyChanged: function(layerId, property, value)
             {
-                console.log(layerId+" "+property+" "+value);
-
-                var dataGroup = iad.report.getComponent('dataGroup');
-                var dataGroup2 = iad.report.getComponent('dataGroup2');
-
-                // Validate input.
-                if (property == 'fillOpacity')          // 0 - 1.
+                iad.progress.start('load', function()
                 {
-                    value = Math.max(value, 0);
-                    value = Math.min(value, 1);
-                }
-                else if (property == 'borderThickness') // > 0.
-                {
-                    value = Math.max(value, 0);
-                }
-
-                // Dynamic update of the map layer.
-                updateLayer(layerId, dataGroup, property, value);
-                updateLayer(layerId, dataGroup2, property, value);
-
-                if (property == 'symbolSize')
-                {
-                    // Update the categoric classifier if its a base layer.
-                    onSymbolSizeChanged(layerId, dataGroup, value);
-                    onSymbolSizeChanged(layerId, dataGroup2, value);
-                }
-                else if (property == 'showDataTips' || property == 'showLabels')
-                {
-                    onLabellingChanged(layerId, dataGroup, value);
-                    onLabellingChanged(layerId, dataGroup2);
-                }
+                    ia.parseMap(iad.mapjson.toJson(), function()
+                    {
+                        iad.progress.end('load');
+                    });
+                });
             }
         });
-
-        function updateLayer(layerId, dataGroup, property, newValue)
-        {
-            if (dataGroup)
-            {
-                var mapData = dataGroup.mapData;
-
-                // Update the property in the JSON for the layer.
-                var jsonLayer = mapData.getLayerJson(layerId);
-                if (property != undefined) jsonLayer[property] = newValue;
-
-                // Update the JSON for the layer.
-                var layer = mapData.getLayer(activeLayerId);
-                mapData.setLayerJson(jsonLayer, layer, true);
-
-                // Update thematics.
-                dataGroup.thematic.commitChanges();
-            }
-        }
-
-        function onSymbolSizeChanged(layerId, dataGroup, newValue)
-        {
-            if (dataGroup)
-            {
-                if (layerId == dataGroup.mapData.baseLayer.id)
-                    dataGroup.thematic.categoricClassifier.symbolSize = newValue;
-            }
-        }
-
-        function onLabellingChanged(layerId, dataGroup, newValue)
-        {
-            if (dataGroup)
-            {
-                // Need to call commitChanges() so correct canvases and event listeners 
-                // are added to layer for labelling and data tip functionality to work.
-                var layer = dataGroup.mapData.getLayer(layerId);
-                layer.commitChanges();
-            }
-        }
     }
 
     function initColorPicker()

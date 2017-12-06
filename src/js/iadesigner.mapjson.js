@@ -55,7 +55,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.mapjson.setProperty = function(property, value)
     {
         jsonMap[property] = value;
-        if (options && options.onPropertyChanged) options.onPropertyChanged.call(null, property, value);
+        if (options && options.onMapPropertyChanged) options.onMapPropertyChanged.call(null, property, value);
     };
 
     // Sets a layer property.

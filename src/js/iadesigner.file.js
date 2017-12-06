@@ -9,6 +9,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     var electron = require('electron');
     var remote = electron.remote;
     var dialog = remote.dialog;
+    var win = remote.getCurrentWindow();
 
     var changesSaved = true;
 
@@ -211,21 +212,24 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.progress.start('save', function()
             {
-                iad.file.saveFile(iad.report.configPath, iad.config.toString(), function ()
+                iad.file.saveFile(iad.report.mapPath, iad.mapjson.toString(), function ()
                 { 
-                    iad.file.saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
-                    {
-                        iad.css.getCssAsString(function (strCss)
+                    iad.file.saveFile(iad.report.configPath, iad.config.toString(), function ()
+                    { 
+                        iad.file.saveFile(iad.report.lessPath, iad.css.getLessVarsAsString(), function ()
                         {
-                            iad.file.saveFile(iad.report.stylePath, strCss, function ()
-                            {      
-                                // Copy ia-min.js because they might not have the latest version and a standalone report might break without it.
-                                iad.file.copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
-                                {
-                                    iad.progress.end('save', function()
+                            iad.css.getCssAsString(function (strCss)
+                            {
+                                iad.file.saveFile(iad.report.stylePath, strCss, function ()
+                                {      
+                                    // Copy ia-min.js because they might not have the latest version and a standalone report might break without it.
+                                    iad.file.copyFile(__dirname + '/lib/ia/ia-min.js', iad.report.path + '/ia-min.js', function () 
                                     {
-                                        iad.file.onChangesSaved();
-                                        if (callback !== undefined) callback.call(null);  
+                                        iad.progress.end('save', function()
+                                        {
+                                            iad.file.onChangesSaved();
+                                            if (callback !== undefined) callback.call(null);  
+                                        });
                                     });
                                 });
                             });

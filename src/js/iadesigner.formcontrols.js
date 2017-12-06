@@ -42,7 +42,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             var data = getData($control);
             data.controlValue = newValue;
-            if (data.formType === 'PropertyGroup') dispatchGroupPropertyChange(data);
+            if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatchGroupPropertyChange(data);
             else dispatchWidgetChange(data);
         }
 

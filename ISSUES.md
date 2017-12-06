@@ -23,3 +23,12 @@
 
 ## Refactor
 - Dropdown showing palette colours whenever a palette needs to be selected for a config property
+- Take this out of formcontrols
+if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatchGroupPropertyChange(data);
+
+## Map Json
+- Take bounding box from map
+- Update form when name has changed
+- maintainlayer order - make layers sortable - override
+- refresh happening too quickly on colour
+
