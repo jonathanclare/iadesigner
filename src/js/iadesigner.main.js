@@ -748,6 +748,26 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             return s.substring(i);
         });
+        // For nested templates.
+        Handlebars.registerPartial('control.text', window.iadesigner['control.text.handlebars']);
+        Handlebars.registerPartial('control.textarea', window.iadesigner['control.textarea.handlebars']);
+        Handlebars.registerPartial('control.textarea', window.iadesigner['control.textarealarge.handlebars']);
+        Handlebars.registerPartial('control.label', window.iadesigner['control.label.handlebars']);
+        Handlebars.registerPartial('control.boldlabel', window.iadesigner['control.boldlabel.handlebars']);
+        Handlebars.registerPartial('control.integer', window.iadesigner['control.integer.handlebars']);
+        Handlebars.registerPartial('control.float', window.iadesigner['control.float.handlebars']);
+        Handlebars.registerPartial('control.integercounter', window.iadesigner['control.integercounter.handlebars']);
+        Handlebars.registerPartial('control.integerselect', window.iadesigner['control.integerselect.handlebars']);
+        Handlebars.registerPartial('control.floatcounter', window.iadesigner['control.floatcounter.handlebars']);
+        Handlebars.registerPartial('control.boolean', window.iadesigner['control.boolean.handlebars']);
+        Handlebars.registerPartial('control.select', window.iadesigner['control.select.handlebars']);
+        Handlebars.registerPartial('control.colour', window.iadesigner['control.colour.handlebars']);
+        Handlebars.registerPartial('control.text', window.iadesigner['control.text.handlebars']);
+        Handlebars.registerPartial('control.range', window.iadesigner['control.range.handlebars']);
+        Handlebars.registerPartial('control.textdropdownreplace', window.iadesigner['control.textdropdownreplace.handlebars']);
+        Handlebars.registerPartial('control.textdropdownappend', window.iadesigner['control.textdropdownappend.handlebars']);
+        Handlebars.registerPartial('control.textareadropdownappend', window.iadesigner['control.textareadropdownappend.handlebars']);
+        Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
     }
 
     function updateDropdownMenus()

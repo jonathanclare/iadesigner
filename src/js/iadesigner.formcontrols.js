@@ -81,10 +81,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $input = $(this).parents('.input-group').find('.iad-control-text');
             var inputValue = $input.val();
 
-            if ($(this).hasClass('iad-dropdown-menu-append') && inputValue !== '') txt = inputValue + ' ' + txt;
+            if ($(this).closest('.iad-dropdown-menu-append').length && inputValue !== '') txt = inputValue + ' ' + txt;
 
             $input.val(txt);
-            onChange($input, inputValue);
+            onChange($input, txt);
         });
 
         // Counter buttons.
@@ -166,7 +166,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var inColor = $colorSwatch.css('background-color');
             iad.colorpicker.open($colorSwatch, inColor, function (outColor)
             {
-                console.log("open");
                 $colorSwatch.css('background-color', outColor); // Update the color swatch.
                 onChange($colorSwatch, outColor);
             });

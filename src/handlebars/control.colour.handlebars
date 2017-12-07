@@ -1,0 +1,12 @@
+<div class="form-group iad-form-group" data-control-id="{{id}}">
+	<div class="control-label">
+		{{#ifStartsWith description 'popover:'}}
+        <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
+        {{else}}
+        <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
+        {{/ifStartsWith}}
+	</div>
+	<div>
+		<button class="btn btn-sm btn-default iad-control-color-swatch" type="button" style="background-color:{{value}}">&nbsp;&nbsp;</button> 
+	</div>
+</div>
