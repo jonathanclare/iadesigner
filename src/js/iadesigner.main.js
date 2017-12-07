@@ -82,19 +82,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     function initSidebar(options)
     {
         var storedData; // Stores the data so that any changes can be undone.
-        var $editWidgetBtn = $('#iad-btn-widget-edit');
 
         iad.sidebar.init(
         {
             container: '#iad-report',
             onHide: function(id)
             {
-                if (id === 'iad-sidebar-widget') 
-                {
-                    if (iad.config.selectedWidgetId !== undefined) $editWidgetBtn.show();
-                }
+                if (id === 'iad-sidebar-widget') iad.canvas.clearSelection();
             },
-            onFirstShow: function(id)
+            onHidden: function(id)
+            {
+
+            },
+            onFirstShown: function(id)
             {
                 if (id === 'iad-sidebar-templategallery') initTemplateGallery(options.templateGallery);
                 else if (id === 'iad-sidebar-widgetgallery') initWidgetGallery(options.widgetGallery);
@@ -105,6 +105,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
                 else if (id === 'iad-sidebar-maplayer') storedData = iad.mapjson.toJson();
                 else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') storedData = iad.config.getXml();
+            },
+            onShown: function(id)
+            {
+
             },
             onUndo: function(id)
             {
@@ -123,23 +127,27 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             lessVars: options.lessVars,
             onLessVarsChanged: function(lessVars)
             {
-                // Update css form when color scheme has been changed.
-                iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
-
-                // Highlight/selection and chart color changes need iaReport update.
-                if (iaReport !== undefined)
+                iad.progress.start('load', function()
                 {
-                    var factory = iaReport.getComponent('factory');
-                    iaReport.highlightColor = lessVars['@highlight-color'];
-                    iaReport.selectionColor = lessVars['@selection-color'];
-                    factory.updateComponents(function ()
+                    // Update css form when color scheme has been changed.
+                    iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
+
+                    // Highlight/selection and chart color changes need iaReport update.
+                    if (iaReport !== undefined)
                     {
-                        factory.renderComponents(function () 
+                        var factory = iaReport.getComponent('factory');
+                        iaReport.highlightColor = lessVars['@highlight-color'];
+                        iaReport.selectionColor = lessVars['@selection-color'];
+                        factory.updateComponents(function ()
                         {
-                            onStyleChanged();
+                            factory.renderComponents(function () 
+                            {
+                                onStyleChanged();
+                                iad.progress.end('load');
+                            });
                         });
-                    });
-                }
+                    }
+                });
             },
             onPropertyChanged: function(property, value)
             {
@@ -197,6 +205,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     ia.parseMap(jsonMap, function()
                     {
+                        iad.canvas.update();
                         iad.progress.end('load');
                     });
                 });

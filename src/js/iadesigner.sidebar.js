@@ -42,12 +42,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            if ($sidebar.data('initialised') !== true)
-            {
-                if (options && options.onFirstShow) options.onFirstShow.call(null, id); 
-                $sidebar.data('initialised', true);
-            }
-
             var sidebarIsVisible = false;
             $('.iad-sidebar:visible').each(function()
             {
@@ -56,23 +50,45 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 sidebarIsVisible = true;
             });
 
+            if (options && options.onShow) options.onShow.call(null, id); 
+
             // Check if a sidebar is already visible.
             if (sidebarIsVisible)
             {
                 $sidebar.css('left', '0px');
-                $sidebar.fadeIn({duration: 400,queue: false});
+                $sidebar.fadeIn({duration: 400,queue: false, complete: function() 
+                {
+                    onShown(id);
+                }});
             }
             else
             {
                 var w = $sidebar.outerWidth();
-                $sidebar.show();
-                $sidebar.animate({left: '0px'}, {duration: 400,queue: false});
-                if ($container !== undefined) $container.animate({left: w + 'px'}, {duration: 400, queue: false});
+                $sidebar.show({complete: function() 
+                {
+                    $sidebar.animate({left: '0px'}, {duration: 400, queue: false, complete: function() 
+                    {
+                        onShown(id);
+                    }});
+                    if ($container !== undefined) $container.animate({left: w + 'px'}, {duration: 400, queue: false});
+                }});
             }
-
-            if (options && options.onShow) options.onShow.call(null, id); 
         }
     };
+
+    function onShown(id)
+    {
+        var $sidebar = $('#'+id);
+        if ($sidebar.length)
+        {
+            if ($sidebar.data('initialised') !== true)
+            {
+                if (options && options.onFirstShown) options.onFirstShown.call(null, id); 
+                $sidebar.data('initialised', true);
+            }
+            if (options && options.onShown) options.onShown.call(null, id); 
+        }
+    }
 
     iad.sidebar.isVisible = function(id)
     {
@@ -81,15 +97,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
         else return false;
     };
 
-    iad.sidebar.hide = function(id)
+    iad.sidebar.hide = function(id, callback)
     {
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            var w = $sidebar.outerWidth() * -1;
-            $sidebar.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() {$sidebar.hide();}});
-            if ($container !== undefined) $container.animate({left:'0px'}, {duration: 400, queue: false});
             if (options && options.onHide) options.onHide.call(null, id); 
+            var w = $sidebar.outerWidth() * -1;
+            if ($container !== undefined) $container.animate({left:'0px'}, {duration: 400, queue: false});
+            $sidebar.animate({left: w + 'px'}, {duration: 400,queue: false, complete: function() 
+            {
+                $sidebar.hide({complete: function() 
+                {
+                    if (options && options.onHidden) options.onHidden.call(null, id); 
+                    if (callback !== undefined) callback.call(null);
+                }});
+            }});
         }
     };
 
@@ -98,7 +121,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            if (options && options.onUndo) options.onUndo.call(null, id); 
+            iad.sidebar.hide(id, function()
+            {
+                if (options && options.onUndo) options.onUndo.call(null, id); 
+            });
         }
     };
 
@@ -114,9 +140,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             if ($sidebar.is(':visible'))
             {
-                var l = $sidebar.outerWidth() * -1;
-                $sidebar.fadeOut({duration: 400,queue: false, complete: function() {$sidebar.css('left', l + 'px');}});
                 if (options && options.onHide) options.onHide.call(null, id); 
+                var l = $sidebar.outerWidth() * -1;
+                $sidebar.fadeOut({duration: 400,queue: false, complete: function() 
+                {
+                    $sidebar.css('left', l + 'px');
+                    if (options && options.onHidden) options.onHidden.call(null, id); 
+                }});
             }
         }
     }

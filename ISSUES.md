@@ -19,7 +19,6 @@
 ## General
 - Dont select canvas when in preview mode
 - Save As
-- Undo / Redo
 
 ## Refactor
 - Dropdown showing palette colours whenever a palette needs to be selected for a config property
@@ -30,8 +29,5 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - Take bounding box from map
 - Update form when name has changed
 - maintainlayer order - make layers sortable - override
-
-## config forms
-- issue with undo - needs to be reset each time a different widget is selected rather than when the sidebar is displayed
 
 ## maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
