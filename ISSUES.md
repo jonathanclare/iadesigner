@@ -30,6 +30,11 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - Take bounding box from map
 - Update form when name has changed
 - maintainlayer order - make layers sortable - override
-- refresh happening too quickly on colour
+- refresh happening too quickly on colour choise opening
 - undo
 
+## config forms
+- undo - just refresh whole config file... remember to refresh the form as well
+
+
+- refactor handlebars

@@ -72,68 +72,76 @@ var iadesigner = (function (iad, $, window, document, undefined)
             onChange($(this), value);
         });
 
-        // Text dropdown input replace text.
-        $(document).on('click', '.iad-dropdown-menu-replace a', function (e)
+        // Text dropdown input replace text / append text.
+        $(document).on('click', '.iad-dropdown-menu-replace a, .iad-dropdown-menu-append a', function (e)
         {
             e.preventDefault();
-            var selText = $(this).attr('data-value');
-            var $input = $(this).parents('.input-group').find('.iad-control-text');
-            $input.val(selText);
-            onChange($input, $input.val());
-        });
 
-        // Text dropdown input append text.
-        $(document).on('click', '.iad-dropdown-menu-append a', function (e)
-        {
-            e.preventDefault();
-            var selText = $(this).attr('data-value');
+            var txt = $(this).attr('data-value');
             var $input = $(this).parents('.input-group').find('.iad-control-text');
             var inputValue = $input.val();
-            if (inputValue === '') $input.val(selText);
-            else $input.val($input.val() + ' ' + selText);
-            onChange($input, $input.val());
+
+            if ($(this).hasClass('iad-dropdown-menu-append') && inputValue !== '') txt = inputValue + ' ' + txt;
+
+            $input.val(txt);
+            onChange($input, inputValue);
         });
 
-        // Integer counter buttons.
-        $(document).on('click', '.iad-control-integer-minus', function (e)
+        // Counter buttons.
+        $(document).on('click', '.iad-control-integer-minus, .iad-control-integer-plus, .iad-control-float-minus, .iad-control-float-plus', function (e)
         {
             e.preventDefault();
-            var $input = $(this).parents('.input-group').find('.iad-control-number');
-            var value = ia.parseInt($input.val());
-            value = value - 1;
-            $input.val(value);
-            onChange($input, value);
-        });
-        $(document).on('click', '.iad-control-integer-plus', function (e)
-        {
-            e.preventDefault();
-            var $input = $(this).parents('.input-group').find('.iad-control-number');
-            var value = ia.parseInt($input.val());
-            value = value + 1;
+
+            var $btn = $(this);
+            var $input = $btn.parents('.input-group').find('.iad-control-number');
+            var value;
+
+            if ($btn.hasClass('iad-control-integer-minus'))
+            {
+                value = ia.parseInt($input.val());
+                value = value - 1;
+            }
+            else if ($btn.hasClass('iad-control-integer-plus'))
+            {
+                value = ia.parseInt($input.val());
+                value = value + 1;
+            }
+            else if ($btn.hasClass('iad-control-float-minus'))
+            {
+                value = parseFloat($input.val());
+                value = value - 0.05;
+                value = value.toFixed(2);
+            }
+            else if ($btn.hasClass('iad-control-float-plus'))
+            {
+                value = parseFloat($input.val());
+                value = value + 0.05;
+                value = value.toFixed(2);
+            }
+
             $input.val(value);
             onChange($input, value);
         });
 
-        // Float counter buttons.
-        $(document).on('click', '.iad-control-float-minus', function (e)
+        // Add / Remove table columns.
+        $(document).on('click', '.iad-control-add, .iad-control-remove', function (e)
         {
             e.preventDefault();
-            var $input = $(this).parents('.input-group').find('.iad-control-number');
-            var value = parseFloat($input.val());
-            value = value - 0.05;
-            value = value.toFixed(2);
-            $input.val(value);
-            onChange($input, value);
-        });
-        $(document).on('click', '.iad-control-float-plus', function (e)
-        {
-            e.preventDefault();
-            var $input = $(this).parents('.input-group').find('.iad-control-number');
-            var value = parseFloat($input.val());
-            value = value + 0.05;
-            value = value.toFixed(2);
-            $input.val(value);
-            onChange($input, value);
+            var data = getData($(this));
+            var $btn = $(this);
+
+            if ($btn.hasClass('iad-control-add-column'))                iad.config.addColumn(data.controlId);       // Add / Remove table column.
+            else if ($btn.hasClass('iad-control-remove-column'))        iad.config.removeColumn(data.controlId, data.controlIndex);
+            else if ($btn.hasClass('iad-control-add-symbol'))           iad.config.addSymbol(data.controlId);       // Add / Remove spine chart symbol.
+            else if ($btn.hasClass('iad-control-remove-symbol'))        iad.config.removeSymbol(data.controlId, data.controlIndex);
+            else if ($btn.hasClass('iad-control-add-target'))           iad.config.addTarget(data.controlId);       // Add / Remove spine chart target.
+            else if ($btn.hasClass('iad-control-remove-target'))        iad.config.removeTarget(data.controlId, data.controlIndex);
+            else if ($btn.hasClass('iad-control-add-break'))            iad.config.addBreak(data.controlId);        // Add / Remove spine chart break.
+            else if ($btn.hasClass('iad-control-remove-break'))         iad.config.removeBreak(data.controlId, data.controlIndex);
+            else if ($btn.hasClass('iad-control-add-menu-item'))        iad.config.addMenuItem(data.controlId);     // Add / Remove Menu item on menu bar.
+            else if ($btn.hasClass('iad-control-remove-menu-item'))     iad.config.removeMenuItem(data.controlId, data.controlIndex);
+            else if ($btn.hasClass('iad-control-add-pyramid-line'))     iad.config.addPyramidLine(data.controlId);  // Add / Remove pyramid line.
+            else if ($btn.hasClass('iad-control-remove-pyramid-line'))  iad.config.removePyramidLine(data.controlId, data.controlIndex);
         });
 
         // Color dropdown input replace text.
@@ -144,13 +152,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             onChange($(this), value);
         });
 
-        // Open color scheme modal.
-        $(document).on('click', '#iad-color-scheme-btn, #iad-quick-link-color-schemes', function (e)
-        {
-            e.preventDefault();
-            $('#iad-modal-color-schemes').modal({show: true});
-        });
-        
         // Color.
         $(document).on('click', '.iad-control-color-swatch', function (e)
         {
@@ -168,90 +169,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 $colorSwatch.css('background-color', outColor); // Update the color swatch.
                 onChange($colorSwatch, outColor);
             });
-        });
-
-        // Add / Remove table columns.
-        $(document).on('click', '.iad-control-add-column', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addColumn(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-column', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removeColumn(data.controlId, data.controlIndex);
-        });
-
-        // Add / Remove spine chart symbol.
-        $(document).on('click', '.iad-control-add-symbol', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addSymbol(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-symbol', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removeSymbol(data.controlId, data.controlIndex);
-        });
-
-        // Add / Remove spine chart target.
-        $(document).on('click', '.iad-control-add-target', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addTarget(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-target', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removeTarget(data.controlId, data.controlIndex);
-        });
-
-        // Add / Remove spine chart break.
-        $(document).on('click', '.iad-control-add-break', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addBreak(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-break', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removeBreak(data.controlId, data.controlIndex);
-        });
-
-        // Add / Remove Menu item on menu bar.
-        $(document).on('click', '.iad-control-add-menu-item', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addMenuItem(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-menu-item', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removeMenuItem(data.controlId, data.controlIndex);
-        });
-
-        // Add / Remove pyramid line.
-        $(document).on('click', '.iad-control-add-pyramid-line', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.addPyramidLine(data.controlId);
-        });
-        $(document).on('click', '.iad-control-remove-pyramid-line', function (e)
-        {
-            e.preventDefault();
-            var data = getData($(this));
-            iad.config.removePyramidLine(data.controlId, data.controlIndex);
         });
     }
 
