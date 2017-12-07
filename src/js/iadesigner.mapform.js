@@ -18,7 +18,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 var ctrl = jsonForm[j];
                 if (jsonLayer[ctrl.id] !== undefined)
                 {
-                    var lyrCtrl = $.extend({}, ctrl);
+                    var lyrCtrl = $.extend(true, {}, ctrl);
                     lyrCtrl.value = jsonLayer[ctrl.id];
                     layerForm.controls.push(lyrCtrl);
                 }

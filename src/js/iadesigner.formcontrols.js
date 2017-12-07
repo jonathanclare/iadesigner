@@ -166,6 +166,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var inColor = $colorSwatch.css('background-color');
             iad.colorpicker.open($colorSwatch, inColor, function (outColor)
             {
+                console.log("open");
                 $colorSwatch.css('background-color', outColor); // Update the color swatch.
                 onChange($colorSwatch, outColor);
             });

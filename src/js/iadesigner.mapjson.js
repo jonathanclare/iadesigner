@@ -23,7 +23,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $.getJSON(filepath)
         .done(function(json)
         {
-            iad.mapjson.parse(json);
+            jsonMap = $.extend(true, {}, json);
+            if (options && options.onLoad) options.onLoad.call(null, jsonMap);
             if (callback !== undefined) callback.call(null, jsonMap); 
         })
         .fail(function(jqXHR, textStatus, errorThrown)
@@ -35,14 +36,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Parse in the json.
     iad.mapjson.parse = function(json)
     {
-        jsonMap = $.extend({}, json);
-        if (options && options.onJsonChanged) options.onJsonChanged.call(null, jsonMap);
+        jsonMap = $.extend(true, {}, json);
+        if (options && options.onParse) options.onParse.call(null, jsonMap);
     };
 
     // Get a copy of the json.
     iad.mapjson.toJson = function()
     {
-        return $.extend({}, jsonMap);
+        return $.extend(true, {}, jsonMap);
     };
 
     // Get the json as a string.

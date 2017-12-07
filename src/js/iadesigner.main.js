@@ -103,12 +103,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onShow: function(id)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
-                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery') storedData = iad.config.getXml();
+                else if (id === 'iad-sidebar-maplayer') storedData = iad.mapjson.toJson();
+                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') storedData = iad.config.getXml();
             },
             onUndo: function(id)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery') iad.report.parseConfig(storedData);
+                else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData);
+                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
             }
         });
     }
@@ -184,9 +186,20 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.mapjson.init(
         {
-            onJsonChanged: function(jsonMap)
+            onLoad: function(jsonMap)
             {
                 iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
+            },
+            onParse: function(jsonMap)
+            {
+                iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
+                iad.progress.start('load', function()
+                {
+                    ia.parseMap(jsonMap, function()
+                    {
+                        iad.progress.end('load');
+                    });
+                });
             },
             onMapPropertyChanged: function(property, value)
             {

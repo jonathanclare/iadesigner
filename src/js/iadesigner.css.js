@@ -118,7 +118,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Get a copy of the less vars.
     iad.css.getLessVars = function()
     {
-        return $.extend({}, lessVars);
+        return $.extend(true, {}, lessVars);
     };
 
     // Sets a property.

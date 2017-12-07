@@ -30,11 +30,8 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - Take bounding box from map
 - Update form when name has changed
 - maintainlayer order - make layers sortable - override
-- refresh happening too quickly on colour choise opening
-- undo
 
 ## config forms
-- undo - just refresh whole config file... remember to refresh the form as well
+- issue with undo - needs to be reset each time a different widget is selected rather than when the sidebar is displayed
 
-
-- refactor handlebars
+## maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position

@@ -41,6 +41,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Bind function to close the color picker if the user clicks outside of it.
         $('body').on('click.iad.colorpicker.close', iad.colorpicker.close);
 
+        // Set the inital color to that of the clicked color swatch.
+        $farb.setColor(ia.Color.toHex(inColor));
+
         // This function is run whenever the color picker value is changed.
         $farb.linkTo(function(color)
         {
@@ -54,9 +57,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
             callbackFunction.call(null, color);
         });
-
-        // Set the inital color to that of the clicked color swatch.
-        $farb.setColor(ia.Color.toHex(inColor));
 
         // Position and open the color picker.
         var pos = $control.offset();

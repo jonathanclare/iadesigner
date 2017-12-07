@@ -23,6 +23,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
 
+
+
     // Initialise.
     iad.widgetproperties.init = function(o)
     {
