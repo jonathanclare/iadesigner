@@ -31,3 +31,6 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - maintainlayer order - make layers sortable - override
 
 ## maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
+
+## Spine chart
+- election template form. Columns need looking at.

@@ -1027,102 +1027,236 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 else if (name === 'performance' || name === 'profile') type = 'chart-column';
                 else type = 'symbol-column';
 
-                var control = 
-                {
-                    'id'            : widgetId,
-                    'type'          : type,
-                    'alias-id'      : 'alias',
-                    'alias-value'   : alias,
-                    'alias-choices' : options.subVarOptions,
-                    'data-id'       : 'name',
-                    'data-value'    : name,
-                    'data-choices'  : columnDataChoices,
-                    'width-id'      : 'width',
-                    'width-value'   : width,
-                    'symbol-id'     : 'symbol',
-                    'symbol-value'  : symbolValue,
-                    'symbol-choices': symbolDataChoices,
-                    'index'         : i
-                };
-
-                if (nationalValue !== undefined)
-                {
-                    $.extend(control, 
+                var controls =  
+                [
                     {
-                        'national-id'       : 'national',
-                        'national-value'    : nationalValue,
-                        'national-choices'  : symbolDataChoices,
-                        'data-choices'      : symbolDataChoices
-                    });
-                }
-
-                // Health labels.
-                if (type === 'chart-column' && $xmlTable.find('Property#midValue').attr('value') !== undefined)
-                {
-                    $min = $xmlTable.find('Property#minValue');
-                    $mid = $xmlTable.find('Property#midValue');
-                    $max = $xmlTable.find('Property#maxValue');
-
-                    $.extend(control, 
+                        'id'            : 'alias',
+                        'name'          : 'Column Title',
+                        'type'          : 'text-dropdown-replace',
+                        'value'         : alias,
+                        'choices'       : options.subVarOptions,
+                        'description'   : 'Column Title'
+                    },
                     {
-                        'health-min-id'             : $min.attr('id'),
-                        'health-min-value'          : $min.attr('value'),
-                        'health-min-description'    : $min.attr('description'),
-                        'health-mid-id'             : $mid.attr('id'),
-                        'health-mid-value'          : $mid.attr('value'),
-                        'health-mid-description'    : $mid.attr('description'),
-                        'health-max-id'             : $max.attr('id'),
-                        'health-max-value'          : $max.attr('value'),
-                        'health-max-description'    : $max.attr('description')
-                    });
-
-                    // This was a later addition so may not be in older config files.
-                    if ($xmlTable.find('Property#barColor').attr('value') !== undefined)
-                    {
-                        $color  = $xmlTable.find('Property#barColor');
-                        $.extend(control, 
-                        {
-                            'health-symbol-color-id'        : $color.attr('id'),
-                            'health-symbol-color-value'     : $color.attr('value')
-                        });
+                        'id'            : 'width',
+                        'name'          : 'Column Width',
+                        'type'          : 'float-counter',
+                        'value'         : width,
+                        'description'   : 'Column Width'
                     }
-                }
-                // Profile labels.
-                else if (type === 'chart-column' && $xmlTable.find('Property#minValue').attr('value') !== undefined)
-                {
-                    $min = $xmlTable.find('Property#minValue');
-                    $max = $xmlTable.find('Property#maxValue');
+                ];
 
-                    $.extend(control, 
-                    {
-                        'profile-min-id'            : $min.attr('id'),
-                        'profile-min-value'         : $min.attr('value'),
-                        'profile-min-description'   : $min.attr('description'),
-                        'profile-max-id'            : $max.attr('id'),
-                        'profile-max-value'         : $max.attr('value'),
-                        'profile-max-description'   : $max.attr('description')
-                    });
-                }
-                // Profile bar
-                if (type === 'chart-column' && $xmlTable.find('Property#barHeight').attr('value') !== undefined)
+                // Chart column.
+                if (type === 'chart-column')
                 {
-                    $color  = $xmlTable.find('Property#barColor');
-                    var $height = $xmlTable.find('Property#barHeight');
-                    var $data   = $xmlTable.find('Property#barData');
-
-                    $.extend(control, 
+                    // Health specific controls.
+                    if ($xmlTable.find('Property#midValue').attr('value') !== undefined)
                     {
-                        'profile-color-id'      : $color.attr('id'),
-                        'profile-color-value'   : $color.attr('value'),
-                        'profile-height-id'     : $height.attr('id'),
-                        'profile-height-value'  : $height.attr('value'),
-                        'profile-data-id'       : $data.attr('id'),
-                        'profile-data-value'    : $data.attr('value'),
-                        'profile-data-choices'  : symbolDataChoices
-                    });
+                        $min = $xmlTable.find('Property#minValue');
+                        $mid = $xmlTable.find('Property#midValue');
+                        $max = $xmlTable.find('Property#maxValue');
+
+                        controls = controls.concat(
+                        [
+                            {
+                                'name'          : 'Column Labels',
+                                'type'          : 'bold-label',
+                            },
+                            {
+                                'id'            : $min.attr('id'),
+                                'name'          : 'Left Label',
+                                'type'          : 'string',
+                                'value'         : $min.attr('value'),
+                                'description'   : $min.attr('description')
+                            },
+                            {
+                                'id'            : $mid.attr('id'),
+                                'name'          : 'Centre Label',
+                                'type'          : 'string',
+                                'value'         : $mid.attr('value'),
+                                'description'   : $mid.attr('description')
+                            },
+                            {
+                                'id'            : $max.attr('id'),
+                                'name'          : 'Right Label',
+                                'type'          : 'string',
+                                'value'         : $max.attr('value'),
+                                'description'   : $max.attr('description')
+                            },
+                            {
+                                'name'          : 'Area Symbol',
+                                'type'          : 'bold-label',
+                            },
+                            {
+                                'id'            : 'name',
+                                'name'          : 'Position Source',
+                                'type'          : 'select',
+                                'value'         : name,
+                                'choices'       : symbolDataChoices,
+                                'description'   : 'The data source containing the values that define the position of the symbol.'
+                            },
+                            {
+                                'id'            : 'symbol',
+                                'name'          : 'Symbol Source',
+                                'type'          : 'select',
+                                'value'         : symbolValue,
+                                'choices'       : symbolDataChoices,
+                                'description'   : 'The data source containing the values that define the symbol used to render the area symbol. Use the "Symbols" section below to map values in the data source to a symbol.'
+                            }
+                        ]);
+
+                        // This was a later addition so may not be in older config files.
+                        if ($xmlTable.find('Property#barColor').attr('value') !== undefined)
+                        {
+                            $color  = $xmlTable.find('Property#barColor');
+                            controls = controls.concat(
+                            [
+                                {
+                                    'id'            : $color.attr('id'),
+                                    'name'          : 'Symbol Colour',
+                                    'type'          : 'colour',
+                                    'value'         : $color.attr('value'),
+                                    'description'   : 'Symbol Colour'
+                                }
+                            ]);
+                        }
+
+                        if (nationalValue !== undefined)
+                        {
+                            controls = controls.concat(
+                            [
+                                {
+                                    'id'            : 'national',
+                                    'name'          : 'Centre Value',
+                                    'type'          : 'select',
+                                    'value'         : nationalValue,
+                                    'choices'       : symbolDataChoices,
+                                    'description'   : 'By default each chart is centred on the median value. You can override this by providing a data source. Use the "Chart Column Targets" section below to add a central line based on the values in your data source.'
+                                }
+                            ]);
+                        }
+                    }
+
+                    // Area profile / Performance bar.
+                    if ($xmlTable.find('Property#barHeight').attr('value') !== undefined)
+                    {
+                        // Area profile specific controls.
+                        if ($xmlTable.find('Property#minValue').attr('value') !== undefined)
+                        {
+                            $min = $xmlTable.find('Property#minValue');
+                            $max = $xmlTable.find('Property#maxValue');
+                            controls = controls.concat(
+                            [
+                                {
+                                    'name'          : 'Column Values',
+                                    'type'          : 'bold-label',
+                                },
+                                {
+                                    'id'            : $min.attr('id'),
+                                    'name'          : 'Min Value',
+                                    'type'          : 'integer',
+                                    'value'         : $min.attr('value'),
+                                    'description'   : $min.attr('description')
+                                },
+                                {
+                                    'id'            : $max.attr('id'),
+                                    'name'          : 'Max Value',
+                                    'type'          : 'integer',
+                                    'value'         : $max.attr('value'),
+                                    'description'   : $max.attr('description')
+                                }
+                            ]);
+                        }
+
+                        $color  = $xmlTable.find('Property#barColor');
+                        var $height = $xmlTable.find('Property#barHeight');
+                        var $barData   = $xmlTable.find('Property#barData');
+                        controls = controls.concat(
+                        [
+                            {
+                                'name'          : 'Bar',
+                                'type'          : 'bold-label',
+                            },
+                            {
+                                'id'            : $barData.attr('id'),
+                                'name'          : 'Data Source',
+                                'type'          : 'select',
+                                'value'         : $barData.attr('value'),
+                                'choices'       : symbolDataChoices,
+                                'description'   : 'Data to be associated with the bar.'
+                            },
+                            {
+                                'id'            : $height.attr('id'),
+                                'name'          : 'Height',
+                                'type'          : 'integer-counter',
+                                'value'         : $height.attr('value'),
+                                'description'   : 'The height of the bar.'
+                            },
+                            {
+                                'id'            : $color.attr('id'),
+                                'name'          : 'Colour',
+                                'type'          : 'colour',
+                                'value'         : $color.attr('value'),
+                                'description'   : 'The colour of the bar. "This is overridden if the Selected Features Legend" is included.'
+                            }
+                        ]);
+                    }
+
+                    form.controls[form.controls.length] = 
+                    {
+                        'id'            : widgetId,
+                        'type'          : 'groupcontrol',
+                        'sortable'      : true,
+                        'removeable'    : false,
+                        'index'         : i,
+                        'controls'      : controls
+                    };
                 }
-            
-                form.controls[form.controls.length] = control;
+                else // Symbol column.
+                {
+                    form.controls[form.controls.length] = 
+                    {
+                        'id'            : widgetId,
+                        'type'          : 'groupcontrol',
+                        'sortable'      : true,
+                        'removeable'    : true,
+                        'index'         : i,
+                        'controls'      : 
+                        [
+                            {
+                                'id'            : 'alias',
+                                'name'          : 'Column Title',
+                                'type'          : 'text-dropdown-replace',
+                                'value'         : alias,
+                                'choices'       : options.subVarOptions,
+                                'description'   : 'Column Title'
+                            },
+                            {
+                                'id'            : 'name',
+                                'name'          : 'Data Source',
+                                'type'          : 'select',
+                                'value'         : name,
+                                'choices'       : columnDataChoices,
+                                'description'   : 'Data Source'
+                            },
+                            {
+                                'id'            : 'symbol',
+                                'name'          : 'Symbol Source',
+                                'type'          : 'select',
+                                'value'         : symbolValue,
+                                'choices'       : symbolDataChoices,
+                                'description'   : 'A data source that will be rendered as a symbol. Use the "Symbols" section below to map values in the data source to a symbol.'
+                            },
+                            {
+                                'id'            : 'width',
+                                'name'          : 'Column Width',
+                                'type'          : 'float-counter',
+                                'value'         : width,
+                                'description'   : 'Column Width'
+                            }
+                        ]
+                    };
+                }
             }
             else
             {
