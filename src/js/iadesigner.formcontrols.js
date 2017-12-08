@@ -131,20 +131,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $btn = $(this);
             data.action = $btn.data('action');
             if (options && options.onButtonClicked) options.onButtonClicked.call(null, data);
-
-            /*
-            if (data.action === 'add-column')                             iad.config.addColumn(data.controlId);       // Add / Remove table column.
-            else if (data.action === 'remove-column')                        iad.config.removeColumn(data.controlId, data.controlIndex);
-            else if ($btn.hasClass('iad-control-add-symbol'))           iad.config.addSymbol(data.controlId);       // Add / Remove spine chart symbol.
-            else if ($btn.hasClass('iad-control-remove-symbol'))        iad.config.removeSymbol(data.controlId, data.controlIndex);
-            else if ($btn.hasClass('iad-control-add-target'))           iad.config.addTarget(data.controlId);       // Add / Remove spine chart target.
-            else if ($btn.hasClass('iad-control-remove-target'))        iad.config.removeTarget(data.controlId, data.controlIndex);
-            else if ($btn.hasClass('iad-control-add-break'))            iad.config.addBreak(data.controlId);        // Add / Remove spine chart break.
-            else if ($btn.hasClass('iad-control-remove-break'))         iad.config.removeBreak(data.controlId, data.controlIndex);
-            else if ($btn.hasClass('iad-control-add-menu-item'))        iad.config.addMenuItem(data.controlId);     // Add / Remove Menu item on menu bar.
-            else if ($btn.hasClass('iad-control-remove-menu-item'))     iad.config.removeMenuItem(data.controlId, data.controlIndex);
-            else if ($btn.hasClass('iad-control-add-pyramid-line'))     iad.config.addPyramidLine(data.controlId);  // Add / Remove pyramid line.
-            else if ($btn.hasClass('iad-control-remove-pyramid-line'))  iad.config.removePyramidLine(data.controlId, data.controlIndex);*/
         });
 
         // Color dropdown input replace text.

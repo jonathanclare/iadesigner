@@ -569,31 +569,49 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (id.indexOf(testId) !== -1)
             {
                 var index = id.substring(8, id.length);
-
                 var $menuItem = $xmlComponent.find('Property#' + 'menuItem' + index);
                 var $menuFunc = $xmlComponent.find('Property#' + 'menuFunc' + index);
 
                 form.controls[form.controls.length] = 
                 {
-                    'id'                : widgetId,
-                    'index'             : index,
-                    'type'              : 'menu-bar',
-                    'label-id'          : $menuItem.attr('id'),
-                    'label-value'       : $menuItem.attr('value'),
-                    'label-description' : $menuItem.attr('description'),
-                    'func-id'           : $menuFunc.attr('id'),
-                    'func-value'        : $menuFunc.attr('value'),
-                    'func-choices'      : arrJavaScriptOptions,
-                    'func-description'  : $menuFunc.attr('description')
+                    'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : true,
+                    'removeable'    : true,
+                    'action'        : 'remove-menuitem',
+                    'index'         : index,
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $menuItem.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $menuItem.attr('value'),
+                            'description'   : $menuItem.attr('description')
+                        },
+                        {
+                            'id'            : $menuFunc.attr('id'),
+                            'name'          : 'Function',
+                            'type'          : 'text-dropdown-replace',
+                            'value'         : $menuFunc.attr('value'),
+                            'choices'       : arrJavaScriptOptions,
+                            'description'   : $menuFunc.attr('description')
+                        }
+                    ]
                 };
             }
         });
 
-        // Menu addition control.
+        // Add item button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'menu-bar-add'
+            'name'  : 'New Menu Item',
+            'description'   : 'Add a new menu item',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-menuitem'
         };
 
         return form;
@@ -651,28 +669,64 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 form.controls[form.controls.length] = 
                 {
                     'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : false,
+                    'removeable'    : true,
+                    'action'        : 'remove-symbol',
                     'index'         : index,
-                    'type'          : 'profile-symbol',
-                    'shape-id'      : $shape.attr('id'),
-                    'shape-value'   : $shape.attr('value'),
-                    'shape-choices' : shapeChoices,
-                    'color-id'      : $color.attr('id'),
-                    'color-value'   : $color.attr('value'),
-                    'size-id'       : $size.attr('id'),
-                    'size-value'    : $size.attr('value'),
-                    'label-id'      : $label.attr('id'),
-                    'label-value'   : $label.attr('value'),
-                    'data-id'       : $value.attr('id'),
-                    'data-value'    : $value.attr('value')
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $value.attr('id'),
+                            'name'          : 'Data Value',
+                            'type'          : 'string',
+                            'value'         : $value.attr('value'),
+                            'description'   : $value.attr('description')
+                        },
+                        {
+                            'id'            : $label.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $label.attr('value'),
+                            'description'   : $label.attr('description')
+                        },
+                        {
+                            'id'            : $shape.attr('id'),
+                            'name'          : 'Shape',
+                            'type'          : 'select',
+                            'value'         : $shape.attr('value'),
+                            'choices'       : shapeChoices,
+                            'description'   : $shape.attr('description')
+                        },
+                        {
+                            'id'            : $size.attr('id'),
+                            'name'          : 'Size',
+                            'type'          : 'integer-counter',
+                            'value'         : $size.attr('value'),
+                            'description'   : $size.attr('description')
+                        },
+                        {
+                            'id'            : $color.attr('id'),
+                            'name'          : 'Colour',
+                            'type'          : 'colour',
+                            'value'         : $color.attr('value'),
+                            'description'   : $color.attr('description')
+                        }
+                    ]
                 };
             }
         });
 
-        // Symbol addition control.
+        // Add symbol button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'symbol-add'
+            'name'  : 'New Symbol',
+            'description'   : 'Add a new symbol',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-symbol'
         };
 
         return form;
@@ -691,12 +745,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : []
         };
 
-        /*form.controls[form.controls.length] = 
-        {
-            'type'  : 'open-data-properties-form',
-            'label' : 'Add Custom Indicator Breaks'
-        };*/
-
         var $xmlProperties = $xmlTable.find('Property');
         $.each($xmlProperties, function(i, xmlProperty)
         {
@@ -714,21 +762,42 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 form.controls[form.controls.length] = 
                 {
                     'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : false,
+                    'removeable'    : true,
+                    'action'        : 'remove-break',
                     'index'         : index,
-                    'type'          : 'profile-break',
-                    'color-id'      : $color.attr('id'),
-                    'color-value'   : $color.attr('value'),
-                    'label-id'      : $label.attr('id'),
-                    'label-value'   : $label.attr('value')
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $label.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $label.attr('value'),
+                            'description'   : $label.attr('description')
+                        },
+                        {
+                            'id'            : $color.attr('id'),
+                            'name'          : 'Colour',
+                            'type'          : 'colour',
+                            'value'         : $color.attr('value'),
+                            'description'   : $color.attr('description')
+                        }
+                    ]
                 };
             }
         });
 
-        // Break addition control.
+        // Add break button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'break-add'
+            'name'  : 'New Break',
+            'description'   : 'Add a new break',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-break'
         };
 
         return form;
@@ -789,29 +858,65 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 form.controls[form.controls.length] = 
                 {
                     'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : false,
+                    'removeable'    : true,
+                    'action'        : 'remove-target',
                     'index'         : index,
-                    'type'          : 'profile-target',
-                    'shape-id'      : $shape.attr('id'),
-                    'shape-value'   : $shape.attr('value'),
-                    'shape-choices' : shapeChoices,
-                    'color-id'      : $color.attr('id'),
-                    'color-value'   : $color.attr('value'),
-                    'size-id'       : $size.attr('id'),
-                    'size-value'    : $size.attr('value'),
-                    'label-id'      : $label.attr('id'),
-                    'label-value'   : $label.attr('value'),
-                    'data-id'       : $data.attr('id'),
-                    'data-value'    : $data.attr('value'),
-                    'data-choices'  : dataChoices
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $data.attr('id'),
+                            'name'          : 'Data',
+                            'type'          : 'select',
+                            'value'         : $data.attr('value'),
+                            'choices'       : dataChoices,
+                            'description'   : $data.attr('description')
+                        },
+                        {
+                            'id'            : $label.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $label.attr('value'),
+                            'description'   : $label.attr('description')
+                        },
+                        {
+                            'id'            : $shape.attr('id'),
+                            'name'          : 'Shape',
+                            'type'          : 'select',
+                            'value'         : $shape.attr('value'),
+                            'choices'       : shapeChoices,
+                            'description'   : $shape.attr('description')
+                        },
+                        {
+                            'id'            : $size.attr('id'),
+                            'name'          : 'Size',
+                            'type'          : 'integer-counter',
+                            'value'         : $size.attr('value'),
+                            'description'   : $size.attr('description')
+                        },
+                        {
+                            'id'            : $color.attr('id'),
+                            'name'          : 'Colour',
+                            'type'          : 'colour',
+                            'value'         : $color.attr('value'),
+                            'description'   : $color.attr('description')
+                        }
+                    ]
                 };
             }
         });
 
-        // Target addition control.
+        // Add target button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'target-add'
+            'name'  : 'New Target',
+            'description'   : 'Add a new target',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-target'
         };
 
         return form;
@@ -1060,12 +1165,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add Column Button.
+        // Add column button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
             'name'  : 'New Column',
-            'description'   : 'Add A New Column',
+            'description'   : 'Add a new column',
             'type'  : 'button',
             'icon'  : 'fa fa-fw fa-plus',
             'align' : 'right',
@@ -1124,24 +1229,50 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 form.controls[form.controls.length] = 
                 {
                     'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : false,
+                    'removeable'    : true,
+                    'action'        : 'remove-line',
                     'index'         : index,
-                    'type'          : 'pyramid-line',
-                    'color-id'      : $color.attr('id'),
-                    'color-value'   : $color.attr('value'),
-                    'label-id'      : $label.attr('id'),
-                    'label-value'   : $label.attr('value'),
-                    'data-id'       : $value.attr('id'),
-                    'data-value'    : $value.attr('value'),
-                    'data-choices'  : dataChoices
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $data.attr('id'),
+                            'name'          : 'Data',
+                            'type'          : 'select',
+                            'value'         : $data.attr('value'),
+                            'choices'       : dataChoices,
+                            'description'   : $data.attr('description')
+                        },
+                        {
+                            'id'            : $label.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $label.attr('value'),
+                            'description'   : $label.attr('description')
+                        },
+                        {
+                            'id'            : $color.attr('id'),
+                            'name'          : 'Colour',
+                            'type'          : 'colour',
+                            'value'         : $color.attr('value'),
+                            'description'   : $color.attr('description')
+                        }
+                    ]
                 };
             }
         });
 
-        // Symbol addition control.
+        // Add pyramid line button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'pyramid-line-add'
+            'name'  : 'New Line',
+            'description'   : 'Add a new line',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-line'
         };
 
         return form;

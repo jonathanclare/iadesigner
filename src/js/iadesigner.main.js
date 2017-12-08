@@ -604,8 +604,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onButtonClicked: function (data)
             {
                 console.log(data);
-                if (data.action === 'add-column') iad.config.addColumn(data.controlId);
-                else if (data.action === 'remove-column') iad.config.removeColumn(data.controlId, data.controlIndex);
+                if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
+                else if (data.action === 'remove-column')       iad.config.removeColumn(data.controlId, data.controlIndex);
+                else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
+                else if (data.action === 'remove-menuitem')     iad.config.removeMenuItem(data.controlId, data.controlIndex);
+                else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
+                else if (data.action === 'remove-symbol')       iad.config.removeSymbol(data.controlId, data.controlIndex);
+                else if (data.action === 'add-target')          iad.config.addTarget(data.controlId);
+                else if (data.action === 'remove-target')       iad.config.removeTarget(data.controlId, data.controlIndex);
+                else if (data.action === 'add-break')           iad.config.addBreak(data.controlId);
+                else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
+                else if (data.action === 'add-line')            iad.config.addPyramidLine(data.controlId);
+                else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
             }
         });
     }

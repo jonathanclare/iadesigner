@@ -869,34 +869,22 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"map-palettes-color-scheme-add",{"name":"ifEqualTo","hash":{},"fn":container.program(64, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
     + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"map-palettes-color-scheme",{"name":"ifEqualTo","hash":{},"fn":container.program(66, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n\r\n\r\n"
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"pyramid-line-add",{"name":"ifEqualTo","hash":{},"fn":container.program(69, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n"
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"pyramid-line",{"name":"ifEqualTo","hash":{},"fn":container.program(71, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n\r\n\r\n\r\n"
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"chart-column",{"name":"ifEqualTo","hash":{},"fn":container.program(75, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"menu-bar",{"name":"ifEqualTo","hash":{},"fn":container.program(69, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"target-add",{"name":"ifEqualTo","hash":{},"fn":container.program(97, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"menu-bar-add",{"name":"ifEqualTo","hash":{},"fn":container.program(77, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"pyramid-line-add",{"name":"ifEqualTo","hash":{},"fn":container.program(79, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"break-add",{"name":"ifEqualTo","hash":{},"fn":container.program(99, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"pyramid-line",{"name":"ifEqualTo","hash":{},"fn":container.program(81, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"column",{"name":"ifEqualTo","hash":{},"fn":container.program(85, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-symbol",{"name":"ifEqualTo","hash":{},"fn":container.program(101, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"column-add",{"name":"ifEqualTo","hash":{},"fn":container.program(95, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-target",{"name":"ifEqualTo","hash":{},"fn":container.program(104, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"chart-column",{"name":"ifEqualTo","hash":{},"fn":container.program(97, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"symbol-column",{"name":"ifEqualTo","hash":{},"fn":container.program(112, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"target-add",{"name":"ifEqualTo","hash":{},"fn":container.program(115, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"symbol-add",{"name":"ifEqualTo","hash":{},"fn":container.program(117, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"break-add",{"name":"ifEqualTo","hash":{},"fn":container.program(119, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-symbol",{"name":"ifEqualTo","hash":{},"fn":container.program(121, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-target",{"name":"ifEqualTo","hash":{},"fn":container.program(124, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n"
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-break",{"name":"ifEqualTo","hash":{},"fn":container.program(126, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.type : depth0),"profile-break",{"name":"ifEqualTo","hash":{},"fn":container.program(106, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n";
 },"13":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -1055,62 +1043,12 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" type=\"button\" class=\"btn btn-sm btn-default iad-control-remove iad-control-remove-color-scheme iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n											</span>\r\n";
 },"69":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "								<div data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" data-control-index=\""
-    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n									\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\"\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button type=\"button\" class=\"close iad-control-remove iad-control-remove-menu-item iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["label-id"] || (depth0 != null ? depth0["label-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\""
-    + alias4(((helper = (helper = helpers["label-description"] || (depth0 != null ? depth0["label-description"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-description","hash":{},"data":data}) : helper)))
-    + "\">Label</span>\r\n										</div>\r\n										<div>\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
-    + alias4(((helper = (helper = helpers["label-value"] || (depth0 != null ? depth0["label-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["func-id"] || (depth0 != null ? depth0["func-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"func-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\""
-    + alias4(((helper = (helper = helpers["func-description"] || (depth0 != null ? depth0["func-description"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"func-description","hash":{},"data":data}) : helper)))
-    + "\">Function</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
-    + alias4(((helper = (helper = helpers["func-value"] || (depth0 != null ? depth0["func-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"func-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n												<div class=\"input-group-btn\">\r\n													<button type=\"button\" class=\"btn btn-sm btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\r\n													<ul class=\"dropdown-menu pull-right iad-dropdown-menu-replace\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["func-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(70, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "													</ul>\r\n												</div>\r\n											</div>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"70":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.divider : depth0),{"name":"if","hash":{},"fn":container.program(71, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.header : depth0),{"name":"if","hash":{},"fn":container.program(73, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(75, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"71":function(container,depth0,helpers,partials,data) {
-    return "																<li class=\"divider\"></li>\r\n";
-},"73":function(container,depth0,helpers,partials,data) {
-    return "																<li class=\"dropdown-header\">"
-    + container.escapeExpression(container.lambda((depth0 != null ? depth0.header : depth0), depth0))
-    + "</li>\r\n";
-},"75":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "																<li class=\"iad-dropdown-option\"><a href=\"#\" data-value=\""
-    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
-    + "\">"
-    + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
-    + "</a></li>\r\n";
-},"77":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "								<div class=\"form-group iad-form-group\" data-control-id=\""
-    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-menu-item iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new item\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Item</button>\r\n									</div>\r\n								</div>\r\n";
-},"79":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "								<div class=\"form-group iad-form-group\" data-control-id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-pyramid-line iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new line\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Line</button>\r\n									</div>\r\n								</div>\r\n";
-},"81":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"71":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div data-control-id=\""
@@ -1122,7 +1060,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div style=\"text-align:right\">\r\n											<button type=\"button\" class=\"close iad-control-remove iad-control-remove-pyramid-line iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["data-id"] || (depth0 != null ? depth0["data-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Data to be associated with the target\">Data</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(82, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(72, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "											</select>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["label-id"] || (depth0 != null ? depth0["label-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Line label\">Label</span>\r\n										</div>\r\n										<div>\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
@@ -1132,79 +1070,19 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Line colour\">Colour</span>\r\n										</div>\r\n										<div>\r\n											<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
     + alias4(((helper = (helper = helpers["color-value"] || (depth0 != null ? depth0["color-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"color-value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"82":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"72":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "													<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"83":function(container,depth0,helpers,partials,data) {
+},"73":function(container,depth0,helpers,partials,data) {
     return "selected=\"true\"";
-},"85":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "								<div data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" data-control-index=\""
-    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n											<button type=\"button\" class=\"close iad-control-remove iad-control-remove-column iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
-    + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n											<span class=\"input-group-btn\">\r\n												<button type=\"button\" class=\"btn btn-sm btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\r\n												<ul class=\"dropdown-menu pull-right iad-dropdown-menu-replace\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["alias-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(86, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "												</ul>		\r\n											</span>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["data-id"] || (depth0 != null ? depth0["data-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column data source\">Source</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
-    + alias4(((helper = (helper = helpers["data-value"] || (depth0 != null ? depth0["data-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n											<div class=\"input-group-btn\">\r\n												<button type=\"button\" class=\"btn btn-sm btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\r\n												<ul class=\"dropdown-menu pull-right iad-dropdown-menu-replace\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(93, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "												</ul>\r\n											</div>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["width-id"] || (depth0 != null ? depth0["width-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column width\">Width</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input class=\"form-control input-sm iad-control-number iad-control-integer\" style=\"display:none\" value=\""
-    + alias4(((helper = (helper = helpers["width-value"] || (depth0 != null ? depth0["width-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n											<span class=\"btn-group\">																						\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-minus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Decrease column width\">-</button>\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-plus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Increase column width\">+</button>\r\n											</span>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"86":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.divider : depth0),{"name":"if","hash":{},"fn":container.program(87, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.header : depth0),{"name":"if","hash":{},"fn":container.program(89, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(91, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"87":function(container,depth0,helpers,partials,data) {
-    return "															<li class=\"divider\"></li>\r\n";
-},"89":function(container,depth0,helpers,partials,data) {
-    return "															<li class=\"dropdown-header\">"
-    + container.escapeExpression(container.lambda((depth0 != null ? depth0.header : depth0), depth0))
-    + "</li>\r\n";
-},"91":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "															<li class=\"iad-dropdown-option\"><a href=\"#\" data-value=\""
-    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
-    + "\">"
-    + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
-    + "</a></li>\r\n";
-},"93":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "														<li class=\"iad-dropdown-option\"><a href=\"#\" data-value=\""
-    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
-    + "\">"
-    + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
-    + "</a></li>\r\n";
-},"95":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "								<div class=\"form-group iad-form-group\" data-control-id=\""
-    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-column iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add Column\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Column</button>\r\n									</div>\r\n								</div>\r\n";
-},"97":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"75":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div data-control-id=\""
@@ -1218,19 +1096,39 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
     + "\">\r\n											<span class=\"input-group-btn\">\r\n												<button type=\"button\" class=\"btn btn-sm btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\r\n												<ul class=\"dropdown-menu pull-right iad-dropdown-menu-replace\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["alias-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(86, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["alias-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(76, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "												</ul>		\r\n											</span>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["width-id"] || (depth0 != null ? depth0["width-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column width\">Width</span>\r\n										</div>\r\n										<div class=\"input-group\">\r\n											<input class=\"form-control input-sm iad-control-number iad-control-integer\" style=\"display:none\" value=\""
     + alias4(((helper = (helper = helpers["width-value"] || (depth0 != null ? depth0["width-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-value","hash":{},"data":data}) : helper)))
     + "\">\r\n											<span class=\"btn-group\">																						\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-minus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Decrease column width\">-</button>\r\n												<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-plus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Increase column width\">+</button>\r\n											</span>\r\n										</div>\r\n									</div>\r\n\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["health-min-id"] : depth0),{"name":"if","hash":{},"fn":container.program(98, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["health-min-id"] : depth0),{"name":"if","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["profile-min-id"] : depth0),{"name":"if","hash":{},"fn":container.program(107, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["profile-min-id"] : depth0),{"name":"if","hash":{},"fn":container.program(92, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["profile-color-id"] : depth0),{"name":"if","hash":{},"fn":container.program(109, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["profile-color-id"] : depth0),{"name":"if","hash":{},"fn":container.program(94, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n								</div>\r\n";
-},"98":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"76":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.divider : depth0),{"name":"if","hash":{},"fn":container.program(77, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.header : depth0),{"name":"if","hash":{},"fn":container.program(79, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(81, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"77":function(container,depth0,helpers,partials,data) {
+    return "															<li class=\"divider\"></li>\r\n";
+},"79":function(container,depth0,helpers,partials,data) {
+    return "															<li class=\"dropdown-header\">"
+    + container.escapeExpression(container.lambda((depth0 != null ? depth0.header : depth0), depth0))
+    + "</li>\r\n";
+},"81":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "															<li class=\"iad-dropdown-option\"><a href=\"#\" data-value=\""
+    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
+    + "\">"
+    + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
+    + "</a></li>\r\n";
+},"83":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "\r\n										<div class=\"well well-sm\">\r\n											<div class=\"form-group iad-form-group\">\r\n												<div class=\"iad-form-label\"><b>Column Labels</b></div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
@@ -1248,39 +1146,39 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n												</div>\r\n											</div>\r\n										</div>\r\n\r\n										<div class=\"well well-sm\">\r\n											<div class=\"form-group iad-form-group\">\r\n												<div class=\"iad-form-label\"><b>Area Symbol</b></div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["data-id"] || (depth0 != null ? depth0["data-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-id","hash":{},"data":data}) : helper)))
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"The data source containing the values that define the position of the symbol.\">Position Source</span>\r\n												</div>\r\n												<div>\r\n													<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(99, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(84, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "													</select>\r\n												</div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["symbol-id"] || (depth0 != null ? depth0["symbol-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"symbol-id","hash":{},"data":data}) : helper)))
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"The data source containing the values that define the symbol used to render the area symbol. Use the 'Symbols' section below to map values in the data source to a symbol.\">Symbol Source</span>\r\n												</div>\r\n												<div>\r\n													<select  class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["symbol-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(101, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["symbol-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(86, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "													</select>\r\n												</div>\r\n											</div>\r\n\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["health-symbol-color-id"] : depth0),{"name":"if","hash":{},"fn":container.program(103, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["health-symbol-color-id"] : depth0),{"name":"if","hash":{},"fn":container.program(88, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "										</div>\r\n\r\n										<div class=\"well well-sm\">\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["national-id"] || (depth0 != null ? depth0["national-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"national-id","hash":{},"data":data}) : helper)))
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"By default each chart is centred on the median value. You can override this by providing a data source. Use the 'Chart Column Targets' section below to add a central line based on the values in your data source.\">Centre Value</span>\r\n												</div>\r\n												<div>\r\n													<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["national-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(105, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["national-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(90, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "													</select>\r\n												</div>\r\n											</div>\r\n										</div>		\r\n";
-},"99":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"84":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "															<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"101":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"86":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "															<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["symbol-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["symbol-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"103":function(container,depth0,helpers,partials,data) {
+},"88":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "												<div class=\"form-group iad-form-group\" data-control-id=\""
@@ -1288,17 +1186,17 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n													<div class=\"control-label\">\r\n														<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"The colour of the symbol.\">Colour</span>\r\n													</div>\r\n													<div>\r\n														<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
     + alias4(((helper = (helper = helpers["health-symbol-color-value"] || (depth0 != null ? depth0["health-symbol-color-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"health-symbol-color-value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button> \r\n													</div>\r\n												</div>\r\n";
-},"105":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"90":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "															<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["national-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["national-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"107":function(container,depth0,helpers,partials,data) {
+},"92":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "										<div class=\"well well-sm\">\r\n											<div class=\"form-group iad-form-group\">\r\n												<div class=\"iad-form-label\"><b>Column Values</b></div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
@@ -1314,13 +1212,13 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">Max. Value</span>\r\n												</div>\r\n												<div>\r\n													<div class=\"input-group\">\r\n														<input class=\"form-control input-sm iad-control-number iad-control-float\" type=\"text\" value=\""
     + alias4(((helper = (helper = helpers["profile-max-value"] || (depth0 != null ? depth0["profile-max-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile-max-value","hash":{},"data":data}) : helper)))
     + "\">\r\n														<span class=\"input-group-btn\">\r\n															<button type=\"button\" class=\"btn btn-sm btn-default iad-control-integer-minus\">-</button>\r\n															<button type=\"button\" class=\"btn btn-sm btn-default iad-control-integer-plus\">+</button>\r\n														</span>\r\n													</div>											\r\n												</div>\r\n											</div>\r\n										</div>\r\n";
-},"109":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"94":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "\r\n										<div class=\"well well-sm\">\r\n											<div class=\"form-group iad-form-group\">\r\n												<div class=\"iad-form-label\"><b>Bar</b></div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["profile-data-control-id"] || (depth0 != null ? depth0["profile-data-control-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile-data-control-id","hash":{},"data":data}) : helper)))
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Data to be associated with the bar.\">Data Source</span>\r\n												</div>\r\n												<div>\r\n													<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["profile-data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(110, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["profile-data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(95, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "													</select>\r\n												</div>\r\n											</div>\r\n\r\n											<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["profile-height-id"] || (depth0 != null ? depth0["profile-height-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile-height-id","hash":{},"data":data}) : helper)))
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"The height of the bar.\">Height</span>\r\n												</div>\r\n												<div>\r\n													<div class=\"input-group\">\r\n														<input class=\"form-control input-sm iad-control-number iad-control-integer\" type=\"hidden\" value=\""
@@ -1330,73 +1228,29 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n												<div class=\"control-label\">\r\n													<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"The colour of the bar. This is overridden if the 'Selected Features Legend' is included.\">Colour</span>\r\n												</div>\r\n												<div>\r\n													<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
     + alias4(((helper = (helper = helpers["profile-color-value"] || (depth0 != null ? depth0["profile-color-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile-color-value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button> \r\n												</div>\r\n											</div>\r\n										</div>\r\n";
-},"110":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"95":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "															<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["profile-data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["profile-data-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"112":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "								<div data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" data-control-index=\""
-    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\" class=\"iad-control-group well well-sm iad-sortable\">\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"iad-sort-handle\">\r\n											<i class=\"fa fa-fw fa-sort\"></i>\r\n 											<button type=\"button\" class=\"close iad-control-remove iad-control-remove-column iad-tooltip-control\" style=\"float:right\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["alias-id"] || (depth0 != null ? depth0["alias-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column Title\">Title</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
-    + alias4(((helper = (helper = helpers["alias-value"] || (depth0 != null ? depth0["alias-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"alias-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n												<span class=\"input-group-btn\">\r\n													<button type=\"button\" class=\"btn btn-sm btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\r\n													<ul class=\"dropdown-menu pull-right iad-dropdown-menu-replace\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["alias-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(70, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "													</ul>		\r\n												</span>\r\n											</div>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["data-id"] || (depth0 != null ? depth0["data-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column data source\">Data Source</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(82, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "											</select>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["symbol-id"] || (depth0 != null ? depth0["symbol-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"symbol-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"A data source that will be rendered as a symbol. Use the 'Symbols' section below to map values in the data source to a symbol.\">Symbol Source</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["symbol-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(113, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "											</select>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
-    + alias4(((helper = (helper = helpers["width-id"] || (depth0 != null ? depth0["width-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-id","hash":{},"data":data}) : helper)))
-    + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Column width\">Width</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input class=\"form-control input-sm iad-control-number iad-control-integer\" style=\"display:none\" value=\""
-    + alias4(((helper = (helper = helpers["width-value"] || (depth0 != null ? depth0["width-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"width-value","hash":{},"data":data}) : helper)))
-    + "\">\r\n												<span class=\"btn-group\">																						\r\n													<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-minus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Decrease column width\">-</button>\r\n													<button type=\"button\" class=\"btn btn-sm btn-default iad-control-float-plus iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Increase column width\">+</button>\r\n												</span>\r\n											</div>\r\n										</div>\r\n									</div>\r\n\r\n								</div>\r\n";
-},"113":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "													<option value=\""
-    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
-    + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["symbol-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ">"
-    + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
-    + "</option>\r\n";
-},"115":function(container,depth0,helpers,partials,data) {
+},"97":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "								<div class=\"form-group iad-form-group\" data-control-id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-target iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new target\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Target</button>\r\n									</div>\r\n								</div>\r\n";
-},"117":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "								<div class=\"form-group iad-form-group\" data-control-id=\""
-    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-symbol iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new symbol\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Symbol</button>\r\n									</div>\r\n								</div>\r\n";
-},"119":function(container,depth0,helpers,partials,data) {
+},"99":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "								<div class=\"form-group iad-form-group\" data-control-id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\">\r\n									<div style=\"text-align:right\">\r\n										<button type=\"button\" class=\"btn btn-sm btn-default iad-control-add iad-control-add-break iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Add a new break\"><i class=\"fa fa-fw fa-plus\"></i>&nbsp;&nbsp;New Break</button>\r\n									</div>\r\n								</div>\r\n";
-},"121":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"101":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div data-control-id=\""
@@ -1416,7 +1270,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["shape-id"] || (depth0 != null ? depth0["shape-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shape-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Symbol shape\">Shape</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["shape-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(122, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["shape-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(102, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "											</select>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["size-id"] || (depth0 != null ? depth0["size-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"size-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Symbol size\">Size</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input class=\"form-control input-sm iad-control-number iad-control-integer\" type=\"hidden\" value=\""
@@ -1426,17 +1280,17 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Symbol colour\">Colour</span>\r\n										</div>\r\n										<div>\r\n											<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
     + alias4(((helper = (helper = helpers["color-value"] || (depth0 != null ? depth0["color-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"color-value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"122":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"102":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "													<option value=\""
     + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
     + "\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["shape-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(83, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depths[1] != null ? depths[1]["shape-value"] : depths[1]),{"name":"ifEqualTo","hash":{},"fn":container.program(73, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias2(alias1((depth0 != null ? depth0.label : depth0), depth0))
     + "</option>\r\n";
-},"124":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"104":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div data-control-id=\""
@@ -1448,7 +1302,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div style=\"text-align:right\">\r\n											<button type=\"button\" class=\"close iad-control-remove iad-control-remove-target iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Remove\">&times;</button>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["data-id"] || (depth0 != null ? depth0["data-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"data-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Data to be associated with the target\">Data</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(82, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["data-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(72, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "											</select>\r\n										</div>\r\n									</div>\r\n										\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["label-id"] || (depth0 != null ? depth0["label-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Target label\">Label</span>\r\n										</div>\r\n										<div>\r\n											<input class=\"form-control input-sm iad-control-text\" type=\"text\" value=\""
@@ -1456,7 +1310,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["shape-id"] || (depth0 != null ? depth0["shape-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shape-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Target shape\">Shape</span>\r\n										</div>\r\n										<div>\r\n											<select class=\"form-control input-sm iad-control-select\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["shape-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(122, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0["shape-choices"] : depth0),{"name":"each","hash":{},"fn":container.program(102, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "											</select>\r\n										</div>\r\n									</div>\r\n\r\n									<div class=\"form-group iad-form-group\" data-control-id=\""
     + alias4(((helper = (helper = helpers["size-id"] || (depth0 != null ? depth0["size-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"size-id","hash":{},"data":data}) : helper)))
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Target size\">Size</span>\r\n										</div>\r\n										<div>\r\n											<div class=\"input-group\">\r\n												<input class=\"form-control input-sm iad-control-number iad-control-integer\" type=\"hidden\" value=\""
@@ -1466,7 +1320,7 @@ this["iadesigner"]["forms.handlebars"] = Handlebars.template({"1":function(conta
     + "\">\r\n										<div class=\"control-label\">\r\n											<span class=\"iad-tooltip-control\" data-toggle=\"tooltip\" title=\"Target colour\">Colour</span>\r\n										</div>\r\n										<div>\r\n											<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
     + alias4(((helper = (helper = helpers["color-value"] || (depth0 != null ? depth0["color-value"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"color-value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button>\r\n										</div>\r\n									</div>\r\n								</div>\r\n";
-},"126":function(container,depth0,helpers,partials,data) {
+},"106":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "								<div data-control-id=\""

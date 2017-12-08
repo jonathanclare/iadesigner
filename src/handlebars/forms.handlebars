@@ -18,7 +18,6 @@
 					<form class="draggableList" role="form" onsubmit="return false;">
 
 						{{#controls}} 
-							{{!-- Standard --}}
 
 							{{#ifTextControl type}}{{> control.text}}{{/ifTextControl}}
 							{{#ifEqualTo type 'textarea'}}{{> control.textarea}}{{/ifEqualTo}}
@@ -118,63 +117,6 @@
 								</div>
 							{{/ifEqualTo}}
 
-							{{!-- Menu Bar --}}
-
-							{{#ifEqualTo type 'menu-bar'}}
-								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
-									
-									<div class="form-group iad-form-group" data-control-id="{{id}}"">
-										<div class="iad-sort-handle">
-											<i class="fa fa-fw fa-sort"></i>
-											<button type="button" class="close iad-control-remove iad-control-remove-menu-item iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{label-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="{{label-description}}">Label</span>
-										</div>
-										<div>
-											<input class="form-control input-sm iad-control-text" type="text" value="{{label-value}}">
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{func-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="{{func-description}}">Function</span>
-										</div>
-										<div>
-											<div class="input-group">
-												<input class="form-control input-sm iad-control-text" type="text" value="{{func-value}}">
-												<div class="input-group-btn">
-													<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-													<ul class="dropdown-menu pull-right iad-dropdown-menu-replace">
-														{{#each func-choices}}
-															{{#if this.divider}}
-																<li class="divider"></li>
-															{{/if}}
-															{{#if this.header}}
-																<li class="dropdown-header">{{this.header}}</li>
-															{{/if}}
-															{{#if this.value}}
-																<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
-															{{/if}}
-														{{/each}}
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							{{/ifEqualTo}}
-
-							{{#ifEqualTo type 'menu-bar-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}">
-									<div style="text-align:right">
-										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-menu-item iad-tooltip-control" data-toggle="tooltip" title="Add a new item"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Item</button>
-									</div>
-								</div>
-							{{/ifEqualTo}}
 
 							{{!-- Pyramid --}}
 
@@ -229,80 +171,7 @@
 
 							{{!-- Tables --}}
 
-							{{#ifEqualTo type 'column'}}
-								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
 
-									<div class="form-group iad-form-group" data-control-id="{{id}}">
-										<div class="iad-sort-handle">
-											<i class="fa fa-fw fa-sort"></i>
-											<button type="button" class="close iad-control-remove iad-control-remove-column iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{alias-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column Title">Title</span>
-										</div>
-										<div class="input-group">
-											<input class="form-control input-sm iad-control-text" type="text" value="{{alias-value}}">
-											<span class="input-group-btn">
-												<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-												<ul class="dropdown-menu pull-right iad-dropdown-menu-replace">
-													{{#each alias-choices}}
-														{{#if this.divider}}
-															<li class="divider"></li>
-														{{/if}}
-														{{#if this.header}}
-															<li class="dropdown-header">{{this.header}}</li>
-														{{/if}}
-														{{#if this.value}}
-															<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
-														{{/if}}
-													{{/each}}
-												</ul>		
-											</span>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column data source">Source</span>
-										</div>
-										<div class="input-group">
-											<input class="form-control input-sm iad-control-text" type="text" value="{{data-value}}">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-												<ul class="dropdown-menu pull-right iad-dropdown-menu-replace">
-													{{#each data-choices}}
-														<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
-													{{/each}}
-												</ul>
-											</div>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{width-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column width">Width</span>
-										</div>
-										<div class="input-group">
-											<input class="form-control input-sm iad-control-number iad-control-integer" style="display:none" value="{{width-value}}">
-											<span class="btn-group">																						
-												<button type="button" class="btn btn-sm btn-default iad-control-float-minus iad-tooltip-control" data-toggle="tooltip" title="Decrease column width">-</button>
-												<button type="button" class="btn btn-sm btn-default iad-control-float-plus iad-tooltip-control" data-toggle="tooltip" title="Increase column width">+</button>
-											</span>
-										</div>
-									</div>
-								</div>
-							{{/ifEqualTo}}
-
-							{{#ifEqualTo type 'column-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}">
-									<div style="text-align:right">
-										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-column iad-tooltip-control" data-toggle="tooltip" title="Add Column"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Column</button>
-									</div>
-								</div>
-							{{/ifEqualTo}}
 
 							{{!-- Area Profile --}}				
 							{{#ifEqualTo type 'chart-column'}}
@@ -533,99 +402,11 @@
 								</div>
 							{{/ifEqualTo}}
 
-							{{#ifEqualTo type 'symbol-column'}}
-								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
-
-									<div class="form-group iad-form-group" data-control-id="{{id}}">
-										<div class="iad-sort-handle">
-											<i class="fa fa-fw fa-sort"></i>
- 											<button type="button" class="close iad-control-remove iad-control-remove-column iad-tooltip-control" style="float:right" data-toggle="tooltip" title="Remove">&times;</button>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{alias-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column Title">Title</span>
-										</div>
-										<div>
-											<div class="input-group">
-												<input class="form-control input-sm iad-control-text" type="text" value="{{alias-value}}">
-												<span class="input-group-btn">
-													<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-													<ul class="dropdown-menu pull-right iad-dropdown-menu-replace">
-														{{#each alias-choices}}
-															{{#if this.divider}}
-																<li class="divider"></li>
-															{{/if}}
-															{{#if this.header}}
-																<li class="dropdown-header">{{this.header}}</li>
-															{{/if}}
-															{{#if this.value}}
-																<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
-															{{/if}}
-														{{/each}}
-													</ul>		
-												</span>
-											</div>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{data-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column data source">Data Source</span>
-										</div>
-										<div>
-											<select class="form-control input-sm iad-control-select">
-												{{#each data-choices}}
-													<option value="{{this.value}}" {{#ifEqualTo this.value ../data-value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
-												{{/each}}
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{symbol-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="A data source that will be rendered as a symbol. Use the 'Symbols' section below to map values in the data source to a symbol.">Symbol Source</span>
-										</div>
-										<div>
-											<select class="form-control input-sm iad-control-select">
-												{{#each symbol-choices}}
-													<option value="{{this.value}}" {{#ifEqualTo this.value ../symbol-value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
-												{{/each}}
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group iad-form-group" data-control-id="{{width-id}}">
-										<div class="control-label">
-											<span class="iad-tooltip-control" data-toggle="tooltip" title="Column width">Width</span>
-										</div>
-										<div>
-											<div class="input-group">
-												<input class="form-control input-sm iad-control-number iad-control-integer" style="display:none" value="{{width-value}}">
-												<span class="btn-group">																						
-													<button type="button" class="btn btn-sm btn-default iad-control-float-minus iad-tooltip-control" data-toggle="tooltip" title="Decrease column width">-</button>
-													<button type="button" class="btn btn-sm btn-default iad-control-float-plus iad-tooltip-control" data-toggle="tooltip" title="Increase column width">+</button>
-												</span>
-											</div>
-										</div>
-									</div>
-
-								</div>
-							{{/ifEqualTo}}
 
 							{{#ifEqualTo type 'target-add'}}
 								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
 										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-target iad-tooltip-control" data-toggle="tooltip" title="Add a new target"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Target</button>
-									</div>
-								</div>
-							{{/ifEqualTo}}
-
-							{{#ifEqualTo type 'symbol-add'}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}">
-									<div style="text-align:right">
-										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-symbol iad-tooltip-control" data-toggle="tooltip" title="Add a new symbol"><i class="fa fa-fw fa-plus"></i>&nbsp;&nbsp;New Symbol</button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
