@@ -568,7 +568,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
-                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -603,7 +602,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onButtonClicked: function (data)
             {
-                console.log(data);
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
                 else if (data.action === 'remove-column')       iad.config.removeColumn(data.controlId, data.controlIndex);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);

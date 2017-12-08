@@ -617,6 +617,104 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return form;
     }
 
+    // Returns a pyramid line form.
+    function getPyramidLineForm($xmlComponent)
+    {
+        var widgetId = $xmlComponent.attr('id');
+
+        var dataChoices = [
+        {
+            'label' : '',
+            'value' : ''
+        },
+        {
+            'label' : 'Indicator value',
+            'value' : 'value'
+        }];
+        if (arrAssociateOptions.length > 0) dataChoices = dataChoices.concat(arrAssociateOptions);
+
+        var form = 
+        {
+            'id'        : widgetId,
+            'name'      : 'Additional Data Lines',
+            'type'      : 'Component',
+            'controls'  : []
+        };
+
+        form.controls[form.controls.length] = 
+        {
+            'type' : 'label',
+            'name' : 'Use this section to add data lines to the pyramid chart.'
+        };
+
+        var $xmlProperties = $xmlComponent.find('Property');
+        $.each($xmlProperties, function(i, xmlProperty)
+        {
+            var $xmlProperty = $(xmlProperty);
+
+            var testId = 'line_color_';
+            var id = $xmlProperty.attr('id');
+
+            if (id.indexOf(testId) !== -1)
+            {
+                var index = id.substring(id.lastIndexOf("_") + 1, id.length);
+
+                var $color  = $xmlComponent.find('Property#' + 'line_color_' + index);
+                var $label  = $xmlComponent.find('Property#' + 'line_label_' + index);
+                var $value  = $xmlComponent.find('Property#' + 'line_value_' + index);
+
+                form.controls[form.controls.length] = 
+                {
+                    'id'            : widgetId,
+                    'type'          : 'groupcontrol',
+                    'sortable'      : false,
+                    'removeable'    : true,
+                    'action'        : 'remove-line',
+                    'index'         : index,
+                    'controls'      :
+                    [
+                        {
+                            'id'            : $data.attr('id'),
+                            'name'          : 'Data',
+                            'type'          : 'select',
+                            'value'         : $data.attr('value'),
+                            'choices'       : dataChoices,
+                            'description'   : $data.attr('description')
+                        },
+                        {
+                            'id'            : $label.attr('id'),
+                            'name'          : 'Label',
+                            'type'          : 'string',
+                            'value'         : $label.attr('value'),
+                            'description'   : $label.attr('description')
+                        },
+                        {
+                            'id'            : $color.attr('id'),
+                            'name'          : 'Colour',
+                            'type'          : 'colour',
+                            'value'         : $color.attr('value'),
+                            'description'   : $color.attr('description')
+                        }
+                    ]
+                };
+            }
+        });
+
+        // Add pyramid line button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Line',
+            'description'   : 'Add a new line',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-line'
+        };
+
+        return form;
+    }
+
     // Returns a symbol form.
     function getSymbolForm($xmlTable)
     {
@@ -1220,6 +1318,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         'type'          : 'groupcontrol',
                         'sortable'      : true,
                         'removeable'    : true,
+                        'action'        : 'remove-column',
                         'index'         : i,
                         'controls'      : 
                         [
@@ -1309,104 +1408,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'icon'  : 'fa fa-fw fa-plus',
             'align' : 'right',
             'action': 'add-column'
-        };
-
-        return form;
-    }
-
-    // Returns a pyramid line form.
-    function getPyramidLineForm($xmlComponent)
-    {
-        var widgetId = $xmlComponent.attr('id');
-
-        var dataChoices = [
-        {
-            'label' : '',
-            'value' : ''
-        },
-        {
-            'label' : 'Indicator value',
-            'value' : 'value'
-        }];
-        if (arrAssociateOptions.length > 0) dataChoices = dataChoices.concat(arrAssociateOptions);
-
-        var form = 
-        {
-            'id'        : widgetId,
-            'name'      : 'Additional Data Lines',
-            'type'      : 'Component',
-            'controls'  : []
-        };
-
-        form.controls[form.controls.length] = 
-        {
-            'type' : 'label',
-            'name' : 'Use this section to add data lines to the pyramid chart.'
-        };
-
-        var $xmlProperties = $xmlComponent.find('Property');
-        $.each($xmlProperties, function(i, xmlProperty)
-        {
-            var $xmlProperty = $(xmlProperty);
-
-            var testId = 'line_color_';
-            var id = $xmlProperty.attr('id');
-
-            if (id.indexOf(testId) !== -1)
-            {
-                var index = id.substring(id.lastIndexOf("_") + 1, id.length);
-
-                var $color  = $xmlComponent.find('Property#' + 'line_color_' + index);
-                var $label  = $xmlComponent.find('Property#' + 'line_label_' + index);
-                var $value  = $xmlComponent.find('Property#' + 'line_value_' + index);
-
-                form.controls[form.controls.length] = 
-                {
-                    'id'            : widgetId,
-                    'type'          : 'groupcontrol',
-                    'sortable'      : false,
-                    'removeable'    : true,
-                    'action'        : 'remove-line',
-                    'index'         : index,
-                    'controls'      :
-                    [
-                        {
-                            'id'            : $data.attr('id'),
-                            'name'          : 'Data',
-                            'type'          : 'select',
-                            'value'         : $data.attr('value'),
-                            'choices'       : dataChoices,
-                            'description'   : $data.attr('description')
-                        },
-                        {
-                            'id'            : $label.attr('id'),
-                            'name'          : 'Label',
-                            'type'          : 'string',
-                            'value'         : $label.attr('value'),
-                            'description'   : $label.attr('description')
-                        },
-                        {
-                            'id'            : $color.attr('id'),
-                            'name'          : 'Colour',
-                            'type'          : 'colour',
-                            'value'         : $color.attr('value'),
-                            'description'   : $color.attr('description')
-                        }
-                    ]
-                };
-            }
-        });
-
-        // Add pyramid line button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Line',
-            'description'   : 'Add a new line',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-line'
         };
 
         return form;
