@@ -568,6 +568,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
+                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -599,6 +600,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     iad.css.setProperty(data.controlId, data.controlValue);
                 }
+            },
+            onButtonClicked: function (data)
+            {
+                console.log(data);
+                if (data.action === 'add-column') iad.config.addColumn(data.controlId);
+                else if (data.action === 'remove-column') iad.config.removeColumn(data.controlId, data.controlIndex);
             }
         });
     }
@@ -768,6 +775,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         Handlebars.registerPartial('control.textdropdownappend', window.iadesigner['control.textdropdownappend.handlebars']);
         Handlebars.registerPartial('control.textareadropdownappend', window.iadesigner['control.textareadropdownappend.handlebars']);
         Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
+        Handlebars.registerPartial('control.groupcontrol', window.iadesigner['control.groupcontrol.handlebars']);
+        Handlebars.registerPartial('control.button', window.iadesigner['control.button.handlebars']);
     }
 
     function updateDropdownMenus()

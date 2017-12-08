@@ -1021,28 +1021,55 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
             else
             {
+                // Standard table column.
                 form.controls[form.controls.length] = 
                 {
                     'id'            : widgetId,
-                    'type'          : 'column',
-                    'alias-id'      : 'alias',
-                    'alias-value'   : alias,
-                    'alias-choices' : options.subVarOptions,
-                    'data-id'       : 'name',
-                    'data-value'    : name,
-                    'data-choices'  : columnDataChoices,
-                    'width-id'      : 'width',
-                    'width-value'   : width,
-                    'index'         : i
+                    'type'          : 'groupcontrol',
+                    'sortable'      : true,
+                    'removeable'    : true,
+                    'action'        : 'remove-column',
+                    'index'         : i,
+                    'controls'      :
+                    [
+                        {
+                            'id'            : 'alias',
+                            'name'          : 'Column Title',
+                            'type'          : 'text-dropdown-replace',
+                            'value'         : alias,
+                            'choices'       : options.subVarOptions,
+                            'description'   : 'Column Title'
+                        },
+                        {
+                            'id'            : 'name',
+                            'name'          : 'Data Source',
+                            'type'          : 'text-dropdown-replace',
+                            'value'         : name,
+                            'choices'       : columnDataChoices,
+                            'description'   : 'Data Source'
+                        },
+                        {
+                            'id'            : 'width',
+                            'name'          : 'Column Width',
+                            'type'          : 'float-counter',
+                            'value'         : width,
+                            'description'   : 'Column Width'
+                        }
+                    ]
                 };
             }
         });
 
-        // Column addition control.
+        // Add Column Button.
         form.controls[form.controls.length] = 
         {
             'id'    : widgetId,
-            'type'  : 'column-add',
+            'name'  : 'New Column',
+            'description'   : 'Add A New Column',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-column'
         };
 
         return form;

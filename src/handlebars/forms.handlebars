@@ -39,6 +39,8 @@
 							{{#ifEqualTo type 'text-dropdown-append'}}{{> control.textdropdownappend}}{{/ifEqualTo}}
 							{{#ifEqualTo type 'textarea-dropdown-append'}}{{> control.textareadropdownappend}}{{/ifEqualTo}}
 							{{#ifEqualTo type 'separator'}}{{> control.separator}}{{/ifEqualTo}}
+							{{#ifEqualTo type 'groupcontrol'}}{{> control.groupcontrol}}{{/ifEqualTo}}
+							{{#ifEqualTo type 'button'}}{{> control.button}}{{/ifEqualTo}}
 
                             {{#ifEqualTo type 'colour-dropdown'}}
                                 <div class="form-group iad-form-group" data-control-id="{{id}}">
