@@ -1,22 +1,20 @@
-<div class="form-group iad-form-group" data-control-id="{{id}}">
-	<div class="control-label">
-		{{#ifStartsWith description 'popover:'}}
-        <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
+<div class="control-label">
+	{{#ifStartsWith description 'popover:'}}
+    <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
+    {{else}}
+    <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
+    {{/ifStartsWith}}
+</div>
+<div>
+	<select class="form-control input-sm iad-control-select">
+        {{#ifEndsWith id 'font-family'}}
+        {{#each choices}}
+        <option value="{{this.value}}" style="font-family: {{this.value}};" {{#ifEqualTo this.value ../value}} selected="true" {{/ifEqualTo}}>{{this.label}}</option>
+        {{/each}}
         {{else}}
-        <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
-        {{/ifStartsWith}}
-	</div>
-	<div>
-		<select class="form-control input-sm iad-control-select">
-            {{#ifEndsWith id 'font-family'}}
-            {{#each choices}}
-            <option value="{{this.value}}" style="font-family: {{this.value}};" {{#ifEqualTo this.value ../value}} selected="true" {{/ifEqualTo}}>{{this.label}}</option>
-            {{/each}}
-            {{else}}
-			{{#each choices}}
-				<option value="{{this.value}}" {{#ifEqualTo this.value ../value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
-			{{/each}}
-            {{/ifEndsWith}}
-		</select>
-	</div>
+		{{#each choices}}
+			<option value="{{this.value}}" {{#ifEqualTo this.value ../value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
+		{{/each}}
+        {{/ifEndsWith}}
+	</select>
 </div>

@@ -141,10 +141,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     function refresh()
     {
-        if (iad.report.loaded) 
-            iad.report.refreshReport();
-        else 
-            iad.report.refreshConfig();
+        iad.progress.start('load', function()
+        {
+            if (iad.report.loaded) 
+                iad.report.refreshReport();
+            else 
+                iad.report.refreshConfig();
+        });
     }
 
     function open()
@@ -153,9 +156,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.file.openConfigFile(function (filePath)
             {
-                iad.report.loaded = true;
-                iad.report.loadReport(filePath);
-                iad.usersettings.set('reportPath', filePath);
+                iad.progress.start('load', function()
+                {
+                    iad.report.loaded = true;
+                    iad.report.loadReport(filePath);
+                    iad.usersettings.set('reportPath', filePath);
+                });
             });
         });
     }
@@ -209,7 +215,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         iad.file.openConfigFile(function (filePath)
         {
-            iad.report.loadConfig(filePath);
+            iad.progress.start('load', function()
+            {
+                iad.report.loadConfig(filePath);
+            });
         });
     }
 

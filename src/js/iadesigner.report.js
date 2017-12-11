@@ -30,10 +30,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         iad.report.stylePath = iad.report.path+'/default.css';
         iad.report.customPath = iad.report.path+'/custom.js';
         iad.report.mapPath = iad.report.path+'/map.js';
-        iad.report.mapPath = iad.report.path+'/map.js';
         iad.report.dataPath = iad.report.path+'/data.js';
 
-        iad.mapjson.read(iad.report.mapPath, function (jsonMap)
+        //readMapFile(function ()
+        //{
+        iad.mapjson.read(iad.report.mapPath, function()
         {
             readXmlFile(options.path, function (xml)
             {
@@ -45,9 +46,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         onSuccess: function (r)
                         {
                             report = r;
-                            loadStyleFile(function ()
+                            readStyleFile(function ()
                             {
-                                loadCustomFile(function ()
+                                readCustomFile(function ()
                                 {
                                     if (options && options.onReportInit) options.onReportInit.call(null, report);
                                     if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
@@ -84,7 +85,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         preConfigLoaded(function()
         {
-            iad.mapjson.read(iad.report.mapPath, function (jsonMap)
+            //readMapFile(function ()
+            //{
+            iad.mapjson.read(iad.report.mapPath, function()
             {
                 readXmlFile(configPath, function (xml)
                 {
@@ -101,9 +104,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         }, 
                         function() 
                         {
-                            loadStyleFile(function ()
+                            readStyleFile(function ()
                             {
-                                loadCustomFile(function ()
+                                readCustomFile(function ()
                                 {
                                     if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
                                     onConfigLoaded(); 
@@ -157,8 +160,24 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     }
 
+    // Load map.json
+    function readMapFile(callback)
+    {
+        fs.stat(iad.report.mapPath, function(err, stat) 
+        {
+            if (err === null)  
+            {
+                iad.mapjson.read(iad.report.mapPath, function()
+                {
+                    callback.call(null);
+                });
+            }
+            else callback.call(null);
+        });
+    }
+
     // Load style.json
-    function loadStyleFile(callback)
+    function readStyleFile(callback)
     {
         fs.stat(iad.report.lessPath, function(err, stat) 
         {
@@ -174,7 +193,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     }
 
     // Load custom.js
-    function loadCustomFile(callback)
+    function readCustomFile(callback)
     {
         // Override any functions included in previous custom.js
         if (typeof iaOnReportComplete === "function") iaOnReportComplete = undefined;
@@ -265,7 +284,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             ia.parseConfig(xmlConfig, function ()
             {
-                loadCustomFile(function ()
+                readCustomFile(function ()
                 {
                     onConfigLoaded();
                 });

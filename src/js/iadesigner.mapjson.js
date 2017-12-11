@@ -24,7 +24,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         .done(function(json)
         {
             jsonMap = $.extend(true, {}, json);
-            if (options && options.onLoad) options.onLoad.call(null, jsonMap);
+            if (options && options.onRead) options.onRead.call(null, jsonMap);
             if (callback !== undefined) callback.call(null, jsonMap); 
         })
         .fail(function(jqXHR, textStatus, errorThrown)

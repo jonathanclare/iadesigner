@@ -1,30 +1,28 @@
-<div class="form-group iad-form-group" data-control-id="{{id}}">
-	<div class="control-label">
-		{{#ifStartsWith description 'popover:'}}
-        <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
-        {{else}}
-        <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
-        {{/ifStartsWith}}
-	</div>
-	<div>
-		<div class="input-group">
-			<textarea class="form-control input-sm iad-control-textarea iad-control-text">{{value}}</textarea>
-			<div class="input-group-btn" style="vertical-align:bottom">
-				<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-				<ul class="dropdown-menu pull-right iad-dropdown-menu-append">
-					{{#each choices}}
-						{{#if this.divider}}
-							<li class="divider"></li>
-						{{/if}}
-						{{#if this.header}}
-							<li class="dropdown-header">{{this.header}}</li>
-						{{/if}}
-						{{#if this.value}}
-							<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
-						{{/if}}
-					{{/each}}
-				</ul>
-			</div>
+<div class="control-label">
+	{{#ifStartsWith description 'popover:'}}
+    <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
+    {{else}}
+    <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
+    {{/ifStartsWith}}
+</div>
+<div>
+	<div class="input-group">
+		<textarea class="form-control input-sm iad-control-textarea iad-control-text">{{value}}</textarea>
+		<div class="input-group-btn" style="vertical-align:bottom">
+			<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+			<ul class="dropdown-menu pull-right iad-dropdown-menu-append">
+				{{#each choices}}
+					{{#if this.divider}}
+						<li class="divider"></li>
+					{{/if}}
+					{{#if this.header}}
+						<li class="dropdown-header">{{this.header}}</li>
+					{{/if}}
+					{{#if this.value}}
+						<li class="iad-dropdown-option"><a href="#" data-value="{{this.value}}">{{this.label}}</a></li>
+					{{/if}}
+				{{/each}}
+			</ul>
 		</div>
 	</div>
 </div>

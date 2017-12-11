@@ -17,15 +17,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Adds the control handlers.
     function addControlHandlers()
     {
-        // Called when a widget property has been changed.
-        var dispatchWidgetChange = iad.util.debounce(function (data) {dispatchChange(data);}, 250);
-
-        // Called when a group property has been changed.
-        var dispatchGroupPropertyChange = iad.util.debounce(function (data) {dispatchChange(data);}, 1000);
-
-        // Dispatches the change.
-        function dispatchChange(data) {if (options && options.onDataChanged) options.onDataChanged.call(null, data);}
-
         // Returns the data associated with the control.
         function getData($control)
         {
@@ -42,8 +33,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             var data = getData($control);
             data.controlValue = newValue;
-            if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatchGroupPropertyChange(data);
-            else dispatchWidgetChange(data);
+            if (options && options.onDataChanged) options.onDataChanged.call(null, data);
         }
 
         // Handle key entry / paste.

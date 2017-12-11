@@ -112,9 +112,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onUndo: function(id)
             {
-                if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData);
-                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
+                iad.progress.start('load', function()
+                {
+                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
+                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData);
+                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
+                });
             }
         });
     }
@@ -127,27 +130,24 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             lessVars: options.lessVars,
             onLessVarsChanged: function(lessVars)
             {
-                iad.progress.start('load', function()
-                {
-                    // Update css form when color scheme has been changed.
-                    iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
+                // Update css form when color scheme has been changed.
+                iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
 
-                    // Highlight/selection and chart color changes need iaReport update.
-                    if (iaReport !== undefined)
+                // Highlight/selection and chart color changes need iaReport update.
+                if (iaReport !== undefined)
+                {
+                    var factory = iaReport.getComponent('factory');
+                    iaReport.highlightColor = lessVars['@highlight-color'];
+                    iaReport.selectionColor = lessVars['@selection-color'];
+                    factory.updateComponents(function ()
                     {
-                        var factory = iaReport.getComponent('factory');
-                        iaReport.highlightColor = lessVars['@highlight-color'];
-                        iaReport.selectionColor = lessVars['@selection-color'];
-                        factory.updateComponents(function ()
+                        factory.renderComponents(function () 
                         {
-                            factory.renderComponents(function () 
-                            {
-                                onStyleChanged();
-                                iad.progress.end('load');
-                            });
+                            onStyleChanged();
+                            iad.progress.end('load');
                         });
-                    }
-                });
+                    });
+                }
             },
             onPropertyChanged: function(property, value)
             {
@@ -194,21 +194,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     {
         iad.mapjson.init(
         {
-            onLoad: function(jsonMap)
+            onRead: function(jsonMap)
             {
                 iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
             },
             onParse: function(jsonMap)
             {
                 iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
-                iad.progress.start('load', function()
-                {
-                    ia.parseMap(jsonMap, function()
-                    {
-                        iad.canvas.update();
-                        iad.progress.end('load');
-                    });
-                });
+                debounceParseMap();
             },
             onMapPropertyChanged: function(property, value)
             {
@@ -216,15 +209,18 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onLayerPropertyChanged: function(layerId, property, value)
             {
-                iad.progress.start('load', function()
-                {
-                    ia.parseMap(iad.mapjson.toJson(), function()
-                    {
-                        iad.progress.end('load');
-                    });
-                });
+                debounceParseMap();
             }
         });
+
+        var debounceParseMap = iad.util.debounce(function () 
+        {
+            ia.parseMap(iad.mapjson.toJson(), function()
+            {
+                iad.canvas.update();
+                iad.progress.end('load');
+            });
+        }, 1000);
     }
 
     function initColorPicker()
@@ -290,12 +286,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             preConfigLoaded: function (callback)
             {      
-                iad.progress.start('load', function()
-                {
-                    storeSelectedWidgetId = iad.config.selectedWidgetId;
-                    iad.canvas.clearSelection();
-                    callback.call(null);
-                });          
+                storeSelectedWidgetId = iad.config.selectedWidgetId;
+                iad.canvas.clearSelection();
+                callback.call(null);
             },
             onConfigLoaded: function ()
             {
@@ -395,7 +388,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                             widgetId.indexOf('areaBreakdownPieChart') !== -1)
                         {
                             iad.config.selectedWidgetId = widgetId;
-                            iad.report.refreshConfig();
+                            debounceRefreshConfig();
                         }
                         else 
                         {
@@ -429,7 +422,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onGroupPropertyChanged: function (groupId, propertyId)
             {
-                iad.report.refreshConfig();
+                debounceRefreshConfig();
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
@@ -498,6 +491,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
             }
         });
+
+        var debounceRefreshConfig = iad.util.debounce(function () 
+        {
+            iad.report.refreshConfig();
+        }, 1000);
 
         function onWidgetAdded(widgetId, $xmlWidget)
         {
@@ -676,10 +674,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             json: options.json,
             onApply: function (filePath, name)
             {
-                if (iad.report.loaded)
-                    iad.report.loadConfig(filePath);
-                else
-                    iad.report.loadReport(filePath);
+                iad.progress.start('load', function()
+                {
+                    if (iad.report.loaded)
+                        iad.report.loadConfig(filePath);
+                    else
+                        iad.report.loadReport(filePath);
+                });
             },
             onPreview: function (filePath, name)
             {
@@ -764,6 +765,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             return s.substring(i);
         });
         // For nested templates.
+        Handlebars.registerPartial('control.logic', window.iadesigner['control.logic.handlebars']);
         Handlebars.registerPartial('control.text', window.iadesigner['control.text.handlebars']);
         Handlebars.registerPartial('control.textarea', window.iadesigner['control.textarea.handlebars']);
         Handlebars.registerPartial('control.textarea', window.iadesigner['control.textarealarge.handlebars']);
@@ -783,7 +785,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         Handlebars.registerPartial('control.textdropdownappend', window.iadesigner['control.textdropdownappend.handlebars']);
         Handlebars.registerPartial('control.textareadropdownappend', window.iadesigner['control.textareadropdownappend.handlebars']);
         Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
-        Handlebars.registerPartial('control.groupcontrol', window.iadesigner['control.groupcontrol.handlebars']);
         Handlebars.registerPartial('control.button', window.iadesigner['control.button.handlebars']);
     }
 

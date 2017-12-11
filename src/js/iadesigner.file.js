@@ -45,9 +45,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 {
                     iad.file.saveChangesBeforeContinuing(function()
                     {
-                        iad.report.loaded = true;
-                        iad.report.loadReport(f.path);
-                        iad.usersettings.set('reportPath', f.path);
+                        iad.progress.start('load', function()
+                        {
+                            iad.report.loaded = true;
+                            iad.report.loadReport(f.path);
+                            iad.usersettings.set('reportPath', f.path);
+                        });
                     });
                 }
                 else if (fileName.indexOf('.json') != -1) // styles.json - file type doesnt seem to work for json.
