@@ -494,7 +494,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         var debounceRefreshConfig = iad.util.debounce(function () 
         {
-            iad.report.refreshConfig();
+            iad.progress.start('load', function()
+            {
+                iad.report.refreshConfig();
+            });
         }, 1000);
 
         function onWidgetAdded(widgetId, $xmlWidget)
