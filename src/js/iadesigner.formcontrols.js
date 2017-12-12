@@ -36,6 +36,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (options && options.onDataChanged) options.onDataChanged.call(null, data);
         }
 
+        // Close popovers on click outside.
+        $(document).on('mousedown', function (e) 
+        {
+             $('[data-toggle="popover"]').each(function () 
+             {
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) 
+                {
+                    $(this).popover('hide');
+                }
+            });
+        });
+
         // Handle key entry / paste.
         $(document).on('keyup paste', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
         {

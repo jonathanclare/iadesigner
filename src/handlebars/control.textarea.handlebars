@@ -1,9 +1,5 @@
 <div class="control-label">
-    {{#ifStartsWith description 'popover:'}}
-    <span class="iad-popover-control"><i class="hover-opaque fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{substring description 8}}" data-title="{{name}}" data-container="body"></i> {{name}}</span>
-    {{else}}
-    <span class="iad-tooltip-control" data-toggle="tooltip" title="{{description}}">{{name}}</span>
-    {{/ifStartsWith}}
+    {{#if description}}<i class="fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{description}}" data-container="body"></i>&nbsp;{{/if}}{{name}}
 </div>
 <div>
 	<textarea class="form-control input-sm iad-control-textarea iad-control-text">{{value}}</textarea>
