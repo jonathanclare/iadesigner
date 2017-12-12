@@ -9,21 +9,25 @@ this["iadesigner"]["control.boldlabel.handlebars"] = Handlebars.template({"compi
 },"useData":true});
 
 this["iadesigner"]["control.boolean.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<span class=\"control-label\"><i class=\"fa fa-fw fa-question-circle iad-popover\" data-toggle=\"popover\" data-trigger=\"click\" data-content=\""
+    + container.escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"description","hash":{},"data":data}) : helper)))
+    + "\" data-container=\"body\"></i>&nbsp;</span>";
+},"3":function(container,depth0,helpers,partials,data) {
     return "checked";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 
-  return "<div class=\"checkbox iad-checkbox\">\r\n	<label>\r\n		<input type=\"checkbox\" "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<div class=\"checkbox iad-checkbox\">\r\n 	"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.description : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n	<label>\r\n		<input type=\"checkbox\" "
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),"true",{"name":"ifEqualTo","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " "
-    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),true,{"name":"ifEqualTo","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + " class=\"iad-control-checkbox\">\r\n		<div class=\"control-label>\r\n    		<i class=\"fa fa-fw fa-question-circle iad-popover\" data-toggle=\"popover\" data-trigger=\"click\" data-content=\""
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
-    + "\" data-container=\"body\"></i>&nbsp;"
-    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + " "
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
-    + "\r\n		</div>\r\n	</label>\r\n</div>";
+    + ((stack1 = (helpers.ifEqualTo || (depth0 && depth0.ifEqualTo) || alias2).call(alias1,(depth0 != null ? depth0.value : depth0),true,{"name":"ifEqualTo","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " class=\"iad-control-checkbox\"><span class=\"control-label\">"
+    + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</span>\r\n	</label>\r\n</div>";
 },"useData":true});
 
 this["iadesigner"]["control.button.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

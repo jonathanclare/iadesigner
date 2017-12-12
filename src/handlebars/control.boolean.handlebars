@@ -1,8 +1,6 @@
 <div class="checkbox iad-checkbox">
+ 	{{#if description}}<span class="control-label"><i class="fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{description}}" data-container="body"></i>&nbsp;</span>{{/if}}
 	<label>
-		<input type="checkbox" {{#ifEqualTo this.value 'true'}}checked{{/ifEqualTo}} {{#ifEqualTo this.value true}}checked{{/ifEqualTo}} class="iad-control-checkbox">
-		<div class="control-label>
-    		<i class="fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{description}}" data-container="body"></i>&nbsp;{{name}} {{description}}
-		</div>
+		<input type="checkbox" {{#ifEqualTo this.value 'true'}}checked{{/ifEqualTo}} {{#ifEqualTo this.value true}}checked{{/ifEqualTo}} class="iad-control-checkbox"><span class="control-label">{{name}}</span>
 	</label>
 </div>
