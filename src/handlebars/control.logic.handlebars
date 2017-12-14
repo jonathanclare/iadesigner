@@ -1,20 +1,61 @@
-{{#ifTextControl type}}{{> control.text}}{{/ifTextControl}}
-{{#ifEqualTo type 'textarea'}}{{> control.textarea}}{{/ifEqualTo}}
-{{#ifEqualTo type 'textarea-large'}}{{> control.textarealarge}}{{/ifEqualTo}}
-{{#ifEqualTo type 'label'}}{{> control.label}}{{/ifEqualTo}}
-{{#ifEqualTo type 'bold-label'}}{{> control.boldlabel}}{{/ifEqualTo}}
-{{#ifEqualTo type 'integer'}}{{> control.integer}}{{/ifEqualTo}}
-{{#ifEqualTo type 'float'}}{{> control.float}}{{/ifEqualTo}}
-{{#ifEqualTo type 'integer-counter'}}{{> control.integercounter}}{{/ifEqualTo}}
-{{#ifEqualTo type 'integer-select'}}{{> control.integerselect}}{{/ifEqualTo}}
-{{#ifEqualTo type 'float-counter'}}{{> control.floatcounter}}{{/ifEqualTo}}
-{{#ifEqualTo type 'boolean'}}{{> control.boolean}}{{/ifEqualTo}}
-{{#ifEqualTo type 'select'}}{{> control.select}}{{/ifEqualTo}}
-{{#ifEqualTo type 'colour'}}{{> control.colour}}{{/ifEqualTo}}
-{{#ifEqualTo type 'text'}}{{> control.text}}{{/ifEqualTo}}
-{{#ifEqualTo type 'range'}}{{> control.range}}{{/ifEqualTo}}
-{{#ifEqualTo type 'text-dropdown-replace'}}{{> control.textdropdownreplace}}{{/ifEqualTo}}
-{{#ifEqualTo type 'text-dropdown-append'}}{{> control.textdropdownappend}}{{/ifEqualTo}}
-{{#ifEqualTo type 'textarea-dropdown-append'}}{{> control.textareadropdownappend}}{{/ifEqualTo}}
-{{#ifEqualTo type 'separator'}}{{> control.separator}}{{/ifEqualTo}}
-{{#ifEqualTo type 'button'}}{{> control.button}}{{/ifEqualTo}}
+{{#ifEqualTo type 'separator'}}
+	{{> control.separator}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'button'}}
+	{{> control.button}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'label'}}
+	{{> control.label}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'bold-label'}}
+	{{> control.boldlabel}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'textarea-large'}}
+	{{> control.textarealarge}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'boolean'}}
+	{{> control.boolean}}
+{{/ifEqualTo}}
+{{#ifTextControl type}}
+	{{> control.label}}{{> control.text}}
+{{/ifTextControl}}
+{{#ifEqualTo type 'textarea'}}
+	{{> control.label}}{{> control.textarea}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'integer'}}
+	{{> control.label}}{{> control.integer}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'float'}}
+	{{> control.label}}{{> control.float}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'integer-counter'}}
+{{> control.label}}
+	{{> control.label}}{{> control.integercounter}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'integer-select'}}
+	{{> control.label}}{{> control.integerselect}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'float-counter'}}
+	{{> control.label}}{{> control.floatcounter}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'select'}}
+	{{> control.label}}{{> control.select}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'colour'}}
+	{{> control.colour}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'text'}}
+	{{> control.label}}{{> control.text}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'range'}}
+	{{> control.label}}{{> control.range}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'text-dropdown-replace'}}
+	{{> control.label}}{{> control.textdropdownreplace}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'text-dropdown-append'}}
+	{{> control.label}}{{> control.textdropdownappend}}
+{{/ifEqualTo}}
+{{#ifEqualTo type 'textarea-dropdown-append'}}
+	{{> control.label}}{{> control.textareadropdownappend}}
+{{/ifEqualTo}}

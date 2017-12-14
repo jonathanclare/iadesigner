@@ -1,16 +1,5 @@
-<div class="control-label">
-    {{#if description}}<i class="fa fa-fw fa-question-circle iad-popover" data-toggle="popover" data-trigger="click" data-content="{{description}}" data-container="body"></i>&nbsp;{{/if}}{{name}}
-</div>
-<div>
-	<select class="form-control input-sm iad-control-select">
-        {{#ifEndsWith id 'font-family'}}
-        {{#each choices}}
-        <option value="{{this.value}}" style="font-family: {{this.value}};" {{#ifEqualTo this.value ../value}} selected="true" {{/ifEqualTo}}>{{this.label}}</option>
-        {{/each}}
-        {{else}}
-		{{#each choices}}
-			<option value="{{this.value}}" {{#ifEqualTo this.value ../value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
-		{{/each}}
-        {{/ifEndsWith}}
-	</select>
-</div>
+<select class="form-control input-sm iad-control-select">
+    {{#each choices}}
+        <option value="{{this.value}}" {{#ifEndsWith id 'font-family'}}style="font-family:{{this.value}};"{{/ifEndsWith}} {{#ifEqualTo this.value ../value}}selected="true"{{/ifEqualTo}}>{{this.label}}</option>
+    {{/each}}
+</select>
