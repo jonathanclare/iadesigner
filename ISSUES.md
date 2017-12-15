@@ -29,6 +29,7 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - Take bounding box from map
 - Update form when name has changed
 - maintainlayer order - make layers sortable - override
+- Issues with the correct path when in evaluation mode
 
 ## maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
 

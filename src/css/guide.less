@@ -17,20 +17,31 @@
 }
 .iad-cards
 {
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
+    align-items:center;
+    justify-content: center;
 }
 .iad-card
 {
     cursor: pointer;
-    flex-grow: 1;
-    width: 33%;
+    flex-flow: row nowrap;
+    width:80%
+}
+.iad-card-content
+{
+    flex: 1;
     flex-flow: column nowrap;
-    padding:15px;
+    padding:30px;
 }
 .iad-card-title
 {
+    font-size:14px;
     align-items:center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 5px;
+}
+.iad-card-image-container
+{
     padding: 5px;
 }
 .iad-card-image
@@ -50,4 +61,32 @@
 .iad-card:hover .iad-card-title
 {    
     color:#000;
+}
+.iad-card:hover .iad-card-number
+{    
+    background:#666;
+}
+.iad-card-time-line
+{
+    flex: 0 0 30px;
+    flex-flow: column nowrap;
+    align-items:center;
+    justify-content: flex-start;
+}
+.iad-card-number 
+{
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #aaa;
+    color: #fff;
+    font-size: 18px;
+    align-items:center;
+    justify-content: center;
+}
+.iad-card-line
+{
+    flex: 1;
+    background-color:#aaa;
+    width:2px;
 }

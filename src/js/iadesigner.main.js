@@ -45,6 +45,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
                         updateConfigDownloadButton();
+
+
+            iad.sidebar.show('iad-sidebar-guide');
+
                         iad.progress.end('load', function()
                         {
                             if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
