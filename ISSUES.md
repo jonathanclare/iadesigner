@@ -35,3 +35,7 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 
 ## Spine chart
 - election template form. Columns need looking at.
+
+debounce on input change - probably still need it for inputs.
+
+debounce on map render in source code might help when layers are edited - stop white polygon background appearing
