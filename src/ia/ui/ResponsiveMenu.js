@@ -40,7 +40,7 @@ ia.ResponsiveMenu.prototype.render = function(report)
 		if (widget.visible()) 
 		{
 			var c = report.config.getWidget(widget.id);
-			this.addMenuItem(report, c.text, c.href, c.target);
+			if (c != undefined) this.addMenuItem(report, c.text, c.href, c.target);
 		}
 	}
 

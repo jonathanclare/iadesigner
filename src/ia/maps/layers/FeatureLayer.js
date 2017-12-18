@@ -27,6 +27,12 @@ ia.FeatureLayer = function(inSource)
 	this.labelPosition = "top-right";
 	this.displayLabelsOnly = false;
 
+	var me = this;
+	this.debounceDraw = ia.debounce(function () 
+	{
+		me._draw();
+	}, 250);
+
 	if (inSource != null) this.source = inSource;
 };
 ia.extend(ia.ItemLayer, ia.FeatureLayer);
@@ -352,8 +358,9 @@ ia.FeatureLayer.prototype.parseData = function(data)
 	// Check if layer uses an icon.
 	if (this.iconPath != "")
 	{
+		var me = this;
 		this.icon = new Image();
-		this.icon.onload = function() {};
+		this.icon.onload = function()  {me.render();};
 		this.icon.src = this.iconPath;
 	}
 };
@@ -463,12 +470,17 @@ ia.FeatureLayer.prototype.render = function()
 	};
 };
 
+ia.FeatureLayer.prototype.draw = function() 
+{
+	this.debounceDraw();
+};
+
 /** 
  * Draws the layer.
  *
  * @method draw
  */
-ia.FeatureLayer.prototype.draw = function() 
+ia.FeatureLayer.prototype._draw = function() 
 {
 	// Dont bother drawing if the bBox isnt set or the layer isnt visible.
 	if (this.map && this.getVisible() && this.isLoaded)

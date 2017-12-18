@@ -522,8 +522,9 @@ ia.FeatureServiceLayer.prototype.parseData = function(features, maxAllowableOffs
 	// Check if layer uses an icon.
 	if (this.iconPath != "")
 	{
+		var me = this;
 		this.icon = new Image();
-		this.icon.onload = function() {};
+		this.icon.onload = function()  {me.render();};
 		this.icon.src = this.iconPath;
 	}
 };

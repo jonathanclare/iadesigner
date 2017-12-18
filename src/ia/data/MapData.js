@@ -283,11 +283,15 @@ ia.MapData.prototype.parseData = function(data, callbackFunction)
 				}
 				else if (layerData.type == "ags-layer" && navigator.onLine)
 				{
-					layerData.url = ia.FeatureServiceReader.getFeatureServiceUrl(layerData.url);
 					if (layerData.tile == true)
+					{
+						layerData.url = ia.FeatureServiceReader.getFeatureServiceUrl(layerData.url);
  						layer = new ia.WebTileLayer(layerData.url);
+					}
 					else 
+					{
 						layer = new ia.AGSLayer(layerData.url);
+					}
 					this.setLayerJson(layerData, layer);
 				}
 				else if (layerData.type == "wms-layer" && navigator.onLine)

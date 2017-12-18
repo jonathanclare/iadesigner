@@ -264,10 +264,10 @@ ia.DataGroup = function(report, suffix)
 
             // Get features from group 1.
             var count = 0;
+
             for (var id1 in objFeaturesByGroup)
             {
                 var arr1 = objFeaturesByGroup[id1];
-
                 for (var i = 0; i < arr1.length; i++) 
                 {
                     count = 0;
@@ -275,14 +275,13 @@ ia.DataGroup = function(report, suffix)
                     for (var id2 in objFeaturesByGroup)
                     {
                         var arr2 = objFeaturesByGroup[id2];
-                        if (arr2.indexOf(featureId) > 0) count++;
+                        if (arr2.indexOf(featureId) != -1) count++;
                     }
                     if (count == noOfFilterGroups) filter.features.push(featureId);
 
                 }
                 break;
             }
-
 
             // Filters applied from multiple filter groups.
             // "OR" rule used within filter groups, "AND" rule used across filter groups.
@@ -744,8 +743,8 @@ ia.DataGroup = function(report, suffix)
                     pal.minSize = report.config.getProperty("minLineSize"+suffix); 
                     if (pal.minSize == undefined) pal.minSize = report.config.getProperty("minLineSize"); 
 
-                    pal.maxSize = report.config.getProperty("minLineSize"+suffix); 
-                    if (pal.maxSize == undefined) pal.maxSize = report.config.getProperty("minLineSize"); 
+                    pal.maxSize = report.config.getProperty("maxLineSize"+suffix); 
+                    if (pal.maxSize == undefined) pal.maxSize = report.config.getProperty("maxLineSize"); 
 
                     me.thematic.categoricClassifier.symbolSize = me.mapData.baseLayer.style.lineWidth;
                 }

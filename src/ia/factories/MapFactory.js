@@ -40,7 +40,8 @@ ia.MapFactory = function(config, report, componentGroup)
 	// This code executes every time a filter has changed.
 	dataGroup.addEventListener(ia.FilterEvent.FILTER_CHANGED, function(event)
 	{
-	    var zoomOnFilter = report.config.getProperty("zoomOnFilter");
+	    var zoomOnFilter = config.getProperty("zoomOnFilter");
+
 	    if (zoomOnFilter == undefined || zoomOnFilter == true)
 	    {
 	        if (event.filterFeatures.length > 0)

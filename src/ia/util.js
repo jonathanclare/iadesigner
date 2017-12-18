@@ -9,6 +9,27 @@ var ia = ia ||
     // Utility functions.
 
     /** 
+     * Debounce.
+     */
+    debounce: function(func, wait, immediate)
+    {
+        var timeout;
+        return function() 
+        {
+            var me = this, args = arguments;
+            var later = function() 
+            {
+                timeout = null;
+                if (!immediate) func.apply(me, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait || 250);
+            if (callNow) func.apply(me, args);
+        };
+    },
+
+    /** 
      * Check if value is undefined.
      *
      * @method log

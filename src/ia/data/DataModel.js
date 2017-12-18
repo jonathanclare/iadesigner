@@ -398,7 +398,20 @@ ia.AGOLData.prototype.buildIndicator = function(iaGeography, iaTheme, indicatorM
 	}
 	else 
 	{
-		if ((!iaIndicator.srcFormat || (iaIndicator.srcFormat.toLowerCase().indexOf('csv') < 0)) 
+		// Flipped the test - CSV file or any other where the ID field is explicitly set...
+        if (iaIndicator.srcFormat && indicatorModel.src.fieldName && (indicatorModel.src.fieldName.split(',').length > 1))
+		{
+			// For csv indicators fieldname is a comma-separated list containing
+			// the data field followed by the id field.
+
+			// Fix issue of folk putting commas in fieldname.
+			var arr = indicatorModel.src.fieldName.split(',');
+			iaIndicator.idField = arr.pop();
+			iaIndicator.fieldName = arr.join(',');
+			//iaIndicator.fieldName = indicatorModel.src.fieldName.split(',')[0];
+			//iaIndicator.idField = indicatorModel.src.fieldName.split(',')[1];
+		}
+        else if ((!iaIndicator.srcFormat || (iaIndicator.srcFormat.toLowerCase().indexOf('csv') < 0)) 
 		&&  (iaIndicator.url.indexOf('FeatureServer') != -1 
 		|| iaIndicator.url.indexOf('MapServer') != -1          	// Feature Service.
 		|| iaIndicator.url.indexOf('?f=geojson') > 0 
@@ -728,7 +741,7 @@ ia.AGOLData.prototype._checkForRelationships = function (geogId, callback)
 
     ia.FeatureServiceReader.getInfo(iaGeography.url, ia.accessToken, function (info)
     {
-        if (info.relationships != undefined && info.relationships.length > 0)
+        if (info && info.relationships != undefined && info.relationships.length > 0)
         {
             var count = -1;
             function onComplete()
@@ -744,7 +757,8 @@ ia.AGOLData.prototype._checkForRelationships = function (geogId, callback)
                     if (r.cardinality == 'esriRelCardinalityOneToMany' && r.role == 'esriRelRoleDestination')
                     {
                         var url = iaGeography.url + '/queryRelatedRecords'
-                        var params = 'outFields=' + iaGeography.fieldNames.join(',') + '&relationshipId=' + r.id + '&objectids=1&returnGeometry=false&f=pjson';
+                        //var params = 'outFields=' + iaGeography.fieldNames.join(',') + '&relationshipId=' + r.id + '&objectids=1&returnGeometry=false&f=pjson';
+                        var params = 'outFields=*&relationshipId=' + r.id + '&objectids=1&returnGeometry=false&f=pjson';
 
                         ia.File.load(
                         {
@@ -760,11 +774,15 @@ ia.AGOLData.prototype._checkForRelationships = function (geogId, callback)
                             		if (rrg.relatedRecords != undefined && rrg.relatedRecords.length > 0)
                             		{
 		                                var attributes = rrg.relatedRecords[0].attributes;
+		                                var featureId = String(r.id);
+		                                if (r.keyField !== undefined && attributes[r.keyField] !== undefined) featureId = attributes[r.keyField];
+
 		                                iaGeography.comparisonFeatures[iaGeography.comparisonFeatures.length] =
 		                                {
-		                                    'id': String(r.id),
+		                                    'id': featureId.replace(/^#/, ''),
 		                                    'name': String(attributes.NAME)
 		                                };
+
 		                                for (var j = 0; j < iaGeography.indicatorList.length; j++)
 		                                {
 		                                    var iaIndicator = iaGeography.indicatorList[j];
@@ -938,7 +956,7 @@ ia.AGOLData.prototype._checkForIndicatorRelationships = function (iaGeography, u
 
     ia.FeatureServiceReader.getInfo(url, ia.accessToken, function (info)
     {
-        if (info.relationships != undefined && info.relationships.length > 0)
+        if (info && info.relationships != undefined && info.relationships.length > 0)
         {
             var count = -1;
             function onComplete()
@@ -1060,11 +1078,14 @@ ia.AGOLData.prototype._processFeatures = function(geogId, fsFeatures, callback)
 		if (fsFeature.attributes) 		attributes = fsFeature.attributes; // Feature Service.
 		else if (fsFeature.properties) 	attributes = fsFeature.properties; // GeoJson.
 
+		var featureId = String(attributes[iaGeography.idField]);
+		var featureName = String(attributes[iaGeography.nameField]);
+
 		// Define a new iaFeature.
 		var iaFeature = 
 		{
-			'id' 	: String(attributes[iaGeography.idField]),
-			'name' 	: String(attributes[iaGeography.nameField])
+			'id' 	: featureId.replace(/^#/, ''),
+			'name' 	: featureName
 		};
 
 		// Check for feature properties and filter values.
@@ -1106,7 +1127,7 @@ ia.AGOLData.prototype._processFeatures = function(geogId, fsFeatures, callback)
 		}
 
 		// Add the feature.
-		if (iaFeature.id.indexOf('#') == 0)
+		if (featureId.indexOf('#') == 0)
 			iaGeography.comparisonFeatures[iaGeography.comparisonFeatures.length] = iaFeature;
 		else 
 			iaGeography.features[iaGeography.features.length] = iaFeature;
@@ -1120,7 +1141,7 @@ ia.AGOLData.prototype._processFeatures = function(geogId, fsFeatures, callback)
 			var dataValue = attributes[iaIndicator.fieldName];
 			if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) dataValue = this.formatter.noDataValue;
 
-			if (iaFeature.id.indexOf('#') == 0) 
+			if (featureId.indexOf('#') == 0) 
 			{
 				// Comparison feature.
 				iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = dataValue;
@@ -1414,7 +1435,6 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 					var d = data[i];
 				  	var featureId = d[idColumnIndex];
 				  	var dataValue = d[dataColumnIndex];
-
 				  	var nameValue;
 				  	if (d.length > 1) nameValue = d[nameColumnIndex]; // Azure.
 
@@ -1423,15 +1443,31 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 					if (featureId != undefined && featureId != '')
 					{
 						if (featureId.indexOf('#') == 0) 
-					  		comparisonValues[featureId] = {name:nameValue, data:dataValue};
+					  		comparisonValues[featureId.replace(/^#/, '')] = {name:nameValue, data:dataValue};
 						else
 					  		featureValues[featureId] = dataValue;
 					}
 				}
 
+				// Comparison features that already exist.
+				var arrComparisonFeatureIds = [];
+				for (var i = 0; i < iaGeography.comparisonFeatures.length; i++) 		
+				{
+					var f = iaGeography.comparisonFeatures[i];
+					arrComparisonFeatureIds.push(f.id);
+					if (comparisonValues[f.id] != undefined)
+					{
+						var dataValue = comparisonValues[f.id].data;
+						if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) 
+							iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = me.formatter.noDataValue;
+						else 
+							iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = dataValue;
+					}
+					else iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = me.formatter.noDataValue;
+				}
+
 				// Match the feature ids up.
 				var n = fsFeatures.length;
-				var arrComparisonFeatureIds = [];
 				for (var i = 0; i < n; i++) 		
 				{
 					var fsFeature = fsFeatures[i];
@@ -1442,17 +1478,20 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 
 					var featureId = String(attributes[featureIdField]);
 
-					if (featureId.indexOf('#') == 0) 
+					/*if (featureId.indexOf('#') == 0)  
 					{
-						arrComparisonFeatureIds.push(featureId);
-						var dataValue = comparisonValues[featureId].data;
-
-						if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) 
-							iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = me.formatter.noDataValue;
-						else 
-							iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = dataValue;
+						if (comparisonValues[featureId] != undefined)
+						{
+							var dataValue = comparisonValues[featureId].data;
+							if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) 
+								iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = me.formatter.noDataValue;
+							else 
+								iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = dataValue;
+						}
+						else iaIndicator.comparisonValues[iaIndicator.comparisonValues.length] = me.formatter.noDataValue;
 					}
-					else
+					else*/
+					if (featureId.indexOf('#') !== 0) 	
 					{
 						var dataValue = featureValues[featureId];
 
@@ -1466,12 +1505,6 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 				// Check if theres any new comparison areas (azure).
 				for (var id in comparisonValues) 		
 				{
-					var dataValue = comparisonValues[id].data;
-					if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) 
-					{
-						 dataValue = me.formatter.noDataValue;
-					}
-
 					var name = comparisonValues[id].name;
 					if (name != undefined) // Doesnt have a name column.
 					{
@@ -1481,7 +1514,7 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 
 							// Check if it already exists as a comparison feature.
 							// If it does get the index so the value is put in the right position.
-							var comparisonFeatureFound = false;
+							/*var comparisonFeatureFound = false;
 							for (var i = 0; i < iaGeography.comparisonFeatures.length; i++) 		
 							{
 								var comparisonFeature = iaGeography.comparisonFeatures[i];
@@ -1492,10 +1525,15 @@ ia.AGOLData.prototype.readCsvFile = function(iaGeography, featureIdField, fsFeat
 								}
 							}
 							if (!comparisonFeatureFound)
-							{
+							{*/
+								var dataValue = comparisonValues[id].data;
+								if ((dataValue === "null") || (dataValue === null) || (dataValue === "NaN") || (dataValue === "") || (dataValue === undefined)) 
+								{
+									 dataValue = me.formatter.noDataValue;
+								}
 								// Not found in json feature list. So add it.
 								iaGeography.comparisonFeatures.push({id:id, name:name});
-							}
+							//}
 
 							// Add comparison value to indicator.
 							iaIndicator.comparisonValues.push(dataValue);

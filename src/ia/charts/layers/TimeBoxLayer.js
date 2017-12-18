@@ -163,75 +163,80 @@ ia.TimeBoxLayer.prototype._setItemShape = function(item, index, nItems)
 {	
 	item.boxSize = this.markerSize * 3;
 
-	if (this.map.orientation == "vertical")
+	if (ia.isNumber(item.median))
 	{
-		var startX = this.map.canvasX;
-		var hSpace = this.map.canvasWidth;
-		if (this.map.centerXAxisLabels)
+		if (this.map.orientation == "vertical")
 		{
-			var indent = this.map.canvasWidth / (nItems * 2);
-			startX = this.map.canvasX + indent; 
-			hSpace = this.map.canvasWidth - (indent * 2);
+
+
+			var startX = this.map.canvasX;
+			var hSpace = this.map.canvasWidth;
+			if (this.map.centerXAxisLabels)
+			{
+				var indent = this.map.canvasWidth / (nItems * 2);
+				startX = this.map.canvasX + indent; 
+				hSpace = this.map.canvasWidth - (indent * 2);
+			}
+
+			item.px;
+			if (index == 0) item.px = startX;
+			else  item.px = startX + (index / (nItems - 1)) * hSpace;
+
+			// lowerQuartile / upperQuartile Box.
+			item.rect.x = item.px - (item.boxSize / 2);
+			item.rect.y = this.map.getPixelY(item.upperQuartile);
+			item.rect.height = this.map.getPixelY(item.lowerQuartile) - item.rect.y;
+			item.rect.width = item.boxSize;	
+
+		 	// Min / Max / Median / 95 / 5.
+		 	item.yMin = this.map.getPixelY(item.minValue);
+		 	item.yMax = this.map.getPixelY(item.maxValue);
+		 	item.yMedian = this.map.getPixelY(item.median);
+		 	item.yNinetyFifth = this.map.getPixelY(item.ninetyFifth);
+		 	item.yFifth = this.map.getPixelY(item.fifth);
+
+			// The pixel hit area for the bar.
+			// Stretches the full height of the chart and full width of area reserved for bar.
+			item.hitArea.x = item.rect.x;
+			item.hitArea.y = this.map.canvasY;
+			item.hitArea.width = item.rect.width;
+			item.hitArea.height = this.map.canvasHeight;
 		}
-
-		item.px;
-		if (index == 0) item.px = startX;
-		else  item.px = startX + (index / (nItems - 1)) * hSpace;
-
-		// lowerQuartile / upperQuartile Box.
-		item.rect.x = item.px - (item.boxSize / 2);
-		item.rect.y = this.map.getPixelY(item.upperQuartile);
-		item.rect.height = this.map.getPixelY(item.lowerQuartile) - item.rect.y;
-		item.rect.width = item.boxSize;	
-
-	 	// Min / Max / Median / 95 / 5.
-	 	item.yMin = this.map.getPixelY(item.minValue);
-	 	item.yMax = this.map.getPixelY(item.maxValue);
-	 	item.yMedian = this.map.getPixelY(item.median);
-	 	item.yNinetyFifth = this.map.getPixelY(item.ninetyFifth);
-	 	item.yFifth = this.map.getPixelY(item.fifth);
-
-		// The pixel hit area for the bar.
-		// Stretches the full height of the chart and full width of area reserved for bar.
-		item.hitArea.x = item.rect.x;
-		item.hitArea.y = this.map.canvasY;
-		item.hitArea.width = item.rect.width;
-		item.hitArea.height = this.map.canvasHeight;
-	}
-	else
-	{
-		var startY = this.map.canvasY;
-		var vSpace = this.map.canvasHeight;
-		if (this.map.centerYAxisLabels)
+		else
 		{
-			var indent = this.map.canvasHeight / (nItems * 2);
-			startY = this.map.canvasY + indent; 
-			vSpace = this.map.canvasHeight - (indent * 2);
+			var startY = this.map.canvasY;
+			var vSpace = this.map.canvasHeight;
+			if (this.map.centerYAxisLabels)
+			{
+				var indent = this.map.canvasHeight / (nItems * 2);
+				startY = this.map.canvasY + indent; 
+				vSpace = this.map.canvasHeight - (indent * 2);
+			}
+
+			item.py;
+			if (index == 0) item.py = startY;
+			else  item.py = startY + (index / (nItems - 1)) * vSpace;
+
+			// lowerQuartile / upperQuartile Box.
+			item.rect.x = this.map.getPixelX(item.upperQuartile);
+			item.rect.y = item.py - (item.boxSize / 2);
+			item.rect.height = item.boxSize;
+			item.rect.width = this.map.getPixelX(item.lowerQuartile) - item.rect.x;	
+
+		 	// Min / Max / Median / 95 / 5.
+		 	item.xMax = this.map.getPixelX(item.maxValue);
+		 	item.xMin = this.map.getPixelX(item.minValue);
+		 	item.xMedian = this.map.getPixelX(item.median);
+		 	item.xNinetyFifth = this.map.getPixelX(item.ninetyFifth);
+		 	item.xFifth = this.map.getPixelX(item.fifth);
+
+			// The pixel hit area for the bar.
+			// Stretches the full height of the chart and full width of area reserved for bar.
+			item.hitArea.x = this.map.canvasX;
+			item.hitArea.y = item.rect.y;
+			item.hitArea.width = this.map.canvasWidth;
+			item.hitArea.height = item.rect.height;
 		}
-
-		item.py;
-		if (index == 0) item.py = startY;
-		else  item.py = startY + (index / (nItems - 1)) * vSpace;
-
-		// lowerQuartile / upperQuartile Box.
-		item.rect.x = this.map.getPixelX(item.upperQuartile);
-		item.rect.y = item.py - (item.boxSize / 2);
-		item.rect.height = item.boxSize;
-		item.rect.width = this.map.getPixelX(item.lowerQuartile) - item.rect.x;	
-
-	 	// Min / Max / Median / 95 / 5.
-	 	item.xMax = this.map.getPixelX(item.maxValue);
-	 	item.xMin = this.map.getPixelX(item.minValue);
-	 	item.xMedian = this.map.getPixelX(item.median);
-	 	item.xNinetyFifth = this.map.getPixelX(item.ninetyFifth);
-	 	item.xFifth = this.map.getPixelX(item.fifth);
-
-		// The pixel hit area for the bar.
-		// Stretches the full height of the chart and full width of area reserved for bar.
-		item.hitArea.x = this.map.canvasX;
-		item.hitArea.y = item.rect.y;
-		item.hitArea.width = this.map.canvasWidth;
-		item.hitArea.height = item.rect.height;
 	}
 };
 

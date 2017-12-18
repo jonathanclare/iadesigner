@@ -73,11 +73,11 @@ ia.FeatureServiceReader.layerQueryCache = {}
  * @static
  * @method sendQuery
  * @param {String} queryUrl A feature service layer query.
- * @param {String} acessToken The access token.
+ * @param {String} accessToken The access token.
  * @param {Function} callbackFunction The call back function. 
  * @return {JSON[]} The returned features as first parameter in a callback function.
  */
-ia.FeatureServiceReader.sendQuery = function(queryUrl, acessToken, callbackFunction)
+ia.FeatureServiceReader.sendQuery = function(queryUrl, accessToken, callbackFunction)
 {
 	var outFields = ia.FeatureServiceReader.getParam(queryUrl, 'outFields');
 	if (outFields != '') outFields = outFields.split(/[\s,]+/);
@@ -103,7 +103,7 @@ ia.FeatureServiceReader.sendQuery = function(queryUrl, acessToken, callbackFunct
 
 	    // Get the objectIds and maxRecordCount for the feature service 
 	    // to check how many requests we need to make to the service.
-	    ia.FeatureServiceReader.getInfo(queryUrl, acessToken, function (fsInfo, token)
+	    ia.FeatureServiceReader.getInfo(queryUrl, accessToken, function (fsInfo, token)
 	    {
 	        var maxRecordCount = Infinity;
 	        if (!ia.isUndefined(fsInfo.maxRecordCount)) maxRecordCount = ia.parseInt(fsInfo.maxRecordCount);
@@ -181,6 +181,7 @@ ia.FeatureServiceReader.getInfo = function(fsUrl, token, callback)
 
     // Check if its been cached already.
     var info = ia.FeatureServiceReader.layerInfoCache[requestUrl];
+
     if (info != undefined)
     {
         callback.call(null, info, token); // return.
@@ -221,6 +222,10 @@ ia.FeatureServiceReader.getInfo = function(fsUrl, token, callback)
                     ia.FeatureServiceReader.layerInfoCache[requestUrl] = fsLayer;
                     callback.call(null, fsLayer, token); // return.
                 }
+            },
+            onFail: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+        		callback.call(null); // return.
             }
         });
     }

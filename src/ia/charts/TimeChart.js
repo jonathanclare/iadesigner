@@ -46,8 +46,10 @@ ia.TimeChart.prototype.render = function()
 	{
 		var layer =  layers[i]
 		layer.update();
-		minValue = Math.min(minValue, layer.minValue);
-		maxValue = Math.max(maxValue, layer.maxValue);
+		if (ia.isNumber(layer.minValue))
+			minValue = Math.min(minValue, layer.minValue);
+		if (ia.isNumber(layer.maxValue))
+			maxValue = Math.max(maxValue, layer.maxValue);
 	}
 	
 	if (this.fixedMinValue != undefined) minValue = this.fixedMinValue;
@@ -74,6 +76,7 @@ ia.TimeChart.prototype.render = function()
 		minValue = tempValue - 1;
 		maxValue = tempValue + 1;
 	}
+
 
 	// Render the grid first as it adjusts the bbox.
 	var bb = this.getBBox();

@@ -225,9 +225,9 @@
 	function updateResponsiveDesign()
 	{
 		// Responsive design.
-		if (report.config.getProperty("isResponsive") != undefined && report.url.params["printmode"] != true)
+		var isResponsive = report.config.getProperty("isResponsive");
+		if (isResponsive != undefined && isResponsive == true && report.url.params["printmode"] != true)
 		{
-			var isResponsive 			= report.config.getProperty("isResponsive");
 			var flowLayoutMaxWidth 		= report.config.getProperty("flowLayoutMaxWidth");
 			var flowLayoutIncludeImages = report.config.getProperty("flowLayoutIncludeImages");
 			report.setResponsive(isResponsive, flowLayoutMaxWidth, flowLayoutIncludeImages);

@@ -279,7 +279,7 @@ ia.ChartBase.prototype.renderAxes = function(xMin, xMax, yMin, yMax)
 		var axisFontColor = "#AAAAAA";
 		var axisFontSize = 10;
 		var textLinePadding = 1;
-		var labelPadding = 5;
+		var labelPadding = axisFontSize / 3;
 
 		var xAxisNoLabels = 5;
 		var yAxisNoLabels = 5;
@@ -295,6 +295,7 @@ ia.ChartBase.prototype.renderAxes = function(xMin, xMax, yMin, yMax)
 			axisFontSize = this.container.css("font-size");
 			if (axisFontSize.indexOf("px") > -1) axisFontSize = axisFontSize.substring(0, axisFontSize.indexOf("px"));
 			axisFontSize = ia.parseInt(axisFontSize);
+			labelPadding = axisFontSize / 3;
 		}
 		// * BUG-FIX FF and IE dont recognize border-color but will pick up borderRightColor which is set to be same as border-color in css. *
 		if (this.container.css("borderRightColor")) gridStrokeStyle = ia.Color.toHex(this.container.css("borderRightColor"));
@@ -317,7 +318,7 @@ ia.ChartBase.prototype.renderAxes = function(xMin, xMax, yMin, yMax)
 		var textLineHeight = axisFontSize + (textLinePadding * 2);	
 
 		// Single line label height. Y-axis labels will always be single line.
-		var singleLineLabelHeight = textLineHeight + (labelPadding * 2); 	
+		var singleLineLabelHeight = textLineHeight // + (labelPadding * 2); 	
 
 		// Set the initial gutter size. distance from edge of container to grid borders.
 		var leftGutter = hPadding;	

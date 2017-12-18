@@ -11,6 +11,8 @@ ia.Report = function(reportContainer)
 {   
     ia.Report.baseConstructor.call(this);
 
+    this._isResponsive = false;
+    this._widgetProps = [];
     this._widgetArray = [];
     this._widgetHash = new Object();
     this._panelArray = [];
@@ -824,70 +826,32 @@ ia.Report.prototype.closePopups = function(id)
  */
 ia.Report.prototype.setResponsive = function(isResponsive, maxWidth, includeImages)
 {
-    this.container.removeClass('ia-flow-report-remove-scrollbars');
-    $j(window).off('.responseEvents');
-    this._isFlowLayout = false;
-    this._setNormalLayout();
-
-    if (isResponsive)
+    if (this._isResponsive != isResponsive)
     {
-        this.container.addClass('ia-flow-report-remove-scrollbars');
+        this.container.removeClass('ia-flow-report-remove-scrollbars');
+        $j(window).off('.responseEvents');
+        this._isFlowLayout = false;
+        this._setNormalLayout();
 
-        // Toggle between flow and normal layout on resize.
-        var me = this;
-        var r;
-        $j(window).on('resize.responseEvents', function() 
+        if (isResponsive)
         {
-            clearTimeout(r);
-            r = setTimeout(function() 
-            {
-                me._positionFixedElements();
-                me._updateLayout(maxWidth, includeImages);
-            }, 250);
-        });
+            this.container.addClass('ia-flow-report-remove-scrollbars');
 
-        // Position fixed elements.
-        /*$j(window).on('scroll.responseEvents', function() 
-        {
-            $j('.ia-flow-menu').css('display','none');
-            clearTimeout(r);
-            r = setTimeout(function() 
+            // Toggle between flow and normal layout on resize.
+            var me = this;
+            var r;
+            $j(window).on('resize.responseEvents', function() 
             {
-                me._positionFixedElements();
-            }, 250);
-        });
-        this.container.on('scroll.responseEvents', function() 
-        {
-            $j('.ia-flow-menu').css('display','none');
-            clearTimeout(r);
-            r = setTimeout(function() 
-            {
-                me._positionFixedElements();
-            }, 250);
-        });*/
-
-        this._updateLayout(maxWidth, includeImages);
-        me._positionFixedElements();
+                clearTimeout(r);
+                r = setTimeout(function() 
+                {
+                    me._updateLayout(maxWidth, includeImages);
+                }, 250);
+            });
+            this._updateLayout(maxWidth, includeImages);
+        }
     }
-};
-
-/**
- * Position the fixed elements when in flow layout.
- *
- * @method _positionFixedElements
- * @private
- *
- */
-ia.Report.prototype._positionFixedElements = function()
-{
-   /* if (this._isFlowLayout)
-    {
-        var st1 = $j(window).scrollTop();
-        var st2 = this.container.scrollTop();
-        var t = st1 + st2;
-        $j('.ia-flow-menu').css('top',t + 'px');
-        $j('.ia-flow-menu').css('display','');
-    }*/
+    this._isResponsive = isResponsive;
 };
 
 /**
@@ -903,6 +867,26 @@ ia.Report.prototype._updateLayout = function(maxWidth, includeImages)
     {
         if (!this._isFlowLayout) 
         {
+            // Store widget properties in case user has changed layout programmatically.
+            // http://bugzilla.geowise.co.uk/show_bug.cgi?id=10555
+            this._widgetProps = [];
+            var widgets = this.getWidgets();
+            for (var i = 0; i < widgets.length; i++) 
+            {
+                var widget = widgets[i];
+                this._widgetProps.push(
+                {
+                    id : widget.id,
+                    x : widget.x(),
+                    y : widget.y(),
+                    width : widget.width(),
+                    height : widget.height(),
+                    xAnchor : widget.xAnchor(),
+                    yAnchor : widget.yAnchor(),
+                    visible : widget.visible()
+                })
+            }
+
             this._setFlowLayout(includeImages);
             this._isFlowLayout = true;
         }
@@ -912,6 +896,21 @@ ia.Report.prototype._updateLayout = function(maxWidth, includeImages)
         if (this._isFlowLayout)
         {
             this._setNormalLayout();
+
+            // Reset widget properties in case user has changed layout programmatically.
+            // http://bugzilla.geowise.co.uk/show_bug.cgi?id=10555
+            for (var i = 0; i < this._widgetProps.length; i++) 
+            {
+                var w = this._widgetProps[i];
+                var widget = this.getWidget(w.id);
+                if (widget != undefined)
+                {
+                    widget.setDimensions(w.x, w.y, w.width, w.height, w.xAnchor, 'top');
+                    widget.visible(w.visible);
+                }
+            }
+            this._widgetProps = [];
+
             this._isFlowLayout = false;
         } 
     }
