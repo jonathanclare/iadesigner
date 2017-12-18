@@ -251,7 +251,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Parse a new config.
-    iad.report.parseConfig = function (xml)
+    iad.report.parseConfig = function (xml, callback)
     {
         preConfigLoaded(function ()
         {
@@ -260,6 +260,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 ia.parseConfig(xml, function ()
                 {
                     onConfigLoaded();
+                    if (callback !== undefined) callback.call(null);
                 });
             });
         });

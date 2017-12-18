@@ -38,4 +38,5 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 
 debounce on input change - probably still need it for inputs.
 
-debounce on map render in source code might help when layers are edited - stop white polygon background appearing
+debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
+needs to only happen on initiation

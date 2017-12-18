@@ -1,4 +1,5 @@
 @import "variables.less";
+@import "utils.less";
 @import "bootstrapoverrides.less";
 @import "progress.less";
 @import "win.less";
@@ -29,7 +30,7 @@ body
 {
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: @sidebar-width;
     right: 0px;
     bottom: 0px;
     overflow: auto;

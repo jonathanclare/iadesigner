@@ -45,10 +45,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
                         updateConfigDownloadButton();
-
-
-            iad.sidebar.show('iad-sidebar-guide');
-
                         iad.progress.end('load', function()
                         {
                             if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
@@ -92,11 +88,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             container: '#iad-report',
             onHide: function(id)
             {
-                if (id === 'iad-sidebar-widget') iad.canvas.clearSelection();
+                
             },
             onHidden: function(id)
             {
-
+                if (id === 'iad-sidebar-widget') iad.canvas.clearSelection();
             },
             onFirstShown: function(id)
             {
@@ -118,9 +114,20 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.progress.start('load', function()
                 {
-                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData);
-                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
+                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') 
+                    {
+                        iad.css.setLessVars(storedData);
+                        iad.sidebar.hide(id);
+                    }
+                    else if (id === 'iad-sidebar-maplayer') 
+                    {
+                        iad.mapjson.parse(storedData); 
+                        iad.sidebar.hide(id);
+                    }
+                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') 
+                    {
+                        iad.report.parseConfig(storedData, iad.sidebar.hide(id));
+                    }
                 });
             }
         });
