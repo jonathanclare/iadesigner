@@ -25,7 +25,7 @@ module.exports = function (grunt)
             js_map:             'build/js/<%= pkg.name %>.map',
 
             // CSS.
-            less_src:           'src/css/**/*.less',
+            less_src:           'src/css/default.less',
             css_build:          'build/css/<%= pkg.name %>.css',
         },
         // Detects errors and potential problems in the js source code files and grunt file.

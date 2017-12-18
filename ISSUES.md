@@ -18,7 +18,6 @@
 
 ## General
 - Dont select canvas when in preview mode
-- Save As
 
 ## Refactor
 - Dropdown showing palette colours whenever a palette needs to be selected for a config property
@@ -36,6 +35,7 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 ## Spine chart
 - election template form. Columns need looking at.
 
+## Other
 debounce on input change - probably still need it for inputs.
 
 debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
