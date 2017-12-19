@@ -35,6 +35,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
+    function update(color)
+    { 
+        var isHex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+        if (!isHex) color = $colorPicker.data('color');
+        color = color.toUpperCase();
+        $colorPicker.data('color', color);              // Attach color to color picker data.
+        $colorInput.val(color);                         // Update input color.
+        $colorSwatch.css('background-color', color);    // Update swatch color.
+        return color;
+    }
+
     // Opens the color picker.
     iad.colorpicker.open = function($control, inColor, callbackFunction)
     {
@@ -43,19 +54,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         // Set the inital color to that of the clicked color swatch.
         $farb.setColor(ia.Color.toHex(inColor));
+        update(ia.Color.toHex(inColor));
 
         // This function is run whenever the color picker value is changed.
         $farb.linkTo(function(color)
         {
-            var isHex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
-            if (!isHex) color = $colorPicker.data('color');
-            color = color.toUpperCase();
-
-            $colorPicker.data('color', color);              // Attach color to color picker data.
-            $colorInput.val(color);                         // Update input color.
-            $colorSwatch.css('background-color', color);    // Update swatch color.
-
-            callbackFunction.call(null, color);
+            var fixedColor = update(color);
+            callbackFunction.call(null, fixedColor);
         });
 
         // Position and open the color picker.
@@ -70,7 +75,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         $('body').off('click.iad.colorpicker.close', iad.colorpicker.close);  // Unbind function that closes color picker.
         $farb.linkTo(function(color) {});                                     // Clear the linked to function.
-        $colorPicker.hide();                                                   // Hide the color picker.
+        $colorPicker.hide();                                                  // Hide the color picker.
     };
 
     return iad;

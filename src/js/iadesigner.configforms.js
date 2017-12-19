@@ -42,6 +42,72 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return json;
     };
 
+    // Returns the form for the map palettes.
+    iad.configforms.getMapPalettesForm = function()
+    {
+        updateAssociateOptions();
+        updatePropertyOptions();
+        updateJavaScriptOptions();
+
+        var json = {'id': 'mappalettes','forms': []};
+
+        // Colour Ranges.
+        json.forms.push( 
+        {
+            'id'        : 'numeric',
+            'name'      : 'Numeric',
+            'type'      : 'MapPalettes',
+            'controls'  : getPaletteControls(iad.config.getColourRanges())
+        });
+
+        // Colour Schemes.
+        json.forms.push( 
+        {
+            'id'        : 'categoric',
+            'name'      : 'Categoric',
+            'type'      : 'MapPalettes',
+            'controls'  : getPaletteControls(iad.config.getColourSchemes())
+        });
+        
+        console.log(json);
+        return json;
+    };
+
+    // Returns the palette controls.
+    function getPaletteControls($xmlColourRanges)
+    {
+        var controls = [];
+        $.each($xmlColourRanges, function(i, xmlColourRange)
+        {
+            // Colour range.
+            var $xmlColourRange = $(xmlColourRange);
+            var id = $xmlColourRange.attr('id');
+            var jsonControl = 
+            {
+                'id'            : id,
+                'name'          : id,
+                'type'          : 'color-palette',
+                'value'         : id,
+                'description'   : id,
+                'choices'       : [],
+            };
+
+            // Colors.
+            var $xmlColours = iad.config.getPaletteColours(id);
+            $.each($xmlColours, function(j, xmlColour)
+            {
+                var $xmlColour = $(xmlColour);
+                jsonControl.choices[jsonControl.choices.length] = 
+                {
+                    'label' : $xmlColour.text(),
+                    'value' : $xmlColour.text()
+                };   
+            });
+            controls[controls.length] = jsonControl;
+        });
+        return controls;
+    }
+
     // Returns the form for the given widget.
     iad.configforms.getWidgetForm = function(widgetId)
     {

@@ -40,6 +40,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
             showPropertyGroupForm();
+        else if (activeWidgetId === 'MapPalettes')
+            showMapPalettesForm();
         else 
             showWidgetForm(activeWidgetId);
     };
@@ -52,6 +54,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $sidebarWidgetTitle.text(title);
 
             if (widgetId === 'PropertyGroup') showPropertyGroupForm();
+            else if (widgetId === 'MapPalettes') showMapPalettesForm();
             else
             {
                 if (iad.sidebar.isVisible('iad-sidebar-widget')) showWidgetForm(widgetId);
@@ -72,6 +75,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.canvas.clearSelection();
             showPropertyGroupForm();
+        }
+        else if (widgetId === 'MapPalettes')
+        {
+            iad.canvas.clearSelection();
+            showMapPalettesForm();
         }
         else
         {
@@ -95,6 +103,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
             scrollTo($container.parent()[0].scrollHeight); 
             propertyWasAdded = false;       
         }
+    }
+
+    // Displays the form for the map palettes.
+    function showMapPalettesForm()
+    {
+        activeWidgetId = 'MapPalettes';
+        var jsonForm = iad.configforms.getMapPalettesForm();
+        renderForm(jsonForm);
     }
 
     // Displays the form for the given property group.

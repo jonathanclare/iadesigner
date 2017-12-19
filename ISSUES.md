@@ -16,13 +16,8 @@
 ## Text
 - Text bugs.
 
-## General
-- Dont select canvas when in preview mode
-
 ## Refactor
 - Dropdown showing palette colours whenever a palette needs to be selected for a config property
-- Take this out of formcontrols
-if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatchGroupPropertyChange(data);
 
 ## Map Json
 - Take bounding box from map
@@ -30,13 +25,13 @@ if (data.formType === 'PropertyGroup' || data.formType === 'MapLayers') dispatch
 - maintainlayer order - make layers sortable - override
 - Issues with the correct path when in evaluation mode
 
-## maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
-
 ## Spine chart
 - election template form. Columns need looking at.
 
 ## Other
-debounce on input change - probably still need it for inputs.
-
-debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
+- debounce on input change - probably still need it for inputs.
+- debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
 needs to only happen on initiation
+- Dont select canvas when in preview mode
+- maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
+-color control not updating to correct colour when its opened

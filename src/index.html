@@ -114,7 +114,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">File</a>
                             <ul class="dropdown-menu">
-                                <li><a id="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;&nbsp;Open</a></li>
+                                <li><a class="iad-menuitem-open" href="#"><i class="fa fa-folder-open-o"></i>&nbsp;&nbsp;Open</a></li>
                                 <li><a id="iad-menuitem-save" href="#"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li><a id="iad-menuitem-exit" href="#">Exit</a></li>
@@ -189,7 +189,7 @@
                 </div>
                 <div class="iad-sidebar-content">
                     <div class="iad-cards flex-box">
-                        <div class="iad-card flex-box">
+                        <div class="iad-card flex-box iad-menuitem-open">
                             <div class="iad-card-time-line flex-box">
                                 <div class="iad-card-number flex-box">1</div>
                                 <div class="iad-card-line flex-box"></div>
@@ -229,7 +229,7 @@
                                 <div class="iad-card-image-container"><div class="iad-card-image" style="background-image:url('./img/css.png')"></div></div>
                             </div>
                         </div>
-                        <div data-sidebar="iad-sidebar-mappalette" class="iad-card flex-box">
+                        <div class="iad-card flex-box iad-menuitem-open-color-palettes">
                             <div class="iad-card-time-line flex-box">
                                 <div class="iad-card-number flex-box">5</div>
                                 <div class="iad-card-line flex-box"></div>
@@ -374,6 +374,9 @@
                     <div class="iad-sidebar-title"><span class="fa  fa-paint-brush"></span>&nbsp;&nbsp;<span>Map Palettes</span></div>
                 </div>
                 <div class="iad-sidebar-content iad-sidebar-content-with-footer">
+                    <div id="iad-form-layer-properties">
+                        <!-- populated by iadesigner.configforms.js -->
+                    </div>
 
                 </div>
                 <div class="iad-sidebar-footer">

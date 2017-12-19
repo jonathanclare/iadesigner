@@ -34,7 +34,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     ipc.send('get-app-info');
 
     // Menu items.
-    $('#iad-menuitem-open').on('click', function(e) {open();}); // Open.
+    $('.iad-menuitem-open').on('click', function(e) {open();}); // Open.
+    $('.iad-menuitem-open-color-palettes').on('click', function(e) {editWidget('MapPalettes');}); // Open.
     $('#iad-menuitem-save').on('click', function(e) {save();}); // Save.
     $('#iad-menuitem-exit').on('click', function(e) {exit();}); // Exit.
     $('#iad-menuitem-insert-image').on('click', function(e) {addWidget('Image');}); // Add image.

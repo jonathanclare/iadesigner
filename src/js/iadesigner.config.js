@@ -50,6 +50,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.getDisplayName = function (widgetId)
     {
         if (widgetId === 'PropertyGroup') return 'General Properties';
+        else if (widgetId === 'MapPalettes') return 'Map Palettes';
         else
         {
             var $xmlWidget = iad.config.getWidgetXml(widgetId);
@@ -708,13 +709,27 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     // Map Palettes.
 
-    // Gets the palette type - ColourRange or ColorScheiad.config.
+    // Gets the palette type - ColourRange or ColorScheme.
     iad.config.getPaletteType = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]'); 
         if ($xmlColorRange.length)  return 'ColourRange';
         else                        return 'ColourScheme';
+    };
+
+    // Gets the ColourSchemes.
+    iad.config.getColourSchemes = function ()
+    {
+        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
+        return $xmlMapPalettes.find('ColourScheme');
+    };
+
+    // Gets the ColourRanges.
+    iad.config.getColourRanges = function ()
+    {
+        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
+        return $xmlMapPalettes.find('ColourRange');
     };
 
     // Gets the ColourScheme ids.
@@ -731,6 +746,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return $xmlMapPalettes.find('ColourRange').map(function() {return $(this).attr('id');});
     };
 
+    // Gets the colours for a map palette.
+    iad.config.getPaletteColours = function (paletteId)
+    {
+        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
+        var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
+        if ($xmlColorRange.length) {}
+        else
+            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheme.
+
+        return $xmlColorRange.children();
+    };
+
     // Gets a ColorRange or ColorScheme.
     iad.config.getColourRange = function (paletteId)
     {
@@ -738,7 +765,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
         if ($xmlColorRange.length) {}
         else
-            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheiad.config.
+            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheme.
 
         return $xmlColorRange;
     };

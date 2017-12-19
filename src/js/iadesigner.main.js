@@ -114,20 +114,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.progress.start('load', function()
                 {
-                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') 
-                    {
-                        iad.css.setLessVars(storedData);
-                        iad.sidebar.hide(id);
-                    }
-                    else if (id === 'iad-sidebar-maplayer') 
-                    {
-                        iad.mapjson.parse(storedData); 
-                        iad.sidebar.hide(id);
-                    }
-                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') 
-                    {
-                        iad.report.parseConfig(storedData, iad.sidebar.hide(id));
-                    }
+                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
+                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
+                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
                 });
             }
         });
@@ -800,6 +789,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         Handlebars.registerPartial('control.textareadropdownappend', window.iadesigner['control.textareadropdownappend.handlebars']);
         Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
         Handlebars.registerPartial('control.button', window.iadesigner['control.button.handlebars']);
+        Handlebars.registerPartial('control.colorpalette', window.iadesigner['control.colorpalette.handlebars']);
     }
 
     function updateDropdownMenus()
@@ -843,6 +833,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var options = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="PropertyGroup" class="iad-dropdown-option-widget-properties">General Properties</a></li>';
         options += '<li role="presentation" class="divider"></li>';
 
+        // Map Palettes.
+        options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="MapPalettes" class="iad-dropdown-option-widget-properties">Map Palettes</a></li>';
+        options += '<li role="presentation" class="divider"></li>';
+
+
         // Add dropdown options to widget select dropdown.
         for (var i = 0; i < dataSources.length; i++)
         {
@@ -853,7 +848,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     var index = i + 1;
                     if (index != 1) options += '<li role="presentation" class="divider"></li>';
-                    //options += '<li role="presentation" class="dropdown-header">Data Source '+index+'</li>';
                 }
                 for (var j = 0; j < arrDataSources.length; j++)
                 {
