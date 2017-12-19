@@ -10,6 +10,9 @@
 - Could this break older config.xml files.
 - Theres no way of matching config.xml files by language, so its reliant on the user setting the language for the app.
 
+## Forms
+- Move renderForm() and addHandlers() to their own module so they can be applied to all forms
+
 ## Images
 - How to copy and move referenced images.
 
@@ -33,3 +36,5 @@
 needs to only happen on initiation
 - Dont select canvas when in preview mode
 - maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
+- undo on widget properties needs to reload form rather than going to general properties
+- when editing map palettes dont want to switch to general properties when you click on the canvas

@@ -59,6 +59,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'type'      : 'MapPalettes',
             'controls'  : getPaletteControls(iad.config.getColourRanges())
         });
+        // Add palette button.
+        json.forms.controls[json.forms.controls.length] = 
+        {
+            'id'    : 'mappalettes',
+            'name'  : 'New Palette',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-colourpalette'
+        };
 
         // Colour Schemes.
         json.forms.push( 
@@ -68,6 +78,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'type'      : 'MapPalettes',
             'controls'  : getPaletteControls(iad.config.getColourSchemes())
         });
+        // Add sheme button.
+        json.forms.controls[json.forms.controls.length] = 
+        {
+            'id'    : 'mappalettes',
+            'name'  : 'New Palette',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-colourscheme'
+        };
         
         console.log(json);
         return json;
@@ -85,10 +105,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var jsonControl = 
             {
                 'id'            : id,
+                'sortable'      : true,
+                'removeable'    : true,
+                'action'        : 'remove-colourpalette',
+                'index'         : i,
                 'name'          : id,
-                'type'          : 'color-palette',
+                'type'          : 'colour-palette',
                 'value'         : id,
-                'description'   : id,
                 'choices'       : [],
             };
 
@@ -105,6 +128,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             });
             controls[controls.length] = jsonControl;
         });
+
         return controls;
     }
 

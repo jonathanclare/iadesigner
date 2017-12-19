@@ -616,6 +616,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
                 else if (data.action === 'add-line')            iad.config.addPyramidLine(data.controlId);
                 else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
+            },
+            onItemMoved: function (data)
+            {
+                // Use this for dragging.
             }
         });
     }
@@ -790,7 +794,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         Handlebars.registerPartial('control.textareadropdownappend', window.iadesigner['control.textareadropdownappend.handlebars']);
         Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
         Handlebars.registerPartial('control.button', window.iadesigner['control.button.handlebars']);
-        Handlebars.registerPartial('control.colorpalette', window.iadesigner['control.colorpalette.handlebars']);
+        Handlebars.registerPartial('control.colourpalette', window.iadesigner['control.colourpalette.handlebars']);
     }
 
     function updateDropdownMenus()
@@ -837,7 +841,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         // Map Palettes.
         options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="MapPalettes" class="iad-dropdown-option-widget-properties">Map Palettes</a></li>';
         options += '<li role="presentation" class="divider"></li>';
-
 
         // Add dropdown options to widget select dropdown.
         for (var i = 0; i < dataSources.length; i++)
