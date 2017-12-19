@@ -29,9 +29,7 @@
 - election template form. Columns need looking at.
 
 ## Other
-- debounce on input change - probably still need it for inputs.
 - debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
 needs to only happen on initiation
 - Dont select canvas when in preview mode
 - maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
--color control not updating to correct colour when its opened

@@ -569,6 +569,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
+                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')

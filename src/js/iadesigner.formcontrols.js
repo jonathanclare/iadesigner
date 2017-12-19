@@ -29,12 +29,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
 
         // Called when a value has been changed.
-        function onChange($control, newValue)
+        var onChange = iad.util.debounce(function ($control, newValue) 
         {
             var data = getData($control);
             data.controlValue = newValue;
             if (options && options.onDataChanged) options.onDataChanged.call(null, data);
-        }
+        }, 250);
 
         // Close popovers on click outside.
         $(document).on('mousedown', function (e) 
