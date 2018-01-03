@@ -10,13 +10,22 @@
 {
     cursor: pointer;
     flex-flow: row nowrap;
-    width:70%
+    justify-content: center;
+    width:100%
+}
+.iad-card:first-child
+{
+    padding-top:20px;
+}
+.iad-card:hover
+{
+    background:#f9f9f9;
 }
 .iad-card-content
 {
-    flex: 1;
+    flex: 0.7;
     flex-flow: column nowrap;
-    padding:20px;
+    padding:30px;
 }
 .iad-card-title
 {
@@ -67,6 +76,12 @@
     font-size: 16px;
     align-items:center;
     justify-content: center;
+}
+.iad-card-line-short
+{
+    height:20px;
+    background-color:#aaa;
+    width:2px;
 }
 .iad-card-line
 {

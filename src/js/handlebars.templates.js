@@ -261,8 +261,7 @@ this["iadesigner"]["control.logic.handlebars"] = Handlebars.template({"1":functi
 },"21":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials["control.label"],depth0,{"name":"control.label","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "	"
+  return "	"
     + ((stack1 = container.invokePartial(partials["control.label"],depth0,{"name":"control.label","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(partials["control.integercounter"],depth0,{"name":"control.integercounter","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "\r\n";
