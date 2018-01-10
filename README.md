@@ -50,6 +50,26 @@ Start the App
 > npm start
 ```
 
+# DISTRIBUTION
+
+### Version vontrol
+
+```sh
+> grunt bump:patch
+```
+
+### Packaging
+```sh
+> npm run dist
+``
+
+### Deployment to web`
+```sh
+> npm run deploy
+```
+
+Read on for more details...
+
 # VERSION CONTROL
 
 Increments the version number, commits your changes and creates a new release on github: 

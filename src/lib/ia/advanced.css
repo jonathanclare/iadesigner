@@ -1307,6 +1307,13 @@ canvas
 	line-height: 0;
 	height: 0;
 }*/
+/*------------------- Dropdown Explorer -------------------*/
+.ia-dropdown-explorer
+{
+	overflow:auto;
+	height:100%;
+    /**  Dropdown explorer container */ 
+}
 /*------------------- Dimension Explorer -------------------*/
 .ia-dimension
 {
