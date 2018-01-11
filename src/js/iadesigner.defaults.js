@@ -632,7 +632,7 @@ iadesigner = (function (iad, undefined)
                             {'id':'Text','thumbnail':'text.png','name':'Text','description':'Add new text.','include':'true'},
                             {'id':'Image','thumbnail':'image.png','name':'Image','description':'Add a new image.','include':'true'},*/
                             {'id':'dataExplorer','thumbnail':'dataExplorer.png'},                            
-                            {'id':'dropdownExplorer','thumbnail':'dataExplorer.png'},
+                            {'id':'dropdownExplorer','thumbnail':'dropdownExplorer.png'},
                             {'id':'filterExplorer','thumbnail':'filterExplorer.png'},
                             {'id':'geogExplorer','thumbnail':'geogExplorer.png'},
                             {'id':'menuBar','thumbnail':'menuBar.png'}
