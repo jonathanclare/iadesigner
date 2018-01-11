@@ -27,7 +27,6 @@ ia.DimensionsFactory = function(config, report, componentGroup)
 
     // Panel.
     var panel = report.getWidget(config.id); 
-	var s = dataGroup.suffix;
     var arrIndicators;
 
     // Config Settings.
@@ -102,17 +101,17 @@ ia.DimensionsFactory = function(config, report, componentGroup)
     // Add event listeners.
     function addEventListeners ()
     {
-        $j(document).on("change", ".ia-dimension-control"+s, function (e)
+        panel.content.on("change", ".ia-dimension-control", function (e)
         {
             updateControls();
         });
-        $j(document).on("click", ".ia-dimension-reset-button"+s, function (e)
+        panel.content.on("click", ".ia-dimension-reset-button", function (e)
         {
-            $j('input.ia-dimension-checkbox'+s).removeAttr('checked');
-            $j('select.ia-dimension-select'+s).val(noSelectionValue);
+            panel.content.find('input.ia-dimension-checkbox').removeAttr('checked');
+            panel.content.find('select.ia-dimension-select').val(noSelectionValue);
             updateControls();
         });
-        $j(document).on("change", "#ia-dimension-indicator-select"+s, function (e)
+        panel.content.on("change", "#ia-dimension-indicator-select", function (e)
         {
             dataGroup.setData(dataGroup.geography.id, $j(this).val(), dataGroup.indicator.date);
         });
@@ -139,7 +138,7 @@ ia.DimensionsFactory = function(config, report, componentGroup)
                         if (val != noSelectionValue) 
                         {
                             str += '<div>';
-                                str += '<input type="checkbox" class="ia-dimension-control'+s+' ia-dimension-checkbox'+s+'" data-dimension="'+dim+'" id="'+val+'" value="'+val+'">';
+                                str += '<input type="checkbox" class="ia-dimension-control ia-dimension-checkbox" data-dimension="'+dim+'" id="'+val+'" value="'+val+'">';
                                 str += '<label for="'+val+'">'+val+'</label>';
                             str += '</div>';
                         }
@@ -148,20 +147,20 @@ ia.DimensionsFactory = function(config, report, componentGroup)
                 else
                 { 
                     str += '<label for="'+dim+'" class="ia-select-label">'+dim+'</label>';
-                    str += '<select id="'+dim+'" data-dimension="'+dim+'" class="ia-select ia-dimension-control'+s+' ia-dimension-select'+s+'"></select>';
+                    str += '<select id="'+dim+'" data-dimension="'+dim+'" class="ia-select ia-dimension-control ia-dimension-select"></select>';
                 }
                 str += '</div>';
             }
 
             // Add indicator dropdown.
             str += '<div class="ia-dimension-section">';
-                str += '<label for="ia-dimension-indicator-select'+s+'" class="ia-select-label">'+indicatorSelectTitle+'</label>';
-                str += '<select id="ia-dimension-indicator-select'+s+'" class="ia-select"></select>';
+                str += '<label for="ia-dimension-indicator-select" class="ia-select-label">'+indicatorSelectTitle+'</label>';
+                str += '<select id="ia-dimension-indicator-select" class="ia-select"></select>';
             str += '</div>';
 
             // Add reset button.
             str += '<div class="ia-dimension-section">';
-                str += '<button type="button" class="ia-widget ia-button button ia-dimension-reset-button'+s+'">'+resetButtonText+'</button>';
+                str += '<button type="button" class="ia-widget ia-button button ia-dimension-reset-button">'+resetButtonText+'</button>';
             str += '</div>';
 
         str += '</div>';
@@ -188,7 +187,7 @@ ia.DimensionsFactory = function(config, report, componentGroup)
             if (arrDimensionCheckbox.indexOf(dim) != -1) 
             {
                 // Hide checkboxes that arent available.
-                $j('input.ia-dimension-checkbox'+s+'[data-dimension="'+dim+'"]').each(function() 
+                panel.content.find('input.ia-dimension-checkbox[data-dimension="'+dim+'"]').each(function() 
                 {
                     var value = $j(this).val();
                     
@@ -201,7 +200,7 @@ ia.DimensionsFactory = function(config, report, componentGroup)
             else
             {
                 // Get the current value of the select.
-                var $select = $j('select.ia-dimension-select'+s+'[data-dimension="'+dim+'"]');
+                var $select = panel.content.find('select.ia-dimension-select[data-dimension="'+dim+'"]');
                 var selectedVal = $select.val();
 
                 // Clear the select and append the new options.
@@ -218,7 +217,7 @@ ia.DimensionsFactory = function(config, report, componentGroup)
         }
 
         // Update the indicator dropdown.
-        var $selectIndicator = $j("#ia-dimension-indicator-select"+s);
+        var $selectIndicator = panel.content.find("#ia-dimension-indicator-select");
         var selectedVal = $selectIndicator.val();
 
         // Clear the select and append the new options.
@@ -251,14 +250,14 @@ ia.DimensionsFactory = function(config, report, componentGroup)
                 if (arrDimensionCheckbox.indexOf(dim) != -1) 
                 {
                     arrSelectedValues = [];
-                    $j('input.ia-dimension-checkbox'+s+'[data-dimension="'+dim+'"]:checked').each(function() 
+                    panel.content.find('input.ia-dimension-checkbox[data-dimension="'+dim+'"]:checked').each(function() 
                     {
                         arrSelectedValues.push($j(this).val());
                     });
                 }
                 else
                 {
-                    arrSelectedValues = [$j('select.ia-dimension-select'+s+'[data-dimension="'+dim+'"]').val()];
+                    arrSelectedValues = [panel.content.find('select.ia-dimension-select[data-dimension="'+dim+'"]').val()];
                 }
 
                 if (arrSelectedValues.length == 0 || arrSelectedValues[0] == null)  arrSelectedValues[0] = noSelectionValue;

@@ -227,7 +227,7 @@ ia.BaseData.prototype.getDataTree = function(showDates, reverseDates, dataHash, 
 		o.id = this.geography.id + "~" + this.id;
 	else
 		o.id = this.id; // Its a geography.
-	
+
 	o.label = this.name;
 	if (this.href != undefined) o.href = this.href;  
 	if (parentId != undefined) o.parent = parentId;
@@ -237,6 +237,10 @@ ia.BaseData.prototype.getDataTree = function(showDates, reverseDates, dataHash, 
 	if (children != null)
 	{
 		o.type = "branch";
+
+		var child = children[0];
+		if (child instanceof ia.Theme) o.childtype = "theme";
+		else if (child instanceof ia.Indicator) o.childtype = "indicator";
 
 		var n = children.length;
 		var prevId;
@@ -261,7 +265,8 @@ ia.BaseData.prototype.getDataTree = function(showDates, reverseDates, dataHash, 
 	// Take care of dates if its an indicator with dates.
 	else if (showDates != false && this.date != undefined)
 	{
-		o.type = "branch";
+		o.type = "branch"; 
+		o.childtype = "date";
 
 		var indicatorArray = this.theme.getIndicators(this.id);
 		var n = indicatorArray.length;

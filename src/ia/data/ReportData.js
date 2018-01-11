@@ -226,6 +226,7 @@ ia.ReportData.prototype.getDataTree = function(showDates, reverseDates)
 	o.id = "topLevel";
 	o.label = "topLevel";
 	o.type = "branch";
+	o.childtype = "geography";
 	dHash[o.id] = o;
 	
 	var geogIds = [];

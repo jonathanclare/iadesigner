@@ -140,7 +140,8 @@ ia.ComponentFactory.prototype.build = function(id, onComponentReady)
 			else if (type == "spineChart") 					factory = new ia.AreaProfileFactory(component, this._report, componentGroup);
 			else if (type == "radarChart") 					factory = new ia.RadarFactory(component, this._report, componentGroup);
 			else if (type == "map") 						factory = new ia.MapFactory(component, this._report, componentGroup);		
-			else if (type == "dimensionsExplorer") 			factory = new ia.DimensionsFactory(component, this._report, componentGroup);					
+			else if (type == "dimensionsExplorer") 			factory = new ia.DimensionsFactory(component, this._report, componentGroup);		
+			else if (type == "dropdownExplorer") 			factory = new ia.DropdownExplorerFactory(component, this._report, componentGroup);					
 			// Components that require multiple data groups.
 			else if (type == "scatterPlot") 			factory = new ia.ScatterPlotFactory(component, this._report, this._dataGroups, componentGroup.interactionGroup, componentGroup.comparisonInteractionGroup);
 			else if (type == "table") 	

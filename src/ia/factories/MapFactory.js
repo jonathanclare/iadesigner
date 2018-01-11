@@ -40,21 +40,24 @@ ia.MapFactory = function(config, report, componentGroup)
 	// This code executes every time a filter has changed.
 	dataGroup.addEventListener(ia.FilterEvent.FILTER_CHANGED, function(event)
 	{
-	    var zoomOnFilter = config.getProperty("zoomOnFilter");
+		if (config) 
+		{
+		    var zoomOnFilter = config.getProperty("zoomOnFilter");
 
-	    if (zoomOnFilter == undefined || zoomOnFilter == true)
-	    {
-	        if (event.filterFeatures.length > 0)
-	        {
-	            if (report.config.template == ia.DOUBLE_BASELAYER_REPORT || report.config.template == ia.DOUBLE_BASELAYER_REPORT_NEW)
-	            {
-	                activeMap.zoomToFeatures(event.filterFeatures, [mapData.baseLayers[0]]); 	// Zoom to filtered features.
-	            }
-	            else activeMap.zoomToFeatures(event.filterFeatures, [mapData.baseLayer]); 		// Zoom to filtered features.
-	        }
-	        else
-	            activeMap.controller.zoomFull(); 												// Zoom full when filter is removed.
-	    }
+		    if (zoomOnFilter == undefined || zoomOnFilter == true)
+		    {
+		        if (event.filterFeatures.length > 0)
+		        {
+		            if (report.config.template == ia.DOUBLE_BASELAYER_REPORT || report.config.template == ia.DOUBLE_BASELAYER_REPORT_NEW)
+		            {
+		                activeMap.zoomToFeatures(event.filterFeatures, [mapData.baseLayers[0]]); 	// Zoom to filtered features.
+		            }
+		            else activeMap.zoomToFeatures(event.filterFeatures, [mapData.baseLayer]); 		// Zoom to filtered features.
+		        }
+		        else
+		            activeMap.controller.zoomFull(); 												// Zoom full when filter is removed.
+		    }
+		}
 	});
 
 	// Panel.
