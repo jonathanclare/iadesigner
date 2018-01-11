@@ -17,6 +17,23 @@
 	    <!-- sync dates across data explorers -->
 	    <Property description="Should the dates be synchronised across the data explorers?" id="syncDates" name="Synchronise Explorer Dates?" type="boolean" value="false" />
  	</Component>
+  
+
+<Component classes="ia-panel ia-panel-header ia-dropdown-explorer ia-dropdown-explorer-section ia-select-label ia-select" editable="true" icon="$IAICON/48x48/text_code.png" id="dropdownExplorer" moveable="true" name="Dropdown Explorer" removeable="true" resizeable="true" visible="false" x="180" y="148" width="366" height="279">
+  <Description>Allows the end user to select a indicator.</Description>
+  <Property description="The title" id="title" name="Title" type="string" value=""/>
+  <Property description="Is it visible at start up? Use 'javascript:iaToggle(dropdownExplorer)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
+  <Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="20"/>
+  <Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false"/>
+  <Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="false"/>
+  <Property description="Should dates be displayed?" id="showDates" name="Show Dates?" type="boolean" value="true"/>
+  <Property description="Should dates be reversed?" id="reverseDates" name="Reverse Dates?" type="boolean" value="true"/>
+  <Property description="When dates are not displayed load the most recent date on a selection?" id="loadMostRecentDate" name="Load Most Recent Date On Selection?" type="boolean" value="false"/>
+  <Property description="The geography label" id="geogLabel" name="Geography Label" type="string" value="Geography"/>
+  <Property description="The theme label" id="themeLabel" name="Theme Label" type="string" value="Theme"/>
+  <Property description="The indicator label" id="indicatorLabel" name="Indicator Label" type="string" value="Indicator"/>
+  <Property description="The date label" id="dateLabel" name="Date Label" type="string" value="Date"/>
+</Component>
  	
  	<Component id="dimensionsExplorer" name="Dimensions Explorer" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
 	      <Description>
@@ -765,6 +782,23 @@
         	<Property description="When dates are not displayed load the most recent date on a selection?" id="loadMostRecentDate" name="Load Most Recent Date On Selection?" type="boolean" value="false"/>
   		<Property description="Should non-selected explorer branches be closed when a new one is opened?" id="closeBranchesOnSelection" name="Close Explorer Branches On Selection?" type="boolean" value="true"/>
  	</Component>
+  
+
+<Component classes="ia-panel ia-panel-header ia-dropdown-explorer ia-dropdown-explorer-section ia-select-label ia-select" editable="true" icon="$IAICON/48x48/text_code.png" id="dropdownExplorer2" moveable="true" name="Dropdown Explorer 2" removeable="true" resizeable="true" visible="false" x="180" y="148" width="366" height="279">
+  <Description>Allows the end user to select a indicator.</Description>
+  <Property description="The title" id="title" name="Title" type="string" value=""/>
+  <Property description="Is it visible at start up? Use 'javascript:iaToggle(dropdownExplorer2)' to toggle visibility." id="visible" name="Visible At Startup?" type="boolean" value="true"/>
+  <Property description="The z-index" id="zIndex" name="Z-Index" type="integer" value="20"/>
+  <Property description="Hidden when the mouse is clicked outside" id="isPopUp" name="PopUp Window?" type="boolean" value="false"/>
+  <Property description="Hide the explorer on a selection?" id="hideOnSelection" name="Hide On Selection?" type="boolean" value="false"/>
+  <Property description="Should dates be displayed?" id="showDates" name="Show Dates?" type="boolean" value="true"/>
+  <Property description="Should dates be reversed?" id="reverseDates" name="Reverse Dates?" type="boolean" value="true"/>
+  <Property description="When dates are not displayed load the most recent date on a selection?" id="loadMostRecentDate" name="Load Most Recent Date On Selection?" type="boolean" value="false"/>
+  <Property description="The geography label" id="geogLabel" name="Geography Label" type="string" value="Geography"/>
+  <Property description="The theme label" id="themeLabel" name="Theme Label" type="string" value="Theme"/>
+  <Property description="The indicator label" id="indicatorLabel" name="Indicator Label" type="string" value="Indicator"/>
+  <Property description="The date label" id="dateLabel" name="Date Label" type="string" value="Date"/>
+</Component>
  	
  	<Component id="dimensionsExplorer2" name="Dimensions Explorer 2" editable="true" x="180" y="148" width="366" height="279" visible="false" moveable="true" removeable="true" resizeable="true" icon="$IAICON/48x48/text_code.png" classes="ia-panel ia-panel-header ia-dimension ia-dimension-section ia-dimension-reset-button ia-select-label ia-select">
 	      <Description>
