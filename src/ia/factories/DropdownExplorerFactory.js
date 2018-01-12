@@ -76,14 +76,32 @@ ia.DropdownExplorerFactory = function(config, report, componentGroup)
         reverseDates = config.getProperty('reverseDates');
         if (reverseDates == undefined) reverseDates = true;
 
-        var geography = dataGroup.geography;
-        if (report.data.getGeographies().length > 1) // Multi geography.
-        {
-            dataTree = report.data.getDataTree(showDates, reverseDates);
-        }
-        else // Single geography.
+        var geography = dataGroup.geography;  
+
+        // If the geography explorer exists we only want to put
+        // themes and indicators into the data explorer tree.
+        if (report.config.getComponent("geogExplorer") != undefined
+            || report.config.template == ia.DOUBLE_GEOG_REPORT
+            || report.config.template == ia.DOUBLE_BASELAYER_REPORT
+            || report.config.template == ia.DOUBLE_PLOT_REPORT
+            || report.config.template == ia.BUBBLE_PLOT_REPORT
+            || report.config.template == ia.DOUBLE_BASELAYER_REPORT_NEW)
         {
             dataTree = geography.getDataTree(showDates, reverseDates);
+        }
+        // For backwards compatibility before geogExplorer was added to config.
+        // Also places geographies in the data explorer tree if the
+        // geography explorer has been removed from the config.
+        else 
+        {
+            if (report.data.getGeographies().length > 1) // Multi geography.
+            {
+                dataTree = report.data.getDataTree(showDates, reverseDates);
+            }
+            else // Single geography.
+            {
+                dataTree = geography.getDataTree(showDates, reverseDates);
+            }
         }
 
         showCurrentIndicator();
