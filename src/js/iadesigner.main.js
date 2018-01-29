@@ -124,6 +124,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initCss(options, callback)
     {
+        iad.cssform.init(
+        {
+            container:'#iad-form-css-properties', 
+            template:'forms.handlebars', 
+            json:options.form 
+        });
+
         iad.css.init(
         {
             lessFile: options.lessFile,
@@ -131,7 +138,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onLessVarsChanged: function(lessVars)
             {
                 // Update css form when color scheme has been changed.
-                iad.cssform.update('#iad-form-css-properties', 'forms.handlebars', options.form, lessVars);
+                iad.cssform.update(lessVars);
 
                 // Highlight/selection and chart color changes need iaReport update.
                 if (iaReport !== undefined)
@@ -192,15 +199,22 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initMapJson(options)
     {
+        iad.mapform.init(
+        {
+            container:'#iad-form-layer-properties', 
+            template:'forms.handlebars', 
+            json:options.form 
+        });
+
         iad.mapjson.init(
         {
             onRead: function(jsonMap)
             {
-                iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
+                iad.mapform.update(jsonMap);
             },
             onParse: function(jsonMap)
             {
-                iad.mapform.update('#iad-form-layer-properties', 'forms.handlebars', options.form, jsonMap);
+                iad.mapform.update(jsonMap);
                 debounceParseMap();
             },
             onMapPropertyChanged: function(property, value)
@@ -617,9 +631,34 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 else if (data.action === 'add-line')            iad.config.addPyramidLine(data.controlId);
                 else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
             },
-            onItemMoved: function (data)
+            onItemOrderChanged: function (arrData)
             {
-                // Use this for dragging.
+                var items = [];
+                if (arrData.length > 0)
+                {
+                    for (var i = 0; i < arrData.length; i++)
+                    {
+                        var data = arrData[i];
+                        if (data.formId.indexOf('menuBar') !== -1)
+                        {
+                            items[items.length] = 
+                            {
+                                menuItem: iad.config.getWidgetXml(data.formId).find('#menuItem' + data.prevControlIndex), 
+                                menuFunc: iad.config.getWidgetXml(data.formId).find('#menuFunc' + data.prevControlIndex)
+                            };
+                        }
+                        else if (data.formId.indexOf('table') !== -1)
+                        {
+                            items[items.length] = iad.config.getWidgetXml(data.formId).find('Column').eq(data.prevControlIndex);
+                        }
+                    }
+
+                    var d = arrData[0];
+                    if (arrData[0].formId.indexOf('menuBar') !== -1)
+                        iad.config.orderMenuItems(data.formId, items);
+                    else if (arrData[0].formId.indexOf('table') !== -1)
+                        iad.config.orderColumns(data.formId, items);
+                }
             }
         });
     }

@@ -31,6 +31,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             $container = $(options.container);
             addHandlers($container);
+            iad.formcontrols.addControlHandlers($container);
         }
     };
 
@@ -142,59 +143,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var template = window.iadesigner[options.template];
             var html = template(jsonForm);
             $container.append(html);
-
-            // Enable control tooltips.
-            $('.iad-tooltip-control').tooltip(
-            {
-                placement: 'bottom',
-                trigger: 'hover'
-            });
-
-            $('.iad-popover').popover();
-
-            // Apply auto size to text areas.
-            var $textarea = $('.iad-control-textarea');
-            $textarea.autosize({append: '\n'});
-            $textarea.trigger('autosize.resize');
-            $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
-
-            // Make columns sortable.
-            $('.draggableList').sortable(
-            {
-                handle: '.iad-sort-handle', 
-                axis:'y',
-                update: function()
-                {
-                    // New order.
-                    var widgetId;
-                    var columns = [];
-                    $('.iad-sortable', $(this)).each(function(i, elem) 
-                    {
-                        var $control = $(elem);
-                        widgetId = $control.data('control-id');
-                        var index = $control.data('control-index');
-                        $control.data('control-index', i); // Update the column index.
-                        
-                        if (widgetId.indexOf('menuBar') !== -1)
-                        {
-                            var $menuItem = iad.config.getWidgetXml(widgetId).find('#menuItem' + index);
-                            var $menuFunc = iad.config.getWidgetXml(widgetId).find('#menuFunc' + index);
-                            columns[columns.length] = {menuItem:$menuItem, menuFunc:$menuFunc};
-                        }
-                        else
-                        {
-                            var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
-                            columns[columns.length] = $column;
-                        }
-                    });
-
-                    if (widgetId.indexOf('menuBar') !== -1)
-                        iad.config.orderMenuItems(widgetId, columns);
-                    else
-                        iad.config.orderColumns(widgetId, columns);
-                }
-            });
-
+            iad.formcontrols.update($container);
+            
             // Form display properties for each widget (scroll position and expanded panel index).
             if (oFormProps[activeWidgetId] !== undefined)         
             {

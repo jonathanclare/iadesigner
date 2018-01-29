@@ -4,7 +4,24 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.mapform = iad.mapform || {};
 
-    iad.mapform.update = function(container, templateName, jsonForm, jsonMap)
+    // Passed in options.
+    var options;
+
+    // Container;
+    var $container;
+
+    // Handebars Template;
+    var template;
+
+    iad.mapform.init = function(o)
+    {
+        options = $.extend(true, {}, o);
+        template = window.iadesigner[options.template];
+        $container = $(options.container);
+        iad.formcontrols.addControlHandlers($container);
+    };
+
+    iad.mapform.update = function(jsonMap)
     {
         var mapForm =  {'id':'MapLayers', 'forms':[]};
         for (var i = 0; i < jsonMap.layers.length; i++)
@@ -13,9 +30,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var layerForm = {'name': jsonLayer.name, 'type':'MapLayers', 'id': jsonLayer.id, 'controls':[]};
             mapForm.forms.push(layerForm);
 
-            for (var j = 0; j < jsonForm.length; j++)
+            for (var j = 0; j < options.json.length; j++)
             {
-                var ctrl = jsonForm[j];
+                var ctrl = options.json[j];
                 if (jsonLayer[ctrl.id] !== undefined)
                 {
                     var lyrCtrl = $.extend(true, {}, ctrl);
@@ -24,8 +41,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
             }
         }
-        var template = window.iadesigner[templateName];
-        $(container).html(template(mapForm));
+        $container.html(template(options.json));
+        iad.formcontrols.update($container);
     };
 
     return iad;

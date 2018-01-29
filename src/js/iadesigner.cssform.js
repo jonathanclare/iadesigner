@@ -4,7 +4,24 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.cssform = iad.cssform || {};
 
-    iad.cssform.update = function(container, templateName, jsonForm, lessVars)
+    // Passed in options.
+    var options;
+
+    // Container;
+    var $container;
+
+    // Handebars Template;
+    var template;
+
+    iad.cssform.init = function(o)
+    {
+        options = $.extend(true, {}, o);
+        template = window.iadesigner[options.template];
+        $container = $(options.container);
+        iad.formcontrols.addControlHandlers($container);
+    };
+
+    iad.cssform.update = function(lessVars)
     {
         for (var property in lessVars)
         {
@@ -12,9 +29,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var value = lessVars[property];
             var pos = value.indexOf('px');
             if (pos != -1) value = value.substring(0, pos);
-            for (var i = 0; i < jsonForm.forms.length; i++)
+            for (var i = 0; i < options.json.forms.length; i++)
             {
-                var form = jsonForm.forms[i];
+                var form = options.json.forms[i];
                 for (var j = 0; j < form.controls.length; j++)
                 {
                     var ctrl = form.controls[j];
@@ -26,8 +43,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
             }
         }
-        var template = window.iadesigner[templateName];
-        $(container).html(template(jsonForm));
+        $container.html(template(options.json));
+        iad.formcontrols.update($container);
     };
 
     return iad;
