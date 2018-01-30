@@ -38,7 +38,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
             }
         }
-        iad.formcontrols.render(
+        iad.form.render(
         {
             container:options.container,
             template:options.template,

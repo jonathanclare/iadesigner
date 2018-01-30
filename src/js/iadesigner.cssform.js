@@ -40,7 +40,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
             }
         }
-        iad.formcontrols.render(options);
+        iad.form.render(options);
     };
 
     return iad;

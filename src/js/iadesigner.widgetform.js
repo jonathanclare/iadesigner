@@ -113,12 +113,12 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             if (jsonForm.forms.length === 1) jsonForm.forms[0].name = undefined;
 
-            iad.formcontrols.render(
+            iad.form.render(
             {
                 container:options.container,
                 template:options.template,
                 json:jsonForm,
-                propertyWasAdded:propertyWasAdded
+                controlAdded:propertyWasAdded
             });
         }
     }

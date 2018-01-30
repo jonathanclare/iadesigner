@@ -39,7 +39,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initConfig();
                         initCanvas();
                         initColorPicker();
-                        initFormControls();
+                        initForms();
                         initConfigForms(settings.configForms);
                         initFile();
                         updateDropdownMenus();
@@ -577,9 +577,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         iad.configforms.init(cOptions);
     }
 
-    function initFormControls()
+    function initForms()
     {
-        iad.formcontrols.init(
+        iad.form.init(
         {
             onDataChanged: function (data)
             {
