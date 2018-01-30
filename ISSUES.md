@@ -35,6 +35,5 @@
 - debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
 needs to only happen on initiation
 - Dont select canvas when in preview mode
-- maplayer and style forms need to be included in form logic for opening correct collapse and scrolling to correct position
 - undo on widget properties needs to reload form rather than going to general properties
 - when editing map palettes dont want to switch to general properties when you click on the canvas
