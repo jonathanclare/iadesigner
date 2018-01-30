@@ -31,7 +31,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             $container = $(options.container);
             addHandlers($container);
-            iad.formcontrols.addControlHandlers($container);
         }
     };
 
@@ -139,11 +138,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
             // Apply handlebars template for forms.
             $container.parent().css('visibility','hidden');
-            $container.empty();
-            var template = window.iadesigner[options.template];
-            var html = template(jsonForm);
-            $container.append(html);
-            iad.formcontrols.update($container);
+
+            iad.formcontrols.render(
+            {
+                container:options.container,
+                template:options.template,
+                json:jsonForm
+
+            });
             
             // Form display properties for each widget (scroll position and expanded panel index).
             if (oFormProps[activeWidgetId] !== undefined)         

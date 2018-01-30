@@ -583,7 +583,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
-                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -619,19 +618,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onButtonClicked: function (data)
             {
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
-                else if (data.action === 'remove-column')       iad.config.removeColumn(data.controlId, data.controlIndex);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
-                else if (data.action === 'remove-menuitem')     iad.config.removeMenuItem(data.controlId, data.controlIndex);
                 else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
-                else if (data.action === 'remove-symbol')       iad.config.removeSymbol(data.controlId, data.controlIndex);
                 else if (data.action === 'add-target')          iad.config.addTarget(data.controlId);
-                else if (data.action === 'remove-target')       iad.config.removeTarget(data.controlId, data.controlIndex);
                 else if (data.action === 'add-break')           iad.config.addBreak(data.controlId);
-                else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
                 else if (data.action === 'add-line')            iad.config.addPyramidLine(data.controlId);
+                else if (data.action === 'remove-column')       iad.config.removeColumn(data.controlId, data.controlIndex);
+                else if (data.action === 'remove-menuitem')     iad.config.removeMenuItem(data.controlId, data.controlIndex);
+                else if (data.action === 'remove-symbol')       iad.config.removeSymbol(data.controlId, data.controlIndex);
+                else if (data.action === 'remove-target')       iad.config.removeTarget(data.controlId, data.controlIndex);
+                else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
             },
-            onItemOrderChanged: function (arrData)
+            onControlOrderChanged: function (arrData)
             {
                 var items = [];
                 if (arrData.length > 0)
@@ -654,10 +653,8 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     }
 
                     var d = arrData[0];
-                    if (arrData[0].formId.indexOf('menuBar') !== -1)
-                        iad.config.orderMenuItems(data.formId, items);
-                    else if (arrData[0].formId.indexOf('table') !== -1)
-                        iad.config.orderColumns(data.formId, items);
+                    if (arrData[0].formId.indexOf('menuBar') !== -1)    iad.config.orderMenuItems(d.formId, items);
+                    else if (arrData[0].formId.indexOf('table') !== -1) iad.config.orderColumns(d.formId, items);
                 }
             }
         });

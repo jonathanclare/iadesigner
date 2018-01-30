@@ -16,9 +16,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.cssform.init = function(o)
     {
         options = $.extend(true, {}, o);
-        template = window.iadesigner[options.template];
-        $container = $(options.container);
-        iad.formcontrols.addControlHandlers($container);
     };
 
     iad.cssform.update = function(lessVars)
@@ -43,8 +40,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 }
             }
         }
-        $container.html(template(options.json));
-        iad.formcontrols.update($container);
+        iad.formcontrols.render(options);
     };
 
     return iad;

@@ -7,32 +7,59 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
-    var onChange;
-
     // Initialise.
     iad.formcontrols.init = function (o)
     {
         options = o; 
-
-        // Called when a value has been changed.
-        onChange = iad.util.debounce(function ($control, newValue) 
-        {
-            var data = getData($control);
-            data.controlValue = newValue;
-            if (options && options.onDataChanged) options.onDataChanged.call(null, data);
-        }, 250);
+        addControlHandlers();
     };
 
-    // Returns the data associated with the control.
-    function getData($control)
+    // Adds the control handlers.
+    iad.formcontrols.render = function (o)
     {
-        var $form = $control.closest('.iad-form');
-        var $formGroup = $control.closest('.iad-form-group');
-        var data = {formId:$form.data('form-id'), formType:$form.data('form-type'), controlId:$formGroup.data('control-id')};
-        var $controlGroup = $control.closest('.iad-control-group');
-        if ($controlGroup.length) data.controlIndex = $controlGroup.data('control-index');
-        return data;
-    }
+        var $container = $(o.container);
+        $container.html(window.iadesigner[o.template](o.json));
+
+        // Enable control tooltips.
+        $container.find('.iad-tooltip-control').tooltip(
+        {
+            placement: 'bottom',
+            trigger: 'hover'
+        });
+
+        // Popovers.
+        $container.find('.iad-popover').popover();
+
+        // Make columns sortable.
+        $container.find('.draggableList').sortable(
+        {
+            handle: '.iad-sort-handle', 
+            axis:'y',
+            update: function()
+            {
+                // New order.
+                var arrData = [];
+                $('.iad-sortable', $(this)).each(function(i, elem) 
+                {
+                    var $control = $(elem);
+
+                    var data = getData($control);
+                    data.prevControlIndex = $control.data('control-index');
+                    arrData.push(data);
+
+                    $control.data('control-index', i); // Update the item index.
+                });
+
+                if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
+            }
+        });
+
+        // Apply auto size to text areas.
+        var $textarea = $container.find('.iad-control-textarea');
+        $textarea.autosize({append: '\n'});
+        $textarea.trigger('autosize.resize');
+        $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
+    };
 
     // Adds the control handlers.
     iad.formcontrols.update = function ($container)
@@ -67,7 +94,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     $control.data('control-index', i); // Update the item index.
                 });
 
-                if (options && options.onItemsChanged) options.onItemsChanged.call(null, arrData);
+                if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
             }
         });
 
@@ -78,11 +105,31 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
     };
 
-    // Adds the control handlers.
-    iad.formcontrols.addControlHandlers = function ($container)
+    // Returns the data associated with the control.
+    function getData($control)
     {
+        var $form = $control.closest('.iad-form');
+        var $formGroup = $control.closest('.iad-form-group');
+        var data = {formId:$form.data('form-id'), formType:$form.data('form-type'), controlId:$formGroup.data('control-id')};
+        var $controlGroup = $control.closest('.iad-control-group');
+        if ($controlGroup.length) data.controlIndex = $controlGroup.data('control-index');
+        return data;
+    }
+
+    // Adds the control handlers.
+    function addControlHandlers()
+    {
+
+        // Called when a value has been changed.
+        var onChange = iad.util.debounce(function ($control, newValue) 
+        {
+            var data = getData($control);
+            data.controlValue = newValue;
+            if (options && options.onDataChanged) options.onDataChanged.call(null, data);
+        }, 250);
+
         // Close popovers on click outside.
-        $container.on('mousedown', function (e) 
+        $(document).on('mousedown', function (e) 
         {
              $('[data-toggle="popover"]').each(function () 
              {
@@ -94,25 +141,25 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         // Handle key entry / paste.
-        $container.on('keyup paste', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
+        $(document).on('keyup paste', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 
         {
             onChange($(this), $(this).val());
         });
 
         // Handle dropdowns.
-        $container.on('change', '.iad-control-select, .iad-control-integer-select', function (e)  
+        $(document).on('change', '.iad-control-select, .iad-control-integer-select', function (e)  
         {
             onChange($(this), $(this).val());}
         );
 
         // Handle checkbox.
-        $container.on('change', '.iad-control-checkbox', function (e)  
+        $(document).on('change', '.iad-control-checkbox', function (e)  
         {
             onChange($(this), $(this).is(':checked'));
         });
 
         // Range input
-        $container.on('change', '.iad-control-range', function (e) 
+        $(document).on('change', '.iad-control-range', function (e) 
         {
             var value = $(this).val();
             $(this).next().html(value);
@@ -120,7 +167,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         // Text dropdown input replace text / append text.
-        $container.on('click', '.iad-dropdown-menu-replace a, .iad-dropdown-menu-append a', function (e)
+        $(document).on('click', '.iad-dropdown-menu-replace a, .iad-dropdown-menu-append a', function (e)
         {
             e.preventDefault();
 
@@ -135,7 +182,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         // Counter buttons.
-        $container.on('click', '.iad-control-integer-minus, .iad-control-integer-plus, .iad-control-float-minus, .iad-control-float-plus', function (e)
+        $(document).on('click', '.iad-control-integer-minus, .iad-control-integer-plus, .iad-control-float-minus, .iad-control-float-plus', function (e)
         {
             e.preventDefault();
 
@@ -170,9 +217,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
             onChange($input, value);
         });
 
-        // Add / Remove buttons.
-        $container.on('click', '.iad-control-btn, .iad-control-add, .iad-control-remove', function (e)
+        // Add button.
+        $(document).on('click', '.iad-control-btn, .iad-control-add, .iad-control-remove', function (e)
         {
+            console.log("clicked");
             e.preventDefault();
             var data = getData($(this));
             var $btn = $(this);
@@ -180,8 +228,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (options && options.onButtonClicked) options.onButtonClicked.call(null, data);
         });
 
+        // Remove button.
+        $(document).on('click', '.iad-control-remove', function (e)
+        {
+            e.preventDefault();
+            var data = getData($(this));
+            var $btn = $(this);
+            data.action = $btn.data('action');
+            if (options && options.onControlRemoved) options.onControlRemoved.call(null, data);
+        });
+
         // Color dropdown input replace text.
-        $container.on('click', '.iad-dropdown-menu-colorpalette a', function (e)
+        $(document).on('click', '.iad-dropdown-menu-colorpalette a', function (e)
         {
             e.preventDefault();
             var value = $(this).attr('data-value');
@@ -189,7 +247,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         // Color.
-        $container.on('click', '.iad-control-color-swatch', function (e)
+        $(document).on('click', '.iad-control-color-swatch', function (e)
         {
             // Prevent color picker from closing when clicked.
             e.stopPropagation();
@@ -206,7 +264,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 onChange($colorSwatch, outColor);
             });
         });
-    };
+    }
 
 	return iad;
 
