@@ -189,7 +189,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     function editWidget(id)
     {
-        if (id !== undefined) iad.widgetproperties.show(id);
+        if (id !== undefined) iad.widgetform.show(id);
     }
 
     function addWidget(type)

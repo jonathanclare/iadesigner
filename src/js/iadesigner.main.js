@@ -315,7 +315,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (storeSelectedWidgetId !== undefined) 
                     iad.canvas.select(storeSelectedWidgetId);
                 else 
-                    iad.widgetproperties.refresh();
+                    iad.widgetform.refresh();
                 storeSelectedWidgetId = undefined;
 
                 iad.progress.end('load');
@@ -442,14 +442,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetproperties.refresh(true);
+                    iad.widgetform.refresh(true);
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetproperties.refresh();
+                    iad.widgetform.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -567,7 +567,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigForms(options)
     {
-        iad.widgetproperties.init(
+        iad.widgetform.init(
         {
             container: '#iad-form-widget-properties',
             template: 'forms.handlebars'
@@ -672,7 +672,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (widgetId !== iad.config.selectedWidgetId)
                 {
                     iad.config.selectedWidgetId = widgetId;
-                    iad.widgetproperties.edit(widgetId);
+                    iad.widgetform.edit(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -686,7 +686,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {     
                 $nav.hide();
                 iad.config.selectedWidgetId = undefined;
-                iad.widgetproperties.edit('PropertyGroup');
+                iad.widgetform.edit('PropertyGroup');
             },
             onDragEnd: function (widgetId, x, y)
             {

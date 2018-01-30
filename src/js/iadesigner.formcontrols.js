@@ -7,6 +7,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
+    // Form display properties for each widget (scroll position and expanded panel index).
+    var oFormProps = {};
+
     // Initialise.
     iad.formcontrols.init = function (o)
     {
@@ -18,6 +21,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.formcontrols.render = function (o)
     {
         var $container = $(o.container);
+        $container.parent().css('visibility','hidden');
         $container.html(window.iadesigner[o.template](o.json));
 
         // Enable control tooltips.
@@ -59,51 +63,81 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $textarea.autosize({append: '\n'});
         $textarea.trigger('autosize.resize');
         $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
-    };
 
-    // Adds the control handlers.
-    iad.formcontrols.update = function ($container)
-    {
-        // Enable control tooltips.
-        $container.find('.iad-tooltip-control').tooltip(
+        // Scroll position and expanded panel logic to maintain view.
+        var doScrollAfterPanelExpanded = false;
+        var f = oFormProps[o.json.id];
+        if (f === undefined) f = oFormProps[o.json.id] = {panelIndex:undefined, scrollPos:0};
+
+        if (f.panelIndex !== undefined) // Open previous panel then scroll to correct position.
         {
-            placement: 'bottom',
-            trigger: 'hover'
+            doScrollAfterPanelExpanded = true;
+            $container.find('.iad-collapse:eq('+f.panelIndex+')').collapse('show');
+        }
+        else if ($container.find('.iad-collapse').length > 1) // Open first panel then scroll to correct position.
+        {
+            doScrollAfterPanelExpanded = true;
+            f.panelIndex = 0;
+            $container.find('.iad-collapse:eq(0)').collapse('show');
+        }        
+        else onRenderComplete($container, f, o); // Scroll to correct position.
+
+        $container.off('show.bs.collapse');
+        $container.off('shown.bs.collapse');
+        $container.off('hidden.bs.collapse');
+        $container.parent().off('.container');
+
+        $container.on('show.bs.collapse', '.iad-collapse', function (e) 
+        {
+            // Fix for accordion collapse bug https://github.com/openam/bootstrap-responsive-tabs/issues/45
+            $(e.target).closest('.panel').siblings().find('.panel-collapse').collapse('hide');
         });
-
-        // Popovers.
-        $container.find('.iad-popover').popover();
-
-        // Make columns sortable.
-        $container.find('.draggableList').sortable(
+        $container.on('shown.bs.collapse', '.iad-collapse', function (e)
         {
-            handle: '.iad-sort-handle', 
-            axis:'y',
-            update: function()
+            // Do scroll after collapse has expanded to scroll to correct position.
+            if (doScrollAfterPanelExpanded)
             {
-                // New order.
-                var arrData = [];
-                $('.iad-sortable', $(this)).each(function(i, elem) 
-                {
-                    var $control = $(elem);
-
-                    var data = getData($control);
-                    data.prevControlIndex = $control.data('control-index');
-                    arrData.push(data);
-
-                    $control.data('control-index', i); // Update the item index.
-                });
-
-                if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
+                doScrollAfterPanelExpanded = false;
+                onRenderComplete($container, f, o);
             }
+            // Store the index of the expanded panel.
+            f.panelIndex = $container.find('.iad-collapse').index(this);
         });
-
-        // Apply auto size to text areas.
-        var $textarea = $container.find('.iad-control-textarea');
-        $textarea.autosize({append: '\n'});
-        $textarea.trigger('autosize.resize');
-        $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
+        $container.on('hidden.bs.collapse', '.iad-collapse', function (e)
+        {
+            // Remove the index of the expanded panel.
+            f.panelIndex = undefined;
+        });
+        $container.parent().on('scroll.container', function (e)
+        {
+            if (doScrollAfterPanelExpanded === false) f.scrollPos = $(this).scrollTop();
+        });
     };
+
+    function onRenderComplete($container, f, o)
+    {
+        if (o.propertyWasAdded) 
+        {
+            scrollToBottom($container);
+            o.propertyWasAdded = false;
+        }
+        else 
+            scrollTo($container, f.scrollPos);
+
+        $container.parent().css('visibility','visible');
+    }
+
+    // Scrolls to position in form.
+    function scrollTo($container, scrollPos)
+    {
+        $container.parent().scrollTop(scrollPos);        
+    }
+
+    // Scrolls to bottom of form.
+    function scrollToBottom($container)
+    {
+        scrollTo($container, $container.parent()[0].scrollHeight); 
+    }
 
     // Returns the data associated with the control.
     function getData($control)
@@ -220,7 +254,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Add button.
         $(document).on('click', '.iad-control-btn, .iad-control-add, .iad-control-remove', function (e)
         {
-            console.log("clicked");
             e.preventDefault();
             var data = getData($(this));
             var $btn = $(this);

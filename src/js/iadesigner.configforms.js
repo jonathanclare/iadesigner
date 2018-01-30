@@ -89,7 +89,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'action': 'add-colourscheme'
         };
         
-        console.log(json);
         return json;
     };
 
@@ -142,7 +141,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlWidget = iad.config.getWidgetXml(widgetId);
         var tagName = $xmlWidget.prop('tagName');
 
-        var json = {'id': 'widget','forms': []};
+        var json = {'id': widgetId,'forms': []};
 
         if (tagName === 'Component')
         {
