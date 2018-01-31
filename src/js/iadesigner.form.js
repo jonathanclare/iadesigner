@@ -21,7 +21,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.form.render = function (o)
     {
         var $container = $(o.container);
-        $container.parent().css('visibility','hidden');
         $container.html(window.iadesigner[o.template](o.json));
 
         // Enable control tooltips.
@@ -77,7 +76,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             f.panelIndex = 0;
             $container.find('.iad-collapse:eq(0)').collapse('show');
         }        
-        else onRenderComplete($container, f, o); // Scroll to correct position.
+        else scrollTo($container, f.scrollPos); // Scroll to correct position.
 
         $container.off('show.bs.collapse');
         $container.off('shown.bs.collapse');
@@ -95,7 +94,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (doScrollAfterPanelExpanded)
             {
                 doScrollAfterPanelExpanded = false;
-                onRenderComplete($container, f, o);
+                scrollTo($container, f.scrollPos);
             }
             // Store the index of the expanded panel.
             f.panelIndex = $container.find('.iad-collapse').index(this);
@@ -111,29 +110,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
-    function onRenderComplete($container, f, o)
-    {
-        if (o.controlAdded) 
-        {
-            scrollToBottom($container);
-            o.controlAdded = false;
-        }
-        else 
-            scrollTo($container, f.scrollPos);
-
-        $container.parent().css('visibility','visible');
-    }
-
     // Scrolls to position in form.
     function scrollTo($container, scrollPos)
     {
         $container.parent().scrollTop(scrollPos);        
-    }
-
-    // Scrolls to bottom of form.
-    function scrollToBottom($container)
-    {
-        scrollTo($container, $container.parent()[0].scrollHeight); 
     }
 
     // Returns the data associated with the control.

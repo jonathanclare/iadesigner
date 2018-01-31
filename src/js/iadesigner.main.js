@@ -438,11 +438,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 debounceRefreshConfig();
             },
+            onColourRangeAdded: function ()
+            {
+                iad.configform.refresh();
+            },
+            onColourSchemeAdded: function ()
+            {
+                iad.configform.refresh();
+            },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configform.refresh(true);
+                    iad.configform.refresh();
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
@@ -616,12 +624,15 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onButtonClicked: function (data)
             {
+                console.log(data);
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
                 else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
                 else if (data.action === 'add-target')          iad.config.addTarget(data.controlId);
                 else if (data.action === 'add-break')           iad.config.addBreak(data.controlId);
                 else if (data.action === 'add-line')            iad.config.addPyramidLine(data.controlId);
+                else if (data.action === 'add-colourrange')     iad.config.addColourRange();
+                else if (data.action === 'add-colourscheme')    iad.config.addColourScheme();
                 else if (data.action === 'remove-column')       iad.config.removeColumn(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-menuitem')     iad.config.removeMenuItem(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-symbol')       iad.config.removeSymbol(data.controlId, data.controlIndex);

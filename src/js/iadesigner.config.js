@@ -457,8 +457,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var $xmlComponent = iad.config.getWidgetXml(widgetId);
         var index = s4();
-        appendProperty(widgetId, '<Property id="menuItem' + index + '" description="The label for the menu item" name="Menu Item" type="string" value="New Item" />');
-        appendProperty(widgetId, '<Property id="menuFunc' + index + '" description="The function or url for the menu item" name="Menu Function" type="string" value="" />');
+        prependProperty(widgetId, '<Property id="menuFunc' + index + '" description="The function or url for the menu item" name="Menu Function" type="string" value="" />');
+        prependProperty(widgetId, '<Property id="menuItem' + index + '" description="The label for the menu item" name="Menu Item" type="string" value="New Item" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
     };
 
@@ -493,7 +493,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         var strXML = '<Column alias="My Column" name="value" width="0.25" />';
         var xml = $($.parseXML(strXML)).find('Column');
-        $xmlTable.append(xml);
+        $xmlTable.prepend(xml);
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -530,11 +530,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         var index = s4();
-        appendProperty(widgetId, '<Property id="symbol_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for symbol"  name="Symbol Shape" type="string" value="circle" />');
-        appendProperty(widgetId, '<Property id="symbol_color_' + index + '" description="Colour that will be used for symbol" name="Symbol Colour" type="colour" value="#999999" />');
-        appendProperty(widgetId, '<Property id="symbol_size_' + index + '" description="Size that will be used for symbol" name="Symbol Size" type="integer" value="14" />');
-        appendProperty(widgetId, '<Property id="symbol_label_' + index + '" description="Label that will be associated with symbol" name="Symbol Label" type="string" value="Symbol Label" />');
-        appendProperty(widgetId, '<Property id="symbol_value_' + index + '" description="Value that will be associated with symbol" name="Symbol Value" type="string" value="--" />');
+        prependProperty(widgetId, '<Property id="symbol_value_' + index + '" description="Value that will be associated with symbol" name="Symbol Value" type="string" value="--" />');
+        prependProperty(widgetId, '<Property id="symbol_label_' + index + '" description="Label that will be associated with symbol" name="Symbol Label" type="string" value="Symbol Label" />');
+        prependProperty(widgetId, '<Property id="symbol_size_' + index + '" description="Size that will be used for symbol" name="Symbol Size" type="integer" value="14" />');
+        prependProperty(widgetId, '<Property id="symbol_color_' + index + '" description="Colour that will be used for symbol" name="Symbol Colour" type="colour" value="#999999" />');
+        prependProperty(widgetId, '<Property id="symbol_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for symbol"  name="Symbol Shape" type="string" value="circle" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -555,11 +555,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         var index = s4();
-        appendProperty(widgetId, '<Property id="target_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for target" name="Target Shape" type="string" value="vertical line" />');
-        appendProperty(widgetId, '<Property id="target_color_' + index + '" description="Colour that will be used for target" name="Target Colour" type="colour" value="#999999" />');
-        appendProperty(widgetId, '<Property id="target_size_' + index + '" description="Size that will be used for target" name="Target Size" type="integer" value="14" />');
-        appendProperty(widgetId, '<Property id="target_label_' + index + '" description="Label that will be associated with target" name="Target Label" type="string" value="Target Label" />');
-        appendProperty(widgetId, '<Property id="target_data_' + index + '" description="The data for target" name="Target 1 Data" type="string" value="value" />');
+        prependProperty(widgetId, '<Property id="target_data_' + index + '" description="The data for target" name="Target 1 Data" type="string" value="value" />');
+        prependProperty(widgetId, '<Property id="target_label_' + index + '" description="Label that will be associated with target" name="Target Label" type="string" value="Target Label" />');
+        prependProperty(widgetId, '<Property id="target_size_' + index + '" description="Size that will be used for target" name="Target Size" type="integer" value="14" />');
+        prependProperty(widgetId, '<Property id="target_color_' + index + '" description="Colour that will be used for target" name="Target Colour" type="colour" value="#999999" />');
+        prependProperty(widgetId, '<Property id="target_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for target" name="Target Shape" type="string" value="vertical line" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -580,8 +580,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var $xmlTable = iad.config.getWidgetXml(widgetId);
         var index = s4();
-        appendProperty(widgetId, '<Property id="break_color_' + index + '" description="Colour that will be used for break" name="Break Colour" type="colour" value="#e7e7e7" />');
-        appendProperty(widgetId, '<Property id="break_label_' + index + '" description="Label that will be associated with break" name="Break Label" type="string" value="Break Label" />');
+        prependProperty(widgetId, '<Property id="break_label_' + index + '" description="Label that will be associated with break" name="Break Label" type="string" value="Break Label" />');
+        prependProperty(widgetId, '<Property id="break_color_' + index + '" description="Colour that will be used for break" name="Break Colour" type="colour" value="#e7e7e7" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
     };
 
@@ -598,10 +598,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.addPyramidLine = function (widgetId)
     {
         var $xmlComponent = iad.config.getWidgetXml(widgetId);
-        var index = s4();
-        appendProperty(widgetId, '<Property id="line_color_' + index + '" description="Colour that will be used for the line" name="Line Colour" type="colour" value="#999999" />');
-        appendProperty(widgetId, '<Property id="line_label_' + index + '" description="Label that will be associated with the line" name="Line Label" type="string" value="Line Label" />');
-        appendProperty(widgetId, '<Property id="line_value_' + index + '" description="Value that will be associated with the line" name="Line Value" type="string" value="value" />');
+        var index = s4();        
+        prependProperty(widgetId, '<Property id="line_value_' + index + '" description="Value that will be associated with the line" name="Line Value" type="string" value="value" />');
+        prependProperty(widgetId, '<Property id="line_label_' + index + '" description="Label that will be associated with the line" name="Line Label" type="string" value="Line Label" />');
+        prependProperty(widgetId, '<Property id="line_color_' + index + '" description="Colour that will be used for the line" name="Line Colour" type="colour" value="#999999" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
     };
 
@@ -621,6 +621,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlComponent = iad.config.getWidgetXml(widgetId);
         var xml = $($.parseXML(strXML)).find('Property');
         $xmlComponent.append(xml);
+    }
+
+    // Append property xml to a component - this includes a fix for IE weirdness when appending xml.
+    function prependProperty(widgetId, strXML)
+    {
+        var $xmlComponent = iad.config.getWidgetXml(widgetId);
+        var xml = $($.parseXML(strXML)).find('Property');
+        $xmlComponent.prepend(xml);
     }
 
     function updateColumnName(columnName, attr, newValue)
@@ -746,20 +754,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return $xmlMapPalettes.find('ColourRange').map(function() {return $(this).attr('id');});
     };
 
-    // Gets the colours for a map palette.
-    iad.config.getPaletteColours = function (paletteId)
-    {
-        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
-        if ($xmlColorRange.length) {}
-        else
-            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheme.
-
-        return $xmlColorRange.children();
-    };
-
     // Gets a ColorRange or ColorScheme.
-    iad.config.getColourRange = function (paletteId)
+    iad.config.getPalette = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
@@ -770,12 +766,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return $xmlColorRange;
     };
 
-    // Gets a palette colour.
-    iad.config.getPaletteColour = function (paletteId, colorIndex)
+    // Gets the colours for a map palette.
+    iad.config.getPaletteColours = function (paletteId)
     {
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
-        var xmlColor        = $xmlColorRange.children()[colorIndex];
-        return xmlColor;
+        var $xmlColorRange = iad.config.getPalette(paletteId);
+        return $xmlColorRange.children();
+    };
+
+    // Sets the colours for a map palette.
+    iad.config.setPaletteColours = function (paletteId, arrColors)
+    {
+        var $xmlColorRange  = iad.config.getPalette(paletteId);
+        var $xmlColors      = $xmlColorRange.find("Colour");
+        $.each($xmlColors, function(i, xmlColor)
+        {
+            if (i < arrColors.length) $(xmlColor).text(ia.Color.toHex(arrColors[i]));
+        });
     };
 
     // Sets a palette colour.
@@ -785,18 +791,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $(xmlColor).text(ia.Color.toHex(color));
     };
 
-    // Sets a palette colour 'for' value.
-    iad.config.setPaletteForValue = function (paletteId, colorIndex, forValue)
+    // Gets a palette colour.
+    iad.config.getPaletteColour = function (paletteId, colorIndex)
     {
-        var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
-        $(xmlColor).attr('for', forValue);
+        var $xmlColorRange  = iad.config.getPalette(paletteId);
+        var xmlColor        = $xmlColorRange.children()[colorIndex];
+        return xmlColor;
     };
 
     // Adds a palette colour.
     iad.config.addPaletteColour = function (paletteId, color)
     {
         var paletteType     = iad.config.getPaletteType(paletteId);
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
+        var $xmlColorRange  = iad.config.getPalette(paletteId);
         var $xmlColor, strXML;
         if (paletteType === 'ColourRange')   // ColorRange.
         {
@@ -818,57 +825,47 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $(xmlColor).remove();
     };
 
-    // Adds a new ColourRange.
-    iad.config.addColourRange = function (paletteId, arrColors)
+    // Sets a palette colour 'for' value.
+    iad.config.setPaletteForValue = function (paletteId, colorIndex, forValue)
     {
+        var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
+        $(xmlColor).attr('for', forValue);
+    };
+
+    // Adds a new ColourRange.
+    iad.config.addColourRange = function ()
+    {
+        var paletteId = guid();
+        var arrColors = ['#ffffff', '#cccccc', '#000000'];
+
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
-        if ($xmlColorRange.length)  // Palette already exists so empty it.
-        {
-            $xmlColorRange.empty();
-        }
-        else                        // Create a new palette.                
-        {
-            var strXML = '<ColourRange id="'+paletteId+'"></ColourRange>';
-            var  $xmlColourRange = $($.parseXML(strXML)).find('ColourRange'); 
-            $xmlMapPalettes.prepend($xmlColourRange);
-        }
+        var strXML = '<ColourRange id="'+paletteId+'"></ColourRange>';
+        var  $xmlColourRange = $($.parseXML(strXML)).find('ColourRange'); 
+        $xmlMapPalettes.prepend($xmlColourRange);
+
         for (var i = 0; i < arrColors.length; i++)
         {
             iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
-    };
-
-    // Updates a ColourRange with new colors.
-    iad.config.setXmlConfigColourRange = function (paletteId, arrColors)
-    {
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
-        var $xmlColors      = $xmlColorRange.find("Colour");
-        $.each($xmlColors, function(i, xmlColor)
-        {
-            if (i < arrColors.length) $(xmlColor).text(ia.Color.toHex(arrColors[i]));
-        });
+        if (options && options.onColourRangeAdded) options.onColourRangeAdded.call(null);
     };
 
     // Adds a new ColorScheme.
-    iad.config.addColourScheme = function (paletteId, arrColors)
+    iad.config.addColourScheme = function ()
     {
+        var paletteId = guid();
+        var arrColors = ['#ffffff', '#cccccc', '#000000'];
+
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange  = iad.config.getColourRange(paletteId);
-        if ($xmlColorRange.length)  // Palette already exists so empty it.
-        {
-            $xmlColorRange.empty();
-        }
-        else                        // Create a new palette.                
-        {
-            var strXML = '<ColourScheme id="'+paletteId+'"></ColourScheme >';
-            var  $xmlColourRange = $($.parseXML(strXML)).find('ColourScheme'); 
-            $xmlMapPalettes.prepend($xmlColourRange);
-        }
+        var strXML = '<ColourScheme id="'+paletteId+'"></ColourScheme >';
+        var  $xmlColourScheme = $($.parseXML(strXML)).find('ColourScheme'); 
+        $xmlMapPalettes.prepend($xmlColourScheme);
+
         for (var i = 0; i < arrColors.length; i++)
         {
             iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
+        if (options && options.onColourSchemeAdded) options.onColourSchemeAdded.call(null);
     };
 
     // Sets the given palette as the default colour range.
@@ -884,7 +881,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         
         // Prepend selected xml ColorScheme so its used as the default categoric legend.
-        var $xmlColorRange = iad.config.getColourRange(paletteId);
+        var $xmlColorRange = iad.config.getPalette(paletteId);
         $xmlMapPalettes.prepend($xmlColorRange);
     };
 

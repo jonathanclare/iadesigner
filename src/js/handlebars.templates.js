@@ -282,10 +282,7 @@ this["iadesigner"]["control.logic.handlebars"] = Handlebars.template({"1":functi
 },"39":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "	"
-    + ((stack1 = container.invokePartial(partials["control.label"],depth0,{"name":"control.label","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + ((stack1 = container.invokePartial(partials["control.colourpalette"],depth0,{"name":"control.colourpalette","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "\r\n";
+  return ((stack1 = container.invokePartial(partials["control.colourpalette"],depth0,{"name":"control.colourpalette","data":data,"indent":"\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 

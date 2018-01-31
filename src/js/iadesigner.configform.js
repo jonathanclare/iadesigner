@@ -20,7 +20,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     var activeWidgetId;
 
     // Indicates a config property was added.
-    var propertyWasAdded = false;
     var $sidebarWidgetTitle = $('#iad-sidebar-widget-title');
     var $editWidgetBtn = $('#iad-btn-widget-edit');
 
@@ -48,7 +47,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         return json;
-    };
+    }
 
     // Returns the form for the map palettes.
     function getMapPalettesForm()
@@ -59,43 +58,49 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         var json = {'id': 'mappalettes','forms': []};
 
-        // Colour Ranges.
-        json.forms.push( 
+        // Numeric.
+        var numericForm = 
         {
             'id'        : 'numeric',
             'name'      : 'Numeric',
             'type'      : 'MapPalettes',
-            'controls'  : getPaletteControls(iad.config.getColourRanges())
-        });
-        // Add palette button.
-        json.forms.controls[json.forms.controls.length] = 
+            'controls'  : []
+        };
+        // Add range button.
+        numericForm.controls[numericForm.controls.length] = 
         {
-            'id'    : 'mappalettes',
+            'id'    : 'MapPalettes',
             'name'  : 'New Palette',
             'type'  : 'button',
             'icon'  : 'fa fa-fw fa-plus',
             'align' : 'right',
-            'action': 'add-colourpalette'
+            'action': 'add-colourrange'
         };
+        // Ranges.
+        numericForm.controls = numericForm.controls.concat(getPaletteControls(iad.config.getColourRanges()));
+        json.forms.push(numericForm);
 
-        // Colour Schemes.
-        json.forms.push( 
+        // Categoric.
+        var categoricForm = 
         {
             'id'        : 'categoric',
             'name'      : 'Categoric',
             'type'      : 'MapPalettes',
-            'controls'  : getPaletteControls(iad.config.getColourSchemes())
-        });
-        // Add sheme button.
-        json.forms.controls[json.forms.controls.length] = 
+            'controls'  : []
+        };
+        // Add scheme button.
+        categoricForm.controls[categoricForm.controls.length] = 
         {
-            'id'    : 'mappalettes',
+            'id'    : 'MapPalettes',
             'name'  : 'New Palette',
             'type'  : 'button',
             'icon'  : 'fa fa-fw fa-plus',
             'align' : 'right',
             'action': 'add-colourscheme'
         };
+        // Schemes.
+        categoricForm.controls = categoricForm.controls.concat(getPaletteControls(iad.config.getColourSchemes()));
+        json.forms.push(categoricForm);
         
         return json;
     }
@@ -116,7 +121,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 'removeable'    : true,
                 'action'        : 'remove-colourpalette',
                 'index'         : i,
-                'name'          : id,
                 'type'          : 'colour-palette',
                 'value'         : id,
                 'choices'       : [],
@@ -655,6 +659,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'controls'  : []
         };
 
+        // Add item button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Menu Item',
+            'description'   : 'Add a new menu item',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-menuitem'
+        };
+
         var $xmlProperties = $xmlComponent.find('Property');
         $.each($xmlProperties, function(i, xmlProperty)
         {
@@ -699,18 +715,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add item button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Menu Item',
-            'description'   : 'Add a new menu item',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-menuitem'
-        };
-
         return form;
     }
 
@@ -742,6 +746,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'type' : 'label',
             'name' : 'Use this section to add data lines to the pyramid chart.'
+        };
+
+        // Add pyramid line button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Line',
+            'description'   : 'Add a new line',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-line'
         };
 
         var $xmlProperties = $xmlComponent.find('Property');
@@ -797,18 +813,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add pyramid line button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Line',
-            'description'   : 'Add a new line',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-line'
-        };
-
         return form;
     }
 
@@ -829,6 +833,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             'type' : 'label',
             'name' : 'Use this section to link symbols to values in the data. The symbol replaces the data value in the column.'
+        };
+
+        // Add symbol button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Symbol',
+            'description'   : 'Add a new symbol',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-symbol'
         };
 
         var $xmlProperties = $xmlTable.find('Property');
@@ -912,18 +928,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add symbol button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Symbol',
-            'description'   : 'Add a new symbol',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-symbol'
-        };
-
         return form;
     }
 
@@ -938,6 +942,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'name'      : 'Chart Column Breaks',
             'type'      : 'Column',
             'controls'  : []
+        };
+
+        // Add break button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Break',
+            'description'   : 'Add a new break',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-break'
         };
 
         var $xmlProperties = $xmlTable.find('Property');
@@ -983,18 +999,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add break button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Break',
-            'description'   : 'Add a new break',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-break'
-        };
-
         return form;
     }
 
@@ -1020,6 +1024,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'name'      : 'Chart Column Targets',
             'type'      : 'Column',
             'controls'  : []
+        };
+
+        // Add target button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Target',
+            'description'   : 'Add a new target',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-target'
         };
 
         var $xmlProperties = $xmlTable.find('Property');
@@ -1102,18 +1118,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add target button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Target',
-            'description'   : 'Add a new target',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-target'
-        };
-
         return form;
     }
 
@@ -1174,6 +1178,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             'name'      : 'Columns',
             'type'      : 'Column',
             'controls'  : []
+        };
+
+        // Add column button.
+        form.controls[form.controls.length] = 
+        {
+            'id'    : widgetId,
+            'name'  : 'New Column',
+            'description'   : 'Add a new column',
+            'type'  : 'button',
+            'icon'  : 'fa fa-fw fa-plus',
+            'align' : 'right',
+            'action': 'add-column'
         };
 
         var $xmlColumns = $xmlTable.find('Column');
@@ -1495,25 +1511,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         });
 
-        // Add column button.
-        form.controls[form.controls.length] = 
-        {
-            'id'    : widgetId,
-            'name'  : 'New Column',
-            'description'   : 'Add a new column',
-            'type'  : 'button',
-            'icon'  : 'fa fa-fw fa-plus',
-            'align' : 'right',
-            'action': 'add-column'
-        };
-
         return form;
     }
 
-    iad.configform.refresh = function(propertyAdded)
+    iad.configform.refresh = function()
     {
-        propertyWasAdded = propertyAdded;
-
         if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
             showPropertyGroupForm();
         else if (activeWidgetId === 'MapPalettes')
@@ -1600,8 +1602,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {
                 container:options.container,
                 template:options.template,
-                json:jsonForm,
-                controlAdded:propertyWasAdded
+                json:jsonForm
             });
         }
     }
