@@ -10,9 +10,6 @@
 - Could this break older config.xml files.
 - Theres no way of matching config.xml files by language, so its reliant on the user setting the language for the app.
 
-## Forms
-- Move renderForm() and addHandlers() to their own module so they can be applied to all forms
-
 ## Images
 - How to copy and move referenced images.
 

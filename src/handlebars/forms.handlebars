@@ -21,21 +21,20 @@
 
 							{{#ifEqualTo type 'groupcontrol'}}
 								<div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group well well-sm iad-sortable">
-
 									<div class="form-group iad-form-group" data-control-id="{{id}}">
 										<div {{#if sortable}}class="iad-sort-handle"{{/if}}>
 											{{#if sortable}}<i class="fa fa-fw fa-sort"></i>{{/if}}
-											{{#if removeable}}<button type="button" {{#if action}}data-action="{{action}}"{{/if}} class="close iad-control-btn iad-tooltip-control" style="float:right" data-toggle="tooltip">&times;</button>{{/if}}
+											{{#if removeable}}<button type="button" {{#if action}}data-action="{{action}}"{{/if}} class="close iad-control-btn" style="float:right">&times;</button>{{/if}}
 										</div>
 									</div>
 									{{#controls}} 
-										<div class="form-group iad-form-group" data-control-id="{{id}}">
+										<div class="form-group iad-form-group" data-control-id="{{id}}" {{#if description}}title="{{description}}"{{/if}}>
 											{{> control.logic}}
 										</div>
 									{{/controls}} 
 								</div>
   							{{else}}
-								<div class="form-group iad-form-group" data-control-id="{{id}}">
+								<div class="form-group iad-form-group" data-control-id="{{id}}" {{#if description}}title="{{description}}"{{/if}}>
 									{{> control.logic}}
 								</div>
 							{{/ifEqualTo}}
@@ -74,7 +73,7 @@
 							{{#ifEqualTo type 'map-palettes-color-range-add'}}
 								<div class="form-group iad-form-group" data-control-id="{{id}}">
 									<div style="text-align:right">
-										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-color-range iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
+										<button type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-color-range" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
 									</div>
 								</div>
 							{{/ifEqualTo}}
@@ -85,7 +84,7 @@
 										<span class="btn-group">
 											<button class="btn btn-sm btn-default iad-control-color-swatch" type="button" style="background-color:{{color-value}}">&nbsp;&nbsp;</button>
 											{{#noOfColorsGreaterThanTwo ../../controls}}
-												<button type="button" class="btn btn-sm btn-default iad-control-remove iad-control-remove-color-range iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
+												<button type="button" class="btn btn-sm btn-default iad-control-remove iad-control-remove-color-range" title="Remove">&times;</button>
 											{{/noOfColorsGreaterThanTwo}}
 										</span>
 									</div>
@@ -95,7 +94,7 @@
                             {{#ifEqualTo type 'map-palettes-color-scheme-add'}}
                                 <div class="form-group iad-form-group" data-control-id="{{id}}">
                                     <div style="text-align:right">
-                                        <button data-control-id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-color-scheme iad-tooltip-control" data-toggle="tooltip" title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
+                                        <button data-control-id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-add iad-control-add-color-scheme"title="Add a new colour"><i class="fa fa-fw fa-plus"></i></button>
                                     </div>
                                 </div>
                             {{/ifEqualTo}}
@@ -106,10 +105,10 @@
 		      							<span class="input-group-btn">
 											<button data-control-id="{{color-id}}" class="btn btn-sm btn-default iad-control-color-swatch" type="button" style="background-color:{{color-value}}">&nbsp;&nbsp;</button>
 										</span>
-										<input data-control-id="{{for-id}}" class="form-control input-sm iad-control-text iad-tooltip-control" data-toggle="tooltip" title="Associate this colour with a legend label" type="text" value="{{for-value}}">
+										<input data-control-id="{{for-id}}" class="form-control input-sm iad-control-text" title="Associate this colour with a legend label" type="text" value="{{for-value}}">
 										{{#noOfColorsGreaterThanTwo ../../controls}}
 			      							<span class="input-group-btn">
-												<button data-control-id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-remove iad-control-remove-color-scheme iad-tooltip-control" data-toggle="tooltip" title="Remove">&times;</button>
+												<button data-control-id="{{id}}" type="button" class="btn btn-sm btn-default iad-control-remove iad-control-remove-color-scheme" title="Remove">&times;</button>
 											</span>
 										{{/noOfColorsGreaterThanTwo}}
 									</div>

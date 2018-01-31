@@ -31,9 +31,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             trigger: 'hover'
         });
 
-        // Popovers.
-        $container.find('.iad-popover').popover();
-
         // Make columns sortable.
         $container.find('.draggableList').sortable(
         {
@@ -153,7 +150,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Adds the control handlers.
     function addControlHandlers()
     {
-
         // Called when a value has been changed.
         var onChange = iad.util.debounce(function ($control, newValue) 
         {
@@ -161,18 +157,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             data.controlValue = newValue;
             if (options && options.onDataChanged) options.onDataChanged.call(null, data);
         }, 250);
-
-        // Close popovers on click outside.
-        $(document).on('mousedown', function (e) 
-        {
-             $('[data-toggle="popover"]').each(function () 
-             {
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) 
-                {
-                    $(this).popover('hide');
-                }
-            });
-        });
 
         // Handle key entry / paste.
         $(document).on('keyup paste', '.iad-control-text, .iad-control-integer, .iad-control-float', function (e) 

@@ -40,7 +40,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         initCanvas();
                         initColorPicker();
                         initForms();
-                        initConfigForms(settings.configForms);
+                        initConfigForm(settings.configForms);
                         initFile();
                         updateDropdownMenus();
                         updateStyleDownloadButtons();
@@ -315,7 +315,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (storeSelectedWidgetId !== undefined) 
                     iad.canvas.select(storeSelectedWidgetId);
                 else 
-                    iad.widgetform.refresh();
+                    iad.configform.refresh();
                 storeSelectedWidgetId = undefined;
 
                 iad.progress.end('load');
@@ -442,14 +442,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetform.refresh(true);
+                    iad.configform.refresh(true);
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetform.refresh();
+                    iad.configform.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -565,16 +565,15 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         }
     }
 
-    function initConfigForms(options)
+    function initConfigForm(options)
     {
-        iad.widgetform.init(
+        var cOptions = $.extend({}, options, 
         {
+            report : iaReport, 
             container: '#iad-form-widget-properties',
             template: 'forms.handlebars'
-        });
-
-        var cOptions = $.extend({}, options, {report : iaReport}); 
-        iad.configforms.init(cOptions);
+        }); 
+        iad.configform.init(cOptions);
     }
 
     function initForms()
@@ -672,7 +671,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (widgetId !== iad.config.selectedWidgetId)
                 {
                     iad.config.selectedWidgetId = widgetId;
-                    iad.widgetform.edit(widgetId);
+                    iad.configform.edit(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -686,7 +685,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {     
                 $nav.hide();
                 iad.config.selectedWidgetId = undefined;
-                iad.widgetform.edit('PropertyGroup');
+                iad.configform.edit('PropertyGroup');
             },
             onDragEnd: function (widgetId, x, y)
             {
