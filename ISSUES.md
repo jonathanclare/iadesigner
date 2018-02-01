@@ -34,3 +34,8 @@ needs to only happen on initiation
 - Dont select canvas when in preview mode
 - undo on widget properties needs to reload form rather than going to general properties
 - when editing map palettes dont want to switch to general properties when you click on the canvas
+
+## Forms
+- Stop buttons being part of drag area - eg map palette can be dragged above "New Palette" button.
+- Make Done button into apply button for map palettes - highlight the button when changes have been made
+- Clicking enter to close colorpicker when its activated

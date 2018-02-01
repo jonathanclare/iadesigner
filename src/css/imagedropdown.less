@@ -1,0 +1,52 @@
+@import "variables.less";
+
+.iad-image-dropdown 
+{
+    padding:0px;
+    width: 700px !important;
+    height: auto !important;
+}
+.flex-box
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.iad-cards
+{
+    flex-flow: row wrap;
+}
+.iad-card
+{
+    cursor: pointer;
+    width: 33%;
+    flex-flow: column nowrap;
+    padding:15px;
+}
+.iad-card-title
+{
+    align-items:center;
+    justify-content: center;
+    padding: 5px;
+}
+.iad-card-image
+{
+    opacity:0.8;
+    border:1px solid #ccc;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    padding-bottom:65%;
+}
+.iad-card:hover .iad-card-image
+{    
+    opacity:1;
+    border:1px solid #aaa;
+}
+.iad-card:hover .iad-card-title
+{    
+    color:#000;
+}

@@ -131,6 +131,33 @@
                             </ul>
                         </li>
                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" role="button">Style</a>
+                            <div class="dropdown-menu iad-image-dropdown">
+                                <div class="iad-cards flex-box">
+                                    <div data-sidebar="iad-sidebar-templategallery" class="iad-card flex-box">
+                                        <div class="iad-card-title flex-box">Choose a template</div>
+                                        <div><div class="iad-card-image" style="background-image:url('./img/template.png')"></div></div>
+                                    </div>
+                                    <div data-sidebar="iad-sidebar-colorscheme" class="iad-card flex-box">
+                                        <div class="iad-card-title flex-box">Choose a colour scheme</div>
+                                        <div><div class="iad-card-image" style="background-image:url('./img/colorscheme.png')"></div></div>
+                                    </div>
+                                    <div data-sidebar="iad-sidebar-css" class="iad-card flex-box">
+                                        <div class="iad-card-title flex-box">Style the report</div>
+                                        <div><div class="iad-card-image" style="background-image:url('./img/css.png')"></div></div>
+                                    </div>
+                                    <div data-sidebar="iad-sidebar-mappalette" class="iad-card flex-box">
+                                        <div class="iad-card-title flex-box">Pick the legend colours</div>
+                                        <div><div class="iad-card-image" style="background-image:url('./img/mappalettes.png')"></div></div>
+                                    </div>
+                                    <div data-sidebar="iad-sidebar-maplayer" class="iad-card flex-box">
+                                        <div class="iad-card-title flex-box">Style the map layers</div>
+                                        <div><div class="iad-card-image" style="background-image:url('./img/maplayers.png')"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" role="button">Help</a>
                             <ul class="dropdown-menu">
                                 <li><a id="iad-menuitem-about" href="#" data-toggle="modal" data-target="#iad-modal-about">About</a></li>
@@ -177,12 +204,12 @@
         <div id="iad-main">
             <div id="iad-report"></div>
 
-            <div class="iad-sidebar-show-btn flex-box">
+            <!--div class="iad-sidebar-show-btn flex-box">
                 <i class="fa fa-arrow-right"></i>
-            </div>
+            </div-->
 
             <!-- start guide sidebar -->
-            <div id="iad-sidebar-guide" class="iad-sidebar">
+            <!--div id="iad-sidebar-guide" class="iad-sidebar">
                 <div class="iad-sidebar-header">
                     <button type="button" class="close iad-sidebar-close iad-sidebar-close-btn">&times;</button>
                     <div class="iad-sidebar-title">Step-by-step Guide</div>
@@ -255,7 +282,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
             <!-- end guide sidebar -->
 
             <!-- start css properties sidebar -->
@@ -747,6 +774,7 @@
         <script src="./js/iadesigner.css.js"></script>
         <script src="./js/iadesigner.cssform.js"></script>
         <script src="./js/iadesigner.configform.js"></script>
+        <script src="./js/iadesigner.widgetsidebar.js"></script>
         <script src="./js/iadesigner.form.js"></script>
         <script src="./js/iadesigner.colorpicker.js"></script>
         <script src="./js/iadesigner.colorscheme.js"></script>

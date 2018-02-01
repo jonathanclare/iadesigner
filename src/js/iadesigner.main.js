@@ -315,7 +315,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (storeSelectedWidgetId !== undefined) 
                     iad.canvas.select(storeSelectedWidgetId);
                 else 
-                    iad.configform.refresh();
+                    iad.widgetsidebar.refresh();
                 storeSelectedWidgetId = undefined;
 
                 iad.progress.end('load');
@@ -440,24 +440,24 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onColourRangeAdded: function ()
             {
-                iad.configform.refresh();
+                iad.widgetsidebar.refresh();
             },
             onColourSchemeAdded: function ()
             {
-                iad.configform.refresh();
+                iad.widgetsidebar.refresh();
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configform.refresh();
+                    iad.widgetsidebar.refresh();
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.configform.refresh();
+                    iad.widgetsidebar.refresh();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -575,13 +575,26 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigForm(options)
     {
+        iad.widgetsidebar.init( 
+        {
+            container: '#iad-form-widget-properties',
+            template: 'forms.handlebars'
+        });
+
         var cOptions = $.extend({}, options, 
         {
             report : iaReport, 
-            container: '#iad-form-widget-properties',
-            template: 'forms.handlebars'
         }); 
         iad.configform.init(cOptions);
+    }
+
+    function initPaletteForm(options)
+    {
+        iad.paletteform.init( 
+        {
+            container: '#iad-form-widget-properties',
+            template: 'forms.handlebars'
+        });
     }
 
     function initForms()
@@ -682,7 +695,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (widgetId !== iad.config.selectedWidgetId)
                 {
                     iad.config.selectedWidgetId = widgetId;
-                    iad.configform.edit(widgetId);
+                    iad.widgetsidebar.edit(widgetId);
                     iad.report.showWidget(widgetId);
                 }
             },
@@ -696,7 +709,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {     
                 $nav.hide();
                 iad.config.selectedWidgetId = undefined;
-                iad.configform.edit('PropertyGroup');
+                iad.widgetsidebar.edit('PropertyGroup');
             },
             onDragEnd: function (widgetId, x, y)
             {
@@ -882,10 +895,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         // General Properties.
         var options = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="PropertyGroup" class="iad-dropdown-option-widget-properties">General Properties</a></li>';
-        options += '<li role="presentation" class="divider"></li>';
-
-        // Map Palettes.
-        options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="MapPalettes" class="iad-dropdown-option-widget-properties">Map Palettes</a></li>';
         options += '<li role="presentation" class="divider"></li>';
 
         // Add dropdown options to widget select dropdown.
