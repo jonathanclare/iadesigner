@@ -38,3 +38,4 @@ needs to only happen on initiation
 - Make Done button into apply button for map palettes - highlight the button when changes have been made
 - Clicking enter to close colorpicker when its activated
 - undo needs to update for widgets whenever a different form is selected ie update the storedData
+- The way the map palette form refreshes

@@ -124,6 +124,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var data = {formId:$form.data('form-id'), formType:$form.data('form-type'), controlId:$formGroup.data('control-id')};
         var $controlGroup = $control.closest('.iad-control-group');
         if ($controlGroup.length) data.controlIndex = $controlGroup.data('control-index');
+        if ($control.data('color-index')) data.colorIndex = $control.data('color-index');
         return data;
     }
 

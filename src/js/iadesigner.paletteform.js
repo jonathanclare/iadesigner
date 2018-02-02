@@ -17,6 +17,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         if (options && options.container) 
         {
+            console.log('update');
             iad.form.render(
             {
                 container:options.container,
@@ -34,7 +35,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Numeric.
         var numericForm = 
         {
-            'id'        : 'numeric',
+            'id'        : 'colorRanges',
             'name'      : 'Numeric',
             'type'      : 'MapPalettes',
             'controls'  : []
@@ -56,7 +57,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Categoric.
         var categoricForm = 
         {
-            'id'        : 'categoric',
+            'id'        : 'colorSchemes',
             'name'      : 'Categoric',
             'type'      : 'MapPalettes',
             'controls'  : []
@@ -92,7 +93,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 'id'            : id,
                 'sortable'      : true,
                 'removeable'    : true,
-                'action'        : 'remove-colourpalette',
+                'action'        : 'remove-palette',
                 'index'         : i,
                 'type'          : 'colour-palette',
                 'value'         : id,
@@ -107,7 +108,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 jsonControl.choices[jsonControl.choices.length] = 
                 {
                     'label' : $xmlColour.text(),
-                    'value' : $xmlColour.text()
+                    'value' : $xmlColour.text(),
+                    'index' : j,
                 };   
             });
             controls[controls.length] = jsonControl;

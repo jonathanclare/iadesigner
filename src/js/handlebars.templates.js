@@ -62,10 +62,12 @@ this["iadesigner"]["control.colour.handlebars"] = Handlebars.template({"compiler
 this["iadesigner"]["control.colourpalette.handlebars"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "<span class=\"iad-sort-handle\"><i class=\"fa fa-fw fa-sort\"></i></span>";
 },"3":function(container,depth0,helpers,partials,data) {
-    var helper;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "		<button class=\"btn btn-sm btn-default iad-control-color-swatch\" type=\"button\" style=\"background-color:"
-    + container.escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"value","hash":{},"data":data}) : helper)))
+  return "		<button class=\"btn btn-sm btn-default iad-control-color-swatch\" data-color-index=\""
+    + alias4(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data}) : helper)))
+    + "\" type=\"button\" style=\"background-color:"
+    + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "\">&nbsp;&nbsp;</button>\r\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1;

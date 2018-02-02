@@ -822,12 +822,25 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     // Map Palettes.
 
+    // Order the palettes.
+    iad.config.orderPalettes = function (arrPalettes)
+    {
+        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
+        for (var i = 0; i < arrPalettes.length; i++)
+        {
+            var $palette = arrPalettes[i];
+            $palette.appendTo($xmlMapPalettes);
+        }
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
+    }
+
     // Gets the palette type - ColourRange or ColorScheme.
     iad.config.getPaletteType = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]'); 
-        if ($xmlColorRange.length)  return 'ColourRange';
+        var $xmlColourRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]'); 
+        if ($xmlColourRange.length)  return 'ColourRange';
         else                        return 'ColourScheme';
     };
 
@@ -863,26 +876,26 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.getPalette = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        var $xmlColorRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
-        if ($xmlColorRange.length) {}
+        var $xmlColourRange = $xmlMapPalettes.find('ColourRange[id="'+paletteId+'"]');  // ColorRange.
+        if ($xmlColourRange.length) {}
         else
-            $xmlColorRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheme.
+            $xmlColourRange = $xmlMapPalettes.find('ColourScheme[id="'+paletteId+'"]'); // ColorScheme.
 
-        return $xmlColorRange;
+        return $xmlColourRange;
     };
 
     // Gets the colours for a map palette.
     iad.config.getPaletteColours = function (paletteId)
     {
-        var $xmlColorRange = iad.config.getPalette(paletteId);
-        return $xmlColorRange.children();
+        var $xmlColourRange = iad.config.getPalette(paletteId);
+        return $xmlColourRange.children();
     };
 
     // Sets the colours for a map palette.
     iad.config.setPaletteColours = function (paletteId, arrColors)
     {
-        var $xmlColorRange  = iad.config.getPalette(paletteId);
-        var $xmlColors      = $xmlColorRange.find("Colour");
+        var $xmlColourRange  = iad.config.getPalette(paletteId);
+        var $xmlColors      = $xmlColourRange.find("Colour");
         $.each($xmlColors, function(i, xmlColor)
         {
             if (i < arrColors.length) $(xmlColor).text(ia.Color.toHex(arrColors[i]));
@@ -903,8 +916,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Gets a palette colour.
     iad.config.getPaletteColour = function (paletteId, colorIndex)
     {
-        var $xmlColorRange  = iad.config.getPalette(paletteId);
-        var xmlColor        = $xmlColorRange.children()[colorIndex];
+        var $xmlColourRange  = iad.config.getPalette(paletteId);
+        var xmlColor        = $xmlColourRange.children()[colorIndex];
         return xmlColor;
     };
 
@@ -912,7 +925,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.addPaletteColour = function (paletteId, color)
     {
         var paletteType     = iad.config.getPaletteType(paletteId);
-        var $xmlColorRange  = iad.config.getPalette(paletteId);
+        var $xmlColourRange  = iad.config.getPalette(paletteId);
         var $xmlColor, strXML;
         if (paletteType === 'ColourRange')   // ColorRange.
         {
@@ -924,7 +937,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             strXML = '<ColourMatch for="__next">'+ia.Color.toHex(color)+'</ColourMatch>';
             $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
         }
-        $xmlColorRange.append($xmlColor);
+        $xmlColourRange.append($xmlColor);
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
@@ -960,7 +973,9 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         for (var i = 0; i < arrColors.length; i++)
         {
-            iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
+            var strXML = '<Colour>'+ia.Color.toHex(arrColors[i])+'</Colour>';
+            var $xmlColor = $($.parseXML(strXML)).find('Colour');
+            $xmlColourRange.append($xmlColor);
         }
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
@@ -979,8 +994,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         for (var i = 0; i < arrColors.length; i++)
         {
-            iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
+            var strXML = '<ColourMatch for="__next">'+ia.Color.toHex(arrColors[i])+'</ColourMatch>';
+            var $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
+            $xmlColourScheme.append($xmlColor);
         }
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
+    };
+
+    // Removes a palette colour.
+    iad.config.removePalette = function (paletteId)
+    {
+        iad.config.getPalette(paletteId).remove();
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
@@ -1000,8 +1025,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
         
         // Prepend selected xml ColorScheme so its used as the default categoric legend.
-        var $xmlColorRange = iad.config.getPalette(paletteId);
-        $xmlMapPalettes.prepend($xmlColorRange);
+        var $xmlColourRange = iad.config.getPalette(paletteId);
+        $xmlMapPalettes.prepend($xmlColourRange);
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };

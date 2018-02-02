@@ -83,15 +83,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             container: '#iad-report',
             onHide: function(id)
             {
-                if (id === 'iad-sidebar-mappalette') 
-                {
-                    iad.config.setXml(storedData);
-                    iad.paletteform.update();
-                }
+
             },
             onHidden: function(id)
             {
                 if (id === 'iad-sidebar-widget') iad.canvas.clearSelection();
+                else if (id === 'iad-sidebar-mappalette') 
+                {
+                    iad.config.setXml(storedData);
+                    iad.paletteform.update();
+                }
             },
             onFirstShown: function(id)
             {
@@ -104,10 +105,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
                 else if (id === 'iad-sidebar-maplayer') storedData = iad.mapjson.toJson();
-                else if (id === 'iad-sidebar-templategallery' || 
-                    id === 'iad-sidebar-widgetgallery' || 
-                    id === 'iad-sidebar-widget' || 
-                    id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
+                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget' || id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
             },
             onShown: function(id)
             {
@@ -126,9 +124,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     {
                         if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
                         else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
-                        else if (id === 'iad-sidebar-templategallery' || 
-                            id === 'iad-sidebar-widgetgallery' || 
-                            id === 'iad-sidebar-widget') iad.config.parse(storedData);
+                        else if (id === 'iad-sidebar-templategallery' ||  id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.config.parse(storedData);
                     });
                 }
             },
@@ -367,7 +363,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 iad.canvas.off();
                 callback.call(null);
             },
-            onConfigChanged: function (xml)
+            onConfigChanged: function (xml) // The config can change without the report being reloaded.
             {
                 if (iad.report.userReportLoaded) iad.file.onChangesMade();
                 updateConfigDownloadButton();
@@ -641,6 +637,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
+                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -662,7 +659,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
                 else if (data.formType == 'MapPalettes')
                 {
-
+                    iad.config.setPaletteColour(data.controlId, data.colorIndex, data.controlValue)
                 }
                 else if (data.formType == 'MapLayers')
                 {
@@ -675,6 +672,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onButtonClicked: function (data)
             {
+                console.log(data);
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
                 else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
@@ -689,6 +687,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 else if (data.action === 'remove-target')       iad.config.removeTarget(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
+                else if (data.action === 'remove-palette')      iad.config.removePalette(data.controlId);
             },
             onControlOrderChanged: function (arrData)
             {
@@ -710,11 +709,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         {
                             items[items.length] = iad.config.getWidgetXml(data.formId).find('Column').eq(data.prevControlIndex);
                         }
+                        else if (data.formType == 'MapPalettes')
+                        {
+                            items[items.length] = iad.config.getPalette(data.controlId);
+                        }
                     }
 
                     var d = arrData[0];
                     if (arrData[0].formId.indexOf('menuBar') !== -1)    iad.config.orderMenuItems(d.formId, items);
                     else if (arrData[0].formId.indexOf('table') !== -1) iad.config.orderColumns(d.formId, items);
+                    else if (arrData[0].formType === 'MapPalettes')     iad.config.orderPalettes(items);
                 }
             }
         });
