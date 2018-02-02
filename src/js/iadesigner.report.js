@@ -7,9 +7,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.report = iad.report || {};
 
-    // A reference the the actual xml.
-    var xmlConfig;
-
     // Passed in options.
     var options;
 
@@ -17,7 +14,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     var report;
 
     // Indicates if a user report has been loaded.
-    iad.report.loaded = false;
+    iad.report.userReportLoaded = false;
 
     // Initialise.
     iad.report.init = function (o)
@@ -32,85 +29,73 @@ var iadesigner = (function (iad, $, window, document, undefined)
         iad.report.mapPath = iad.report.path+'/map.js';
         iad.report.dataPath = iad.report.path+'/data.js';
 
-        //readMapFile(function ()
-        //{
-        iad.mapjson.read(iad.report.mapPath, function()
+        iad.mapjson.read(iad.report.mapPath, function(jsonMap)
         {
-            readXmlFile(options.path, function (xml)
+            iad.file.readXml(options.path, function (xml)
             {
-                addMissingComponentsToXml(xml, function()
+                ia.init(
                 {
-                    ia.init(
+                    container: options.container,
+                    data:
                     {
-                        container: options.container,
-                        onSuccess: function (r)
+                        config      : {xml:xml},
+                        attribute   : {source:iad.report.dataPath},
+                        map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
+                    },
+                    onSuccess: function (r)
+                    {
+                        report = r;
+                        iad.css.readLessVarsFile(iad.report.lessPath, function ()
                         {
-                            report = r;
-                            readStyleFile(function ()
+                            readCustomFile(function ()
                             {
-                                readCustomFile(function ()
-                                {
-                                    if (options && options.onReportInit) options.onReportInit.call(null, report);
-                                    if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
-                                    onConfigLoaded();
-                                });
+                                if (options && options.onReportInit) options.onReportInit.call(null, report);
+                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
                             });
-                        },
-                        onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
-                        {
-                            if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
-                        },
-                        data:
-                        {
-                            config      : {xml:xml},
-                            attribute   : {source:iad.report.dataPath},
-                            map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
-                        }
-                    });
+                        });
+                    },
+                    onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
+                    }
                 });
             });
         });
     };
 
     // Load a new report.
-    iad.report.loadReport = function (configPath)
+    iad.report.load = function (configPath)
     { 
-        iad.report.configPath = configPath;
-        iad.report.path = path.parse(configPath).dir;
-        iad.report.lessPath = iad.report.path+'/style.json';
-        iad.report.stylePath = iad.report.path+'/default.css';
-        iad.report.customPath = iad.report.path+'/custom.js';
-        iad.report.mapPath = iad.report.path+'/map.js';
-        iad.report.dataPath = iad.report.path+'/data.js';
-
-        preConfigLoaded(function()
+        preReportLoaded(function()
         {
-            //readMapFile(function ()
-            //{
-            iad.mapjson.read(iad.report.mapPath, function()
+            iad.report.configPath = configPath;
+            iad.report.path = path.parse(configPath).dir;
+            iad.report.lessPath = iad.report.path+'/style.json';
+            iad.report.stylePath = iad.report.path+'/default.css';
+            iad.report.customPath = iad.report.path+'/custom.js';
+            iad.report.mapPath = iad.report.path+'/map.js';
+            iad.report.dataPath = iad.report.path+'/data.js';
+
+            iad.mapjson.read(iad.report.mapPath, function(jsonMap)
             {
-                readXmlFile(configPath, function (xml)
-                {
-                    addMissingComponentsToXml(xml, function()
+                iad.file.readXml(configPath, function(xml)
+                { 
+                    ia.update(
                     {
-                        ia.update(
+                        data:
                         {
-                            data:
-                            {
-                                config      : {xml:xml},
-                                attribute   : {source:iad.report.dataPath},
-                                map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
-                            }
-                        }, 
-                        function() 
+                            config      : {xml:xml},
+                            attribute   : {source:iad.report.dataPath},
+                            map         : {source:iad.report.mapPath} // we should really use jsonMap here but it triggers a bug in the template code.
+                        }
+                    }, 
+                    function() 
+                    {
+                        iad.css.readLessVarsFile(iad.report.lessPath, function ()
                         {
-                            readStyleFile(function ()
+                            readCustomFile(function ()
                             {
-                                readCustomFile(function ()
-                                {
-                                    if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
-                                    onConfigLoaded(); 
-                                });
+                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
                             });
                         });
                     });
@@ -119,77 +104,28 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
-    function readXmlFile(filePath, callback)
+    // Refresh the report.
+    iad.report.refresh = function ()
     {
-        $.ajax(
+        iad.config.refresh(function ()
         {
-            type: 'GET',
-            url: filePath,
-            dataType: 'xml',
-            success: function(xml) 
+            readCustomFile(function ()
             {
-                callback.call(null, xml);
-            }
-        });
-    }
-
-    function addMissingComponentsToXml(xml, callback)
-    {
-        var $xml = $(xml);
-        var $AtlasInterface = $xml.find('AtlasInterface');
-        var item = iad.util.getItem(options.configPaths, 'template', $AtlasInterface.attr('template'));
-
-        readXmlFile(item.path, function (xmlTemplate)
-        {
-            var $xmlTemplate = $(xmlTemplate);
-            var $xmlWidgets = $xmlTemplate.find('Component, Table');
-            $.each($xmlWidgets, function(i, xmlWidget)
-            {
-                var $widget = $(xmlWidget);
-                if ($xml.find('#' + $widget.attr('id')).length === 0) 
-                {
-                    $widget.attr('visible', false);
-                    $widget.attr('x', 200);
-                    $widget.attr('y', 150);
-                    $widget.attr('width', 400);
-                    $widget.attr('height', 300);
-                    $AtlasInterface.append($widget);
-                }
+                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
             });
-            callback.call(null);
         });
-    }
+    };
 
-    // Load map.json
-    function readMapFile(callback)
+    // Called before loading new report.
+    function preReportLoaded(callback)
     {
-        fs.stat(iad.report.mapPath, function(err, stat) 
+        if (options && options.preReportLoaded) 
         {
-            if (err === null)  
+            options.preReportLoaded.call(null, function()
             {
-                iad.mapjson.read(iad.report.mapPath, function()
-                {
-                    callback.call(null);
-                });
-            }
-            else callback.call(null);
-        });
-    }
-
-    // Load style.json
-    function readStyleFile(callback)
-    {
-        fs.stat(iad.report.lessPath, function(err, stat) 
-        {
-            if (err === null)  
-            {
-                iad.css.readLessVarsFile(iad.report.lessPath, function()
-                {
-                    callback.call(null);
-                });
-            }
-            else callback.call(null);
-        });
+                callback.call(null);
+            });
+        }
     }
 
     // Load custom.js
@@ -232,67 +168,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     }
 
-    // Load a new config file.
-    iad.report.loadConfig = function (configPath)
-    {
-        preConfigLoaded(function ()
-        {
-            readXmlFile(configPath, function (xml)
-            {
-                addMissingComponentsToXml(xml, function()
-                {
-                    ia.parseConfig(xml, function ()
-                    {
-                        onConfigLoaded();
-                    });
-                });
-            });
-        });
-    };
-
-    // Parse a new config.
-    iad.report.parseConfig = function (xml, callback)
-    {
-        preConfigLoaded(function ()
-        {
-            addMissingComponentsToXml(xml, function()
-            {
-                ia.parseConfig(xml, function ()
-                {
-                    onConfigLoaded();
-                    if (callback !== undefined) callback.call(null);
-                });
-            });
-        });
-    };
-
-    // Refresh the current config xml.
-    iad.report.refreshConfig = function ()
-    {
-        preConfigLoaded(function ()
-        {
-            ia.parseConfig(xmlConfig, function ()
-            {
-                onConfigLoaded();
-            });
-        });
-    };
-
-    // Refresh the report.
-    iad.report.refreshReport = function ()
-    {
-        preConfigLoaded(function ()
-        {
-            ia.parseConfig(xmlConfig, function ()
-            {
-                readCustomFile(function ()
-                {
-                    onConfigLoaded();
-                });
-            });
-        });
-    };
-
     // Show a widget whose visibility is set to hidden.
     iad.report.showWidget = function(widgetId)
     {
@@ -325,37 +200,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
         }
     };
-
-    // Called before loading new config.xml or report.
-    function preConfigLoaded(callback)
-    {
-        if (options && options.preConfigLoaded) 
-        {
-            options.preConfigLoaded.call(null, function()
-            {
-                callback.call(null);
-            });
-        }
-    }
-
-    // Called when config.xml has finished loading.
-    function onConfigLoaded()
-    {
-        // Update the xml objects
-        xmlConfig = report.config.xml;
-
-        if (iad.report.loaded)
-        {
-            // Fix image paths.
-            [].forEach.call(document.querySelectorAll('#'+options.container+' IMG'), function(img, index) 
-            {
-                var src = img.getAttribute('src');
-                img.src = iad.report.path  + '/' + src;
-            });
-        }
-
-        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null, xmlConfig); 
-    }
 
     return iad;
 

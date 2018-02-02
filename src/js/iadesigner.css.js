@@ -87,11 +87,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         .done(function(jsonLessVars)
         {
             iad.css.setLessVars(jsonLessVars);
-            if (callback !== undefined) callback.call(null); 
+            if (callback !== undefined) callback.call(null, jsonLessVars); 
         })
         .fail(function(jqXHR, textStatus, errorThrown)
         {
-            console.error(errorThrown);
+            if (callback !== undefined) callback.call(null); 
+            console.log('Report does not contain a less vars file.');
+            //console.error(errorThrown);
         });
     };
 

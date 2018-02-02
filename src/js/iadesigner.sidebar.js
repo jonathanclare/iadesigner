@@ -29,11 +29,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.sidebar.hide(getSidebarId($(this)));
         });
-
         // Undo sidebar button.
         $('.iad-sidebar-undo-btn').on('click', function (e)
         {
-            iad.sidebar.undo(getSidebarId($(this)));
+            if (options && options.onUndo) options.onUndo.call(null, getSidebarId($(this))); 
+        });
+        // Apply sidebar button.
+        $('.iad-sidebar-apply-btn').on('click', function (e)
+        {
+            if (options && options.onApply) options.onApply.call(null, getSidebarId($(this))); 
         });
     };
 
@@ -77,15 +81,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     if (callback !== undefined) callback.call(null);
                 }});
             }});
-        }
-    };
-
-    iad.sidebar.undo = function(id)
-    {
-        var $sidebar = $('#'+id);
-        if ($sidebar.length)
-        {
-            if (options && options.onUndo) options.onUndo.call(null, id); 
         }
     };
 

@@ -10,14 +10,46 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Passed in options.
     var options;
 
-    // The id of the selected widget.
-    iad.config.selectedWidgetId = undefined;
-
     // Initialise.
     iad.config.init = function (o)
     {
         options = o;
-        this.setXml(options.xml);
+    };
+
+    // Load a new config file.
+    iad.config.load = function (configPath, callback)
+    {
+        preConfigLoaded(function ()
+        {
+            iad.file.readXml(configPath, function (xml)
+            {
+                addMissingComponentsToXml(xml, function()
+                {
+                    onConfigLoaded(xml, callback);
+                });
+            });
+        });
+    };
+
+    // Parse a new config.
+    iad.config.parse = function (xml, callback)
+    {
+        preConfigLoaded(function ()
+        {
+            addMissingComponentsToXml(xml, function()
+            {
+                onConfigLoaded(xml, callback);
+            });
+        });
+    };
+
+    // Refresh the current config xml.
+    iad.config.refresh = function (callback)
+    {
+        preConfigLoaded(function ()
+        {
+            onConfigLoaded(xmlConfig, callback);
+        });
     };
 
     // Set the xml.
@@ -25,7 +57,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         xmlConfig = xml;
         $xmlConfig = $(xmlConfig);
-        if (options && options.onNewConfig) options.onNewConfig.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Return a copy of the xml.
@@ -33,6 +65,55 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         return xmlConfig.cloneNode(true);
     };
+
+    // Called before loading new config.xml or report.
+    function preConfigLoaded(callback)
+    {
+        if (options && options.preConfigLoaded) 
+        {
+            options.preConfigLoaded.call(null, function()
+            {
+                callback.call(null);
+            });
+        }
+    }
+
+    // Called when config.xml has finished loading.
+    function onConfigLoaded(xml, callback)
+    {
+        xmlConfig = xml;
+        $xmlConfig = $(xmlConfig);
+        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null, xml); 
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
+        if (callback !== undefined) callback.call(null);
+    }
+
+    function addMissingComponentsToXml(xml, callback)
+    {
+        var $xml = $(xml);
+        var $AtlasInterface = $xml.find('AtlasInterface');
+        var item = iad.util.getItem(options.paths, 'template', $AtlasInterface.attr('template'));
+
+        iad.file.readXml(item.path, function (xmlTemplate)
+        {
+            var $xmlTemplate = $(xmlTemplate);
+            var $xmlWidgets = $xmlTemplate.find('Component, Table');
+            $.each($xmlWidgets, function(i, xmlWidget)
+            {
+                var $widget = $(xmlWidget);
+                if ($xml.find('#' + $widget.attr('id')).length === 0) 
+                {
+                    $widget.attr('visible', false);
+                    $widget.attr('x', 200);
+                    $widget.attr('y', 150);
+                    $widget.attr('width', 400);
+                    $widget.attr('height', 300);
+                    $AtlasInterface.append($widget);
+                }
+            });
+            callback.call(null);
+        });
+    }
 
     // Converts xml to string.
     iad.config.toString = function ()
@@ -104,12 +185,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $xmlWidget.attr('visible', false);
 
         if (options && options.onWidgetRemoved) options.onWidgetRemoved.call(null, widgetId, $xmlWidget); // On widget removed.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // On widget added.
     function onWidgetAdded(widgetId, $xmlWidget)
     {
         if (options && options.onWidgetAdded) options.onWidgetAdded.call(null, widgetId, $xmlWidget); // On widget added.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     }
 
     // Adds a widget.
@@ -223,6 +306,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {
                 $xmlProperty.attr('value', value);
                 if (options && options.onGroupPropertyChanged) options.onGroupPropertyChanged.call(null, groupId, propertyId); // On group property changed.
+                if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
             }
         }
     };
@@ -257,6 +341,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (w !== undefined && $xmlWidget.attr('wrap-width') !== undefined) $xmlWidget.attr('wrap-width', Math.round((w / 100) * 800));
                 
             if (options && options.onWidgetDimensionsChanged) options.onWidgetDimensionsChanged.call(null, widgetId, $xmlWidget, x, y, w, h); // On widget dimensions changed.
+            if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
         }
     };
 
@@ -284,6 +369,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 $xmlProperty.attr('value', value);
 
                 if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlWidget); // On widget changed.
+                if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
             }
         }
     };
@@ -311,6 +397,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             if (tagName === 'Image') // Image is a special case cos of weird anchoring in original designer.
             {
                 if (options && options.onImageChanged) options.onImageChanged.call(null, widgetId, $xmlWidget, attribute, value);
+                if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
             }
             if (attribute === 'nodevalue')
             {
@@ -329,6 +416,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             }
             else $xmlWidget.attr(attribute, value);
             if (options && options.onWidgetAttributeChanged) options.onWidgetAttributeChanged.call(null, widgetId, $xmlWidget, attribute, value);
+            if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
         }
     };
 
@@ -344,6 +432,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             iad.config.setWidgetProperty(widgetId, 'zIndex', iad.config.getMaxZIndex() + 1);
 
         if (options && options.onZIndexChanged) options.onZIndexChanged.call(null, widgetId); // On widget brought to front.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Send the widget to the back.
@@ -381,6 +470,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
 
         if (options && options.onZIndexChanged) options.onZIndexChanged.call(null, widgetId); // On widget sent to back.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Get the value for a widget attribute.
@@ -460,6 +550,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="menuFunc' + index + '" description="The function or url for the menu item" name="Menu Function" type="string" value="" />');
         prependProperty(widgetId, '<Property id="menuItem' + index + '" description="The label for the menu item" name="Menu Item" type="string" value="New Item" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a menu item.
@@ -469,6 +560,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlComponent.find('Property#' + 'menuItem' + index).remove();
         $xmlComponent.find('Property#' + 'menuFunc' + index).remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlComponent);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Re-orders the menu items.
@@ -485,6 +577,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $menuFunc.appendTo($xmlComponent);
         }
         if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlComponent); // On widget changed.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a table column.
@@ -495,6 +588,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var xml = $($.parseXML(strXML)).find('Column');
         $xmlTable.prepend(xml);
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a stable column.
@@ -504,6 +598,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $column = iad.config.getWidgetXml(widgetId).find('Column').eq(index);
         $column.remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Re-orders the columns.
@@ -516,6 +611,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $column.appendTo($xmlTable);
         }
         if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlTable); // On widget changed.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Returns the table columns.
@@ -536,6 +632,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="symbol_color_' + index + '" description="Colour that will be used for symbol" name="Symbol Colour" type="colour" value="#999999" />');
         prependProperty(widgetId, '<Property id="symbol_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for symbol"  name="Symbol Shape" type="string" value="circle" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a spine chart symbol.
@@ -548,6 +645,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlTable.find('Property#' + 'symbol_label_' + index).remove();
         $xmlTable.find('Property#' + 'symbol_value_' + index).remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a spine chart target.
@@ -561,6 +659,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="target_color_' + index + '" description="Colour that will be used for target" name="Target Colour" type="colour" value="#999999" />');
         prependProperty(widgetId, '<Property id="target_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for target" name="Target Shape" type="string" value="vertical line" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a spine chart target.
@@ -573,6 +672,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlTable.find('Property#' + 'target_label_' + index).remove();
         $xmlTable.find('Property#' + 'target_data_' + index).remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a spine chart break.
@@ -583,6 +683,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="break_label_' + index + '" description="Label that will be associated with break" name="Break Label" type="string" value="Break Label" />');
         prependProperty(widgetId, '<Property id="break_color_' + index + '" description="Colour that will be used for break" name="Break Colour" type="colour" value="#e7e7e7" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a spine chart break.
@@ -592,6 +693,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlTable.find('Property#' + 'break_color_' + index).remove();
         $xmlTable.find('Property#' + 'break_label_' + index).remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlTable);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a line to the prramid chart.
@@ -603,6 +705,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="line_label_' + index + '" description="Label that will be associated with the line" name="Line Label" type="string" value="Line Label" />');
         prependProperty(widgetId, '<Property id="line_color_' + index + '" description="Colour that will be used for the line" name="Line Colour" type="colour" value="#999999" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlComponent);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a line from the pyramid chart.
@@ -613,6 +716,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlComponent.find('Property#' + 'line_label_' + index).remove();
         $xmlComponent.find('Property#' + 'line_value_' + index).remove();
         if (options && options.onPropertyRemoved) options.onPropertyRemoved.call(null, widgetId, $xmlComponent);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Append property xml to a component - this includes a fix for IE weirdness when appending xml.
@@ -703,6 +807,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $column.attr(attribute, newValue);
 
         if (options && options.onWidgetPropertyChanged) options.onWidgetPropertyChanged.call(null, widgetId, $xmlWidget); // On widget changed.
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Generate a guid.
@@ -782,6 +887,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             if (i < arrColors.length) $(xmlColor).text(ia.Color.toHex(arrColors[i]));
         });
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Sets a palette colour.
@@ -789,6 +896,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).text(ia.Color.toHex(color));
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Gets a palette colour.
@@ -816,6 +925,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
         }
         $xmlColorRange.append($xmlColor);
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Removes a palette colour.
@@ -823,6 +934,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).remove();
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Sets a palette colour 'for' value.
@@ -830,6 +943,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).attr('for', forValue);
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a new ColourRange.
@@ -847,7 +962,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
-        if (options && options.onColourRangeAdded) options.onColourRangeAdded.call(null);
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Adds a new ColorScheme.
@@ -865,14 +981,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.config.addPaletteColour(paletteId, ia.Color.toHex(arrColors[i]));
         }
-        if (options && options.onColourSchemeAdded) options.onColourSchemeAdded.call(null);
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Sets the given palette as the default colour range.
     iad.config.setDefaultColourRange = function (paletteId)
     {
         var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
-        $xmlMapPalettes.attr('default', paletteId);    
+        $xmlMapPalettes.attr('default', paletteId);  
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);  
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     // Sets the given palette as the default colour scheiad.config.
@@ -883,6 +1002,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Prepend selected xml ColorScheme so its used as the default categoric legend.
         var $xmlColorRange = iad.config.getPalette(paletteId);
         $xmlMapPalettes.prepend($xmlColorRange);
+        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
     return iad;

@@ -25,30 +25,25 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 // Set all user settings here.
                 if (iad.file.fileExists(userSettings.reportPath)) 
                 {
-                    iad.report.loaded = true;
+                    iad.report.userReportLoaded = true;
                     settings.report.path = userSettings.reportPath;
                 }
 
                 initCss(settings.css, function()
                 {
                     initMapJson(settings.map);
+                    initConfig(settings.config);
                     initReport(settings.report, function()
                     {
                         iad.util.forceLinksToOpenInBrowserWindow();
                         initSidebar(settings);
-                        initConfig();
                         initCanvas();
                         initColorPicker();
                         initForms();
                         initConfigForm(settings.configForms);
                         initFile();
-                        updateDropdownMenus();
                         updateStyleDownloadButtons();
-                        updateConfigDownloadButton();
-                        iad.progress.end('load', function()
-                        {
-                            if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
-                        });
+                        if (settings.onAppReady !== undefined) settings.onAppReady.call(null);
                     });
                 });
             });
@@ -88,7 +83,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             container: '#iad-report',
             onHide: function(id)
             {
-                
+                if (id === 'iad-sidebar-mappalette') 
+                {
+                    iad.config.setXml(storedData);
+                    iad.paletteform.update();
+                }
             },
             onHidden: function(id)
             {
@@ -99,24 +98,49 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (id === 'iad-sidebar-templategallery') initTemplateGallery(options.templateGallery);
                 else if (id === 'iad-sidebar-widgetgallery') initWidgetGallery(options.widgetGallery);
                 else if (id === 'iad-sidebar-colorscheme') initColorScheme();
+                else if (id === 'iad-sidebar-mappalette') initPaletteForm();
             },
             onShow: function(id)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
                 else if (id === 'iad-sidebar-maplayer') storedData = iad.mapjson.toJson();
-                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') storedData = iad.config.getXml();
+                else if (id === 'iad-sidebar-templategallery' || 
+                    id === 'iad-sidebar-widgetgallery' || 
+                    id === 'iad-sidebar-widget' || 
+                    id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
             },
             onShown: function(id)
             {
 
             },
             onUndo: function(id)
+            {   
+                if (id === 'iad-sidebar-mappalette')  
+                {
+                    iad.config.setXml(storedData);
+                    iad.paletteform.update();
+                } 
+                else
+                {
+                    iad.progress.start('load', function()
+                    {
+                        if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
+                        else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
+                        else if (id === 'iad-sidebar-templategallery' || 
+                            id === 'iad-sidebar-widgetgallery' || 
+                            id === 'iad-sidebar-widget') iad.config.parse(storedData);
+                    });
+                }
+            },
+            onApply: function(id)
             {
                 iad.progress.start('load', function()
                 {
-                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
-                    else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.report.parseConfig(storedData);
+                    if (id === 'iad-sidebar-mappalette') 
+                    {
+                        storedData = iad.config.getXml();
+                        iad.config.refresh();
+                    }
                 });
             }
         });
@@ -192,7 +216,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
         function onStyleChanged()
         {
-            if (iad.report.loaded) iad.file.onChangesMade();
+            if (iad.report.userReportLoaded) iad.file.onChangesMade();
             updateStyleDownloadButtons();
         }
     }
@@ -261,16 +285,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initReport(options, callback)
     {
-        var storeSelectedWidgetId;
         iad.report.init(
         {
             container: 'iad-report',
             path: options.path,
-            configPaths: options.configPaths,
             onReportInit: function (r)
             {
                 iaReport = r;
-                callback.call(null);
             },
             onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
@@ -281,56 +302,84 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         message: "Could not find file: " +url,
                         backdrop: true
                     });
-
                 });
+            },
+            preReportLoaded: function (callback)
+            {      
+                iad.canvas.clearSelection();
+                callback.call(null);
             },
             onReportLoaded: function (configPath)
             {
-                iad.file.onChangesSaved();
                 iad.config.setXml(iaReport.config.xml);
-                if (iad.report.loaded)
+                iad.file.onChangesSaved();
+
+                if (iad.report.userReportLoaded)
                 {
                     // Reset title to show config file path.
                     var title = 'InstantAtlas Designer - ' + configPath;
                     iad.win.setTitle(title);
                     $('#iad-window-title').html(title);
                 }
-                updateConfigDownloadButton();
-                iad.progress.end('load');
-            },
-            preConfigLoaded: function (callback)
-            {      
-                storeSelectedWidgetId = iad.config.selectedWidgetId;
-                iad.canvas.clearSelection();
-                callback.call(null);
-            },
-            onConfigLoaded: function ()
-            {
-                iad.config.setXml(iaReport.config.xml);
-                updateDropdownMenus();
-                //iad.legendform.update();
-                iad.widgetgallery.update();
-                iad.canvas.update();
 
-                if (storeSelectedWidgetId !== undefined) 
-                    iad.canvas.select(storeSelectedWidgetId);
-                else 
-                    iad.widgetsidebar.refresh();
-                storeSelectedWidgetId = undefined;
+                if (callback !== undefined) 
+                {
+                    callback.call(null);
+                    callback = undefined;
+                }
 
-                iad.progress.end('load');
+                onConfigLoaded();
             }
         });
     }
 
+    function onConfigLoaded()
+    {
+        iad.widgetsidebar.updateDropdown();
+        iad.widgetgallery.update();
+        iad.paletteform.update();
+        iad.widgetsidebar.update();
+        iad.canvas.update();
+
+        if (iad.report.userReportLoaded)
+        {
+            // Fix image paths.
+            [].forEach.call(document.querySelectorAll('#iad-report IMG'), function(img, index) 
+            {
+                var src = img.getAttribute('src');
+                img.src = iad.report.path  + '/' + src;
+            });
+        }
+        iad.progress.end('load');
+    }
+
     function initConfig(options)
     {
+        var storedSelectedWidgetId, storedCanvasIsActivated;
+
         iad.config.init(
         {
-            xml: iaReport.config.xml,
-            onNewConfig: function ()
+            paths:options.paths,
+            preConfigLoaded: function (callback)
+            {      
+                storedSelectedWidgetId = iad.config.selectedWidgetId;
+                storedCanvasIsActivated = iad.canvas.isActive;
+                iad.canvas.off();
+                callback.call(null);
+            },
+            onConfigChanged: function (xml)
             {
-                onConfigChanged();
+                if (iad.report.userReportLoaded) iad.file.onChangesMade();
+                updateConfigDownloadButton();
+            },
+            onConfigLoaded: function (xml)
+            {
+                ia.parseConfig(xml, function ()
+                {
+                    if (storedCanvasIsActivated) iad.canvas.on();
+                    if (storedSelectedWidgetId !== undefined)  iad.canvas.select(storedSelectedWidgetId);
+                    onConfigLoaded();
+                });
             },
             onWidgetRemoved: function (widgetId, $xmlWidget)
             {  
@@ -345,11 +394,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 {
                     widget.container.hide();
                 }
-                updateDropdownMenus();
                 iad.canvas.clearSelection();
                 iad.canvas.update();
+                iad.widgetsidebar.updateDropdown();
                 iad.widgetgallery.update();
-                onConfigChanged();
             },
             onWidgetAdded: function (widgetId, $xmlWidget)
             {
@@ -432,32 +480,27 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onZIndexChanged: function (widgetId)
             {
                 iad.canvas.select(widgetId);
-                onConfigChanged();
             },
             onGroupPropertyChanged: function (groupId, propertyId)
             {
                 debounceRefreshConfig();
             },
-            onColourRangeAdded: function ()
+            onMapPaletteChanged: function ()
             {
-                iad.widgetsidebar.refresh();
-            },
-            onColourSchemeAdded: function ()
-            {
-                iad.widgetsidebar.refresh();
+                iad.paletteform.update();
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetsidebar.refresh();
+                    iad.widgetsidebar.update();
                 });
             },
             onPropertyRemoved: function (widgetId, $xmlWidget)
             {
                 onWidgetChanged(widgetId, $xmlWidget, function()
                 {
-                    iad.widgetsidebar.refresh();
+                    iad.widgetsidebar.update();
                 });
             },
             onImageChanged: function (widgetId, $xmlWidget, attribute, value)
@@ -518,17 +561,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             iad.progress.start('load', function()
             {
-                iad.report.refreshConfig();
+                iad.config.refresh();
             });
         }, 1000);
 
         function onWidgetAdded(widgetId, $xmlWidget)
         {
-            updateDropdownMenus();
+            iad.widgetsidebar.updateDropdown();
             iad.canvas.clearSelection();
             iad.canvas.update();
             iad.canvas.select(widgetId);
-            onConfigChanged();
         }
         function onWidgetChanged(widgetId, $xmlWidget, callback)
         {
@@ -549,7 +591,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 factory.render(widgetId, function ()
                 {
-                    if (iad.report.loaded)
+                    if (iad.report.userReportLoaded)
                     {
                         var tagName = $xmlWidget.prop('tagName');
                         if (tagName === 'Image')
@@ -560,16 +602,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         if (widgetId === iad.config.selectedWidgetId) iad.report.showWidget(widgetId); // Stop popup widgets from disappearing.
 
                         iad.canvas.update();
-                        onConfigChanged();
                     }
                     if (callback !== undefined) callback.call(null);
                 });
             });
-        }
-        function onConfigChanged()
-        {
-            if (iad.report.loaded) iad.file.onChangesMade();
-            updateConfigDownloadButton();
         }
     }
 
@@ -580,6 +616,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             container: '#iad-form-widget-properties',
             template: 'forms.handlebars'
         });
+        iad.widgetsidebar.updateDropdown();
 
         var cOptions = $.extend({}, options, 
         {
@@ -588,13 +625,14 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         iad.configform.init(cOptions);
     }
 
-    function initPaletteForm(options)
+    function initPaletteForm()
     {
         iad.paletteform.init( 
         {
-            container: '#iad-form-widget-properties',
+            container: '#iad-form-palette-properties',
             template: 'forms.handlebars'
         });
+        iad.paletteform.update();
     }
 
     function initForms()
@@ -637,7 +675,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onButtonClicked: function (data)
             {
-                console.log(data);
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
                 else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
@@ -743,10 +780,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.progress.start('load', function()
                 {
-                    if (iad.report.loaded)
-                        iad.report.loadConfig(filePath);
+                    if (iad.report.userReportLoaded)
+                        iad.config.load(filePath);
                     else
-                        iad.report.loadReport(filePath);
+                        iad.report.load(filePath);
                 });
             },
             onPreview: function (filePath, name)
@@ -854,74 +891,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         Handlebars.registerPartial('control.separator', window.iadesigner['control.separator.handlebars']);
         Handlebars.registerPartial('control.button', window.iadesigner['control.button.handlebars']);
         Handlebars.registerPartial('control.colourpalette', window.iadesigner['control.colourpalette.handlebars']);
-    }
-
-    function updateDropdownMenus()
-    {
-        // Sort widgets by name.
-        var $xmlWidgets = iad.config.getComponents();
-        $xmlWidgets.sort(function(a, b)
-        {
-            if ($(a).attr('name') < $(b).attr('name')) return -1;
-            if ($(a).attr('name') > $(b).attr('name')) return 1;
-            return 0;
-        });
-
-        // Split components up by data source.
-        var dataSources = new Array([], [], [], []);
-        var moreThanOneDataSource = false;
-        var arr;
-        $.each($xmlWidgets, function(i, xmlWidget)
-        {
-            var $xmlWidget = $(xmlWidget);
-            var id = $xmlWidget.attr('id');
-
-            // If theres a number on the end of the id it means theres more than one data source.
-            // eg. barChart2.
-            var match = id.match(/\d+/);
-            if (match)
-            {
-                moreThanOneDataSource = true;
-                var index = parseInt(match[0], 10);
-                arr = dataSources[index-1];
-                arr[arr.length] = $xmlWidget;
-            }
-            else
-            {
-                arr = dataSources[0];
-                arr[arr.length] = $xmlWidget;
-            }
-        });
-
-        // General Properties.
-        var options = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="PropertyGroup" class="iad-dropdown-option-widget-properties">General Properties</a></li>';
-        options += '<li role="presentation" class="divider"></li>';
-
-        // Add dropdown options to widget select dropdown.
-        for (var i = 0; i < dataSources.length; i++)
-        {
-            var arrDataSources = dataSources[i];
-            if (arrDataSources.length > 0)
-            {
-                if (moreThanOneDataSource)
-                {
-                    var index = i + 1;
-                    if (index != 1) options += '<li role="presentation" class="divider"></li>';
-                }
-                for (var j = 0; j < arrDataSources.length; j++)
-                {
-                    var $xmlWidget = arrDataSources[j];
-                    var vis = $xmlWidget.attr('visible');
-                    if (vis === 'true')
-                    {
-                        var id = $xmlWidget.attr('id');
-                        var name = iad.config.getDisplayName(id);
-                        options += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-id="'+ id + '" class="iad-dropdown-option-widget-properties">' + name + '</a></li>';
-                    }
-                }
-            }
-        }
-        $('#iad-dropdown-widget-properties').html(options);
     }
 
     return iad;

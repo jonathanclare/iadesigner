@@ -145,11 +145,10 @@ iadesigner = (function (iad, undefined)
             ]
         },
 
-        // Report.
-        report:
+        // Config.
+        config:
         {
-            path:'config/en/db-single-map/config.xml', // Path of default report to load.
-            configPaths:
+            paths:
             [
                 {template:'areaprofiler::flash::html', path:'config/en/db-area-profile/config.xml'},
                 {template:'bubbleplot::flash::html', path:'config/en/db-bubble-plot/config.xml'},
@@ -173,6 +172,12 @@ iadesigner = (function (iad, undefined)
                 {template:'timeseries_advanced_sm::flash::html', path:'config/en/db-single-map-default/config.xml'},
                 {template:'timeseries_advanced_sm::flash::html', path:'config/en/db-single-map-only/config.xml'}
             ]
+        },
+
+        // Report.
+        report:
+        {
+            path:'config/en/db-single-map/config.xml', // Path of default report to load.
         },
 
         // Map Json

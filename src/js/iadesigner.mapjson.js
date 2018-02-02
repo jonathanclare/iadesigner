@@ -29,6 +29,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         })
         .fail(function(jqXHR, textStatus, errorThrown)
         {
+            if (callback !== undefined) callback.call(null); 
             console.error(errorThrown);
         });
     };

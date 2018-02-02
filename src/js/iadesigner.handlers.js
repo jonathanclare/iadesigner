@@ -144,10 +144,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         iad.progress.start('load', function()
         {
-            if (iad.report.loaded) 
-                iad.report.refreshReport();
+            if (iad.report.userReportLoaded) 
+                iad.report.refresh();
             else 
-                iad.report.refreshConfig();
+                iad.config.refresh();
         });
     }
 
@@ -159,8 +159,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
             {
                 iad.progress.start('load', function()
                 {
-                    iad.report.loaded = true;
-                    iad.report.loadReport(filePath);
+                    iad.report.userReportLoaded = true;
+                    iad.report.load(filePath);
                     iad.usersettings.set('reportPath', filePath);
                 });
             });
@@ -218,7 +218,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             iad.progress.start('load', function()
             {
-                iad.report.loadConfig(filePath);
+                iad.config.load(filePath);
             });
         });
     }

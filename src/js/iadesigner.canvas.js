@@ -533,19 +533,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
 	// Switches on the drag canvas.
 	iad.canvas.on = function() 
 	{
-		iad.canvas.isActive = true;
-
-		// Hide panels.
-		if (activeWidget !== undefined) $activePanel.css('display', 'inline');
-
-		// Add mouseenter handler to widgets.
-		var widgets = options.report.getWidgets();
-		for (var i = 0; i < widgets.length; i++)
+		if (options && options.report)
 		{
-			addHandler(widgets[i]);
+			iad.canvas.isActive = true;
+
+			// Hide panels.
+			if (activeWidget !== undefined) $activePanel.css('display', 'inline');
+
+			// Add mouseenter handler to widgets.
+			var widgets = options.report.getWidgets();
+			for (var i = 0; i < widgets.length; i++)
+			{
+				addHandler(widgets[i]);
+			}
+						
+			if (options && options.onActivated) options.onActivated.call(null);
 		}
-					
-		if (options && options.onActivated) options.onActivated.call(null);
 	};
 
 	// Add handler.
@@ -560,20 +563,23 @@ var iadesigner = (function (iad, $, window, document, undefined)
 	// Switches off the drag canvas.
 	iad.canvas.off = function() 
 	{
-		iad.canvas.isActive = false;
-
-		// Hide panels.
-		$activePanel.css('display', 'none');
-		$dragPanel.css('display', 'none');
-
-		// Remove mouseenter handler to widgets.
-		var widgets = options.report.getWidgets();
-		for (var i = 0; i < widgets.length; i++)
+		if (options && options.report)
 		{
-			removeHandler(widgets[i]);
-		}
+			iad.canvas.isActive = false;
 
-		if (options && options.onDeactivated) options.onDeactivated.call(null);
+			// Hide panels.
+			$activePanel.css('display', 'none');
+			$dragPanel.css('display', 'none');
+
+			// Remove mouseenter handler to widgets.
+			var widgets = options.report.getWidgets();
+			for (var i = 0; i < widgets.length; i++)
+			{
+				removeHandler(widgets[i]);
+			}
+
+			if (options && options.onDeactivated) options.onDeactivated.call(null);
+		}
 	};
 
 	// Remove handler.

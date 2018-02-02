@@ -47,8 +47,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     {
                         iad.progress.start('load', function()
                         {
-                            iad.report.loaded = true;
-                            iad.report.loadReport(f.path);
+                            iad.report.userReportLoaded = true;
+                            iad.report.load(f.path);
                             iad.usersettings.set('reportPath', f.path);
                         });
                     });
@@ -197,7 +197,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         {
                             setTimeout(function()
                             {
-                                saveChanges(function()
+                                iad.file.saveChanges(function()
                                 {
                                     callback.call(null); 
                                 });
@@ -211,7 +211,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.file.saveChanges = function(callback)
     {
-        if (iad.report.loaded)
+        if (iad.report.userReportLoaded)
         {
             iad.progress.start('save', function()
             {
@@ -250,6 +250,20 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 backdrop: true
             });
         }
+    };
+
+    iad.file.readXml = function(filePath, callback)
+    {
+        $.ajax(
+        {
+            type: 'GET',
+            url: filePath,
+            dataType: 'xml',
+            success: function(xml) 
+            {
+                callback.call(null, xml);
+            }
+        });
     };
 
     return iad;
