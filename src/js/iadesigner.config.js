@@ -659,7 +659,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         prependProperty(widgetId, '<Property id="target_color_' + index + '" description="Colour that will be used for target" name="Target Colour" type="colour" value="#999999" />');
         prependProperty(widgetId, '<Property id="target_shape_' + index + '" choices="circle;square;vertical line;plus;minus;x;diamond;star;triangle up;triangle down;triangle right;triangle left;arrow up;arrow down;arrow right;arrow left" description="Shape that will be used for target" name="Target Shape" type="string" value="vertical line" />');
         if (options && options.onPropertyAdded) options.onPropertyAdded.call(null, widgetId, $xmlTable);
-        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
+        if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig);
     };
 
     // Removes a spine chart target.
@@ -833,7 +833,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         }
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
-    }
+    };
 
     // Gets the palette type - ColourRange or ColorScheme.
     iad.config.getPaletteType = function (paletteId)
@@ -973,8 +973,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         for (var i = 0; i < arrColors.length; i++)
         {
-            var strXML = '<Colour>'+ia.Color.toHex(arrColors[i])+'</Colour>';
-            var $xmlColor = $($.parseXML(strXML)).find('Colour');
+            var strColor = '<Colour>'+ia.Color.toHex(arrColors[i])+'</Colour>';
+            var $xmlColor = $($.parseXML(strColor)).find('Colour');
             $xmlColourRange.append($xmlColor);
         }
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
@@ -994,8 +994,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
         for (var i = 0; i < arrColors.length; i++)
         {
-            var strXML = '<ColourMatch for="__next">'+ia.Color.toHex(arrColors[i])+'</ColourMatch>';
-            var $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
+            var strColor = '<ColourMatch for="__next">'+ia.Color.toHex(arrColors[i])+'</ColourMatch>';
+            var $xmlColor = $($.parseXML(strColor)).find('ColourMatch'); 
             $xmlColourScheme.append($xmlColor);
         }
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);

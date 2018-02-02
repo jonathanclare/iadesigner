@@ -659,7 +659,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 }
                 else if (data.formType == 'MapPalettes')
                 {
-                    iad.config.setPaletteColour(data.controlId, data.colorIndex, data.controlValue)
+                    iad.config.setPaletteColour(data.controlId, data.colorIndex, data.controlValue);
                 }
                 else if (data.formType == 'MapLayers')
                 {
