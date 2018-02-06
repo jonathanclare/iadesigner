@@ -1,0 +1,48 @@
+@import "variables.less";
+
+.iad-color-palette-swatch-list
+{
+    flex:1;
+}
+.iad-color-palette-swatch
+{
+    cursor:pointer;
+    border:1px solid #ccc;
+    margin:0px 2px;
+    flex:0 1 20px;
+    height:20px;
+}
+.iad-color-palette-swatch:active 
+{ 
+    cursor: move;
+    cursor: -webkit-grabbing;
+    cursor:    -moz-grabbing;
+    cursor:         grabbing;
+}
+.iad-color-palette-btn
+{
+    cursor:pointer;
+    font-weight:bold;
+    font-size:21px;
+    color:#bbb;
+    margin:0px 2px;
+    align-items:center;
+    justify-content: center;
+    width:20px;
+    height:20px;
+}
+.iad-color-palette-btn:hover
+{
+    color:#888;
+}
+.iad-color-palette-sort-handle
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items:center;
+    justify-content: center;
+}

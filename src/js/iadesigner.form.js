@@ -20,6 +20,21 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Renders a new form.
     iad.form.render = function (o)
     {
+        // Expand Panel.
+        if (o.json.forms && o.json.forms.length > 0)
+        {
+            var f = oFormProps[o.json.id];
+            if (f === undefined) f = oFormProps[o.json.id] = {panelIndex:undefined, scrollPos:0};
+            for (var i = 0; i < o.json.forms.length; i++)
+            {
+                o.json.forms[i].expand = false;
+            }
+            if (f.panelIndex !== undefined)  
+                o.json.forms[f.panelIndex].expand = true; // Expand previous panel.
+            else 
+                o.json.forms[0].expand = true; // Otherwise expand first panel.
+        }
+
         var $container = $(o.container);
         $container.html(window.iadesigner[o.template](o.json));
 
@@ -30,7 +45,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             trigger: 'hover'
         });
 
-        // Make columns sortable.
+        // Make components sortable.
         $container.find('.draggableList').sortable(
         {
             handle: '.iad-sort-handle', 
@@ -42,14 +57,30 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 $('.iad-sortable', $(this)).each(function(i, elem) 
                 {
                     var $control = $(elem);
-
                     var data = getData($control);
                     data.prevControlIndex = $control.data('control-index');
                     arrData.push(data);
-
                     $control.data('control-index', i); // Update the item index.
                 });
+                if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
+            }
+        });
 
+        // Make color palette swatches sortable.
+        $container.find('.iad-color-palette-swatch-list').sortable(
+        {
+            axis:'x',
+            update: function()
+            {
+                // New order.
+                var arrData = [];
+                $('.iad-color-palette-swatch', $(this)).each(function(i, elem) 
+                {
+                    var $control = $(elem);
+                    var data = getData($control);
+                    arrData.push(data);
+                    $control.data('color-index', i); // Update the item index.
+                });
                 if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
             }
         });
@@ -61,22 +92,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $textarea.resize(function(e) {$textarea.trigger('autosize.resize');});
 
         // Scroll position and expanded panel logic to maintain view.
-        var doScrollAfterPanelExpanded = false;
-        var f = oFormProps[o.json.id];
-        if (f === undefined) f = oFormProps[o.json.id] = {panelIndex:undefined, scrollPos:0};
-
-        if (f.panelIndex !== undefined) // Open previous panel then scroll to correct position.
-        {
-            doScrollAfterPanelExpanded = true;
-            $container.find('.iad-collapse:eq('+f.panelIndex+')').collapse('show');
-        }
-        else if ($container.find('.iad-collapse').length > 1) // Open first panel then scroll to correct position.
-        {
-            doScrollAfterPanelExpanded = true;
-            f.panelIndex = 0;
-            $container.find('.iad-collapse:eq(0)').collapse('show');
-        }        
-        else scrollTo($container, f.scrollPos); // Scroll to correct position.
+        scrollTo($container, f.scrollPos); // Scroll to correct position.
 
         $container.off('show.bs.collapse');
         $container.off('shown.bs.collapse');
@@ -90,12 +106,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
         $container.on('shown.bs.collapse', '.iad-collapse', function (e)
         {
-            // Do scroll after collapse has expanded to scroll to correct position.
-            if (doScrollAfterPanelExpanded)
-            {
-                doScrollAfterPanelExpanded = false;
-                scrollTo($container, f.scrollPos);
-            }
             // Store the index of the expanded panel.
             f.panelIndex = $container.find('.iad-collapse').index(this);
         });
@@ -106,7 +116,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
         $container.parent().on('scroll.iadformscroll', function (e)
         {
-            if (doScrollAfterPanelExpanded === false) f.scrollPos = $(this).scrollTop();
+            f.scrollPos = $(this).scrollTop();
         });
     };
 
@@ -124,7 +134,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var data = {formId:$form.data('form-id'), formType:$form.data('form-type'), controlId:$formGroup.data('control-id')};
         var $controlGroup = $control.closest('.iad-control-group');
         if ($controlGroup.length) data.controlIndex = $controlGroup.data('control-index');
-        if ($control.data('color-index')) data.colorIndex = $control.data('color-index');
+        if ($control.data('color') !== undefined) data.color = $control.data('color');
+        if ($control.data('color-index') !== undefined) data.colorIndex = $control.data('color-index');
         return data;
     }
 
@@ -258,7 +269,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var inColor = $colorSwatch.css('background-color');
             iad.colorpicker.open($colorSwatch, inColor, function (outColor)
             {
-                $colorSwatch.css('background-color', outColor); // Update the color swatch.
+                $colorSwatch.css('background-color', outColor); // Update the color swatch color.
+                $colorSwatch.data('color', outColor); // Update the color swatch data color.
                 onChange($colorSwatch, outColor);
             });
         });

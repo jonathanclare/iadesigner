@@ -16,9 +16,6 @@
 ## Text
 - Text bugs.
 
-## Refactor
-- Dropdown showing palette colours whenever a palette needs to be selected for a config property
-
 ## Map Json
 - Take bounding box from map
 - Update form when name has changed
@@ -32,10 +29,12 @@
 - debounce on map render in source code might help when layers are edited - stop white polygon background appearing - tried this but it didnt work
 needs to only happen on initiation
 - Dont select canvas when in preview mode
+- When refreshing the report we probably want to keep the current settings rather than completely refreshing it.
 
 ## Forms
 - Stop buttons being part of drag area - eg map palette can be dragged above "New Palette" button.
 - Clicking enter to close colorpicker when its activated
 - undo needs to update for widgets whenever a different form is selected ie update the storedData
 - Shouldnt be allowed to delete the default palette or the report will break
-- Opened maine report - error when drag and drop - looks like jquery-ui isnt loaded
+- Opened main report - error when drag and drop - looks like jquery-ui isnt loaded
+- Dropdown showing palette colours whenever a palette needs to be selected for a config property

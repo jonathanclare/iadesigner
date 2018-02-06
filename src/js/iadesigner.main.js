@@ -556,6 +556,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
+            onPaletteColoursChanged: function ()
+            {
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
             onPaletteOrderChanged: function ()
             {
                 iad.sidebar.highlightButtons('iad-sidebar-mappalette');
@@ -712,7 +716,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             onDataChanged: function (data)
             {
-                console.log(data);
                 if (data.formType === 'Column')
                 {
                     if (data.controlId === 'alias' || data.controlId === 'name' || data.controlId === 'symbol' || data.controlId === 'width' || data.controlId === 'national')
@@ -747,7 +750,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onButtonClicked: function (data)
             {
-                console.log(data);
                 if (data.action === 'add-column')               iad.config.addColumn(data.controlId);
                 else if (data.action === 'add-menuitem')        iad.config.addMenuItem(data.controlId);
                 else if (data.action === 'add-symbol')          iad.config.addSymbol(data.controlId);
@@ -763,6 +765,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 else if (data.action === 'remove-break')        iad.config.removeBreak(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-line')         iad.config.removePyramidLine(data.controlId, data.controlIndex);
                 else if (data.action === 'remove-palette')      iad.config.removePalette(data.controlId);
+                else if (data.action === 'add-palette-color')   iad.config.addPaletteColour(data.controlId);
             },
             onControlOrderChanged: function (arrData)
             {
@@ -786,14 +789,19 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         }
                         else if (data.formType == 'MapPalettes')
                         {
-                            items[items.length] = iad.config.getPalette(data.controlId);
+                            if (data.color !== undefined) items[items.length] = data.color; // Order of colors in color palette changed.
+                            else items[items.length] = iad.config.getPalette(data.controlId); // Order of color palettes changed.
                         }
                     }
 
                     var d = arrData[0];
-                    if (arrData[0].formId.indexOf('menuBar') !== -1)    iad.config.orderMenuItems(d.formId, items);
-                    else if (arrData[0].formId.indexOf('table') !== -1) iad.config.orderColumns(d.formId, items);
-                    else if (arrData[0].formType === 'MapPalettes')     iad.config.orderPalettes(items);
+                    if (d.formId.indexOf('menuBar') !== -1)    iad.config.orderMenuItems(d.formId, items);
+                    else if (d.formId.indexOf('table') !== -1) iad.config.orderColumns(d.formId, items);
+                    else if (d.formType === 'MapPalettes') 
+                    {
+                        if (d.color !== undefined) iad.config.setPaletteColours(d.controlId, items); // Order of color palettes changed. 
+                        else iad.config.orderPalettes(items); // Order of colors in color palette changed.
+                    }
                 }
             }
         });

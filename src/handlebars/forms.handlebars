@@ -9,10 +9,10 @@
 
 		<div data-form-id="{{id}}" data-form-type="{{type}}" class="iad-form panel panel-default {{#if name}}panel-accordion{{/if}}">
 			{{#if name}}
-				<div style="cursor:pointer" class="panel-heading collapsed" data-toggle="collapse" data-parent="#{{../id}}-accordion" href="#collapse-{{../id}}-{{@index}}"><span>&nbsp;&nbsp;{{{name}}}</span></div>
+				<div style="cursor:pointer" class="panel-heading{{#if expand}}{{else}} collapsed{{/if}}" data-toggle="collapse" data-parent="#{{../id}}-accordion" href="#collapse-{{../id}}-{{@index}}"><span>&nbsp;&nbsp;{{{name}}}</span></div>
 			{{/if}}
 
-    		<div id="collapse-{{../id}}-{{@index}}" class="panel-collapse collapse {{#if name}} {{else}}in{{/if}} iad-collapse">
+    		<div id="collapse-{{../id}}-{{@index}}" class="panel-collapse collapse {{#if expand}}in{{/if}} iad-collapse">
 
 				<div class="panel-body">
 					<form class="draggableList" role="form" onsubmit="return false;">

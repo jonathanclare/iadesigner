@@ -37,19 +37,23 @@
 .iad-sort-handle
 {
     cursor:move;
+    cursor: -webkit-grabbing;
+    cursor:    -moz-grabbing;
+    cursor:         grabbing;
+    color:#bbb;
 }
-.iad-popover
+.iad-sort-handle:hover
 {
-    cursor:pointer;
-    float:right;
-    opacity:0;
-    transition: opacity 0.3s;
+    color:#888;
+}
+.iad-sort-handle:active
+{
+    cursor:move;
+    cursor: -webkit-grabbing;
+    cursor:    -moz-grabbing;
+    cursor:         grabbing;
 }
 .iad-form-group:hover .iad-popover
 {
     opacity:1;
-}
-.iad-popover:hover
-{
-    color:#000;
 }

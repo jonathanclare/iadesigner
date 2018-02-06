@@ -87,11 +87,15 @@ var iadesigner = (function (iad, $, window, document, undefined)
             // Colour range.
             var $xmlColourRange = $(xmlColourRange);
             var id = $xmlColourRange.attr('id');
+
+            var removeable = true;
+            if (id === iad.config.getDefaultColourRange()) removeable = false;
+
             var jsonControl = 
             {
                 'id'            : id,
                 'sortable'      : true,
-                'removeable'    : true,
+                'removeable'    : removeable,
                 'action'        : 'remove-palette',
                 'index'         : i,
                 'type'          : 'colour-palette',

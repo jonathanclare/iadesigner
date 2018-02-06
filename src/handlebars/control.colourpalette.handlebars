@@ -1,7 +1,14 @@
 <div data-control-id="{{id}}" data-control-index="{{index}}" class="iad-control-group iad-sortable">
-	{{#if sortable}}<span class="iad-sort-handle"><i class="fa fa-fw fa-sort"></i></span>{{/if}}
-	{{#each choices}}
-		<button class="btn btn-sm btn-default iad-control-color-swatch" data-color-index="{{index}}" type="button" style="background-color:{{value}}">&nbsp;&nbsp;</button>
-	{{/each}}
-	{{#if removeable}}<button type="button" {{#if action}}data-action="{{action}}"{{/if}} class="close iad-control-btn" style="float:right">&times;</button>{{/if}}
+
+	<div class="flex-box">
+		{{#if sortable}}<div class="iad-sort-handle iad-color-palette-sort-handle"><i class="fa fa-fw fa-sort"></i></div>{{/if}}
+		<div class="flex-box iad-color-palette-swatch-list">
+			{{#each choices}}
+				<div class="iad-control-color-swatch iad-color-palette-swatch ui-state-default" data-color="{{value}}" data-color-index="{{@index}}"  style="background-color:{{value}}">&nbsp;&nbsp;</div>
+			{{/each}}
+		</div>
+		<div class="flex-box iad-control-btn iad-color-palette-btn" data-action="add-palette-color">&plus;</div>
+		{{#if removeable}}<div {{#if action}}data-action="{{action}}"{{/if}} class="flex-box iad-control-btn iad-color-palette-btn">&times;</div>{{/if}}
+	</div>
+
 </div>

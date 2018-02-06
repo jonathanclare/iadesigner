@@ -892,15 +892,33 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Sets the colours for a map palette.
-    iad.config.setPaletteColours = function (paletteId, arrColors)
+    iad.config.setPaletteColours = function (paletteId, arrColors, arrValues)
     {
-        var $xmlColourRange  = iad.config.getPalette(paletteId);
-        var $xmlColors      = $xmlColourRange.find("Colour");
-        $.each($xmlColors, function(i, xmlColor)
+        var $xmlColor, strXML;
+        var paletteType = iad.config.getPaletteType(paletteId);
+        var $xmlColourRange = iad.config.getPalette(paletteId);
+        $xmlColourRange.empty();
+
+        for (var i = 0; i < arrColors.length; i++)
         {
-            if (i < arrColors.length) $(xmlColor).text(ia.Color.toHex(arrColors[i]));
-        });
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+            var color = arrColors[i];
+            if (paletteType === 'ColourRange')   // ColorRange.
+            {
+                strXML = '<Colour>'+ia.Color.toHex(color)+'</Colour>';
+                $xmlColor = $($.parseXML(strXML)).find('Colour');   // Weird way of inserting xml was required for IE to work.
+            }
+            else
+            {
+                if (arrValues !== undefined && arrValues.length > i)
+                    strXML = '<ColourMatch for="'+arrValues[i]+'">'+ia.Color.toHex(color)+'</ColourMatch>';
+                else
+                    strXML = '<ColourMatch for="__next">'+ia.Color.toHex(color)+'</ColourMatch>';
+                $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
+            }
+            $xmlColourRange.append($xmlColor);
+        }
+
+        if (options && options.onPaletteColoursChanged) options.onPaletteColoursChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -924,6 +942,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Adds a palette colour.
     iad.config.addPaletteColour = function (paletteId, color)
     {
+        if (color === undefined) color = '#FFFFFF';
         var paletteType     = iad.config.getPaletteType(paletteId);
         var $xmlColourRange  = iad.config.getPalette(paletteId);
         var $xmlColor, strXML;
@@ -1017,6 +1036,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         $xmlMapPalettes.attr('default', paletteId);  
         if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);  
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
+    };
+
+    // Sets the given palette as the default colour range.
+    iad.config.getDefaultColourRange = function ()
+    {
+        var $xmlMapPalettes = $xmlConfig.find('MapPalettes');
+        return $xmlMapPalettes.attr('default');  
     };
 
     // Sets the given palette as the default colour scheiad.config.
