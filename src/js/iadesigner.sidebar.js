@@ -32,14 +32,39 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Undo sidebar button.
         $('.iad-sidebar-undo-btn').on('click', function (e)
         {
+            unHighlightButtons(getSidebarId($(this)));
             if (options && options.onUndo) options.onUndo.call(null, getSidebarId($(this))); 
         });
         // Apply sidebar button.
         $('.iad-sidebar-apply-btn').on('click', function (e)
         {
+            unHighlightButtons(getSidebarId($(this)));
             if (options && options.onApply) options.onApply.call(null, getSidebarId($(this))); 
         });
     };
+
+    iad.sidebar.highlightButtons = function(id)
+    {
+        var $sidebar = $('#'+id);
+        if ($sidebar.length)
+        {
+            $sidebar.find('.iad-sidebar-apply-btn').addClass('btn-success');
+            $sidebar.find('.iad-sidebar-done-btn').addClass('btn-success');
+            $sidebar.find('.iad-sidebar-undo-btn').addClass('btn-danger');
+            if (options && options.onChange) options.onChange.call(null, id); 
+        }
+    };
+
+    function unHighlightButtons(id)
+    {
+        var $sidebar = $('#'+id);
+        if ($sidebar.length)
+        {
+            $sidebar.find('.iad-sidebar-apply-btn').removeClass('btn-success');
+            $sidebar.find('.iad-sidebar-done-btn').removeClass('btn-success');
+            $sidebar.find('.iad-sidebar-undo-btn').removeClass('btn-danger');
+        }
+    }
 
     iad.sidebar.show = function(id)
     {
@@ -70,17 +95,23 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            if (options && options.onHide) options.onHide.call(null, id); 
-            var w = $sidebar.outerWidth() * -1;
-            if ($container !== undefined) $container.animate({left:'30px'}, {duration: 400, queue: false});
-            $sidebar.animate({left: w + 'px'}, {duration: 400, queue: false, complete: function() 
-            {
-                $sidebar.hide({complete: function() 
+            unHighlightButtons(id);
+            if (options && options.onHide) options.onHide.call(null, id, function(doHide)
+            { 
+                if (doHide === true)
                 {
-                    if (options && options.onHidden) options.onHidden.call(null, id); 
-                    if (callback !== undefined) callback.call(null);
-                }});
-            }});
+                    var w = $sidebar.outerWidth() * -1;
+                    if ($container !== undefined) $container.animate({left:'30px'}, {duration: 400, queue: false});
+                    $sidebar.animate({left: w + 'px'}, {duration: 400, queue: false, complete: function() 
+                    {
+                        $sidebar.hide({complete: function() 
+                        {
+                            if (options && options.onHidden) options.onHidden.call(null, id); 
+                            if (callback !== undefined) callback.call(null);
+                        }});
+                    }});
+                }
+            }); 
         }
     };
 
@@ -94,16 +125,22 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
+            unHighlightButtons(id);
             if ($sidebar.is(':visible'))
             {
-                if (options && options.onHide) options.onHide.call(null, id); 
-                var l = $sidebar.outerWidth() * -1;
-                $sidebar.fadeOut({duration: 400, queue: false, complete: function() 
+                if (options && options.onHide) options.onHide.call(null, id, function(doHide)
                 {
-                    $sidebar.css('left', l + 'px');
-                    if (options && options.onHidden) options.onHidden.call(null, id); 
-                    if (callback !== undefined) callback.call(null);
-                }});
+                    if (doHide === true)
+                    {
+                        var l = $sidebar.outerWidth() * -1;
+                        $sidebar.fadeOut({duration: 400, queue: false, complete: function() 
+                        {
+                            $sidebar.css('left', l + 'px');
+                            if (options && options.onHidden) options.onHidden.call(null, id); 
+                            if (callback !== undefined) callback.call(null);
+                        }});
+                    }
+                }); 
             }
         }
     }

@@ -35,7 +35,7 @@ needs to only happen on initiation
 
 ## Forms
 - Stop buttons being part of drag area - eg map palette can be dragged above "New Palette" button.
-- Make Done button into apply button for map palettes - highlight the button when changes have been made
 - Clicking enter to close colorpicker when its activated
 - undo needs to update for widgets whenever a different form is selected ie update the storedData
-- The way the map palette form refreshes
+- Shouldnt be allowed to delete the default palette or the report will break
+- Opened maine report - error when drag and drop - looks like jquery-ui isnt loaded

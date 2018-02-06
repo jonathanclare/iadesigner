@@ -49,14 +49,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         {
                             readCustomFile(function ()
                             {
-                                if (options && options.onReportInit) options.onReportInit.call(null, report);
-                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
+                                if (options && options.onInit) options.onInit.call(null, report);
+                                if (options && options.onLoadEnded) options.onLoadEnded.call(null, options.path);
                             });
                         });
                     },
                     onFail: function(url, XMLHttpRequest, textStatus, errorThrown)
                     {
-                        if (options && options.onReportFailed) options.onReportFailed.call(null, url, XMLHttpRequest, textStatus, errorThrown);
+                        if (options && options.onFail) options.onFail.call(null, url, XMLHttpRequest, textStatus, errorThrown);
                     }
                 });
             });
@@ -66,7 +66,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Load a new report.
     iad.report.load = function (configPath)
     { 
-        preReportLoaded(function()
+        onLoadStarted(function()
         {
             iad.report.configPath = configPath;
             iad.report.path = path.parse(configPath).dir;
@@ -95,7 +95,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                         {
                             readCustomFile(function ()
                             {
-                                if (options && options.onReportLoaded) options.onReportLoaded.call(null, configPath);
+                                if (options && options.onLoadEnded) options.onLoadEnded.call(null, configPath);
                             });
                         });
                     });
@@ -111,17 +111,17 @@ var iadesigner = (function (iad, $, window, document, undefined)
         {
             readCustomFile(function ()
             {
-                if (options && options.onReportLoaded) options.onReportLoaded.call(null, options.path);
+                if (options && options.onLoadEnded) options.onLoadEnded.call(null, options.path);
             });
         });
     };
 
     // Called before loading new report.
-    function preReportLoaded(callback)
+    function onLoadStarted(callback)
     {
-        if (options && options.preReportLoaded) 
+        if (options && options.onLoadStarted) 
         {
-            options.preReportLoaded.call(null, function()
+            options.onLoadStarted.call(null, function()
             {
                 callback.call(null);
             });

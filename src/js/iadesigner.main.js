@@ -77,22 +77,73 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     function initSidebar(options)
     {
         var storedData; // Stores the data so that any changes can be undone.
+        var changesApplied = true;
 
         iad.sidebar.init(
         {
             container: '#iad-report',
-            onHide: function(id)
-            {
-
+            onHide: function(id, callback)
+            {   
+                if (changesApplied === false)
+                {
+                    bootbox.dialog(
+                    {
+                        title: "Apply Changes?",
+                        message: "Apply changes?",
+                        buttons: 
+                        {
+                            cancel: 
+                            {
+                                label: 'Cancel',
+                                className: 'btn-default',
+                                callback: function ()
+                                {
+                                    callback.call(null, false);
+                                }
+                            },
+                            no: 
+                            {
+                                label: "No",
+                                className: 'btn-default',
+                                callback: function ()
+                                {
+                                    changesApplied = true;
+                                    callback.call(null, true);
+                                    setTimeout(function()
+                                    {
+                                        if (id === 'iad-sidebar-mappalette') 
+                                        {
+                                            iad.config.setXml(storedData);
+                                            iad.paletteform.update();
+                                        }
+                                    }, 500);
+                                }
+                            },
+                            ok: 
+                            {
+                                label: "Yes",
+                                className: 'btn-primary',
+                                callback: function ()
+                                {
+                                    changesApplied = true;
+                                    setTimeout(function()
+                                    {
+                                        callback.call(null, true);
+                                        iad.progress.start('load', function()
+                                        {
+                                            if (id === 'iad-sidebar-mappalette') iad.config.refresh();
+                                        });
+                                    }, 500);
+                                }
+                            }
+                        }
+                    });
+                }
+                else callback.call(null, true);
             },
             onHidden: function(id)
             {
                 if (id === 'iad-sidebar-widget') iad.canvas.clearSelection();
-                else if (id === 'iad-sidebar-mappalette') 
-                {
-                    iad.config.setXml(storedData);
-                    iad.paletteform.update();
-                }
             },
             onFirstShown: function(id)
             {
@@ -105,7 +156,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') storedData = iad.css.getLessVars();
                 else if (id === 'iad-sidebar-maplayer') storedData = iad.mapjson.toJson();
-                else if (id === 'iad-sidebar-templategallery' || id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget' || id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
+                else if (id === 'iad-sidebar-templategallery' || 
+                    id === 'iad-sidebar-widgetgallery' || 
+                    id === 'iad-sidebar-widget' || 
+                    id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
             },
             onShown: function(id)
             {
@@ -113,31 +167,28 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onUndo: function(id)
             {   
-                if (id === 'iad-sidebar-mappalette')  
+                changesApplied = true;
+                iad.progress.start('load', function()
                 {
-                    iad.config.setXml(storedData);
-                    iad.paletteform.update();
-                } 
-                else
-                {
-                    iad.progress.start('load', function()
-                    {
-                        if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                        else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
-                        else if (id === 'iad-sidebar-templategallery' ||  id === 'iad-sidebar-widgetgallery' || id === 'iad-sidebar-widget') iad.config.parse(storedData);
-                    });
-                }
+                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
+                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
+                    else if (id === 'iad-sidebar-templategallery' ||  
+                        id === 'iad-sidebar-widgetgallery' || 
+                        id === 'iad-sidebar-widget' || 
+                        id === 'iad-sidebar-mappalette') iad.config.parse(storedData);
+                });
             },
             onApply: function(id)
             {
+                changesApplied = true;
                 iad.progress.start('load', function()
                 {
-                    if (id === 'iad-sidebar-mappalette') 
-                    {
-                        storedData = iad.config.getXml();
-                        iad.config.refresh();
-                    }
+                    if (id === 'iad-sidebar-mappalette') iad.config.refresh();
                 });
+            },
+            onChange: function(id)
+            {
+                if (id === 'iad-sidebar-mappalette') changesApplied = false;
             }
         });
     }
@@ -285,11 +336,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         {
             container: 'iad-report',
             path: options.path,
-            onReportInit: function (r)
+            onInit: function (r)
             {
                 iaReport = r;
             },
-            onReportFailed: function (url, XMLHttpRequest, textStatus, errorThrown)
+            onFail: function (url, XMLHttpRequest, textStatus, errorThrown)
             {
                 iad.progress.end('load', function()
                 {
@@ -300,12 +351,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     });
                 });
             },
-            preReportLoaded: function (callback)
+            onLoadStarted: function (callback)
             {      
                 iad.canvas.clearSelection();
                 callback.call(null);
             },
-            onReportLoaded: function (configPath)
+            onLoadEnded: function (configPath)
             {
                 iad.config.setXml(iaReport.config.xml);
                 iad.file.onChangesSaved();
@@ -324,12 +375,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     callback = undefined;
                 }
 
-                onConfigLoaded();
+                onConfigLoadEnded();
             }
         });
     }
 
-    function onConfigLoaded()
+    function onConfigLoadEnded()
     {
         iad.widgetsidebar.updateDropdown();
         iad.widgetgallery.update();
@@ -356,7 +407,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         iad.config.init(
         {
             paths:options.paths,
-            preConfigLoaded: function (callback)
+            onConfigLoadStarted: function (callback)
             {      
                 storedSelectedWidgetId = iad.config.selectedWidgetId;
                 storedCanvasIsActivated = iad.canvas.isActive;
@@ -368,13 +419,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 if (iad.report.userReportLoaded) iad.file.onChangesMade();
                 updateConfigDownloadButton();
             },
-            onConfigLoaded: function (xml)
+            onConfigLoadEnded: function (xml)
             {
                 ia.parseConfig(xml, function ()
                 {
                     if (storedCanvasIsActivated) iad.canvas.on();
                     if (storedSelectedWidgetId !== undefined)  iad.canvas.select(storedSelectedWidgetId);
-                    onConfigLoaded();
+                    onConfigLoadEnded();
                 });
             },
             onWidgetRemoved: function (widgetId, $xmlWidget)
@@ -481,9 +532,33 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             {
                 debounceRefreshConfig();
             },
-            onMapPaletteChanged: function ()
+            onPaletteAdded: function ()
             {
                 iad.paletteform.update();
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
+            onPaletteRemoved: function ()
+            {
+                iad.paletteform.update();
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
+            onPaletteColourAdded: function ()
+            {
+                iad.paletteform.update();
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
+            onPaletteColourRemoved: function ()
+            {
+                iad.paletteform.update();
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
+            onPaletteColourChanged: function ()
+            {
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+            },
+            onPaletteOrderChanged: function ()
+            {
+                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {

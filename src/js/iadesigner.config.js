@@ -19,13 +19,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Load a new config file.
     iad.config.load = function (configPath, callback)
     {
-        preConfigLoaded(function ()
+        onConfigLoadStarted(function ()
         {
             iad.file.readXml(configPath, function (xml)
             {
                 addMissingComponentsToXml(xml, function()
                 {
-                    onConfigLoaded(xml, callback);
+                    onConfigLoadEnded(xml, callback);
                 });
             });
         });
@@ -34,11 +34,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Parse a new config.
     iad.config.parse = function (xml, callback)
     {
-        preConfigLoaded(function ()
+        onConfigLoadStarted(function ()
         {
             addMissingComponentsToXml(xml, function()
             {
-                onConfigLoaded(xml, callback);
+                onConfigLoadEnded(xml, callback);
             });
         });
     };
@@ -46,16 +46,16 @@ var iadesigner = (function (iad, $, window, document, undefined)
     // Refresh the current config xml.
     iad.config.refresh = function (callback)
     {
-        preConfigLoaded(function ()
+        onConfigLoadStarted(function ()
         {
-            onConfigLoaded(xmlConfig, callback);
+            onConfigLoadEnded(xmlConfig, callback);
         });
     };
 
     // Set the xml.
     iad.config.setXml = function (xml)
     {
-        xmlConfig = xml;
+        xmlConfig = xml.cloneNode(true);
         $xmlConfig = $(xmlConfig);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
@@ -67,11 +67,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
     };
 
     // Called before loading new config.xml or report.
-    function preConfigLoaded(callback)
+    function onConfigLoadStarted(callback)
     {
-        if (options && options.preConfigLoaded) 
+        if (options && options.onConfigLoadStarted) 
         {
-            options.preConfigLoaded.call(null, function()
+            options.onConfigLoadStarted.call(null, function()
             {
                 callback.call(null);
             });
@@ -79,11 +79,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
     }
 
     // Called when config.xml has finished loading.
-    function onConfigLoaded(xml, callback)
+    function onConfigLoadEnded(xml, callback)
     {
-        xmlConfig = xml;
+        xmlConfig = xml.cloneNode(true);
         $xmlConfig = $(xmlConfig);
-        if (options && options.onConfigLoaded) options.onConfigLoaded.call(null, xml); 
+        if (options && options.onConfigLoadEnded) options.onConfigLoadEnded.call(null, xml); 
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
         if (callback !== undefined) callback.call(null);
     }
@@ -831,7 +831,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $palette = arrPalettes[i];
             $palette.appendTo($xmlMapPalettes);
         }
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteOrderChanged) options.onPaletteOrderChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -909,7 +909,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).text(ia.Color.toHex(color));
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteColourChanged) options.onPaletteColourChanged.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -938,7 +938,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             $xmlColor = $($.parseXML(strXML)).find('ColourMatch'); 
         }
         $xmlColourRange.append($xmlColor);
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteColourAdded) options.onPaletteColourAdded.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -947,7 +947,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         var xmlColor = iad.config.getPaletteColour(paletteId, colorIndex);
         $(xmlColor).remove();
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteColourRemoved) options.onPaletteColourRemoved.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -977,7 +977,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $xmlColor = $($.parseXML(strColor)).find('Colour');
             $xmlColourRange.append($xmlColor);
         }
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteAdded) options.onPaletteAdded.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -998,7 +998,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $xmlColor = $($.parseXML(strColor)).find('ColourMatch'); 
             $xmlColourScheme.append($xmlColor);
         }
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteAdded) options.onPaletteAdded.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 
@@ -1006,7 +1006,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.config.removePalette = function (paletteId)
     {
         iad.config.getPalette(paletteId).remove();
-        if (options && options.onMapPaletteChanged) options.onMapPaletteChanged.call(null);
+        if (options && options.onPaletteRemoved) options.onPaletteRemoved.call(null);
         if (options && options.onConfigChanged) options.onConfigChanged.call(null, xmlConfig); 
     };
 

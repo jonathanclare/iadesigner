@@ -17,7 +17,6 @@ var iadesigner = (function (iad, $, window, document, undefined)
     {
         if (options && options.container) 
         {
-            console.log('update');
             iad.form.render(
             {
                 container:options.container,
