@@ -79,6 +79,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
         var storedData; // Stores the data so that any changes can be undone.
         var changesApplied = true;
 
+        iad.widgetsidebar.init( 
+        {
+            container: '#iad-form-widget-properties',
+            template: 'forms.handlebars'
+        });
+        iad.widgetsidebar.updateDropdown();
+
         iad.sidebar.init(
         {
             container: '#iad-report',
@@ -98,7 +105,10 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                                 className: 'btn-default',
                                 callback: function ()
                                 {
-                                    callback.call(null, false);
+                                    setTimeout(function()
+                                    {
+                                        callback.call(null, false);
+                                    }, 500);
                                 }
                             },
                             no: 
@@ -107,15 +117,15 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                                 className: 'btn-default',
                                 callback: function ()
                                 {
-                                    changesApplied = true;
-                                    callback.call(null, true);
                                     setTimeout(function()
                                     {
+                                        changesApplied = true;
                                         if (id === 'iad-sidebar-mappalette') 
                                         {
                                             iad.config.setXml(storedData);
                                             iad.paletteform.update();
                                         }
+                                        callback.call(null, true);
                                     }, 500);
                                 }
                             },
@@ -125,13 +135,13 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                                 className: 'btn-primary',
                                 callback: function ()
                                 {
-                                    changesApplied = true;
                                     setTimeout(function()
                                     {
-                                        callback.call(null, true);
+                                        changesApplied = true;
                                         iad.progress.start('load', function()
                                         {
-                                            if (id === 'iad-sidebar-mappalette') iad.config.refresh();
+                                            if (id === 'iad-sidebar-mappalette') iad.config.refresh(); 
+                                            callback.call(null, true);
                                         });
                                     }, 500);
                                 }
@@ -159,7 +169,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 else if (id === 'iad-sidebar-templategallery' || 
                     id === 'iad-sidebar-widgetgallery' || 
                     id === 'iad-sidebar-widget' || 
-                    id === 'iad-sidebar-mappalette') storedData = iad.config.getXml();
+                    id === 'iad-sidebar-mappalette') 
+                {
+                    iad.sidebar.unHighlightButtons(id);
+                    storedData = iad.config.getXml();
+                }
             },
             onShown: function(id)
             {
@@ -168,22 +182,36 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onUndo: function(id)
             {   
                 changesApplied = true;
-                iad.progress.start('load', function()
+                if (id === 'iad-sidebar-mappalette')
                 {
-                    if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
-                    else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
-                    else if (id === 'iad-sidebar-templategallery' ||  
-                        id === 'iad-sidebar-widgetgallery' || 
-                        id === 'iad-sidebar-widget' || 
-                        id === 'iad-sidebar-mappalette') iad.config.parse(storedData);
-                });
+                    iad.config.setXml(storedData);
+                    iad.paletteform.update();
+                }
+                else
+                {
+                    iad.progress.start('load', function()
+                    {
+                        if (id === 'iad-sidebar-css' || id === 'iad-sidebar-colorscheme') iad.css.setLessVars(storedData);
+                        else if (id === 'iad-sidebar-maplayer') iad.mapjson.parse(storedData); 
+                        else if (id === 'iad-sidebar-templategallery' ||  
+                            id === 'iad-sidebar-widgetgallery' || 
+                            id === 'iad-sidebar-widget') 
+                        {
+                            iad.config.parse(storedData);
+                        }
+                    });
+                }
             },
             onApply: function(id)
             {
                 changesApplied = true;
                 iad.progress.start('load', function()
                 {
-                    if (id === 'iad-sidebar-mappalette') iad.config.refresh();
+                    if (id === 'iad-sidebar-mappalette') 
+                    {
+                        storedData = iad.config.getXml(); // Only undo changes made after apply button clicked.
+                        iad.config.refresh();
+                    }
                 });
             },
             onChange: function(id)
@@ -383,9 +411,9 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
     function onConfigLoadEnded()
     {
         iad.widgetsidebar.updateDropdown();
+        iad.widgetsidebar.update();
         iad.widgetgallery.update();
         iad.paletteform.update();
-        iad.widgetsidebar.update();
         iad.canvas.update();
 
         if (iad.report.userReportLoaded)
@@ -535,34 +563,30 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onPaletteAdded: function ()
             {
                 iad.paletteform.update();
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
             onPaletteRemoved: function ()
             {
                 iad.paletteform.update();
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
             onPaletteColourAdded: function ()
             {
                 iad.paletteform.update();
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
             onPaletteColourRemoved: function ()
             {
                 iad.paletteform.update();
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
             },
             onPaletteColourChanged: function ()
             {
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+
             },
             onPaletteColoursChanged: function ()
             {
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+
             },
             onPaletteOrderChanged: function ()
             {
-                iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+
             },
             onPropertyAdded: function (widgetId, $xmlWidget)
             {
@@ -686,13 +710,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function initConfigForm(options)
     {
-        iad.widgetsidebar.init( 
-        {
-            container: '#iad-form-widget-properties',
-            template: 'forms.handlebars'
-        });
-        iad.widgetsidebar.updateDropdown();
-
         var cOptions = $.extend({}, options, 
         {
             report : iaReport, 
@@ -803,6 +820,17 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         else iad.config.orderPalettes(items); // Order of colors in color palette changed.
                     }
                 }
+            },
+            onChange: function (data)
+            {
+                if (data.formType == 'MapPalettes') iad.sidebar.highlightButtons('iad-sidebar-mappalette');
+                else if (data.formType === 'Column' || 
+                    data.formType === 'Component' || 
+                    data.formType === 'Table' || 
+                    data.formType === 'Button' || 
+                    data.formType === 'Image' || 
+                    data.formType === 'Text' ||
+                    data.formType == 'PropertyGroup')  iad.sidebar.highlightButtons('iad-sidebar-widget');
             }
         });
     }

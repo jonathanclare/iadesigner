@@ -32,13 +32,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
         // Undo sidebar button.
         $('.iad-sidebar-undo-btn').on('click', function (e)
         {
-            unHighlightButtons(getSidebarId($(this)));
+            iad.sidebar.unHighlightButtons(getSidebarId($(this)));
             if (options && options.onUndo) options.onUndo.call(null, getSidebarId($(this))); 
         });
         // Apply sidebar button.
         $('.iad-sidebar-apply-btn').on('click', function (e)
         {
-            unHighlightButtons(getSidebarId($(this)));
+            iad.sidebar.unHighlightButtons(getSidebarId($(this)));
             if (options && options.onApply) options.onApply.call(null, getSidebarId($(this))); 
         });
     };
@@ -49,37 +49,51 @@ var iadesigner = (function (iad, $, window, document, undefined)
         if ($sidebar.length)
         {
             $sidebar.find('.iad-sidebar-apply-btn').addClass('btn-success');
-            $sidebar.find('.iad-sidebar-done-btn').addClass('btn-success');
             $sidebar.find('.iad-sidebar-undo-btn').addClass('btn-danger');
+            $sidebar.find('.iad-sidebar-apply-btn').show();
+            $sidebar.find('.iad-sidebar-undo-btn').show();
             if (options && options.onChange) options.onChange.call(null, id); 
         }
     };
 
-    function unHighlightButtons(id)
+    iad.sidebar.unHighlightButtons = function(id)
     {
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
             $sidebar.find('.iad-sidebar-apply-btn').removeClass('btn-success');
-            $sidebar.find('.iad-sidebar-done-btn').removeClass('btn-success');
             $sidebar.find('.iad-sidebar-undo-btn').removeClass('btn-danger');
+            $sidebar.find('.iad-sidebar-apply-btn').hide();
+            $sidebar.find('.iad-sidebar-undo-btn').hide();
         }
-    }
+    };
 
     iad.sidebar.show = function(id)
     {
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            var sidebarIsVisible = false;
-            $('.iad-sidebar:visible').each(function()
+            if (iad.sidebar.isVisible(id) === true)
             {
-                var thisId = $(this).prop('id');
-                if (thisId !== id) fadeOut(thisId);
-                sidebarIsVisible = true;
-            });
-            if (sidebarIsVisible) fadeIn(id);
-            else slideIn(id);
+                if (options && options.onShow) options.onShow.call(null, id); 
+                onShown(id);
+            }
+            else
+            {
+                var visibleSidebarId;
+                $('.iad-sidebar:visible').each(function()
+                {
+                    visibleSidebarId = $(this).prop('id');
+                });
+                if (visibleSidebarId !== undefined && visibleSidebarId !== id) 
+                {
+                    fadeOut(visibleSidebarId, function(doHide)
+                    {
+                        if (doHide === true) fadeIn(id);
+                    });
+                }
+                else slideIn(id);
+            }
         }
     };
 
@@ -95,11 +109,11 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            unHighlightButtons(id);
             if (options && options.onHide) options.onHide.call(null, id, function(doHide)
             { 
                 if (doHide === true)
                 {
+                    iad.sidebar.unHighlightButtons(id);
                     var w = $sidebar.outerWidth() * -1;
                     if ($container !== undefined) $container.animate({left:'30px'}, {duration: 400, queue: false});
                     $sidebar.animate({left: w + 'px'}, {duration: 400, queue: false, complete: function() 
@@ -125,19 +139,19 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            unHighlightButtons(id);
             if ($sidebar.is(':visible'))
             {
                 if (options && options.onHide) options.onHide.call(null, id, function(doHide)
                 {
+                    callback.call(null, doHide);
                     if (doHide === true)
                     {
+                        iad.sidebar.unHighlightButtons(id);
                         var l = $sidebar.outerWidth() * -1;
                         $sidebar.fadeOut({duration: 400, queue: false, complete: function() 
                         {
                             $sidebar.css('left', l + 'px');
                             if (options && options.onHidden) options.onHidden.call(null, id); 
-                            if (callback !== undefined) callback.call(null);
                         }});
                     }
                 }); 

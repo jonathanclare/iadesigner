@@ -19,10 +19,13 @@ var iadesigner = (function (iad, $, window, document, undefined)
 
     iad.widgetsidebar.update = function()
     {
-        if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
-            showPropertyGroupForm();
-        else 
-            showWidgetForm(activeWidgetId);
+        if (iad.sidebar.isVisible('iad-sidebar-widget'))
+        {
+            if (activeWidgetId === undefined || activeWidgetId === 'PropertyGroup')
+                showPropertyGroupForm();
+            else 
+                showWidgetForm(activeWidgetId);
+        }
     };
 
     iad.widgetsidebar.edit = function(widgetId)
@@ -38,6 +41,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                 if (iad.sidebar.isVisible('iad-sidebar-widget')) showWidgetForm(widgetId);
                 else $editWidgetBtn.show();
             }
+            iad.sidebar.show('iad-sidebar-widget');
         }
         else $editWidgetBtn.show();
     };

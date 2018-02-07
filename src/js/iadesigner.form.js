@@ -21,10 +21,10 @@ var iadesigner = (function (iad, $, window, document, undefined)
     iad.form.render = function (o)
     {
         // Expand Panel.
+        var f = oFormProps[o.json.id];
+        if (f === undefined) f = oFormProps[o.json.id] = {panelIndex:undefined, scrollPos:0};
         if (o.json.forms && o.json.forms.length > 0)
         {
-            var f = oFormProps[o.json.id];
-            if (f === undefined) f = oFormProps[o.json.id] = {panelIndex:undefined, scrollPos:0};
             for (var i = 0; i < o.json.forms.length; i++)
             {
                 o.json.forms[i].expand = false;
@@ -62,6 +62,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     arrData.push(data);
                     $control.data('control-index', i); // Update the item index.
                 });
+                if (options && options.onChange) options.onChange.call(null, arrData[0]);
                 if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
             }
         });
@@ -81,6 +82,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
                     arrData.push(data);
                     $control.data('color-index', i); // Update the item index.
                 });
+                if (options && options.onChange) options.onChange.call(null, arrData[0]);
                 if (options && options.onControlOrderChanged) options.onControlOrderChanged.call(null, arrData);
             }
         });
@@ -148,6 +150,7 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var data = getData($control);
             data.controlValue = newValue;
             if (options && options.onDataChanged) options.onDataChanged.call(null, data);
+            if (options && options.onChange) options.onChange.call(null, data);
         }, 250);
 
         // Handle key entry / paste.
@@ -235,17 +238,18 @@ var iadesigner = (function (iad, $, window, document, undefined)
             var $btn = $(this);
             data.action = $btn.data('action');
             if (options && options.onButtonClicked) options.onButtonClicked.call(null, data);
+            if (options && options.onChange) options.onChange.call(null, data);
         });
 
         // Remove button.
-        $(document).on('click', '.iad-control-remove', function (e)
+        /*$(document).on('click', '.iad-control-remove', function (e)
         {
             e.preventDefault();
             var data = getData($(this));
             var $btn = $(this);
             data.action = $btn.data('action');
             if (options && options.onControlRemoved) options.onControlRemoved.call(null, data);
-        });
+        });*/
 
         // Color dropdown input replace text.
         $(document).on('click', '.iad-dropdown-menu-colorpalette a', function (e)
