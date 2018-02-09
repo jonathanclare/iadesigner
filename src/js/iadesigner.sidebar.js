@@ -48,10 +48,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            $sidebar.find('.iad-sidebar-apply-btn').addClass('btn-success');
-            $sidebar.find('.iad-sidebar-undo-btn').addClass('btn-danger');
-            $sidebar.find('.iad-sidebar-apply-btn').show();
-            $sidebar.find('.iad-sidebar-undo-btn').show();
+            $sidebar.find('.iad-sidebar-apply-btn').addClass('btn-success').removeClass('disabled');
+            $sidebar.find('.iad-sidebar-undo-btn').addClass('btn-danger').removeClass('disabled');
             if (options && options.onChange) options.onChange.call(null, id); 
         }
     };
@@ -61,10 +59,8 @@ var iadesigner = (function (iad, $, window, document, undefined)
         var $sidebar = $('#'+id);
         if ($sidebar.length)
         {
-            $sidebar.find('.iad-sidebar-apply-btn').removeClass('btn-success');
-            $sidebar.find('.iad-sidebar-undo-btn').removeClass('btn-danger');
-            $sidebar.find('.iad-sidebar-apply-btn').hide();
-            $sidebar.find('.iad-sidebar-undo-btn').hide();
+            $sidebar.find('.iad-sidebar-apply-btn').removeClass('btn-success').addClass('disabled');
+            $sidebar.find('.iad-sidebar-undo-btn').removeClass('btn-danger').addClass('disabled');
         }
     };
 

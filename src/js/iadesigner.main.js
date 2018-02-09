@@ -281,6 +281,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         });
                     }
                     else onStyleChanged();
+                    iad.sidebar.highlightButtons('iad-sidebar-css');
                 }
             },
             onReady: function()
@@ -354,6 +355,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onChange: function(jsonColorScheme)
             {
                 iad.css.setLessVars(jsonColorScheme);
+                iad.sidebar.highlightButtons('iad-sidebar-colorscheme');
             }
         });
     }
@@ -899,6 +901,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                         iad.config.load(filePath);
                     else
                         iad.report.load(filePath);
+                    iad.sidebar.highlightButtons('iad-sidebar-templategallery');
                 });
             },
             onPreview: function (filePath, name)
@@ -918,6 +921,7 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             onAdd: function (widgetId)
             {
                 iad.config.addWidget(widgetId);
+                iad.sidebar.highlightButtons('iad-sidebar-widgetgallery');
             }
         });
         iad.widgetgallery.update();
