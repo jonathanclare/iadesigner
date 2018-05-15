@@ -52,26 +52,16 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
 
     function updateStyleDownloadButtons()
     {
-        // colorscheme.json
-        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
-        var lessUrl = URL.createObjectURL(lessBlob);
-        $('#iad-btn-download-stylejson').attr('href', lessUrl);
-
-        // default.css
-        iad.css.getCssAsString(function (strCss)
+        $('#iad-btn-download-stylejson').attr('href', iad.css.getLessVarsAsUrl()); // colorscheme.json
+        iad.css.getCssAsUrl(function(cssUrl)
         {
-            var cssBlob = new Blob([strCss], {type: 'text/css' }); 
-            var cssUrl = URL.createObjectURL(cssBlob);
-            $('#iad-btn-download-defaultcss').attr('href', cssUrl);
+            $('#iad-btn-download-defaultcss').attr('href', cssUrl); // default.css
         });
     }
 
     function updateConfigDownloadButton()
     {
-        // config.xml
-        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
-        var configUrl = URL.createObjectURL(configBlob);
-        $('#iad-btn-download-configxml').attr('href', configUrl);
+        $('#iad-btn-download-configxml').attr('href', iad.config.toUrl()); // config.xml
     }
 
     function initSidebar(options)
@@ -319,10 +309,12 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
             },
             onMapPropertyChanged: function(property, value)
             {
-
+                iad.sidebar.highlightButtons('iad-sidebar-maplayer');
+                debounceParseMap();
             },
             onLayerPropertyChanged: function(layerId, property, value)
             {
+                iad.sidebar.highlightButtons('iad-sidebar-maplayer');
                 debounceParseMap();
             }
         });
@@ -444,11 +436,6 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                 iad.canvas.off();
                 callback.call(null);
             },
-            onConfigChanged: function (xml) // The config can change without the report being reloaded.
-            {
-                if (iad.report.userReportLoaded) iad.file.onChangesMade();
-                updateConfigDownloadButton();
-            },
             onConfigLoadEnded: function (xml)
             {
                 ia.parseConfig(xml, function ()
@@ -457,6 +444,11 @@ var iadesigner = (function (iad, $, bootbox, window, document, undefined)
                     if (storedSelectedWidgetId !== undefined)  iad.canvas.select(storedSelectedWidgetId);
                     onConfigLoadEnded();
                 });
+            },
+            onConfigChanged: function (xml) // The config can change without the report being reloaded.
+            {
+                if (iad.report.userReportLoaded) iad.file.onChangesMade();
+                updateConfigDownloadButton();
             },
             onWidgetRemoved: function (widgetId, $xmlWidget)
             {  

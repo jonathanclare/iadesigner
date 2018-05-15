@@ -1,6 +1,6 @@
 {
   "author": "Jonathan Clare jonathan.clare@geowise.co.uk>",
-  "version": "0.0.178",
+  "version": "0.0.179",
   "name": "iadesigner",
   "homepage": "http://www.instantatlas.com/",
   "title": "InstantAtlas Designer",
@@ -63,7 +63,7 @@
     "win": {
       "target": [
         {
-          "target":"nsis-web",
+          "target": "nsis-web",
           "arch": [
             "x64",
             "ia32"

@@ -52,7 +52,7 @@ Start the App
 
 # DISTRIBUTION
 
-### Version vontrol
+### Version control
 
 ```sh
 > grunt bump:patch

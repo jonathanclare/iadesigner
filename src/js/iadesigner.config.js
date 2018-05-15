@@ -127,6 +127,14 @@ var iadesigner = (function (iad, $, window, document, undefined)
         return xmlString;
     };
 
+    // Converts xml to blob url.
+    iad.config.toUrl = function ()
+    {
+        var configBlob = new Blob([iad.config.toString()], {type: 'text/xml' }); 
+        var configUrl = URL.createObjectURL(configBlob);
+        return configUrl;
+    };
+
     // Gets the display name for the widget by removing any extra spaces or data source numbers.
     iad.config.getDisplayName = function (widgetId)
     {

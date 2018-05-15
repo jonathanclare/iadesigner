@@ -56,10 +56,29 @@ var iadesigner = (function (iad, $, window, document, undefined)
         });
     };
 
+    // Returns the current report css as a blob url.
+    iad.css.getCssAsUrl = function(callback)
+    {
+        iad.css.getCssAsString(function (strCss)
+        {
+            var cssBlob = new Blob([strCss], {type: 'text/css' }); 
+            var cssUrl = URL.createObjectURL(cssBlob);
+            callback.call(null, cssUrl);
+        });
+    };
+
     // Returns the less vars as a string.
     iad.css.getLessVarsAsString = function()
     {
         return JSON.stringify(lessVars);
+    };
+
+    // Returns the less vars as a blob url.
+    iad.css.getLessVarsAsUrl = function()
+    {
+        var lessBlob = new Blob([iad.css.getLessVarsAsString()], {type: 'application/json' }); 
+        var lessUrl = URL.createObjectURL(lessBlob);
+        return lessUrl;
     };
 
     function readLessFile(callback)
